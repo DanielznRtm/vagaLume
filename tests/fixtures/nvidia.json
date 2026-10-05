@@ -1,0 +1,32 @@
+{
+ "total": 129,
+ "jobPostings": [
+  {
+   "title": "NVIDIA 2027 Ignite Internships: Hardware Engineering",
+   "externalPath": "/job/US-CA-Santa-Clara/NVIDIA-2027-Ignite-Internships--Hardware-Engineering_JR2027047",
+   "locationsText": "US, CA, Santa Clara",
+   "postedOn": "Posted Today",
+   "bulletFields": [
+    "JR2027047"
+   ]
+  },
+  {
+   "title": "GPU Compiler LLVM Backend Intern - 2027",
+   "externalPath": "/job/China-Shanghai/GPU-Compiler-LLVM-Backend-Intern---2027_JR2026567",
+   "locationsText": "China, Shanghai",
+   "postedOn": "Posted Today",
+   "bulletFields": [
+    "JR2026567"
+   ]
+  },
+  {
+   "title": "Software Engineering Intern, Nsight Systems - 2026",
+   "externalPath": "/job/Poland-Remote/Software-Engineering-Intern--Nsight-Systems---2026_JR2007248",
+   "locationsText": "2 Locations",
+   "postedOn": "Posted Today",
+   "bulletFields": [
+    "JR2007248"
+   ]
+  }
+ ]
+}
