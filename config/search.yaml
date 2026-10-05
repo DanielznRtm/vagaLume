@@ -1,0 +1,61 @@
+# Settings for the sources that search instead of reading company boards.
+
+# Curated GitHub lists.
+#   kind:   internship | new-grad
+#   season: (optional) season for every row, when the list is all one season
+github_lists:
+  - name: SimplifyJobs Summer 2027
+    url: https://raw.githubusercontent.com/SimplifyJobs/Summer2027-Internships/dev/README.md
+    kind: internship
+    season: May–Aug
+  - name: SimplifyJobs Off-Season 2027
+    url: https://raw.githubusercontent.com/SimplifyJobs/Summer2027-Internships/dev/README-Off-Season.md
+    kind: internship
+  - name: SimplifyJobs New Grad
+    url: https://raw.githubusercontent.com/SimplifyJobs/New-Grad-Positions/dev/README.md
+    kind: new-grad
+    season: year-round
+  - name: vanshb03 Summer 2027
+    url: https://raw.githubusercontent.com/vanshb03/Summer2027-Internships/dev/README.md
+    kind: internship
+    season: May–Aug
+
+# Gupy searches. Each search returns the 12 newest matches, so more terms
+# means more coverage. Accents are fine.
+gupy_terms:
+  - estágio
+  - estágio engenharia
+  - estágio automação
+  - estágio controle e automação
+  - estágio dados
+  - estágio ciência de dados
+  - estágio machine learning
+  - estágio inteligência artificial
+  - estágio desenvolvimento
+  - estágio software
+  - estágio tecnologia
+  - estágio pesquisa
+  - estágio elétrica
+  - estágio quantitativo
+  - estágio python
+  - programa de estágio
+  - estágio de férias
+
+# Google Careers: searches at the "intern & apprentice" level.
+google_queries:
+  - intern
+  - student researcher
+  - STEP
+
+# Amazon Jobs searches.
+amazon_queries:
+  - intern
+  - internship
+
+# NVIDIA (Workday). The facet id below means "worker sub type = Intern
+# (Fixed Term)". If NVIDIA changes it, set applied_facets to {} and
+# search_text to "intern" to fall back to a title search.
+nvidia:
+  search_text: ""
+  applied_facets:
+    workerSubType: ["0c40f6bd1d8f10adf6dae42e46d44a17"]

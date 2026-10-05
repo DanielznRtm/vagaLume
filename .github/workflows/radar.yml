@@ -1,0 +1,57 @@
+name: Opportunity Radar
+
+on:
+  schedule:
+    - cron: "0 12 * * *"  # 12:00 UTC = 09:00 in Brasília (UTC-3). Runs on the default branch only.
+  workflow_dispatch:       # "Run workflow" button on the Actions tab
+
+permissions:
+  contents: write          # needed to commit data/radar.db and reports/
+
+concurrency:
+  group: radar             # never run two copies at once (they would both edit the database)
+  cancel-in-progress: false
+
+jobs:
+  radar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run the radar
+        env:
+          # All optional. Missing secrets are simply skipped.
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          RADAR_REPORT_URL: ${{ vars.RADAR_REPORT_URL }}
+        run: python -m radar
+
+      - name: Commit database and reports
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/radar.db reports/
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+            exit 0
+          fi
+          git commit -m "Radar run $(date -u +%Y-%m-%d)"
+          # If you edited config/status.yaml while the run was going, merge that first.
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

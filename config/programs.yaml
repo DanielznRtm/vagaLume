@@ -1,0 +1,217 @@
+# Program pages the radar watches for changes.
+#
+# Each entry always shows up in the report. When the visible text of the
+# page changes, it gets a "page changed on <date>" note so you know to look.
+#
+# Fields:
+#   name     (required) what to call it
+#   url      (required) the page to watch
+#   org      who runs it
+#   area     ML | SWE | research | data | quant | hardware | other
+#   season   Dec–Feb | Jul | May–Aug | year-round | unknown
+#   regions  list: Brazil | LatAm | US/Canada | Europe | Asia/ME | remote
+#   warnings list of extra warnings, quoted because of the "?": ["PhD-level?"]
+#   notes    a reminder shown in the report
+#   student  false if it might not be a student program (adds "unsure")
+#
+# Leave a field out and the keyword rules fill it in from the page text.
+# Every active URL below was checked on 2026-10-05 and returned the page.
+# Commented-out entries are blocked for bots (HTTP 403) or are built by
+# JavaScript (nothing to watch); see the README.
+
+programs:
+  # --- Research internships -------------------------------------------------
+  - name: ISTA ISTernship (summer research internship)
+    org: Institute of Science and Technology Austria
+    url: https://phd.ista.ac.at/isternship/
+    area: research
+    season: May–Aug
+    regions: [Europe]
+    notes: "2–3 months between May 15 and Sep 15; deadline usually early February"
+
+  - name: OIST Research Internship
+    org: Okinawa Institute of Science and Technology
+    url: https://www.oist.jp/admissions/research-internship
+    area: research
+    season: year-round
+    regions: [Asia/ME]
+
+  - name: KAUST VSRP / internships
+    org: KAUST
+    url: https://admissions.kaust.edu.sa/study/internships
+    area: research
+    season: year-round
+    regions: [Asia/ME]
+    notes: "Visiting Student Research Program, 3–6 months, several intakes per year"
+
+  # - name: MBZUAI UGRIP (undergraduate research internship)
+  #   org: MBZUAI
+  #   url: https://mbzuai.ac.ae/ugrip/
+  #   area: ML
+  #   regions: [Asia/ME]
+  #   # 403 Forbidden for bots (Cloudflare) on 2026-10-05
+
+  - name: Summer@EPFL
+    org: EPFL
+    url: https://summer.epfl.ch
+    area: research
+    season: May–Aug
+    regions: [Europe]
+    notes: "deadline usually around Nov 30–Dec 1"
+
+  - name: ETH Student Summer Research Fellowship (SSRF)
+    org: ETH Zurich, D-INFK
+    url: https://inf.ethz.ch/studies/summer-research-fellowship.html
+    area: research
+    season: May–Aug
+    regions: [Europe]
+    warnings: ["grad-year limit?"]
+    notes: "Jul 1–Aug 31; applications Nov 1–Dec 15; needs 2+ years of study"
+
+  - name: Mitacs Globalink Research Internship
+    org: Mitacs (Canada)
+    url: https://www.mitacs.ca/our-programs/globalink-research-internship-students/
+    area: research
+    season: May–Aug
+    regions: [US/Canada]
+    notes: "Brazil is a partner country; 12 weeks in May–Oct; applications open mid-year"
+
+  # --- Big tech student programs ---------------------------------------------
+  # - name: Google STEP internship
+  #   url: https://buildyourfuture.withgoogle.com/programs/step
+  #   # Page is built by JavaScript (no text to watch). STEP postings are
+  #   # caught by the Google source instead (query "STEP" in search.yaml).
+
+  - name: Google Student Researcher Program
+    org: Google / Google DeepMind
+    url: https://deepmind.google/student-researcher-program/
+    area: ML
+    season: year-round
+
+  - name: Google students & internships page
+    org: Google
+    url: https://www.google.com/about/careers/applications/students/
+
+  - name: Google Research student programs
+    org: Google Research
+    url: https://research.google/programs-and-events/student-engagement/
+    area: research
+
+  - name: Microsoft students & graduates (watched page; API rate-limited)
+    org: Microsoft
+    url: https://careers.microsoft.com/v2/global/en/students
+
+  # - name: Meta university programs
+  #   url: https://www.metacareers.com/careerprograms/students
+  #   # Page is built by JavaScript and Meta has no public jobs API, so
+  #   # neither a search nor a page watch works. Check it by hand.
+
+  - name: Amazon internships for students
+    org: Amazon
+    url: https://www.amazon.jobs/content/en/career-programs/university/internships-for-students
+
+  - name: NVIDIA university recruiting
+    org: NVIDIA
+    url: https://www.nvidia.com/en-us/about-nvidia/careers/university-recruiting/
+
+  # --- AI safety / AI lab fellowships ------------------------------------------
+  - name: Anthropic Fellows Program
+    org: Anthropic
+    url: https://alignment.anthropic.com/2025/anthropic-fellows-program-2026/
+    area: ML
+    regions: [US/Canada, Europe]
+    notes: "check the alignment blog for the newest cohort post"
+
+  - name: MATS (ML Alignment & Theory Scholars)
+    org: MATS
+    url: https://www.matsprogram.org/
+    area: ML
+    regions: [US/Canada, Europe]
+
+  # - name: OpenAI Residency
+  #   org: OpenAI
+  #   url: https://openai.com/residency/
+  #   # 403 Forbidden for bots (Cloudflare) on 2026-10-05
+
+  # --- Schools and courses ---------------------------------------------------
+  - name: EEML (Eastern European ML Summer School)
+    org: EEML
+    url: https://www.eeml.eu/
+    area: ML
+    season: Jul
+    regions: [Europe]
+
+  - name: OxML (Oxford Machine Learning Summer School)
+    org: AI for Global Goals / Oxford
+    url: https://www.oxfordml.school/
+    area: ML
+    season: Jul
+    regions: [Europe]
+
+  - name: MLSS (Machine Learning Summer Schools)
+    org: MLSS
+    url: http://mlss.cc/  # https does not work for this site
+    area: ML
+    notes: "several schools a year in different countries"
+
+  - name: Khipu (Latin American Meeting in AI)
+    org: Khipu
+    url: https://khipu.ai/
+    area: ML
+    regions: [LatAm]
+
+  - name: LatinX in AI
+    org: LatinX in AI
+    url: https://www.latinxinai.org/
+    area: ML
+    regions: [remote]
+    notes: "workshops at NeurIPS/ICML/CVPR, mentoring and travel grants"
+
+  - name: IMPA Summer Program (Programa de Verão)
+    org: IMPA
+    url: https://impa.br/ensino/programas-de-formacao/programa-de-verao/
+    area: research
+    season: Dec–Feb
+    regions: [Brazil]
+    notes: "January–February in Rio; math courses, some with scholarships"
+
+  # --- Trading firms (insight / explore programs) -----------------------------
+  - name: Jane Street programs & events (insight programs)
+    org: Jane Street
+    url: https://www.janestreet.com/join-jane-street/programs-and-events/
+    area: quant
+
+  - name: Jane Street internships
+    org: Jane Street
+    url: https://www.janestreet.com/join-jane-street/internships/
+    area: quant
+
+  # - name: Hudson River Trading campus (Explore HRT / Inside HRT)
+  #   org: Hudson River Trading
+  #   url: https://www.hudsonrivertrading.com/campus-recruiting/
+  #   area: quant
+  #   # 403 Forbidden for bots on 2026-10-05
+
+  # - name: Citadel / Citadel Securities students
+  #   org: Citadel
+  #   url: https://www.citadel.com/careers/students/
+  #   area: quant
+  #   # 403 Forbidden for bots on 2026-10-05
+
+  - name: Two Sigma careers (students)
+    org: Two Sigma
+    url: https://www.twosigma.com/careers/students/
+    area: quant
+
+  # - name: D. E. Shaw students
+  #   url: https://www.deshaw.com/careers/students
+  #   # Page is built by JavaScript (0 characters of text). Check by hand.
+
+  - name: SIG interns & co-ops
+    org: Susquehanna (SIG)
+    url: https://sig.com/careers/interns-co-ops/
+    area: quant
+
+  # - name: DRW campus listings
+  #   url: https://www.drw.com/work-at-drw/listings?filterType=campus&value=Campus
+  #   # The job list is loaded by JavaScript; the static text never changes.

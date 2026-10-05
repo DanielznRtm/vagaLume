@@ -1,0 +1,213 @@
+# Companies whose public job boards the radar reads every day.
+#
+# To add a company:
+#   1. Open its careers page and click any job. Look at the job's URL:
+#        boards.greenhouse.io/<slug>/...   or job-boards.greenhouse.io/<slug>/...  -> greenhouse
+#        jobs.lever.co/<slug>/...                                                    -> lever
+#        jobs.ashbyhq.com/<slug>/...                                                 -> ashby
+#   2. Add "- {slug: <slug>, name: <Company name>}" under the right heading.
+#   3. Run `python -m radar check-config` to confirm the slug returns jobs.
+#
+# Only student-level postings are kept (intern, estágio, student, fellow,
+# program, summer, residency...). See radar/labels.py for the exact words.
+#
+# All active slugs below were verified on 2026-10-05.
+# Commented-out entries did NOT return a job board; they are listed in the
+# README under "Companies that could not be added".
+
+greenhouse:
+  # --- AI labs and AI companies ---
+  - {slug: anthropic, name: Anthropic}
+  - {slug: xai, name: xAI}
+  - {slug: scaleai, name: Scale AI}
+  - {slug: togetherai, name: Together AI}
+  - {slug: databricks, name: Databricks}
+  - {slug: isomorphiclabs, name: Isomorphic Labs}
+  - {slug: figureai, name: Figure AI}
+  - {slug: inflectionai, name: Inflection AI}
+  - {slug: stabilityai, name: Stability AI}
+  - {slug: assemblyai, name: AssemblyAI}
+  - {slug: snorkelai, name: Snorkel AI}
+  - {slug: goodfire, name: Goodfire}
+  - {slug: polyai, name: PolyAI}
+  - {slug: inceptive, name: Inceptive}
+  - {slug: coreweave, name: CoreWeave}
+  - {slug: nebius, name: Nebius}
+  - {slug: tenstorrent, name: Tenstorrent}
+  - {slug: graphcore, name: Graphcore}
+  - {slug: samsungsemiconductor, name: Samsung Semiconductor}
+  - {slug: waymo, name: Waymo}
+  - {slug: nuro, name: Nuro}
+  - {slug: agilityrobotics, name: Agility Robotics}
+  - {slug: neuralink, name: Neuralink}
+  - {slug: magic, name: Magic}  # valid board, 0 jobs on 2026-10-05
+  # - {slug: deepmind, name: Google DeepMind}   # not on Greenhouse; see programs.yaml
+  # - {slug: mistral, name: Mistral AI}         # no board found on Greenhouse/Lever/Ashby
+  # - {slug: huggingface, name: Hugging Face}   # uses Workable, not supported
+
+  # --- Big tech / well-known tech ---
+  - {slug: stripe, name: Stripe}
+  - {slug: spacex, name: SpaceX}
+  - {slug: airbnb, name: Airbnb}
+  - {slug: figma, name: Figma}
+  - {slug: cloudflare, name: Cloudflare}
+  - {slug: datadog, name: Datadog}
+  - {slug: mongodb, name: MongoDB}
+  - {slug: elastic, name: Elastic}
+  - {slug: gitlab, name: GitLab}
+  - {slug: pinterest, name: Pinterest}
+  - {slug: reddit, name: Reddit}
+  - {slug: roblox, name: Roblox}
+  - {slug: discord, name: Discord}
+  - {slug: dropbox, name: Dropbox}
+  - {slug: lyft, name: Lyft}
+  - {slug: doordashusa, name: DoorDash}
+  - {slug: instacart, name: Instacart}
+  - {slug: coinbase, name: Coinbase}
+  - {slug: robinhood, name: Robinhood}
+  - {slug: brex, name: Brex}
+  - {slug: twilio, name: Twilio}
+  - {slug: asana, name: Asana}
+  - {slug: duolingo, name: Duolingo}
+  - {slug: samsara, name: Samsara}
+  - {slug: verkada, name: Verkada}
+  - {slug: gusto, name: Gusto}
+  - {slug: twitch, name: Twitch}
+  - {slug: mozilla, name: Mozilla}
+  - {slug: canonical, name: Canonical}
+  - {slug: grafanalabs, name: Grafana Labs}
+  - {slug: vercel, name: Vercel}
+  - {slug: jetbrains, name: JetBrains}
+  - {slug: celonis, name: Celonis}
+  - {slug: adyen, name: Adyen}
+  - {slug: monzo, name: Monzo}
+  - {slug: n26, name: N26}
+  - {slug: khanacademy, name: Khan Academy}
+  - {slug: wikimedia, name: Wikimedia Foundation}
+
+  # --- Trading firms / quant ---
+  - {slug: janestreet, name: Jane Street}
+  - {slug: jumptrading, name: Jump Trading}
+  - {slug: imc, name: IMC Trading}
+  - {slug: optiverus, name: Optiver}
+  - {slug: towerresearchcapital, name: Tower Research Capital}
+  - {slug: virtu, name: Virtu Financial}
+  - {slug: fiveringsllc, name: Five Rings}
+  - {slug: akunacapital, name: Akuna Capital}
+  - {slug: oldmissioncapital, name: Old Mission}
+  - {slug: flowtraders, name: Flow Traders}
+  - {slug: squarepointcapital, name: Squarepoint Capital}
+  - {slug: chicagotrading, name: Chicago Trading Company}
+  - {slug: pdtpartners, name: PDT Partners}
+  - {slug: schonfeld, name: Schonfeld}
+  - {slug: engineersgate, name: Engineers Gate}
+  - {slug: dvtrading, name: DV Trading}
+  - {slug: mako, name: Mako Trading}
+  - {slug: aquaticcapitalmanagement, name: Aquatic Capital}
+  - {slug: vaticlabs, name: Vatic Labs}
+  - {slug: point72, name: Point72}
+  - {slug: mangroup, name: Man Group}
+  - {slug: xtxmarketstechnologies, name: XTX Markets}
+  - {slug: thetradedesk, name: The Trade Desk}
+  - {slug: marshallwace, name: Marshall Wace}  # valid board, 0 jobs on 2026-10-05
+  # - {slug: hudsonrivertrading, name: Hudson River Trading}  # not on these ATSs; see programs.yaml
+  # - {slug: citadel, name: Citadel}                         # not on these ATSs; site blocks bots
+  # - {slug: citadelsecurities, name: Citadel Securities}    # not on these ATSs; site blocks bots
+  # - {slug: twosigma, name: Two Sigma}                      # not on these ATSs; see programs.yaml
+  # - {slug: deshaw, name: D. E. Shaw}                       # not on these ATSs; see programs.yaml
+  # - {slug: sig, name: Susquehanna (SIG)}                   # not on these ATSs; see programs.yaml
+  # - {slug: drw, name: DRW}                                 # not on these ATSs; see programs.yaml
+  # - {slug: gresearch, name: G-Research}                    # not on these ATSs
+  # - {slug: radixtrading, name: Radix Trading}              # not on these ATSs
+  # - {slug: headlands, name: Headlands Technologies}        # not on these ATSs
+
+  # --- Brazilian tech / finance ---
+  - {slug: stone, name: Stone}
+  - {slug: quintoandar, name: QuintoAndar}
+  - {slug: ebanx, name: EBANX}
+  - {slug: vtex, name: VTEX}
+  - {slug: c6bank, name: C6 Bank}
+  - {slug: inter, name: Banco Inter}
+  - {slug: xpinc, name: XP Inc.}
+  - {slug: btgpactual, name: BTG Pactual}
+  - {slug: wildlifestudios, name: Wildlife Studios}
+  - {slug: gympass, name: Wellhub (Gympass)}
+  - {slug: rdstation, name: RD Station}
+  - {slug: jusbrasil, name: Jusbrasil}
+  # - {slug: ifood, name: iFood}               # not on these ATSs (uses Gupy; covered by the Gupy source)
+  # - {slug: mercadolivre, name: Mercado Livre} # not on these ATSs
+  # - {slug: picpay, name: PicPay}              # not on these ATSs (uses Gupy)
+  # - {slug: cloudwalk, name: CloudWalk}        # not on these ATSs
+  # - {slug: creditas, name: Creditas}          # not on these ATSs
+  # - {slug: hotmart, name: Hotmart}            # not on these ATSs
+  # - {slug: olist, name: Olist}                # not on these ATSs
+  # - {slug: totvs, name: TOTVS}                # not on these ATSs
+  # - {slug: tractian, name: Tractian}          # not on these ATSs
+  # - {slug: loggi, name: Loggi}                # not on these ATSs
+
+lever:
+  - {slug: palantir, name: Palantir}
+  - {slug: spotify, name: Spotify}
+  - {slug: zoox, name: Zoox}
+  - {slug: shieldai, name: Shield AI}
+  - {slug: belvederetrading, name: Belvedere Trading}
+  - {slug: apolloresearch, name: Apollo Research}
+  - {slug: metr, name: METR}
+  - {slug: ciandt, name: CI&T}
+  - {slug: neon, name: Neon (banco)}
+  - {slug: toptal, name: Toptal}
+
+ashby:
+  # --- AI labs and AI companies ---
+  - {slug: openai, name: OpenAI}
+  - {slug: cohere, name: Cohere}
+  - {slug: perplexity, name: Perplexity}
+  - {slug: thinkingmachines, name: Thinking Machines Lab}
+  - {slug: cursor, name: Cursor (Anysphere)}
+  - {slug: elevenlabs, name: ElevenLabs}
+  - {slug: harvey, name: Harvey}
+  - {slug: sierra, name: Sierra}
+  - {slug: physicalintelligence, name: Physical Intelligence}
+  - {slug: 1x, name: 1X}
+  - {slug: wayve, name: Wayve}
+  - {slug: modal, name: Modal}
+  - {slug: langchain, name: LangChain}
+  - {slug: deepgram, name: Deepgram}
+  - {slug: synthesia, name: Synthesia}
+  - {slug: cerebras, name: Cerebras}
+  - {slug: etched, name: Etched}
+  - {slug: lambda, name: Lambda}
+  - {slug: reka, name: Reka}
+  - {slug: writer, name: Writer}
+  - {slug: midjourney, name: Midjourney}
+  - {slug: liquid-ai, name: Liquid AI}
+  - {slug: pika, name: Pika}
+  - {slug: lumaai, name: Luma AI}
+  - {slug: suno, name: Suno}
+  - {slug: decagon, name: Decagon}
+  - {slug: cognition, name: Cognition}
+  - {slug: reflectionai, name: Reflection AI}
+  - {slug: sesame, name: Sesame}
+  - {slug: worldlabs, name: World Labs}
+  - {slug: baseten, name: Baseten}
+  - {slug: mercor, name: Mercor}
+  - {slug: abridge, name: Abridge}
+  - {slug: nousresearch, name: Nous Research}
+  - {slug: deepl, name: DeepL}
+  - {slug: faculty, name: Faculty AI}
+  - {slug: skydio, name: Skydio}
+  - {slug: insitro, name: insitro}
+  # --- Tech ---
+  - {slug: notion, name: Notion}
+  - {slug: snowflake, name: Snowflake}
+  - {slug: plaid, name: Plaid}
+  - {slug: ramp, name: Ramp}
+  - {slug: linear, name: Linear}
+  - {slug: supabase, name: Supabase}
+  - {slug: sentry, name: Sentry}
+  - {slug: uipath, name: UiPath}
+  # --- Trading ---
+  - {slug: voleon, name: Voleon}
+  - {slug: keyrock, name: Keyrock}
+  # --- Brazil ---
+  - {slug: nubank, name: Nubank}
