@@ -4,19 +4,21 @@
   </a>
 </p>
 
+<p align="center">🌐 <b>English</b> · <a href="README.pt-BR.md">Português (Brasil)</a></p>
+
 <p align="center">
-  <a href="https://pedrocamargolince.github.io/vagaLume/"><img alt="Open the app" src="https://img.shields.io/badge/%E2%9C%A8%20Open%20the%20app-c9e84a?style=for-the-badge"></a>
-  <a href="https://github.com/PedroCamargoLINCE/vagaLume"><img alt="Star vagaLume on GitHub" src="https://img.shields.io/github/stars/PedroCamargoLINCE/vagaLume?style=for-the-badge&logo=github&label=Star&labelColor=0f2a23&color=0c6a5b"></a>
-  <a href="GUIDE.md"><img alt="Read the guide" src="https://img.shields.io/badge/Read%20the%20guide-GUIDE.md-5cc3ac?style=for-the-badge&labelColor=0f2a23"></a>
-  <a href="https://github.com/PedroCamargoLINCE/vagaLume/fork"><img alt="Run your own copy" src="https://img.shields.io/badge/Run%20your%20own-fork%20it-f0b45e?style=for-the-badge&logo=github&labelColor=0f2a23"></a>
+  <a href="https://pedrocamargolince.github.io/vagaLume/"><img alt="Open the app" src="https://img.shields.io/badge/%E2%9C%A8%20Open%20the%20app-c9e84a?style=for-the-badge&v=2"></a>
+  <a href="https://github.com/PedroCamargoLINCE/vagaLume"><img alt="Star vagaLume on GitHub" src="https://img.shields.io/github/stars/PedroCamargoLINCE/vagaLume?style=for-the-badge&logo=github&label=Star&labelColor=0f2a23&color=0c6a5b&v=2"></a>
+  <a href="GUIDE.md"><img alt="Read the guide" src="https://img.shields.io/badge/Read%20the%20guide-GUIDE.md-5cc3ac?style=for-the-badge&labelColor=0f2a23&v=2"></a>
+  <a href="https://github.com/PedroCamargoLINCE/vagaLume/fork"><img alt="Run your own copy" src="https://img.shields.io/badge/Run%20your%20own-fork%20it-f0b45e?style=for-the-badge&logo=github&labelColor=0f2a23&v=2"></a>
 </p>
 
 <p align="center">
-  <img alt="Open roles today" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fpedrocamargolince.github.io%2FvagaLume%2Fstats.json&query=%24.open&label=open%20roles&color=0c6a5b&style=flat-square&cacheSeconds=3600">
-  <img alt="New today" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fpedrocamargolince.github.io%2FvagaLume%2Fstats.json&query=%24.new&label=new%20today&color=c9e84a&style=flat-square&cacheSeconds=3600">
-  <img alt="Roles with pay listed" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fpedrocamargolince.github.io%2FvagaLume%2Fstats.json&query=%24.with_pay&label=with%20pay&color=5cc3ac&style=flat-square&cacheSeconds=3600">
-  <img alt="Sources" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fpedrocamargolince.github.io%2FvagaLume%2Fstats.json&query=%24.sources&label=sources&color=1d7a3d&style=flat-square&cacheSeconds=3600">
-  <img alt="Last update" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fpedrocamargolince.github.io%2FvagaLume%2Fstats.json&query=%24.updated&label=updated&color=94a39b&style=flat-square&cacheSeconds=3600">
+  <img alt="Open roles today" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fpedrocamargolince.github.io%2FvagaLume%2Fstats.json&query=%24.open&label=open%20roles&color=0c6a5b&style=flat-square&cacheSeconds=3600&v=2">
+  <img alt="New today" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fpedrocamargolince.github.io%2FvagaLume%2Fstats.json&query=%24.new&label=new%20today&color=c9e84a&style=flat-square&cacheSeconds=3600&v=2">
+  <img alt="Roles with pay listed" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fpedrocamargolince.github.io%2FvagaLume%2Fstats.json&query=%24.with_pay&label=with%20pay&color=5cc3ac&style=flat-square&cacheSeconds=3600&v=2">
+  <img alt="Sources" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fpedrocamargolince.github.io%2FvagaLume%2Fstats.json&query=%24.sources&label=sources&color=1d7a3d&style=flat-square&cacheSeconds=3600&v=2">
+  <img alt="Last update" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fpedrocamargolince.github.io%2FvagaLume%2Fstats.json&query=%24.updated&label=updated&color=94a39b&style=flat-square&cacheSeconds=3600&v=2">
   <a href="https://github.com/PedroCamargoLINCE/vagaLume/actions/workflows/radar.yml"><img alt="Daily run" src="https://github.com/PedroCamargoLINCE/vagaLume/actions/workflows/radar.yml/badge.svg"></a>
 </p>
 
@@ -42,6 +44,7 @@ little light that finds the openings for you.
 |---|---|
 | 🔭 **13 sources, one list** | Greenhouse, Lever and Ashby boards of 150+ companies, the SimplifyJobs lists, Gupy (estágio in Brazil), Google, Amazon, Microsoft, NVIDIA, Meta, D. E. Shaw, DRW and 25 research-program pages. About **5,400 open roles** on a normal day. |
 | 🎯 **Sorted by fit, never filtered for you** | Tell it whether you're doing a Bachelor's, Master's or PhD and where you study. Every role gets a dot (good fit, check something, long shot) and the reason, like *"needs US work authorization"* or *"aimed at PhD students"*. Nothing is ever hidden unless you hide it. |
+| 📄 **Match your résumé** | Paste a ready-made prompt and your résumé into the AI chat you already use (ChatGPT, Gemini, Claude…), paste its answer back, and every role shows how well it matches: *"you have 6 of the 10 skills it mentions"*. No AI runs inside vagaLume and your résumé never leaves your hands. |
 | 💸 **Pay, when it's stated** | `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`: read from job boards and descriptions in English and Portuguese. |
 | 📅 **Fits your calendar?** | A tiny January–December strip on every role shows whether it falls in your breaks or clashes with your semester. |
 | ⏰ **Deadlines up front** | Closing-soon roles and brand-new ones each get their own tab. |
@@ -61,10 +64,9 @@ little light that finds the openings for you.
 
 ## See it
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/screenshot-dark.png">
-  <img alt="The vagaLume list: filters on the left; each role shows its fit, location, pay, a month strip and the deadline" src="assets/screenshot-light.png">
-</picture>
+<img alt="The vagaLume list in dark mode: filters on the left; each role shows its résumé match, fit, location, pay, a month strip and the deadline" src="assets/screenshot-dark.png">
+
+<img alt="An opened role: which of your skills it mentions (✓), which are missing, and why it fits" src="assets/screenshot-match.png">
 
 Works on phones too, in light and dark mode. **[Open it →](https://pedrocamargolince.github.io/vagaLume/)**
 
@@ -72,8 +74,9 @@ Works on phones too, in light and dark mode. **[Open it →](https://pedrocamarg
 
 ```mermaid
 flowchart LR
-    A["13 sources<br/>job boards, GitHub lists,<br/>Gupy, career sites,<br/>program pages"] --> B["Labels<br/>area · season · region<br/>pay · deadline · warnings"]
+    A["13 sources<br/>job boards, GitHub lists,<br/>Gupy, career sites,<br/>program pages"] --> B["Labels<br/>area · season · region<br/>pay · skills · warnings"]
     B --> C[("SQLite<br/>data/radar.db")]
+    R["Your résumé<br/>summarized by your own AI chat"] -.-> D
     C --> D["Website<br/>docs/ on GitHub Pages"]
     C --> E["Daily digest<br/>Telegram / email<br/>(optional)"]
 ```
@@ -114,7 +117,7 @@ If vagaLume helps you find something, **star the repository**. It's the
 easiest way to help other students find it too.
 
 <p align="center">
-  <a href="https://github.com/PedroCamargoLINCE/vagaLume"><img alt="Star vagaLume" src="https://img.shields.io/github/stars/PedroCamargoLINCE/vagaLume?style=for-the-badge&logo=github&label=Star%20vagaLume&labelColor=0f2a23&color=c9e84a"></a>
+  <a href="https://github.com/PedroCamargoLINCE/vagaLume"><img alt="Star vagaLume" src="https://img.shields.io/github/stars/PedroCamargoLINCE/vagaLume?style=for-the-badge&logo=github&label=Star%20vagaLume&labelColor=0f2a23&color=c9e84a&v=2"></a>
 </p>
 
 <p align="center">

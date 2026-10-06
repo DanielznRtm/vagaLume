@@ -45,7 +45,9 @@ def test_set_status_rejects_unknown_values():
 def test_report_sections_and_website_data(tmp_path):
     conn = db.connect(":memory:")
     db.upsert(conn, make(title="Old Intern", url="https://e.com/old"), "2026-09-01")
-    db.upsert(conn, make(title="Fresh Intern", url="https://e.com/new?utm_source=x"), "2026-10-05")
+    fresh_opp = make(title="Fresh Intern", url="https://e.com/new?utm_source=x")
+    fresh_opp.skills = ["Python", "ROS"]
+    db.upsert(conn, fresh_opp, "2026-10-05")
     db.upsert(conn, make(title="Soon Intern", url="https://e.com/soon", deadline="2026-10-10"), "2026-09-01")
     db.upsert(conn, make(title="Closed Intern", url="https://e.com/closed", is_open=False), "2026-09-01")
     health = [report.SourceHealth(name="greenhouse", items=3, checked=1)]
@@ -66,6 +68,8 @@ def test_report_sections_and_website_data(tmp_path):
     fresh = next(i for i in payload["items"] if i["title"] == "Fresh Intern")
     assert fresh["url"] == "https://e.com/new"  # tracking parameters removed
     assert fresh["deadline"] == ""  # "check page" becomes empty
+    assert fresh["skills"] == ["Python", "ROS"]  # stored and read back for the résumé match
+    assert "PyTorch" in payload["skillNames"]  # the site puts these names in its résumé prompt
     assert payload["sources"][0]["name"] == "greenhouse"
     badge = json.loads((tmp_path / "stats.json").read_text())  # read by the README badges
     assert badge == {"updated": "2026-10-05", "open": "3", "new": "1", "with_pay": "0", "sources": "1/1 healthy", "sources_ok": True}

@@ -13,6 +13,7 @@ from pathlib import Path
 from .db import StoredOpportunity
 from .models import strip_tracking
 from .report import SourceHealth
+from .skills import NAMES as SKILL_NAMES
 
 
 def item_record(opp: StoredOpportunity) -> dict[str, object]:
@@ -29,6 +30,7 @@ def item_record(opp: StoredOpportunity) -> dict[str, object]:
         "warnings": opp.warnings,
         "deadline": opp.deadline if opp.deadline[:1].isdigit() else "",
         "pay": opp.pay,
+        "skills": opp.skills,
         "posted": opp.posted_date,
         "added": opp.first_seen,
         "source": opp.source,
@@ -62,6 +64,7 @@ def write_data(
     payload = {
         "updated": today,
         "labeledBy": labeled_by,
+        "skillNames": SKILL_NAMES,  # the résumé prompt on the site lists these
         "sources": [
             {"name": h.name, "status": h.status, "items": h.items, "problems": h.errors[:5]} for h in health
         ],
