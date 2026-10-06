@@ -12,18 +12,22 @@
 <!--
   vagaLume's whole web interface is this one file: no frameworks, no build
   step. It downloads data.json (written by the bot on every run) and shows it.
-  Your profile, saved roles and Applied / Hide clicks stay in this browser
-  (localStorage); nothing is sent anywhere.
+  Your profile, résumé summary, saved roles and Applied / Hide clicks stay in
+  this browser (localStorage); nothing is sent anywhere.
+
+  Every text on the page is in STRINGS (English and Brazilian Portuguese),
+  at the top of the script. To add a language, add a column there.
 -->
 <style>
-  /* Layout: a filter rail on the left and a dense, scannable list of roles on
-     the right; each row expands in place. Identity: a night-forest teal for
-     ink and controls, and one firefly "lume" glow used only for the brand. */
+  /* Layout: a filter rail on the left and a quiet list of roles on the right;
+     each row expands in place. Identity: a night-forest teal for ink and
+     controls, and one firefly "lume" glow used only for the brand. */
   :root {
     --paper: #f3f6f2;      /* page background, faint green-grey */
     --surface: #ffffff;    /* rows, panels */
     --ink: #142019;        /* text */
     --muted: #5a6861;      /* secondary text */
+    --faint: #87938c;      /* tertiary text: counts, empty values */
     --line: #dce3dd;       /* hairlines */
     --accent: #0c6a5b;     /* night-forest teal: links, selected states */
     --accent-soft: #e0efe9;
@@ -45,7 +49,7 @@
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --paper: #0e1411; --surface: #151d19; --ink: #e5ece7; --muted: #94a39b; --line: #25302a;
+      --paper: #0e1411; --surface: #151d19; --ink: #e5ece7; --muted: #94a39b; --faint: #6c7a73; --line: #25302a;
       --accent: #5cc3ac; --accent-soft: #16322a; --lume: #d4f05a;
       --good: #74d391; --good-soft: #152f20; --check: #f0b45e; --check-soft: #342711; --long: #ff8d80; --long-soft: #3a1b18;
       --semester: #2a352f; --break: #151d19; --mark-bg: #4b4a12;
@@ -53,7 +57,7 @@
     }
   }
   :root[data-theme="dark"] {
-    --paper: #0e1411; --surface: #151d19; --ink: #e5ece7; --muted: #94a39b; --line: #25302a;
+    --paper: #0e1411; --surface: #151d19; --ink: #e5ece7; --muted: #94a39b; --faint: #6c7a73; --line: #25302a;
     --accent: #5cc3ac; --accent-soft: #16322a; --lume: #d4f05a;
     --good: #74d391; --good-soft: #152f20; --check: #f0b45e; --check-soft: #342711; --long: #ff8d80; --long-soft: #3a1b18;
     --semester: #2a352f; --break: #151d19; --mark-bg: #4b4a12;
@@ -65,12 +69,12 @@
   html, body { margin: 0; }
   body { background: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body); -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
   a { color: var(--accent); }
-  button, input, select { font: inherit; color: inherit; }
+  button, input, select, textarea { font: inherit; color: inherit; }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
   .mono { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
   .muted { color: var(--muted); }
+  .none { color: var(--faint); }
   mark { background: var(--mark-bg); color: inherit; border-radius: 2px; padding: 0 1px; }
-  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
   /* ---------- brand ---------- */
   .brand { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 500; letter-spacing: -.01em; color: var(--ink); text-decoration: none; }
@@ -79,11 +83,18 @@
   .lume::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, var(--lume) 0 32%, color-mix(in srgb, var(--lume) 45%, transparent) 33% 55%, transparent 72%); }
   .lume::after { content: ""; position: relative; width: 7px; height: 7px; border-radius: 50%; background: #fffbe0; box-shadow: 0 0 6px 2px var(--lume); }
 
-  /* ---------- welcome screen ---------- */
+  /* ---------- language switch ---------- */
+  .lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); padding: 2px; }
+  .lang button { border: 0; background: none; padding: 3px 9px; border-radius: 999px; cursor: pointer; font-size: .78rem; font-weight: 600; letter-spacing: .04em; color: var(--muted); }
+  .lang button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+
+  /* ---------- welcome and résumé screens ---------- */
   .welcome { min-height: 100vh; display: grid; place-items: center; padding: 32px var(--gutter); position: relative; overflow: hidden; }
   .fireflies { position: absolute; inset: 0; pointer-events: none; }
   .fireflies i { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: var(--lume); box-shadow: 0 0 10px 3px var(--lume); opacity: .55; }
   .welcome-card { width: 100%; max-width: 640px; display: grid; gap: 26px; position: relative; }
+  .card-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 16px; }
+  .card-head .side { display: flex; align-items: center; gap: 16px; }
   .welcome .brand { font-size: 1.15rem; }
   .welcome h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.1rem, 6.2vw, 3.1rem); line-height: 1.04; margin: 0; text-wrap: balance; letter-spacing: -.02em; }
   .welcome h1 em { font-style: normal; background: linear-gradient(transparent 62%, color-mix(in srgb, var(--lume) 70%, transparent) 62%); padding: 0 .08em; }
@@ -102,122 +113,165 @@
   .primary:disabled { opacity: .45; cursor: not-allowed; }
   .linkish { background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
   .welcome .fineprint { font-size: .85rem; color: var(--muted); margin: 0; }
+  .resume-hint { display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: baseline; }
+
+  .resume-card { max-width: 700px; gap: 22px; }
+  .resume-card h1 { font-size: clamp(1.9rem, 5.4vw, 2.6rem); }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; counter-reset: step; }
+  .step { display: grid; grid-template-columns: 32px minmax(0, 1fr); column-gap: 14px; }
+  .step::before { counter-increment: step; content: counter(step); grid-row: 1 / span 6; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-family: var(--font-data); font-weight: 500; }
+  .step > * { grid-column: 2; }
+  .step h2 { margin: 3px 0 2px; font-size: 1.05rem; }
+  .step p { margin: 0 0 10px; color: var(--muted); }
+  textarea { width: 100%; font: .82rem/1.5 var(--font-data); padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--ink); resize: vertical; }
+  #prompt-text { height: 140px; color: var(--muted); }
+  #answer { height: 130px; }
+  .button-row { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; margin-top: 10px; }
+  .copied { color: var(--good); font-size: .9rem; }
+  .error { color: var(--long); font-size: .9rem; margin: 8px 0 0 !important; }
+  .resume-summary { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; display: grid; gap: 12px; }
+  .resume-summary h2 { margin: 0; font-size: 1.05rem; }
+  .resume-summary p { margin: 0; }
+  .facts-list { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 18px; align-content: start; }
+  .facts-list dt { color: var(--muted); }
+  .facts-list dd { margin: 0; min-width: 0; }
 
   /* ---------- app shell ---------- */
   .app { max-width: 1320px; margin: 0 auto; padding: 18px var(--gutter) 48px; }
-  .topbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px; }
+  .topbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px; margin-bottom: 24px; }
   .topbar .brand { font-size: 1.4rem; }
   .top-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-  .profile-chip, .ghost { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); cursor: pointer; text-decoration: none; color: var(--ink); font-size: .92rem; }
-  .profile-chip .edit { color: var(--accent); font-size: .85rem; }
-  .ghost svg { color: var(--muted); }
-  .overview { margin: 16px 0 18px; display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: baseline; }
-  .overview .updated { color: var(--muted); font-size: .9rem; }
-  .stat { background: none; border: 0; padding: 0; cursor: pointer; text-align: left; font-size: .98rem; }
-  .stat b { font-family: var(--font-data); font-weight: 500; font-size: 1.05rem; margin-right: 4px; }
-  .stat:hover span { text-decoration: underline; text-underline-offset: 3px; }
-  .stat.good b { color: var(--good); } .stat.soon b { color: var(--long); } .stat.new b { color: var(--accent); } .stat.saved b { color: var(--check); }
+  .pill-btn { display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); cursor: pointer; text-decoration: none; color: var(--ink); font-size: .9rem; }
+  .pill-btn:hover { border-color: var(--muted); }
+  .pill-btn svg { color: var(--muted); flex: none; }
+  .pill-btn .done { color: var(--good); font-weight: 700; }
+  .pill-btn.icon-only { padding: 6px 9px; }
 
-  .layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 28px; align-items: start; }
+  .layout { display: grid; grid-template-columns: 216px minmax(0, 1fr); gap: 34px; align-items: start; }
 
   /* filters */
   .filters { position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow: auto; scrollbar-width: thin; }
   .filters > summary { display: none; }
-  .filters-body { display: grid; gap: 20px; padding-bottom: 8px; }
-  .fgroup { display: grid; gap: 7px; }
-  .fgroup h3 { margin: 0; font-size: .74rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
+  .filters-body { display: grid; gap: 22px; padding-bottom: 8px; }
+  .fgroup { display: grid; gap: 8px; }
+  .fgroup h3 { margin: 0; font-size: .82rem; color: var(--muted); font-weight: 600; }
   .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chips:empty { display: none; }
   .chip { padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); cursor: pointer; font-size: .86rem; white-space: nowrap; }
-  .chip small { color: var(--muted); font-family: var(--font-data); font-size: .74rem; margin-left: 4px; }
+  .chip small { color: var(--faint); font-family: var(--font-data); font-size: .7rem; margin-left: 5px; }
+  .chip:hover { border-color: var(--muted); }
   .chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--surface); }
   .chip[aria-pressed="true"] small { color: inherit; opacity: .7; }
-  .chip.zero { opacity: .45; }
-  .chip.preset { border-style: dashed; }
+  .chip.zero { opacity: .4; }
+  .more-filters > summary { cursor: pointer; font-size: .86rem; color: var(--muted); list-style: none; }
+  .more-filters > summary::-webkit-details-marker { display: none; }
+  .more-filters > summary::before { content: "+ "; }
+  .more-filters[open] > summary::before { content: "− "; }
+  .more-filters[open] > summary { margin-bottom: 12px; }
+  .more-filters .fgroup + .fgroup { margin-top: 16px; }
   .check-row { display: flex; align-items: center; gap: 8px; font-size: .9rem; cursor: pointer; }
   select { padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); width: 100%; }
-  .reset { justify-self: start; }
 
   /* toolbar */
-  .toolbar { display: grid; gap: 12px; margin-bottom: 8px; }
+  .toolbar { display: grid; gap: 14px; margin-bottom: 4px; }
   .search { position: relative; }
   .search input { width: 100%; padding: 11px 44px 11px 38px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); font-size: 1rem; }
   .search > svg { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); }
   .search kbd { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-family: var(--font-data); font-size: .75rem; color: var(--muted); border: 1px solid var(--line); border-radius: 5px; padding: 0 6px; background: var(--paper); }
-  .tabs-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; }
-  .tabs { display: flex; flex-wrap: wrap; gap: 2px; border-bottom: 1px solid var(--line); }
-  .tab { background: none; border: 0; border-bottom: 2px solid transparent; padding: 7px 10px 8px; cursor: pointer; color: var(--muted); font-weight: 500; margin-bottom: -1px; white-space: nowrap; }
-  .tab small { font-family: var(--font-data); font-size: .76rem; margin-left: 3px; }
+  .tabs-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 4px 10px; border-bottom: 1px solid var(--line); }
+  .tabs { display: flex; flex-wrap: wrap; gap: 2px; }
+  .tab { background: none; border: 0; border-bottom: 2px solid transparent; padding: 7px 10px 9px; cursor: pointer; color: var(--muted); font-weight: 500; margin-bottom: -1px; white-space: nowrap; }
+  .tab small { font-family: var(--font-data); font-size: .72rem; margin-left: 5px; color: var(--faint); }
+  .tab small.hot { color: var(--long); }
   .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
-  .sort { display: flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); }
-  .sort select { width: auto; color: var(--ink); }
+  .sort { display: flex; align-items: center; gap: 2px; font-size: .88rem; color: var(--muted); padding-bottom: 5px; }
+  .sort select { width: auto; color: var(--ink); border-color: transparent; background: none; padding-inline: 4px; cursor: pointer; font-weight: 500; }
+  .sort select:hover { border-color: var(--line); }
 
-  .active-filters { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 0; }
+  .active-filters { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .active-filters:empty { display: none; }
   .pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 6px 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--ink); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); font-size: .85rem; cursor: pointer; }
-  .pill span { color: var(--muted); }
   .pill svg { color: var(--accent); }
-  .count-line { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; align-items: center; margin: 4px 0 8px; font-size: .85rem; color: var(--muted); }
-  .legend { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: center; }
-  .legend span { display: inline-flex; align-items: center; gap: 5px; }
-  .legend .dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid currentColor; display: inline-block; }
-  .legend .sq { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .count-line { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; align-items: center; margin: 10px 2px 8px; font-size: .85rem; color: var(--muted); position: relative; }
+  .legend-btn { background: none; border: 0; padding: 0; cursor: pointer; color: var(--muted); font-size: .85rem; display: inline-flex; gap: 6px; align-items: center; }
+  .legend-btn:hover { color: var(--ink); }
+  .legend-btn .q { width: 17px; height: 17px; border-radius: 50%; border: 1px solid currentColor; display: inline-grid; place-items: center; font-size: .68rem; font-weight: 700; }
+  .legend { position: absolute; right: 0; top: calc(100% + 6px); z-index: 5; width: min(360px, calc(100vw - 32px)); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 8px 24px rgb(0 0 0 / .16); padding: 14px 16px; display: grid; gap: 8px; color: var(--ink); font-size: .86rem; }
+  .legend div { display: flex; align-items: center; gap: 10px; }
+  .legend .dot { width: 11px; height: 11px; border-radius: 50%; border: 2px solid currentColor; display: inline-block; flex: none; }
+  .legend .sq { width: 11px; height: 11px; border-radius: 2px; display: inline-block; flex: none; }
 
   /* list */
   .list { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
-  .cols, .row-main { display: grid; grid-template-columns: 22px minmax(0, 2.6fr) minmax(0, 1.3fr) minmax(0, .9fr) 92px 96px 92px; gap: 14px; align-items: center; padding: 0 14px; }
-  .cols { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; padding-block: 10px; border-bottom: 1px solid var(--line); }
-  .row { border-bottom: 1px solid var(--line); box-shadow: inset 3px 0 0 var(--stripe, transparent); }
-  .row.fit-0 { --stripe: var(--good); } .row.fit-1 { --stripe: var(--check); } .row.fit-2 { --stripe: var(--long); }
+  .cols, .row-main { display: grid; grid-template-columns: 20px minmax(0, 2.7fr) minmax(0, 1.25fr) minmax(0, .85fr) 80px 76px 66px; gap: 16px; align-items: center; padding: 0 14px; }
+  .cols { font-size: .76rem; color: var(--faint); font-weight: 500; padding-block: 9px; border-bottom: 1px solid var(--line); }
+  .row { border-bottom: 1px solid var(--line); }
   .row:last-child { border-bottom: 0; }
-  .row-main { padding-block: 11px; cursor: pointer; }
-  .row-main:hover { background: color-mix(in srgb, var(--accent-soft) 45%, transparent); }
+  .row-main { padding-block: 13px; cursor: pointer; }
+  .row-main:hover { background: color-mix(in srgb, var(--accent-soft) 40%, transparent); }
   .row.open .row-main { background: var(--accent-soft); }
   .role { min-width: 0; }
   .role a { color: var(--ink); font-weight: 600; text-decoration: none; }
   .role a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
-  .role .org { color: var(--muted); font-size: .88rem; display: flex; flex-wrap: wrap; gap: 0 8px; align-items: center; }
+  .role .org { color: var(--muted); font-size: .88rem; display: flex; flex-wrap: wrap; gap: 0 12px; align-items: center; }
   .why { font-size: .8rem; margin-top: 1px; }
   .why.c1 { color: var(--check); } .why.c2 { color: var(--long); }
-  .tag { font-size: .68rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; padding: 0 6px; border-radius: 4px; }
-  .tag.new { background: var(--accent-soft); color: var(--accent); }
-  .tag.applied { background: var(--good-soft); color: var(--good); }
-  .tag.program { background: color-mix(in srgb, var(--lume) 35%, transparent); color: var(--ink); }
+  .tag { font-size: .78rem; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; }
+  .tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .tag.new { color: var(--accent); }
+  .tag.applied { color: var(--good); }
+  .tag.match { color: var(--good); }
+  .tag.program { color: var(--muted); font-weight: 500; }
   .where { min-width: 0; font-size: .9rem; }
   .where .first { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .where .more { color: var(--muted); font-size: .82rem; }
-  .pay { font-family: var(--font-data); font-size: .86rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .pay.none { color: var(--muted); }
-  .deadline { font-family: var(--font-data); font-size: .86rem; line-height: 1.3; }
-  .deadline small { display: block; color: var(--muted); font-family: var(--font-body); font-size: .78rem; }
+  .where .more { color: var(--faint); font-size: .8rem; }
+  .pay { font-family: var(--font-data); font-size: .85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .deadline { font-family: var(--font-data); font-size: .85rem; line-height: 1.3; }
+  .deadline small { display: block; font-family: var(--font-body); font-size: .76rem; }
   .deadline.soon { color: var(--long); font-weight: 500; }
-  .deadline.past { color: var(--muted); text-decoration: line-through; }
-  .deadline.none { color: var(--muted); font-family: var(--font-body); font-size: .82rem; }
+  .deadline.past { color: var(--faint); text-decoration: line-through; }
+  .meta-line { display: none; }
+  .when-text { font-size: .82rem; color: var(--muted); }
 
-  .fit { width: 12px; height: 12px; border-radius: 50%; border: 2px solid currentColor; justify-self: center; }
+  .fit { width: 11px; height: 11px; border-radius: 50%; border: 2px solid currentColor; justify-self: center; }
   .fit.good { color: var(--good); background: var(--good); }
   .fit.check { color: var(--check); background: var(--check-soft); }
   .fit.long { color: var(--long); background: transparent; }
   .fit.none { color: var(--line); }
 
-  .months { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; width: 84px; }
-  .months i { height: 14px; border-radius: 2px; background: var(--break); box-shadow: inset 0 0 0 1px var(--line); }
+  .months { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; width: 76px; }
+  .months i { height: 12px; border-radius: 2px; background: var(--break); box-shadow: inset 0 0 0 1px var(--line); }
   .months i.sem { background: var(--semester); box-shadow: none; }
   .months i.on { background: var(--good); box-shadow: none; }
   .months i.on.sem { background: var(--check); }
-  .months.unknown i { opacity: .55; }
-  .months-label { font-size: .72rem; color: var(--muted); margin-top: 3px; white-space: nowrap; }
+  .months.unknown { opacity: .4; }
+  .facts-list .months { margin-top: 5px; }
 
   .actions { display: flex; gap: 4px; justify-content: flex-end; }
-  .icon-btn { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); cursor: pointer; color: var(--muted); }
-  .icon-btn:hover { color: var(--ink); border-color: var(--muted); }
-  .icon-btn.save[aria-pressed="true"] { color: var(--check); border-color: var(--check); background: var(--check-soft); }
-  .icon-btn.hide[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+  .icon-btn { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid transparent; border-radius: 8px; background: none; cursor: pointer; color: var(--faint); }
+  .icon-btn:hover { color: var(--ink); border-color: var(--line); background: var(--surface); }
+  .icon-btn.save[aria-pressed="true"] { color: var(--check); }
+  .icon-btn.hide[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+  /* Hide (✕) only shows on hover; on touch screens it's inside the opened row. */
+  @media (hover: hover) {
+    .row .icon-btn.hide { opacity: 0; }
+    .row:hover .icon-btn.hide, .row:focus-within .icon-btn.hide, .row .icon-btn.hide[aria-pressed="true"] { opacity: 1; }
+  }
+  @media (hover: none) { .row-main .icon-btn.hide:not([aria-pressed="true"]) { display: none; } }
 
-  .details { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px 28px; padding: 4px 14px 18px 50px; background: var(--accent-soft); font-size: .9rem; }
-  .details h4 { margin: 0 0 4px; font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
+  .details { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 18px 40px; padding: 6px 14px 18px 50px; background: var(--accent-soft); font-size: .9rem; }
+  .details h4 { margin: 0 0 6px; font-size: .95rem; }
+  .details p { margin: 0 0 6px; }
   .details ul { margin: 0; padding-left: 18px; }
-  .details p { margin: 0; }
+  .details li { margin-bottom: 2px; }
   .reasons li.long { color: var(--long); } .reasons li.check { color: var(--check); }
-  .detail-actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; padding-top: 4px; }
+  .for-you { display: grid; gap: 16px; align-content: start; }
+  .skill-list { display: flex; flex-wrap: wrap; gap: 5px; margin: 4px 0 6px; }
+  .skill { padding: 1px 9px; border-radius: 999px; background: var(--accent-soft); font-size: .82rem; }
+  .details .skill { background: var(--surface); }
+  .skill.hit { background: var(--good-soft) !important; color: var(--good); font-weight: 600; }
+  .skill.miss { background: none !important; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--muted) 35%, transparent); color: var(--muted); }
+  .detail-actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; }
   .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; font-weight: 500; text-decoration: none; color: var(--ink); }
   .btn.primary-link { background: var(--accent); border-color: var(--accent); color: var(--surface); }
   .btn[aria-pressed="true"] { border-color: var(--good); color: var(--good); background: var(--good-soft); }
@@ -237,38 +291,6 @@
   table { border-collapse: collapse; width: 100%; font-size: .86rem; }
   td, th { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
 
-  /* ---------- résumé screen ---------- */
-  .resume-card { max-width: 700px; gap: 22px; }
-  .resume-card h1 { font-size: clamp(1.9rem, 5.4vw, 2.6rem); }
-  .resume-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; }
-  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; counter-reset: step; }
-  .step { display: grid; grid-template-columns: 32px minmax(0, 1fr); column-gap: 14px; }
-  .step::before { counter-increment: step; content: counter(step); grid-row: 1 / span 6; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-family: var(--font-data); font-weight: 500; }
-  .step > * { grid-column: 2; }
-  .step h2 { margin: 3px 0 2px; font-size: 1.05rem; }
-  .step p { margin: 0 0 10px; color: var(--muted); }
-  textarea { width: 100%; font: .82rem/1.5 var(--font-data); padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--ink); resize: vertical; }
-  #prompt-text { height: 140px; color: var(--muted); }
-  #answer { height: 130px; }
-  .button-row { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; margin-top: 10px; }
-  .copied { color: var(--good); font-size: .9rem; }
-  .error { color: var(--long); font-size: .9rem; margin: 8px 0 0 !important; }
-  .resume-summary { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; display: grid; gap: 12px; }
-  .resume-summary h2 { margin: 0; font-size: 1.05rem; }
-  .resume-summary dl { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 14px; font-size: .92rem; }
-  .resume-summary dt { color: var(--muted); }
-  .resume-summary dd { margin: 0; }
-  .skill-list { display: flex; flex-wrap: wrap; gap: 5px; }
-  .skill { padding: 1px 9px; border-radius: 999px; background: var(--accent-soft); font-size: .82rem; }
-  .skill.hit { background: var(--good-soft); color: var(--good); font-weight: 600; }
-  .skill.miss { background: none; box-shadow: inset 0 0 0 1px var(--line); color: var(--muted); }
-  @media (min-width: 901px) { .details .match-block { grid-column: span 2; } }
-  .tag.match { background: var(--good-soft); color: var(--good); }
-  .tag.match.m1 { background: none; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--good) 45%, transparent); }
-  .stat.match b { color: var(--good); }
-  .resume-hint { display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: baseline; }
-  .profile-chip svg { color: var(--accent); flex: none; }
-
   /* ---------- small screens ---------- */
   @media (max-width: 900px) {
     .layout { grid-template-columns: minmax(0, 1fr); gap: 14px; }
@@ -277,43 +299,41 @@
     .filters > summary { display: list-item; cursor: pointer; font-weight: 600; }
     .filters[open] > summary { margin-bottom: 14px; }
     .cols { display: none; }
-    .legend .sem-legend { display: none; }
-    .row-main { grid-template-columns: 18px minmax(0, 1fr) auto; grid-template-areas: "fit role actions" ". where where" ". facts facts"; row-gap: 6px; }
-    .row-main > .fit { grid-area: fit; align-self: start; margin-top: 5px; }
-    .row-main > .role { grid-area: role; }
-    .row-main > .actions { grid-area: actions; align-self: start; }
-    .row-main > .where { grid-area: where; }
-    .row-main > .facts { grid-area: facts; display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; }
-    .pay.none { display: none; }
-    .details { padding-left: 46px; }
+    /* One quiet line under the title instead of four columns. */
+    .row-main { grid-template-columns: 14px minmax(0, 1fr) auto; column-gap: 12px; }
+    .row-main > .fit { align-self: start; margin-top: 6px; }
+    .row-main > .actions { align-self: start; }
+    .row-main > .where, .row-main > .pay, .row-main > .when, .row-main > .deadline { display: none; }
+    .meta-line { display: block; font-size: .84rem; color: var(--muted); margin-top: 3px; }
+    .meta-line .soon { color: var(--long); font-weight: 500; }
+    .details { grid-template-columns: minmax(0, 1fr); padding-left: 40px; }
     .levels { grid-template-columns: minmax(0, 1fr); }
-    .tabs-row { display: grid; gap: 10px; }
-    .tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .tabs-row { display: grid; gap: 4px; border-bottom: 0; }
+    .tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; border-bottom: 1px solid var(--line); }
     .tabs::-webkit-scrollbar { display: none; }
     .tab { flex: none; }
     .search kbd { display: none; }
-    .ghost .label { display: none; }
-    .resume-summary dl { grid-template-columns: minmax(0, 1fr); }
-    .resume-summary dd { margin-bottom: 6px; }
+    .pill-btn .label { display: none; }
+    .facts-list { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .facts-list dd { margin-bottom: 8px; }
   }
-  @media (min-width: 901px) { .facts { display: contents; } }
   /* Touch screens: controls at least ~40px so they're easy to hit. */
   @media (pointer: coarse) {
     .icon-btn { width: 42px; height: 42px; border-radius: 10px; }
     .chip { padding: 8px 13px; font-size: .92rem; }
     .chips { gap: 8px; }
     .tab { padding: 12px 12px 13px; }
-    .stat { padding-block: 8px; }
     .check-row { min-height: 40px; }
     .check-row input { width: 20px; height: 20px; }
-    .filters > summary, footer summary { padding-block: 8px; }
-    .reset, .linkish { padding-block: 8px; }
-    select, .profile-chip, .ghost, .pill { min-height: 42px; }
+    .filters > summary, footer summary, .more-filters > summary { padding-block: 8px; }
+    .linkish, .legend-btn { padding-block: 8px; }
+    select, .pill-btn, .pill { min-height: 42px; }
+    .lang button { min-height: 36px; padding-inline: 12px; }
     .btn { min-height: 44px; }
     .row-main:active { background: var(--accent-soft); }
   }
   @media (prefers-reduced-motion: no-preference) {
-    .row-main, .chip, .tab, .icon-btn { transition: background-color .12s, color .12s, border-color .12s; }
+    .row-main, .chip, .tab, .icon-btn { transition: background-color .12s, color .12s, border-color .12s, opacity .12s; }
     .lume::before { animation: glow 3.2s ease-in-out infinite; }
     .fireflies i { animation: drift 9s ease-in-out infinite, blink 3.4s ease-in-out infinite; }
     .fireflies i:nth-child(2n) { animation-duration: 12s, 4.1s; }
@@ -333,29 +353,32 @@
     <i style="left:14%;top:80%"></i><i style="left:52%;top:8%"></i><i style="left:92%;top:44%"></i><i style="left:4%;top:50%"></i>
   </div>
   <div class="welcome-card">
-    <span class="brand"><span class="lume" aria-hidden="true"></span><span>vaga<b>Lume</b></span></span>
+    <div class="card-head">
+      <span class="brand"><span class="lume" aria-hidden="true"></span><span>vaga<b>Lume</b></span></span>
+      <div class="lang" role="group" aria-label="Language / Idioma"><button data-lang="en">EN</button><button data-lang="pt">PT</button></div>
+    </div>
     <div>
-      <h1>A little light on <em>every student opening.</em></h1>
-      <p class="lead">Internships, research programs, fellowships and schools from 13 sources, collected every morning. Tell vagaLume where you are in your studies and it sorts them by fit and says what might get in the way. Nothing is hidden.</p>
+      <h1 data-t-html="welcome.title"></h1>
+      <p class="lead" data-t="welcome.lead"></p>
     </div>
     <div class="question" role="group" aria-labelledby="q-level">
-      <h2 id="q-level">I'm studying for a</h2>
+      <h2 id="q-level" data-t="welcome.level"></h2>
       <div class="levels" id="levels">
-        <button class="level" data-level="undergrad" aria-pressed="false"><b>Bachelor's</b><span>Undergraduate, graduação</span></button>
-        <button class="level" data-level="masters" aria-pressed="false"><b>Master's</b><span>MSc, MEng, mestrado</span></button>
-        <button class="level" data-level="phd" aria-pressed="false"><b>PhD</b><span>Doctorate, doutorado</span></button>
+        <button class="level" data-level="undergrad" aria-pressed="false"><b data-t="level.undergrad.name"></b><span data-t="level.undergrad.hint"></span></button>
+        <button class="level" data-level="masters" aria-pressed="false"><b data-t="level.masters.name"></b><span data-t="level.masters.hint"></span></button>
+        <button class="level" data-level="phd" aria-pressed="false"><b data-t="level.phd.name"></b><span data-t="level.phd.hint"></span></button>
       </div>
     </div>
     <div class="question" role="group" aria-labelledby="q-place">
-      <h2 id="q-place">at a university in</h2>
+      <h2 id="q-place" data-t="welcome.place"></h2>
       <div class="places" id="places"></div>
     </div>
     <div class="welcome-actions">
-      <button class="primary" id="start" disabled>Show my opportunities</button>
-      <button class="linkish" id="skip">Skip and show everything</button>
+      <button class="primary" id="start" disabled data-t="welcome.start"></button>
+      <button class="linkish" id="skip" data-t="welcome.skip"></button>
     </div>
-    <p class="fineprint resume-hint"><span>Have a résumé?</span><button class="linkish" id="welcome-resume">Match it against every role with your AI chat →</button></p>
-    <p class="fineprint" id="welcome-count">Loading today's opportunities…</p>
+    <p class="fineprint resume-hint"><span data-t="welcome.resume1"></span><button class="linkish" id="welcome-resume" data-t="welcome.resume2"></button></p>
+    <p class="fineprint" id="welcome-count"></p>
   </div>
 </section>
 
@@ -364,25 +387,28 @@
      you already use (ChatGPT, Gemini, Claude...) and paste its answer here. -->
 <section class="welcome" id="resume" hidden>
   <div class="welcome-card resume-card">
-    <div class="resume-head">
+    <div class="card-head">
       <span class="brand"><span class="lume" aria-hidden="true"></span><span>vaga<b>Lume</b></span></span>
-      <button class="linkish" id="resume-back">← Back</button>
+      <div class="side">
+        <div class="lang" role="group" aria-label="Language / Idioma"><button data-lang="en">EN</button><button data-lang="pt">PT</button></div>
+        <button class="linkish" id="resume-back" data-t="resume.back"></button>
+      </div>
     </div>
     <div>
-      <h1>Match your <em>résumé.</em></h1>
-      <p class="lead">Your AI chat turns your résumé into a short summary; vagaLume compares it with every role: the skills each posting asks for, your areas, your graduation date and where you can work. No AI runs on this site.</p>
+      <h1 data-t-html="resume.title"></h1>
+      <p class="lead" data-t="resume.lead"></p>
     </div>
     <div id="resume-saved" hidden></div>
     <ol class="steps" id="resume-steps">
       <li class="step">
-        <h2>Copy the prompt</h2>
-        <p>It asks for a short JSON summary, without your name or contact details.</p>
-        <textarea id="prompt-text" readonly aria-label="The prompt"></textarea>
-        <div class="button-row"><button class="primary" id="copy-prompt">Copy the prompt</button><span class="copied" id="copy-status" aria-live="polite"></span></div>
+        <h2 data-t="resume.step1"></h2>
+        <p data-t="resume.step1.hint"></p>
+        <textarea id="prompt-text" readonly></textarea>
+        <div class="button-row"><button class="primary" id="copy-prompt" data-t="resume.copy"></button><span class="copied" id="copy-status" aria-live="polite"></span></div>
       </li>
       <li class="step">
-        <h2>Ask the AI you use</h2>
-        <p>Start a new chat, paste the prompt and attach your résumé (PDF or Word), or paste its text under the prompt.</p>
+        <h2 data-t="resume.step2"></h2>
+        <p data-t="resume.step2.hint"></p>
         <div class="button-row">
           <a class="btn" href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT ↗</a>
           <a class="btn" href="https://gemini.google.com/app" target="_blank" rel="noopener">Gemini ↗</a>
@@ -390,14 +416,14 @@
         </div>
       </li>
       <li class="step">
-        <h2>Paste the answer here</h2>
-        <p>Copy the AI's whole reply. vagaLume finds the part between { and }.</p>
-        <textarea id="answer" aria-label="The AI's answer" placeholder='{ "vagalume_profile": 1, "level": "undergrad", … }'></textarea>
+        <h2 data-t="resume.step3"></h2>
+        <p data-t="resume.step3.hint"></p>
+        <textarea id="answer" placeholder='{ "vagalume_profile": 1, "level": "undergrad", … }'></textarea>
         <p class="error" id="answer-error" role="alert" hidden></p>
-        <div class="button-row"><button class="primary" id="use-resume">Match my résumé</button></div>
+        <div class="button-row"><button class="primary" id="use-resume" data-t="resume.use"></button></div>
       </li>
     </ol>
-    <p class="fineprint">Privacy: what you paste is saved only in this browser. vagaLume has no server and never sees it. You can remove it at any time.</p>
+    <p class="fineprint" data-t="resume.privacy"></p>
   </div>
 </section>
 
@@ -406,35 +432,38 @@
   <header class="topbar">
     <span class="brand"><span class="lume" aria-hidden="true"></span><span>vaga<b>Lume</b></span></span>
     <div class="top-actions">
-      <button class="profile-chip" id="resume-chip"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M6.5 8h4M6.5 10.5h4M9 1.8V5h3.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span id="resume-text">Match my résumé</span></button>
-      <button class="profile-chip" id="profile-chip"><span id="profile-text"></span><span class="edit">Change</span></button>
-      <a class="ghost" href="https://github.com/PedroCamargoLINCE/vagaLume" target="_blank" rel="noopener" title="Source code on GitHub">
+      <div class="lang" role="group" aria-label="Language / Idioma"><button data-lang="en">EN</button><button data-lang="pt">PT</button></div>
+      <button class="pill-btn" id="resume-chip"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M6.5 8h4M6.5 10.5h4M9 1.8V5h3.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span id="resume-text"></span></button>
+      <button class="pill-btn" id="profile-chip"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="5.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.8 14c.6-2.8 2.7-4.2 5.2-4.2s4.6 1.4 5.2 4.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span id="profile-text"></span></button>
+      <a class="pill-btn icon-only" id="github-link" href="https://github.com/PedroCamargoLINCE/vagaLume" target="_blank" rel="noopener">
         <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-        <span class="label">Star on GitHub</span>
       </a>
     </div>
   </header>
 
-  <div class="overview" id="overview"></div>
-
   <div class="layout">
     <details class="filters" id="filters" open>
-      <summary id="filters-summary">Filters</summary>
+      <summary id="filters-summary"></summary>
       <div class="filters-body">
-        <div class="fgroup" id="match-group" hidden><h3>Résumé match</h3><div class="chips" data-filter="match"></div></div>
-        <div class="fgroup" id="fit-group"><h3>Fit for you</h3><div class="chips" data-filter="fit"></div></div>
-        <div class="fgroup"><h3>Area</h3><div class="chips" data-filter="area"></div></div>
-        <div class="fgroup"><h3>Where</h3><div class="chips" data-filter="region"></div></div>
-        <div class="fgroup"><h3>When</h3><div class="chips" data-filter="season"></div></div>
-        <div class="fgroup">
-          <h3>Pay</h3>
-          <label class="check-row"><input type="checkbox" id="pay-only"> Only roles that state pay</label>
+        <div class="fgroup" id="foryou-group">
+          <h3 data-t="filters.foryou"></h3>
+          <div class="chips" data-filter="match"></div>
+          <div class="chips" data-filter="fit"></div>
         </div>
-        <div class="fgroup">
-          <h3>Source</h3>
-          <select id="source" aria-label="Source"></select>
-        </div>
-        <button class="linkish reset" id="reset">Clear all filters</button>
+        <div class="fgroup"><h3 data-t="filters.area"></h3><div class="chips" data-filter="area"></div></div>
+        <div class="fgroup"><h3 data-t="filters.where"></h3><div class="chips" data-filter="region"></div></div>
+        <div class="fgroup"><h3 data-t="filters.when"></h3><div class="chips" data-filter="season"></div></div>
+        <details class="more-filters" id="more-filters">
+          <summary data-t="filters.more"></summary>
+          <div class="fgroup">
+            <h3 data-t="filters.pay"></h3>
+            <label class="check-row"><input type="checkbox" id="pay-only"> <span data-t="filters.payOnly"></span></label>
+          </div>
+          <div class="fgroup">
+            <h3 data-t="filters.source"></h3>
+            <select id="source"></select>
+          </div>
+        </details>
       </div>
     </details>
 
@@ -442,102 +471,228 @@
       <div class="toolbar">
         <div class="search">
           <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          <label for="search" class="visually-hidden">Search role, company or city</label>
-          <input type="search" id="search" placeholder="Search role, company or city" autocomplete="off">
-          <kbd title="Press / to search">/</kbd>
+          <input type="search" id="search" autocomplete="off">
+          <kbd>/</kbd>
         </div>
         <div class="tabs-row">
           <div class="tabs" role="tablist" id="tabs"></div>
-          <label class="sort">Sort <select id="sort">
-            <option value="match">Best résumé match</option>
-            <option value="fit">Best fit first</option>
-            <option value="deadline">Deadline first</option>
-            <option value="added">Newest first</option>
-            <option value="org">Company A–Z</option>
-          </select></label>
+          <label class="sort"><span data-t="sort.label"></span> <select id="sort"></select></label>
         </div>
         <div class="active-filters" id="active-filters"></div>
       </div>
       <div class="count-line">
         <span id="count"></span>
-        <span class="legend" id="legend">
-          <span class="fit-legend"><span class="dot" style="color:var(--good);background:var(--good)"></span>good fit</span>
-          <span class="fit-legend"><span class="dot" style="color:var(--check);background:var(--check-soft)"></span>check</span>
-          <span class="fit-legend"><span class="dot" style="color:var(--long)"></span>long shot</span>
-          <span class="sem-legend"><span class="sq" style="background:var(--good)"></span>in a break</span>
-          <span class="sem-legend"><span class="sq" style="background:var(--check)"></span>during classes</span>
-        </span>
+        <button class="legend-btn" id="legend-btn" aria-expanded="false" aria-controls="legend"><span class="q" aria-hidden="true">?</span><span data-t="legend.button"></span></button>
+        <div class="legend" id="legend" hidden></div>
       </div>
       <div class="list" id="list">
-        <div class="cols" aria-hidden="true">
-          <span title="Fit for your profile">Fit</span><span>Role</span><span>Where</span><span>Pay</span>
-          <span title="January to December. Grey: months in class (UNESP's calendar, or the free months from your résumé). Green: the role runs in a break. Amber: it clashes with classes.">When</span>
-          <span>Deadline</span><span></span>
-        </div>
-        <div id="rows"><div class="loading"><span class="lume" aria-hidden="true"></span>Loading opportunities…</div></div>
+        <div class="cols" id="cols" aria-hidden="true"></div>
+        <div id="rows"><div class="loading"><span class="lume" aria-hidden="true"></span><span data-t="loading"></span></div></div>
       </div>
-      <button class="more-btn" id="more" hidden>Show more</button>
+      <button class="more-btn" id="more" hidden></button>
     </main>
   </div>
 
   <footer>
     <details>
-      <summary>How to read this page</summary>
-      <p><b>Fit</b> compares each role with your profile: a full dot is a good fit, a half-filled dot means check something (a visa, a graduation-year rule, a job for after you graduate), an empty dot is a long shot (for example a PhD-only role while you're an undergrad). The reason shows under the company; open the row for all of them.</p>
-      <p><b>When</b> is a January–December strip. <i class="swatch" style="background:var(--semester)"></i> months in class: UNESP's semesters (Mar–Jun, Aug–Nov), or the months your résumé summary lists as free. <i class="swatch" style="background:var(--good)"></i> the role runs in a break. <i class="swatch" style="background:var(--check)"></i> it clashes with classes.</p>
-      <p><b>Résumé match</b> compares the skills a posting mentions (Python, PyTorch, ROS, PLC…) and its area and title with the summary your AI chat made from your résumé. <i>Strong</i> and <i>Good</i> matches get a tag; open a row to see which skills match and which are missing. It's keyword matching, so read the posting before deciding.</p>
-      <p><b>Pay</b> appears when the posting states it (hr = per hour, mo = per month, yr = per year). Annual figures for internships are usually the hourly rate scaled to a year.</p>
-      <p><b>☆ Save</b> builds a shortlist, <b>✕ Hide</b> removes a role from your lists, and inside a row you can mark it <b>Applied</b>. All of this stays in this browser. vagaLume never hides anything by itself: labels and fit are hints, not verdicts.</p>
-      <p>Your filters live in the page address, so you can bookmark a view (for example "ML roles in Europe") or send it to a friend.</p>
+      <summary data-t="help.title"></summary>
+      <div id="help"></div>
     </details>
     <details>
-      <summary>Sources</summary>
-      <div class="table-wrap"><table><thead><tr><th>Source</th><th>Status</th><th>Items</th><th>Problems</th></tr></thead><tbody id="sources"></tbody></table></div>
+      <summary data-t="sources.title"></summary>
+      <div class="table-wrap"><table><thead><tr><th data-t="sources.source"></th><th data-t="sources.status"></th><th data-t="sources.items"></th><th data-t="sources.problems"></th></tr></thead><tbody id="sources"></tbody></table></div>
     </details>
     <div class="footer-line">
-      <span>vagaLume updates every morning at 09:00 (Brasília).</span>
-      <a href="https://github.com/PedroCamargoLINCE/vagaLume" target="_blank" rel="noopener">Code, guide and how to add companies</a>
+      <span data-t="footer.daily"></span>
+      <a href="https://github.com/PedroCamargoLINCE/vagaLume" target="_blank" rel="noopener" data-t="footer.code"></a>
     </div>
   </footer>
 </div>
-<button class="to-top" id="to-top" hidden aria-label="Back to top"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 10l5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button class="to-top" id="to-top" hidden><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 10l5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 
 <script>
+// ------------------------------------------------------------------ language
+// Every text on the page: [English, Português (Brasil)]. Functions receive
+// the numbers or names they need. Data from the bot (titles, companies,
+// cities) stays as the posting wrote it.
+const STRINGS = {
+  "welcome.title": ["A little light on <em>every student opening.</em>", "Uma luzinha em <em>cada vaga para estudantes.</em>"],
+  "welcome.lead": ["Internships, research programs, fellowships and schools from 13 sources, collected every morning. Tell vagaLume where you are in your studies and it sorts them by fit and says what might get in the way. Nothing is hidden.",
+    "Estágios, programas de pesquisa, fellowships e escolas de 13 fontes, coletados toda manhã. Conte ao vagaLume em que ponto dos estudos você está, e ele ordena tudo pelo quanto combina com você e avisa o que pode atrapalhar. Nada é escondido."],
+  "welcome.level": ["I'm studying for a", "Estou cursando"],
+  "welcome.place": ["at a university in", "numa universidade em"],
+  "welcome.start": ["Show my opportunities", "Ver minhas oportunidades"],
+  "welcome.skip": ["Skip and show everything", "Pular e ver tudo"],
+  "welcome.resume1": ["Have a résumé?", "Tem um currículo?"],
+  "welcome.resume2": ["Match it against every role with your AI chat →", "Compare com todas as vagas usando a sua IA →"],
+  "welcome.count": [(n, d) => `${n} open roles and programs, updated ${d}. Your answers stay in this browser.`, (n, d) => `${n} vagas e programas abertos, atualizados em ${d}. Suas respostas ficam só neste navegador.`],
+  "welcome.loadError": ["Could not load today's data. Reload the page to try again.", "Não foi possível carregar os dados de hoje. Recarregue a página."],
+  "level.undergrad.name": ["Bachelor's", "Graduação"], "level.undergrad.hint": ["Undergraduate", "Bacharelado, engenharia, licenciatura"],
+  "level.masters.name": ["Master's", "Mestrado"], "level.masters.hint": ["MSc, MEng", "Acadêmico ou profissional"],
+  "level.phd.name": ["PhD", "Doutorado"], "level.phd.hint": ["Doctorate", "PhD"],
+  "level.short.undergrad": ["Undergrad", "Graduação"], "level.short.masters": ["Master's", "Mestrado"], "level.short.phd": ["PhD", "Doutorado"],
+  "place.brazil": ["Brazil", "Brasil"], "place.latam": ["Other Latin America", "Outro país da América Latina"],
+  "place.usa": ["United States", "Estados Unidos"], "place.canada": ["Canada", "Canadá"],
+  "place.uk": ["United Kingdom", "Reino Unido"], "place.europe": ["Europe", "Europa"],
+  "place.asia": ["Asia", "Ásia"], "place.mideast": ["Middle East", "Oriente Médio"],
+  "place.oceania": ["Oceania", "Oceania"], "place.africa": ["Africa", "África"],
+
+  "top.resume": ["Match my résumé", "Comparar currículo"], "top.resumeDone": ["Résumé", "Currículo"],
+  "top.profileNone": ["Set your profile", "Definir perfil"], "top.github": ["Star vagaLume on GitHub", "Dê uma estrela no GitHub"],
+  "top.toTop": ["Back to top", "Voltar ao topo"],
+
+  "filters": ["Filters", "Filtros"], "filters.on": [n => `Filters (${n} on)`, n => `Filtros (${n} ativos)`],
+  "filters.foryou": ["For you", "Para você"], "filters.area": ["Area", "Área"], "filters.where": ["Where", "Onde"],
+  "filters.when": ["When", "Quando"], "filters.more": ["More filters", "Mais filtros"], "filters.pay": ["Pay", "Remuneração"],
+  "filters.payOnly": ["Only roles that state pay", "Só vagas com remuneração informada"], "filters.source": ["Source", "Fonte"],
+  "filters.allSources": ["All sources", "Todas as fontes"], "filters.clear": ["Clear all", "Limpar tudo"],
+  "chip.fit.good": ["Good fit", "Combina bem"], "chip.fit.check": ["No long shots", "Sem improváveis"],
+  "chip.match.strong": ["Strong résumé match", "Match forte"], "chip.match.good": ["Good match or better", "Match bom ou melhor"],
+  "pill.search": [q => `Search: “${q}”`, q => `Busca: “${q}”`], "pill.pay": ["States pay", "Com remuneração"],
+  "pill.remove": [x => `Remove filter ${x}`, x => `Remover filtro ${x}`],
+
+  "search.placeholder": ["Search role, company or city", "Buscar vaga, empresa ou cidade"], "search.kbd": ["Press / to search", "Aperte / para buscar"],
+  "tab.all": ["All", "Todas"], "tab.new": ["New", "Novas"], "tab.soon": ["Closing soon", "Fecham em breve"], "tab.saved": ["Saved", "Salvas"],
+  "tab.programs": ["Programs & schools", "Programas e escolas"], "tab.applied": ["Applied", "Candidatadas"], "tab.hidden": ["Hidden", "Ocultas"],
+  "sort.label": ["Sort", "Ordenar"], "sort.match": ["Best résumé match", "Melhor match"], "sort.fit": ["Best fit", "Mais compatíveis"],
+  "sort.deadline": ["Deadline", "Prazo"], "sort.added": ["Newest", "Mais novas"], "sort.org": ["Company A–Z", "Empresa A–Z"],
+  "count": [(n, d) => `${n} ${n === "1" ? "role" : "roles"} · updated ${d}`, (n, d) => `${n} ${n === "1" ? "vaga" : "vagas"} · atualizado em ${d}`],
+  "more": [n => `Show ${n} more`, n => `Mostrar mais ${n}`], "loading": ["Loading opportunities…", "Carregando oportunidades…"],
+  "loadError": ["Could not load today's data. Check your connection and reload the page.", "Não foi possível carregar os dados de hoje. Verifique a conexão e recarregue a página."],
+  "legend.button": ["How to read", "Como ler"],
+  "legend.good": ["Good fit for your profile", "Combina com o seu perfil"], "legend.check": ["Check something first (the reason is under the company)", "Verifique algo antes (o motivo aparece embaixo da empresa)"],
+  "legend.long": ["Long shot, e.g. a PhD-only role for an undergrad", "Improvável, ex.: vaga só para doutorado e você está na graduação"],
+  "legend.break": ["Month strip: the role runs in a break", "Tirinha dos meses: a vaga cai nas suas férias"], "legend.class": ["…or during classes", "…ou durante as aulas"],
+  "legend.sem": ["Grey: months in class", "Cinza: meses de aula"], "legend.match": ["Matches your résumé well", "Combina bem com o seu currículo"],
+  "col.role": ["Role", "Vaga"], "col.where": ["Where", "Onde"], "col.pay": ["Pay", "Remuneração"], "col.when": ["When", "Quando"], "col.deadline": ["Deadline", "Prazo"],
+
+  "tag.new": ["New", "Nova"], "tag.applied": ["Applied", "Candidatada"], "tag.program": ["Program", "Programa"],
+  "fit.none": ["Set your profile to see fit", "Defina o seu perfil para ver a compatibilidade"],
+  "fit.0": ["Good fit", "Combina bem"], "fit.1": ["Check", "Verificar"], "fit.2": ["Long shot", "Improvável"],
+  "match": ["Résumé match", "Match com o currículo"],
+  "match.0": ["Strong match", "Match forte"], "match.1": ["Good match", "Match bom"], "match.2": ["Some match", "Pouco match"], "match.3": ["Low match", "Match baixo"],
+  "more.locations": [n => `+${n} more`, n => `+${n}`],
+  "deadline.today": ["today", "hoje"], "deadline.tomorrow": ["tomorrow", "amanhã"], "deadline.in": [n => `in ${n} days`, n => `em ${n} dias`],
+  "deadline.past": ["closed?", "encerrada?"], "deadline.none": ["No deadline stated", "Sem prazo informado"],
+  "save": ["Save for later", "Salvar"], "unsave": ["Remove from saved", "Tirar das salvas"], "hide": ["Hide", "Esconder"], "unhide": ["Show again", "Mostrar de novo"],
+
+  "d.foryou": ["For you", "Para você"],
+  "d.noProfile": ["Set your profile to see how this fits you.", "Defina o seu perfil para ver se combina com você."],
+  "d.noConflict": ["Nothing in the posting conflicts with your profile.", "Nada na vaga conflita com o seu perfil."],
+  "d.where": ["Where", "Onde"], "d.when": ["When", "Quando"], "d.deadline": ["Deadline", "Prazo"], "d.pay": ["Pay", "Remuneração"],
+  "d.labels": ["Labels", "Rótulos"], "d.found": ["Found", "Encontrada"], "d.notStated": ["Not stated", "Não informado"],
+  "d.deadlineNone": ["Not stated. Check the posting.", "Não informado. Veja a vaga."],
+  "d.foundVia": [(d, s, p) => `${d} via ${s}${p ? ` · posted ${p}` : ""}`, (d, s, p) => `${d} via ${s}${p ? ` · publicada em ${p}` : ""}`],
+  "d.open": ["Open the posting ↗", "Abrir a vaga ↗"], "d.applied": ["✓ Applied", "✓ Candidatada"], "d.markApplied": ["Mark as applied", "Marcar como candidatada"],
+  "d.saved": ["★ Saved", "★ Salva"], "d.save": ["☆ Save", "☆ Salvar"],
+  "m.have": [(h, n) => `You have ${h} of the ${n} skills it mentions`, (h, n) => `Você tem ${h} das ${n} habilidades que ela cita`],
+  "m.haveNone": [n => `None of the ${n} skills it mentions are in your résumé`, n => `Nenhuma das ${n} habilidades citadas está no seu currículo`],
+  "m.area": [a => `In one of your areas (${a})`, a => `Numa das suas áreas (${a})`], "m.role": [r => `Title matches “${r}”`, r => `O título bate com “${r}”`],
+  "m.noSkills": ["The posting names no skills vagaLume knows. Read it to judge.", "A vaga não cita habilidades que o vagaLume conhece. Leia para avaliar."],
+  "m.pending": ["Skills for this role are read on the next daily update.", "As habilidades desta vaga serão lidas na próxima atualização diária."],
+
+  "r.phd": ["Aimed at PhD or Master's students", "Voltada a mestrandos ou doutorandos"], "r.mayPhd": ["May require a PhD", "Pode exigir doutorado"],
+  "r.masters": ["Aimed at Master's students", "Voltada a mestrandos"], "r.mba": ["For MBA or law (JD) students", "Para alunos de MBA ou Direito (JD)"],
+  "r.undergrad": ["Aimed at undergraduates", "Voltada à graduação"],
+  "r.newGradOk": [d => `A job for new graduates; you finish ${d}`, d => `Vaga para recém-formados; você se forma em ${d}`],
+  "r.newGradLater": [d => `A job for after you graduate (you finish ${d})`, d => `Vaga para depois da formatura (você se forma em ${d})`],
+  "r.newGrad": ["A job for after you graduate", "Vaga para depois da formatura"],
+  "r.unsure": ["Might not be a student role", "Talvez não seja vaga de estudante"],
+  "r.gradYearYou": [y => `Mentions a graduation-year rule (you graduate in ${y})`, y => `Cita regra de ano de formatura (você se forma em ${y})`],
+  "r.gradYear": ["Mentions a graduation-year rule", "Cita regra de ano de formatura"],
+  "r.estagio": ["Estágio requires enrollment at a Brazilian university", "Estágio exige matrícula numa universidade brasileira"],
+  "r.portuguese": ["The posting is in Portuguese", "A vaga é em português"],
+  "r.us": ["Needs US or Canada work authorization", "Exige autorização de trabalho nos EUA ou no Canadá"],
+  "r.abroad": [w => `Abroad (${w}): check visa`, w => `No exterior (${w}): verifique o visto`],
+  "r.months": [s => `Runs ${s}, outside the months you're free`, s => `Acontece em ${s}, fora dos seus meses livres`],
+
+  "area.ML": ["ML", "ML"], "area.research": ["Research", "Pesquisa"], "area.SWE": ["Software", "Software"], "area.data": ["Data", "Dados"],
+  "area.quant": ["Quant", "Quant"], "area.hardware": ["Hardware", "Hardware"], "area.other": ["Other", "Outras"],
+  "region.Brazil": ["Brazil", "Brasil"], "region.LatAm": ["Latin America", "América Latina"], "region.US/Canada": ["US/Canada", "EUA/Canadá"],
+  "region.Europe": ["Europe", "Europa"], "region.Asia/ME": ["Asia & Middle East", "Ásia e Oriente Médio"], "region.remote": ["Remote", "Remoto"],
+  "season.breaks": ["Fits my breaks", "Nas minhas férias"], "season.Dec–Feb": ["Dec–Feb", "dez–fev"], "season.Jul": ["July", "julho"],
+  "season.May–Aug": ["May–Aug", "mai–ago"], "season.year-round": ["Year-round", "Ano todo"], "season.unknown": ["Not stated", "Não informado"],
+  "season.inBreak": ["in your break", "nas suas férias"], "season.inClass": ["during classes", "durante as aulas"],
+  "warn.US work auth?": ["US work auth?", "Autorização de trabalho nos EUA?"], "warn.PhD-level?": ["PhD-level?", "Nível doutorado?"],
+  "warn.grad-year limit?": ["Graduation-year limit?", "Limite de ano de formatura?"], "warn.unsure if student role": ["Unsure if student role", "Talvez não seja de estudante"],
+  "warn.new-grad role (after graduation)": ["New-grad role", "Vaga de recém-formado"],
+
+  "empty.saved": ["Nothing saved yet. Tap ☆ on any role to build your shortlist.", "Nada salvo ainda. Toque em ☆ numa vaga para montar a sua lista."],
+  "empty.applied": ["Open a role and choose “Mark as applied” to keep track of your applications.", "Abra uma vaga e escolha “Marcar como candidatada” para acompanhar suas candidaturas."],
+  "empty.hidden": ["Nothing hidden.", "Nada escondido."], "empty.none": ["No roles match these filters.", "Nenhuma vaga com esses filtros."],
+  "empty.clear": ["Clear the filters", "Limpar os filtros"],
+
+  "resume.back": ["← Back", "← Voltar"], "resume.title": ["Match your <em>résumé.</em>", "Compare o seu <em>currículo.</em>"],
+  "resume.lead": ["Your AI chat turns your résumé into a short summary; vagaLume compares it with every role: the skills each posting asks for, your areas, your graduation date and where you can work. No AI runs on this site.",
+    "A sua IA transforma o currículo num resumo curto; o vagaLume compara esse resumo com cada vaga: as habilidades que ela pede, as suas áreas, a data de formatura e onde você pode trabalhar. Nenhuma IA roda neste site."],
+  "resume.step1": ["Copy the prompt", "Copie o prompt"], "resume.step1.hint": ["It asks for a short JSON summary, without your name or contact details.", "Ele pede um resumo curto em JSON, sem o seu nome nem contatos."],
+  "resume.copy": ["Copy the prompt", "Copiar o prompt"], "resume.copied": ["Copied. Now paste it into your AI chat.", "Copiado. Agora cole na sua IA."],
+  "resume.step2": ["Ask the AI you use", "Pergunte à IA que você usa"],
+  "resume.step2.hint": ["Start a new chat, paste the prompt and attach your résumé (PDF or Word), or paste its text under the prompt.", "Abra uma conversa nova, cole o prompt e anexe o currículo (PDF ou Word), ou cole o texto dele embaixo do prompt."],
+  "resume.step3": ["Paste the answer here", "Cole a resposta aqui"], "resume.step3.hint": ["Copy the AI's whole reply. vagaLume finds the part between { and }.", "Copie a resposta inteira da IA. O vagaLume encontra a parte entre { e }."],
+  "resume.use": ["Match my résumé", "Comparar meu currículo"],
+  "resume.privacy": ["Privacy: what you paste is saved only in this browser. vagaLume has no server and never sees it. You can remove it at any time.", "Privacidade: o que você cola fica salvo só neste navegador. O vagaLume não tem servidor e nunca vê esses dados. Você pode apagar quando quiser."],
+  "resume.summary": ["Your résumé summary", "Resumo do seu currículo"], "resume.done": [n => `Done: ${n} skills read.`, n => `Pronto: ${n} habilidades lidas.`],
+  "resume.studying": ["Studying", "Curso"], "resume.graduates": ["Graduates", "Formatura"], "resume.areas": ["Areas", "Áreas"],
+  "resume.looking": ["Looking for", "Procura"], "resume.canWork": ["Can work in", "Pode trabalhar em"], "resume.languages": ["Languages", "Idiomas"],
+  "resume.free": ["Free months", "Meses livres"], "resume.freeDefault": ["UNESP breaks (not stated)", "Férias da UNESP (não informado)"],
+  "resume.skills": [n => `Skills (${n})`, n => `Habilidades (${n})`], "resume.profile": [p => `Your profile: ${p}.`, p => `Seu perfil: ${p}.`],
+  "resume.see": ["See my matches", "Ver meus matches"], "resume.replace": ["Paste a new answer", "Colar outra resposta"], "resume.remove": ["Remove my résumé", "Apagar meu currículo"],
+  "err.noJson": ["No { … } found. Paste the AI's whole answer to the vagaLume prompt.", "Não encontrei { … }. Cole a resposta inteira da IA ao prompt do vagaLume."],
+  "err.badJson": ["That isn't valid JSON. Ask the AI to “reply again with only the JSON object”, then paste it.", "Isso não é um JSON válido. Peça à IA para “responder de novo só com o objeto JSON” e cole outra vez."],
+  "err.notObject": ["Expected one { … } object.", "Esperava um único objeto { … }."],
+  "err.empty": ["The answer has no skills and no level. Check that the AI answered the vagaLume prompt.", "A resposta não tem habilidades nem nível. Confira se a IA respondeu ao prompt do vagaLume."],
+
+  "help.title": ["How to read this page", "Como ler esta página"],
+  "help.body": [`<p><b>Fit</b> compares each role with your profile: a full dot is a good fit, a half-filled dot means check something (a visa, a graduation-year rule, a job for after you graduate), an empty dot is a long shot (for example a PhD-only role while you're an undergrad). The reason shows under the company; open the row for all of them.</p>
+<p><b>Résumé match</b> compares the skills a posting mentions (Python, PyTorch, ROS, PLC…) and its area and title with the summary your AI chat made from your résumé. Strong matches get a tag; open a row to see which skills match and which are missing. It's keyword matching, so read the posting before deciding.</p>
+<p><b>When</b> is a January–December strip. <i class="swatch" style="background:var(--semester)"></i> months in class: UNESP's semesters (Mar–Jun, Aug–Nov), or the months your résumé summary doesn't list as free. <i class="swatch" style="background:var(--good)"></i> the role runs in a break. <i class="swatch" style="background:var(--check)"></i> it clashes with classes.</p>
+<p><b>Pay</b> appears when the posting states it (hr = per hour, mo = per month, yr = per year).</p>
+<p><b>☆ Save</b> builds a shortlist and <b>✕ Hide</b> (it appears when you point at a row, and inside an opened row) removes a role from your lists; inside a row you can also mark it <b>Applied</b>. All of this stays in this browser. vagaLume never hides anything by itself: labels and fit are hints, not verdicts.</p>
+<p>Your filters live in the page address, so you can bookmark a view (for example "ML roles in Europe") or send it to a friend.</p>`,
+`<p><b>Perfil</b> compara cada vaga com você: ponto cheio combina bem, ponto pela metade pede para verificar algo (visto, regra de ano de formatura, vaga para depois de formado), ponto vazio é improvável (por exemplo, vaga só para doutorado e você está na graduação). O motivo aparece embaixo da empresa; abra a vaga para ver todos.</p>
+<p><b>Match com o currículo</b> compara as habilidades que a vaga cita (Python, PyTorch, ROS, CLP…), a área e o título com o resumo que a sua IA fez do seu currículo. Matches fortes ganham uma etiqueta; abra a vaga para ver quais habilidades batem e quais faltam. É uma comparação por palavras-chave, então leia a vaga antes de decidir.</p>
+<p><b>Quando</b> é uma tirinha de janeiro a dezembro. <i class="swatch" style="background:var(--semester)"></i> meses de aula: os semestres da UNESP (mar–jun, ago–nov), ou os meses que o resumo do seu currículo não lista como livres. <i class="swatch" style="background:var(--good)"></i> a vaga cai nas férias. <i class="swatch" style="background:var(--check)"></i> ela bate com as aulas.</p>
+<p><b>Remuneração</b> aparece quando a vaga informa (hr = por hora, mo = por mês, yr = por ano).</p>
+<p><b>☆ Salvar</b> monta a sua lista e <b>✕ Esconder</b> (aparece ao apontar para a vaga, e dentro da vaga aberta) tira uma vaga das suas listas; dentro da vaga você também pode marcar <b>Candidatada</b>. Tudo isso fica neste navegador. O vagaLume nunca esconde nada sozinho: rótulos e compatibilidade são dicas, não veredictos.</p>
+<p>Os filtros ficam no endereço da página, então dá para salvar uma visão (por exemplo "vagas de ML na Europa") ou mandar para um amigo.</p>`],
+  "sources.title": ["Sources", "Fontes"], "sources.source": ["Source", "Fonte"], "sources.status": ["Status", "Situação"],
+  "sources.items": ["Items", "Itens"], "sources.problems": ["Problems", "Problemas"],
+  "footer.daily": ["vagaLume updates every morning at 09:00 (Brasília).", "O vagaLume atualiza toda manhã às 09:00 (Brasília)."],
+  "footer.code": ["Code, guide and how to add companies", "Código, guia e como adicionar empresas"],
+};
+const store = {
+  get(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } },
+  set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch {} },
+};
+// First visit: Portuguese if the browser prefers it. After that, your choice.
+let LANG = store.get("radar.lang", null) || ((navigator.languages || [navigator.language]).some(l => /^pt/i.test(l)) ? "pt" : "en");
+const LOCALE = () => LANG === "pt" ? "pt-BR" : "en-GB";
+function t(key, ...args) {
+  const entry = STRINGS[key];
+  if (!entry) return key;
+  const value = entry[LANG === "pt" ? 1 : 0];
+  return typeof value === "function" ? value(...args) : value;
+}
+const tv = (kind, value) => STRINGS[`${kind}.${value}`] ? t(`${kind}.${value}`) : value;  // a data value -> its name
+const fmtN = n => Number(n).toLocaleString(LOCALE());
+
 // ------------------------------------------------------------------ settings
 const PAGE_SIZE = 60;
 const SOON_DAYS = 14;
 const PLACES = [  // where you study -> the radar's region label
-  ["brazil", "Brazil", "Brazil"], ["latam", "Other Latin America", "LatAm"],
-  ["usa", "United States", "US/Canada"], ["canada", "Canada", "US/Canada"],
-  ["uk", "United Kingdom", "Europe"], ["europe", "Europe", "Europe"],
-  ["asia", "Asia", "Asia/ME"], ["mideast", "Middle East", "Asia/ME"],
-  ["oceania", "Oceania", "Asia/ME"], ["africa", "Africa", ""],
+  ["brazil", "Brazil"], ["latam", "LatAm"], ["usa", "US/Canada"], ["canada", "US/Canada"],
+  ["uk", "Europe"], ["europe", "Europe"], ["asia", "Asia/ME"], ["mideast", "Asia/ME"],
+  ["oceania", "Asia/ME"], ["africa", ""],
 ];
-const LEVEL_NAMES = { undergrad: "Undergrad", masters: "Master's student", phd: "PhD student" };
 const REGION_ORDER = ["Brazil", "LatAm", "US/Canada", "Europe", "Asia/ME", "remote"];
 const SEASON_ORDER = ["breaks", "Dec–Feb", "Jul", "May–Aug", "year-round", "unknown"];
 const AREA_ORDER = ["ML", "research", "SWE", "data", "quant", "hardware", "other"];
 const SEASON_MONTHS = { "Dec–Feb": [12, 1, 2], "Jul": [7], "May–Aug": [5, 6, 7, 8], "year-round": [1,2,3,4,5,6,7,8,9,10,11,12], "unknown": [] };
 const SEMESTER = new Set([3, 4, 5, 6, 8, 9, 10, 11]);  // UNESP: Mar–Jun and Aug–Nov
-const SEASON_TEXT = {
-  "Dec–Feb": "Dec–Feb · fits the summer break", "Jul": "July · fits the July break",
-  "May–Aug": "May–Aug · overlaps the semester", "year-round": "During the semester",
-  "unknown": "Dates not stated",
-};
-const LABELS = {  // how filter values are written on chips and pills
-  region: { remote: "Remote" },
-  season: { breaks: "Fits my breaks", "year-round": "Year-round", unknown: "Not stated" },
-  fit: { good: "Good fit", check: "Good + check" },
-  match: { strong: "Strong", good: "Strong + good" },
-};
-const FILTER_NAMES = { match: "Résumé", fit: "Fit", area: "Area", region: "Where", season: "When", source: "Source" };
 
 // ------------------------------------------------------------------ state
 let DATA = null;
-const store = {
-  get(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } },
-  set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch {} },
-};
 let profile = store.get("radar.profile", null);   // {level, place} or {skipped: true}
 let marks = store.get("radar.marks", {});         // id -> "applied" | "hidden" | "none"
 let saved = new Set(store.get("radar.saved", []));
@@ -550,12 +705,14 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const today = new Date(new Date().toISOString().slice(0, 10));
 const daysLeft = iso => iso ? Math.round((new Date(iso) - today) / 86400000) : null;
-const fmtDate = (iso, year = true) => iso ? new Date(iso + "T00:00").toLocaleDateString("en-GB", year ? { day: "numeric", month: "short", year: "numeric" } : { day: "numeric", month: "short" }) : "";
+const fmtDate = (iso, year = true) => iso ? new Date(iso + "T00:00").toLocaleDateString(LOCALE(), year ? { day: "numeric", month: "short", year: "numeric" } : { day: "numeric", month: "short" }) : "";
 const hasProfile = () => profile && profile.level;
 const isNew = i => i.added === DATA.updated && i.source !== "programs";
 const isSoon = i => { const d = daysLeft(i.deadline); return d !== null && d >= 0 && d <= SOON_DAYS; };
 const locations = i => i.location.split(" / ").map(s => s.trim()).filter(Boolean);
-const label = (filter, value) => (LABELS[filter] || {})[value] || value;
+const regionNames = i => i.regions.filter(r => r !== "unknown").map(r => tv("region", r));
+const placeName = key => t(`place.${key}`);
+const profileName = () => hasProfile() ? `${t(`level.short.${profile.level}`)} · ${placeName(profile.place)}` : t("top.profileNone");
 
 function mark(item) {
   const m = marks[item.id];
@@ -583,72 +740,100 @@ function writeHash() {
   history.replaceState(null, "", hash ? `#${hash}` : location.pathname + location.search);
 }
 
+// ------------------------------------------------------------------ calendar
+// Months in class: UNESP's semesters, or the opposite of the free months in your résumé summary.
+const inClass = m => resume?.months.length ? !resume.months.includes(m) : SEMESTER.has(m);
+const fitsBreaks = season => !["unknown", "year-round"].includes(season) && (SEASON_MONTHS[season] || []).every(m => !inClass(m));
+const MONTH_KEYS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const monthName = m => new Date(2026, m - 1, 1).toLocaleDateString(LOCALE(), { month: "short" }).replace(".", "");
+const fmtMonth = ym => ym.length >= 7 ? new Date(+ym.slice(0, 4), +ym.slice(5, 7) - 1, 1).toLocaleDateString(LOCALE(), { month: "short", year: "numeric" }).replace(".", "") : ym;
+function monthsUntil(ym) {
+  const [y, m] = ym.split("-").map(Number);
+  return (y - today.getFullYear()) * 12 + ((m || 12) - (today.getMonth() + 1));
+}
+function seasonText(season) {
+  if (season === "unknown") return t("d.notStated");
+  if (season === "year-round") return tv("season", season);
+  return `${tv("season", season)} · ${t(fitsBreaks(season) ? "season.inBreak" : "season.inClass")}`;
+}
+
 // ------------------------------------------------------------------ fit
 // {level: 0 good | 1 check | 2 long shot | -1 no profile, reasons: [[level, text], ...]}
 function computeFit(item) {
   if (!hasProfile()) return { level: -1, reasons: [] };
   const reasons = [];
   const add = (lvl, text) => reasons.push([lvl, text]);
-  const t = item.title;
+  const title = item.title;
   const w = new Set(item.warnings);
   const lvl = profile.level;
   if (w.has("PhD-level?")) {
-    if (lvl === "undergrad") add(2, "Aimed at PhD or Master's students");
-    else if (lvl === "masters") add(1, "May require a PhD");
+    if (lvl === "undergrad") add(2, t("r.phd"));
+    else if (lvl === "masters") add(1, t("r.mayPhd"));
   }
-  else if (lvl === "undergrad" && /\bmaster'?s\b|\bMSc\b|(?<![\w-])M\.?S\.?(?=[\s\/,)-]|$)/i.test(t) && !/bachelor|undergrad|\bUG\b|\bB\.?S\.?\b|\bBSc\b/i.test(t)) add(2, "Aimed at Master's students");
-  if (/\b(MBA|JD)\b/.test(t)) add(2, "For MBA or law (JD) students");
-  if (lvl === "phd" && /undergrad|bachelor|\bBS\b(?!\/)|\bB\.S\./i.test(t) && !/phd/i.test(t)) add(1, "Aimed at undergraduates");
+  else if (lvl === "undergrad" && /\bmaster'?s\b|\bMSc\b|(?<![\w-])M\.?S\.?(?=[\s\/,)-]|$)/i.test(title) && !/bachelor|undergrad|\bUG\b|\bB\.?S\.?\b|\bBSc\b/i.test(title)) add(2, t("r.masters"));
+  if (/\b(MBA|JD)\b/.test(title)) add(2, t("r.mba"));
+  if (lvl === "phd" && /undergrad|bachelor|\bBS\b(?!\/)|\bB\.S\./i.test(title) && !/phd/i.test(title)) add(1, t("r.undergrad"));
   // With a résumé summary we know your graduation date: a new-grad job is fine if you finish within a year.
   const grad = resume?.graduation ? monthsUntil(resume.graduation) : null;
   if (w.has("new-grad role (after graduation)")) {
-    if (grad !== null && grad <= 12) add(0, `A job for new graduates; you finish ${fmtMonth(resume.graduation)}`);
-    else add(1, grad !== null ? `A job for after you graduate (you finish ${fmtMonth(resume.graduation)})` : "A job for after you graduate");
+    if (grad !== null && grad <= 12) add(0, t("r.newGradOk", fmtMonth(resume.graduation)));
+    else add(1, grad !== null ? t("r.newGradLater", fmtMonth(resume.graduation)) : t("r.newGrad"));
   }
-  if (w.has("unsure if student role")) add(1, "Might not be a student role");
-  if (w.has("grad-year limit?")) add(1, resume?.graduation ? `Mentions a graduation-year rule (you graduate in ${resume.graduation.slice(0, 4)})` : "Mentions a graduation-year rule");
+  if (w.has("unsure if student role")) add(1, t("r.unsure"));
+  if (w.has("grad-year limit?")) add(1, resume?.graduation ? t("r.gradYearYou", resume.graduation.slice(0, 4)) : t("r.gradYear"));
 
   // A Brazilian estágio needs a contract with a Brazilian university, even when remote.
-  const estagio = item.source === "gupy" || /est[áa]gi/i.test(t);
-  if (estagio && profile.place !== "brazil") add(2, "Estágio requires enrollment at a Brazilian university");
-  if (estagio && resume?.languages.length && !resume.languages.some(l => /portug/i.test(l))) add(1, "The posting is in Portuguese");
+  const estagio = item.source === "gupy" || /est[áa]gi/i.test(title);
+  if (estagio && profile.place !== "brazil") add(2, t("r.estagio"));
+  if (estagio && resume?.languages.length && !resume.languages.some(l => /portug/i.test(l))) add(1, t("r.portuguese"));
 
   // Location: programs are built for international students, remote is anywhere.
-  const mine = (PLACES.find(p => p[0] === profile.place) || [])[2];
+  const mine = (PLACES.find(p => p[0] === profile.place) || [])[1];
   const where = item.regions.filter(r => r !== "remote" && r !== "unknown");
   const canWork = new Set((resume?.workAuth || []).map(c => regionOfPlace(placeOf(c))).filter(Boolean));
   if (!estagio && item.source !== "programs" && where.length && !item.regions.includes("remote") && !where.includes(mine) && !where.some(r => canWork.has(r))) {
-    if (where.includes("US/Canada")) add(1, "Needs US or Canada work authorization");
-    else add(1, `Abroad (${where.join(", ")}): check visa`);
+    if (where.includes("US/Canada")) add(1, t("r.us"));
+    else add(1, t("r.abroad", where.map(r => tv("region", r)).join(", ")));
   }
   // Your résumé summary lists the months you're free; say when a role runs outside them.
   if (resume?.months.length && SEASON_MONTHS[item.season]?.length && item.season !== "year-round" && !fitsBreaks(item.season)) {
-    add(1, `Runs ${item.season}, outside the months you're free`);
+    add(1, t("r.months", tv("season", item.season)));
   }
   reasons.sort((a, b) => b[0] - a[0]);
   return { level: reasons.reduce((m, r) => Math.max(m, r[0]), 0), reasons };
 }
-const FIT_NAMES = ["Good fit", "Check", "Long shot"];
 const FIT_CLASS = ["good", "check", "long"];
 
-// ------------------------------------------------------------------ calendar
-// Months in class: UNESP's semesters, or the opposite of the free months in your résumé summary.
-const inClass = m => resume?.months.length ? !resume.months.includes(m) : SEMESTER.has(m);
-const fitsBreaks = season => !["unknown", "year-round"].includes(season) && (SEASON_MONTHS[season] || []).every(m => !inClass(m));
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const fmtMonth = ym => ym.length >= 7 ? `${MONTHS[+ym.slice(5, 7) - 1] || ""} ${ym.slice(0, 4)}`.trim() : ym;
-function monthsUntil(ym) {
-  const [y, m] = ym.split("-").map(Number);
-  return (y - today.getFullYear()) * 12 + ((m || 12) - (today.getMonth() + 1));
-}
-
 // ------------------------------------------------------------------ résumé match
-// vagaLume never calls an AI. You paste RESUME_PROMPT into your own chat
+// vagaLume never calls an AI. You paste resumePrompt() into your own chat
 // (ChatGPT, Gemini, Claude...) with your résumé, and paste its JSON answer
 // back. parseResume() reads that answer; computeMatch() compares it with
 // the skills the bot found in each posting (radar/skills.py).
 function resumePrompt(skillNames) {
   const vocabulary = skillNames.length ? skillNames.join(", ") : "Python, C++, SQL, PyTorch, MATLAB, ROS, PLC, Excel";
+  if (LANG === "pt") return `Estou usando o vagaLume, uma lista de oportunidades para estudantes (estágios, programas de pesquisa, fellowships, escolas de verão), e quero comparar meu currículo com elas.
+
+Leia meu currículo (anexado ou colado abaixo) e responda APENAS com um objeto JSON num bloco de código \`\`\`json, exatamente neste formato:
+
+{
+  "vagalume_profile": 1,
+  "level": "undergrad" ou "masters" ou "phd" (o curso que faço agora; graduação = undergrad),
+  "field": "área do meu curso, ex.: Control and Automation Engineering",
+  "study_country": "país da minha universidade atual",
+  "graduation": "AAAA-MM, quando espero me formar no curso atual",
+  "work_authorization": ["países onde posso trabalhar sem visto (cidadania ou residência permanente)"],
+  "languages": ["idiomas que falo em nível profissional"],
+  "areas": ["1 a 3 entre: ML, research, SWE, data, quant, hardware"],
+  "skills": ["10 a 40 habilidades, veja as regras"],
+  "target_roles": ["3 a 6 palavras-chave curtas de vagas que combinam comigo, como apareceriam em títulos de vagas, ex.: machine learning, robotics, quant"],
+  "available_months": [números dos meses 1-12 em que eu poderia fazer um estágio em tempo integral]
+}
+
+Regras:
+- Use só o que o currículo mostra. Se algo não estiver lá, use "" ou [] em vez de adivinhar. Em available_months, se o currículo não disser, use as férias acadêmicas habituais do país da minha universidade (no Brasil: [1, 2, 7, 12]).
+- Em "skills", primeiro escolha todos os itens desta lista que o currículo mostra, escritos exatamente assim: ${vocabulary}. Depois acrescente até 10 outras habilidades importantes.
+- Não inclua meu nome, e-mail, telefone, endereço, links nem qualquer outro dado pessoal.
+- Escreva todos os valores em inglês, mesmo que o currículo esteja em português.`;
   return `I'm using vagaLume, a list of student opportunities (internships, research programs, fellowships, summer schools), and want to compare my résumé with them.
 
 Read my résumé (attached or pasted below) and reply with ONLY one JSON object in a \`\`\`json code block, in exactly this shape:
@@ -674,21 +859,21 @@ Rules:
 - Write every value in English, even if the résumé is in another language.`;
 }
 
-// Country names -> the "where you study" places used by the profile.
+// Country names (English or Portuguese) -> the "where you study" places used by the profile.
 const COUNTRIES = {
   brazil: ["brazil", "brasil"],
-  latam: ["argentina", "chile", "colombia", "mexico", "méxico", "peru", "uruguay", "paraguay", "bolivia", "ecuador", "venezuela", "costa rica", "panama", "guatemala", "dominican republic", "cuba"],
-  usa: ["united states", "united states of america", "usa", "us", "u.s.", "u.s.a."],
-  canada: ["canada"],
-  uk: ["united kingdom", "uk", "u.k.", "england", "scotland", "wales", "northern ireland", "great britain"],
-  europe: ["germany", "france", "italy", "spain", "portugal", "netherlands", "belgium", "switzerland", "austria", "sweden", "norway", "denmark", "finland", "ireland", "poland", "czechia", "czech republic", "hungary", "greece", "romania", "bulgaria", "croatia", "slovenia", "slovakia", "estonia", "latvia", "lithuania", "luxembourg", "iceland", "serbia", "ukraine", "european union", "eu"],
-  asia: ["china", "japan", "south korea", "korea", "india", "singapore", "hong kong", "taiwan", "vietnam", "thailand", "indonesia", "malaysia", "philippines", "pakistan", "bangladesh"],
-  mideast: ["israel", "united arab emirates", "uae", "saudi arabia", "qatar", "turkey", "türkiye", "jordan", "lebanon"],
-  oceania: ["australia", "new zealand"],
-  africa: ["south africa", "nigeria", "kenya", "egypt", "morocco", "ghana", "ethiopia", "tunisia", "rwanda"],
+  latam: ["argentina", "chile", "colombia", "colômbia", "mexico", "méxico", "peru", "uruguay", "uruguai", "paraguay", "paraguai", "bolivia", "bolívia", "ecuador", "equador", "venezuela", "costa rica", "panama", "panamá", "guatemala", "dominican republic", "cuba"],
+  usa: ["united states", "united states of america", "usa", "us", "u.s.", "u.s.a.", "estados unidos", "eua"],
+  canada: ["canada", "canadá"],
+  uk: ["united kingdom", "uk", "u.k.", "england", "scotland", "wales", "northern ireland", "great britain", "reino unido", "inglaterra"],
+  europe: ["germany", "alemanha", "france", "frança", "italy", "itália", "spain", "espanha", "portugal", "netherlands", "holanda", "países baixos", "belgium", "bélgica", "switzerland", "suíça", "austria", "áustria", "sweden", "suécia", "norway", "noruega", "denmark", "dinamarca", "finland", "finlândia", "ireland", "irlanda", "poland", "polônia", "czechia", "czech republic", "hungary", "hungria", "greece", "grécia", "romania", "romênia", "bulgaria", "croatia", "slovenia", "slovakia", "estonia", "latvia", "lithuania", "luxembourg", "iceland", "serbia", "ukraine", "european union", "eu", "união europeia"],
+  asia: ["china", "japan", "japão", "south korea", "korea", "coreia do sul", "india", "índia", "singapore", "singapura", "hong kong", "taiwan", "vietnam", "thailand", "indonesia", "malaysia", "philippines", "pakistan", "bangladesh"],
+  mideast: ["israel", "united arab emirates", "uae", "emirados árabes unidos", "saudi arabia", "qatar", "catar", "turkey", "türkiye", "turquia", "jordan", "lebanon"],
+  oceania: ["australia", "austrália", "new zealand", "nova zelândia"],
+  africa: ["south africa", "áfrica do sul", "nigeria", "kenya", "egypt", "egito", "morocco", "ghana", "ethiopia", "tunisia", "rwanda", "angola", "mozambique", "moçambique"],
 };
 const placeOf = country => Object.keys(COUNTRIES).find(k => COUNTRIES[k].includes(String(country).trim().toLowerCase())) || "";
-const regionOfPlace = key => (PLACES.find(p => p[0] === key) || [])[2] || "";
+const regionOfPlace = key => (PLACES.find(p => p[0] === key) || [])[1] || "";
 
 // Other ways an AI may write a skill -> the name the bot uses (lower case).
 const SKILL_ALIASES = {
@@ -698,7 +883,7 @@ const SKILL_ALIASES = {
   "js": "javascript", "node": "node.js", "nodejs": "node.js", "control theory": "control systems", "control": "control systems",
   "embedded": "embedded systems", "firmware": "embedded systems", "microcontrollers": "embedded systems",
   "neural networks": "deep learning", "torch": "pytorch", "tf": "tensorflow", "powerbi": "power bi",
-  "solidworks": "cad", "autocad": "cad", "dsp": "signal processing", "pandas/numpy": "pandas", "statistical analysis": "statistics",
+  "solidworks": "cad", "autocad": "cad", "dsp": "signal processing", "statistical analysis": "statistics",
   "google cloud": "gcp", "amazon web services": "aws", "ci-cd": "ci/cd", "flask": "fastapi", "scada systems": "scada",
 };
 function skillKeys(skills) {
@@ -714,23 +899,23 @@ let mySkills = skillKeys(resume?.skills || []);
 
 // Read the AI's answer: a JSON object, maybe inside ```json fences or surrounded by chatter.
 function parseResume(text) {
-  let t = String(text || "").replace(/[“”]/g, '"').replace(/[‘’]/g, "'");
-  const fenced = t.match(/```(?:json)?\s*([\s\S]*?)```/i);
-  if (fenced && fenced[1].includes("{")) t = fenced[1];
-  const start = t.indexOf("{"), end = t.lastIndexOf("}");
-  if (start < 0 || end <= start) throw new Error("No { … } found. Paste the AI's whole answer to the vagaLume prompt.");
+  let s = String(text || "").replace(/[“”]/g, '"').replace(/[‘’]/g, "'");
+  const fenced = s.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (fenced && fenced[1].includes("{")) s = fenced[1];
+  const start = s.indexOf("{"), end = s.lastIndexOf("}");
+  if (start < 0 || end <= start) throw new Error(t("err.noJson"));
   let raw;
-  const body = t.slice(start, end + 1);
+  const body = s.slice(start, end + 1);
   try { raw = JSON.parse(body); } catch {
     try { raw = JSON.parse(body.replace(/,\s*([}\]])/g, "$1")); }  // a trailing comma is a common slip
-    catch { throw new Error("That isn't valid JSON. Ask the AI to “reply again with only the JSON object”, then paste it."); }
+    catch { throw new Error(t("err.badJson")); }
   }
-  if (!raw || typeof raw !== "object" || Array.isArray(raw)) throw new Error("Expected one { … } object.");
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) throw new Error(t("err.notObject"));
   const list = v => (Array.isArray(v) ? v : typeof v === "string" ? v.split(/[,;]/) : []).map(x => String(x).trim()).filter(Boolean);
   const lvl = String(raw.level || "").toLowerCase();
   const months = list(raw.available_months).map(m => {
     const n = parseInt(m, 10);
-    return n >= 1 && n <= 12 ? n : MONTHS.findIndex(x => m.toLowerCase().startsWith(x.toLowerCase())) + 1;
+    return n >= 1 && n <= 12 ? n : MONTH_KEYS.findIndex(x => m.toLowerCase().startsWith(x.toLowerCase())) + 1;
   }).filter(n => n > 0);
   const out = {
     level: /phd|doctor|doutor/.test(lvl) ? "phd" : /master|mestr|msc/.test(lvl) ? "masters" : /under|bachel|gradua|bsc/.test(lvl) ? "undergrad" : "",
@@ -744,11 +929,12 @@ function parseResume(text) {
     roles: list(raw.target_roles).slice(0, 10),
     months: [...new Set(months)].sort((a, b) => a - b),
   };
-  if (!out.skills.length && !out.level) throw new Error("The answer has no skills and no level. Check that the AI answered the vagaLume prompt.");
+  if (!out.skills.length && !out.level) throw new Error(t("err.empty"));
   return out;
 }
 
 // {score 0-100, level: 0 strong | 1 good | 2 some | 3 low, have, missing, area, role} or null without a résumé.
+const LANGUAGES = new Set(["Python", "C++", "C", "C#", "Java", "JavaScript", "TypeScript", "Go", "Rust", "Kotlin", "Swift", "Scala", "OCaml", "Haskell", "R", "MATLAB"]);
 function computeMatch(item) {
   if (!resume) return null;
   const asks = item.skills || [];
@@ -766,8 +952,6 @@ function computeMatch(item) {
   const score = Math.round(55 * skillPart + (area ? 25 : 0) + (role ? 20 : 0));
   return { score, level: score >= 70 ? 0 : score >= 45 ? 1 : score >= 20 ? 2 : 3, have, missing, area, role };
 }
-const LANGUAGES = new Set(["Python", "C++", "C", "C#", "Java", "JavaScript", "TypeScript", "Go", "Rust", "Kotlin", "Swift", "Scala", "OCaml", "Haskell", "R", "MATLAB"]);
-const MATCH_NAMES = ["Strong match", "Good match", "Some match", "Low match"];
 
 function setResume(value) {
   resume = value;
@@ -799,26 +983,26 @@ function renderResumeSummary(note = "") {
   box.hidden = !resume;
   $("resume-steps").hidden = !!resume;
   if (!resume) return;
-  const place = PLACES.find(p => p[0] === profile?.place);
+  const ns = t("d.notStated");
   const rows = [
-    ["Studying", [LEVEL_NAMES[resume.level], resume.field, resume.country].filter(Boolean).join(" · ") || "Not stated"],
-    ["Graduates", resume.graduation ? fmtMonth(resume.graduation) : "Not stated"],
-    ["Areas", resume.areas.join(", ") || "Not stated"],
-    ["Looking for", resume.roles.join(", ") || "Not stated"],
-    ["Can work in", resume.workAuth.join(", ") || "Not stated"],
-    ["Languages", resume.languages.join(", ") || "Not stated"],
-    ["Free months", resume.months.length ? resume.months.map(m => MONTHS[m - 1]).join(", ") : "UNESP breaks (not stated)"],
+    [t("resume.studying"), [resume.level ? t(`level.short.${resume.level}`) : "", resume.field, resume.country].filter(Boolean).join(" · ") || ns],
+    [t("resume.graduates"), resume.graduation ? fmtMonth(resume.graduation) : ns],
+    [t("resume.areas"), resume.areas.map(a => tv("area", a)).join(", ") || ns],
+    [t("resume.looking"), resume.roles.join(", ") || ns],
+    [t("resume.canWork"), resume.workAuth.join(", ") || ns],
+    [t("resume.languages"), resume.languages.join(", ") || ns],
+    [t("resume.free"), resume.months.length ? resume.months.map(monthName).join(", ") : t("resume.freeDefault")],
   ];
   box.innerHTML = `<div class="resume-summary">
-    <h2>Your résumé summary</h2>
-    ${note ? `<p class="copied" style="margin:0">${esc(note)}</p>` : ""}
-    <dl>${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join("")}
-      <dt>Skills (${resume.skills.length})</dt><dd><div class="skill-list">${resume.skills.map(s => `<span class="skill">${esc(s)}</span>`).join("")}</div></dd></dl>
-    ${place && hasProfile() ? `<p class="muted" style="margin:0">Your profile: ${esc(LEVEL_NAMES[profile.level])} in ${esc(place[1])}.</p>` : ""}
+    <h2>${t("resume.summary")}</h2>
+    ${note ? `<p class="copied">${esc(note)}</p>` : ""}
+    <dl class="facts-list">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join("")}
+      <dt>${t("resume.skills", resume.skills.length)}</dt><dd><div class="skill-list">${resume.skills.map(s => `<span class="skill">${esc(s)}</span>`).join("")}</div></dd></dl>
+    ${hasProfile() ? `<p class="muted">${esc(t("resume.profile", profileName()))}</p>` : ""}
     <div class="button-row">
-      <button class="primary" id="resume-done">See my matches</button>
-      <button class="btn" id="resume-replace">Paste a new answer</button>
-      <button class="linkish" id="resume-remove">Remove my résumé</button>
+      <button class="primary" id="resume-done">${t("resume.see")}</button>
+      <button class="btn" id="resume-replace">${t("resume.replace")}</button>
+      <button class="linkish" id="resume-remove">${t("resume.remove")}</button>
     </div>
   </div>`;
 }
@@ -826,7 +1010,7 @@ async function copyPrompt() {
   const text = $("prompt-text").value;
   try { await navigator.clipboard.writeText(text); }
   catch { $("prompt-text").select(); document.execCommand("copy"); }
-  $("copy-status").textContent = "Copied. Now paste it into your AI chat.";
+  $("copy-status").textContent = t("resume.copied");
 }
 $("copy-prompt").addEventListener("click", copyPrompt);
 $("use-resume").addEventListener("click", () => {
@@ -834,7 +1018,7 @@ $("use-resume").addEventListener("click", () => {
     setResume(parseResume($("answer").value));
     $("answer").value = "";
     $("answer-error").hidden = true;
-    renderResumeSummary(`Done: ${resume.skills.length} skills read.`);
+    renderResumeSummary(t("resume.done", resume.skills.length));
     window.scrollTo(0, 0);
   } catch (error) {
     $("answer-error").textContent = error.message;
@@ -851,68 +1035,75 @@ $("resume-chip").addEventListener("click", showResume);
 $("welcome-resume").addEventListener("click", showResume);
 
 // ------------------------------------------------------------------ welcome
+const chosen = { level: "", place: "" };  // the answers on the welcome screen before you confirm
+function drawPlaces() {
+  $("places").innerHTML = PLACES.map(([key]) => `<button class="place" data-place="${key}" aria-pressed="${chosen.place === key}">${placeName(key)}</button>`).join("");
+}
 function showWelcome() {
   $("app").hidden = true;
   $("resume").hidden = true;
   $("welcome").hidden = false;
   $("to-top").hidden = true;
-  const chosen = { level: profile?.level || "", place: profile?.place || "" };
-  $("places").innerHTML = PLACES.map(([key, name]) => `<button class="place" data-place="${key}" aria-pressed="${chosen.place === key}">${name}</button>`).join("");
+  Object.assign(chosen, { level: profile?.level || "", place: profile?.place || "" });
+  drawPlaces();
   document.querySelectorAll(".level").forEach(b => b.setAttribute("aria-pressed", b.dataset.level === chosen.level));
-  const refresh = () => { $("start").disabled = !(chosen.level && chosen.place); };
-  $("levels").onclick = e => {
-    const b = e.target.closest(".level"); if (!b) return;
-    chosen.level = b.dataset.level;
-    document.querySelectorAll(".level").forEach(x => x.setAttribute("aria-pressed", x === b));
-    refresh();
-  };
-  $("places").onclick = e => {
-    const b = e.target.closest(".place"); if (!b) return;
-    chosen.place = b.dataset.place;
-    document.querySelectorAll(".place").forEach(x => x.setAttribute("aria-pressed", x === b));
-    refresh();
-  };
-  $("start").onclick = () => { profile = chosen; store.set("radar.profile", profile); view.sort = ""; showApp(); };
-  $("skip").onclick = () => { profile = { skipped: true }; store.set("radar.profile", profile); view.sort = ""; showApp(); };
-  refresh();
+  $("start").disabled = !(chosen.level && chosen.place);
   window.scrollTo(0, 0);
 }
+$("levels").addEventListener("click", e => {
+  const b = e.target.closest(".level"); if (!b) return;
+  chosen.level = b.dataset.level;
+  document.querySelectorAll(".level").forEach(x => x.setAttribute("aria-pressed", x === b));
+  $("start").disabled = !(chosen.level && chosen.place);
+});
+$("places").addEventListener("click", e => {
+  const b = e.target.closest(".place"); if (!b) return;
+  chosen.place = b.dataset.place;
+  document.querySelectorAll(".place").forEach(x => x.setAttribute("aria-pressed", x === b));
+  $("start").disabled = !(chosen.level && chosen.place);
+});
+$("start").addEventListener("click", () => { profile = { ...chosen }; store.set("radar.profile", profile); view.sort = ""; showApp(); });
+$("skip").addEventListener("click", () => { profile = { skipped: true }; store.set("radar.profile", profile); view.sort = ""; showApp(); });
 
 // ------------------------------------------------------------------ app
 function showApp() {
   $("welcome").hidden = true;
   $("resume").hidden = true;
   $("app").hidden = false;
-  if (hasProfile()) {
-    const place = PLACES.find(p => p[0] === profile.place);
-    $("profile-text").textContent = `${LEVEL_NAMES[profile.level]} in ${place ? place[1] : "?"}`;
-  } else {
-    $("profile-text").textContent = "Set your profile";
-  }
-  $("resume-text").textContent = resume ? `My résumé · ${resume.skills.length} skills` : "Match my résumé";
-  $("match-group").hidden = !resume;
-  $("sort").querySelector('option[value="match"]').hidden = !resume;
+  $("profile-text").textContent = profileName();
+  $("resume-text").innerHTML = resume ? `${esc(t("top.resumeDone"))} <span class="done">✓</span>` : esc(t("top.resume"));
+  $("foryou-group").hidden = !hasProfile() && !resume;
   if (!resume && view.match) view.match = "";
-  $("fit-group").hidden = !hasProfile();
-  document.querySelectorAll(".fit-legend").forEach(el => el.hidden = !hasProfile());
-  $("sort").querySelector('option[value="fit"]').hidden = !hasProfile();
-  if (!DATA) return;  // still loading; start() calls showApp again
-  DATA.items.forEach(i => { i._fit = computeFit(i); i._match = computeMatch(i); });
   if (!hasProfile() && view.fit) view.fit = "";
+  drawSortOptions();
+  drawColumns();
+  drawLegend();
+  if (!DATA) return;  // still loading; the fetch below calls showApp again
+  DATA.items.forEach(i => { i._fit = computeFit(i); i._match = computeMatch(i); });
   render();
 }
 const sortKey = () => (view.sort === "match" && !resume ? "" : view.sort) || (resume ? "match" : hasProfile() ? "fit" : "deadline");
+function drawSortOptions() {
+  const options = [["match", resume], ["fit", hasProfile()], ["deadline", true], ["added", true], ["org", true]];
+  $("sort").innerHTML = options.filter(o => o[1]).map(([k]) => `<option value="${k}">${t(`sort.${k}`)}</option>`).join("");
+  $("sort").value = sortKey();
+}
+function drawColumns() {
+  // The fit column has no title: the dot is explained under "How to read".
+  $("cols").innerHTML = ["", "role", "where", "pay", "when", "deadline", ""].map(c => `<span>${c ? t(`col.${c}`) : ""}</span>`).join("");
+}
 
+// [key, test, how to show its count]. Applied and Hidden only appear once they have something in them.
 const TABS = [
-  ["all", "All", i => mark(i) !== "hidden"],
-  ["new", "New", i => isNew(i) && mark(i) !== "hidden"],
-  ["soon", "Closing soon", i => isSoon(i) && mark(i) !== "hidden"],
-  ["saved", "Saved", i => saved.has(i.id)],
-  ["programs", "Programs & schools", i => i.source === "programs" && mark(i) !== "hidden"],
-  ["applied", "Applied", i => mark(i) === "applied"],
-  ["hidden", "Hidden", i => mark(i) === "hidden"],
+  ["all", i => mark(i) !== "hidden"],
+  ["new", i => isNew(i) && mark(i) !== "hidden", "count"],
+  ["soon", i => isSoon(i) && mark(i) !== "hidden", "hot"],
+  ["saved", i => saved.has(i.id), "count"],
+  ["programs", i => i.source === "programs" && mark(i) !== "hidden"],
+  ["applied", i => mark(i) === "applied", "count", "optional"],
+  ["hidden", i => mark(i) === "hidden", "count", "optional"],
 ];
-const tabTest = () => (TABS.find(t => t[0] === view.tab) || TABS[0])[2];
+const tabTest = () => (TABS.find(tb => tb[0] === view.tab) || TABS[0])[1];
 
 // Each filter as a test; `skip` leaves one out so its own chips can count what they would add.
 const FILTER_TESTS = {
@@ -951,158 +1142,182 @@ function highlight(text) {
 function monthStrip(season) {
   const on = new Set(SEASON_MONTHS[season] || []);
   const cells = Array.from({ length: 12 }, (_, k) => `<i class="${inClass(k + 1) ? "sem" : ""} ${on.has(k + 1) ? "on" : ""}"></i>`).join("");
-  return `<div title="${esc(SEASON_TEXT[season] || season)}"><div class="months ${season === "unknown" ? "unknown" : ""}" aria-hidden="true">${cells}</div><div class="months-label">${esc(label("season", season))}</div></div>`;
+  return `<div class="months ${season === "unknown" ? "unknown" : ""}" aria-hidden="true">${cells}</div>`;
+}
+// The month strip only for real seasons; "year-round" is a word and "not stated" a dash.
+function whenCell(season) {
+  if (season === "unknown") return `<div class="when none" title="${esc(t("d.notStated"))}">—</div>`;
+  if (season === "year-round") return `<div class="when when-text">${esc(tv("season", season))}</div>`;
+  return `<div class="when" title="${esc(seasonText(season))}">${monthStrip(season)}</div>`;
+}
+// {text, sub, cls} for a stated deadline, or null. "In N days" only when it's close.
+function deadlineInfo(i) {
+  const d = daysLeft(i.deadline);
+  if (d === null) return null;
+  if (d < 0) return { text: fmtDate(i.deadline, false), sub: t("deadline.past"), cls: "past" };
+  const left = d === 0 ? t("deadline.today") : d === 1 ? t("deadline.tomorrow") : t("deadline.in", d);
+  return { text: fmtDate(i.deadline, false), sub: d <= SOON_DAYS ? left : "", cls: d <= SOON_DAYS ? "soon" : "" };
 }
 function deadlineCell(i) {
-  const d = daysLeft(i.deadline);
-  if (d === null) return `<div class="deadline none">Check page</div>`;
-  if (d < 0) return `<div class="deadline past">${fmtDate(i.deadline, false)}<small>closed?</small></div>`;
-  const left = d === 0 ? "today" : d === 1 ? "tomorrow" : `in ${d} days`;
-  return `<div class="deadline ${d <= SOON_DAYS ? "soon" : ""}">${fmtDate(i.deadline, false)}<small>${left}</small></div>`;
+  const info = deadlineInfo(i);
+  if (!info) return `<div class="deadline none" title="${esc(t("deadline.none"))}">—</div>`;
+  return `<div class="deadline ${info.cls}">${esc(info.text)}${info.sub ? `<small>${esc(info.sub)}</small>` : ""}</div>`;
 }
 function whereCell(i) {
   const locs = locations(i);
-  const regions = i.regions.filter(r => r !== "unknown");
-  if (!locs.length) return `<div class="where"><span class="first muted">${esc(regions.join(", ") || "Not stated")}</span></div>`;
+  if (!locs.length) { const r = regionNames(i).join(", "); return `<div class="where"><span class="first ${r ? "" : "none"}">${esc(r || "—")}</span></div>`; }
   const extra = locs.length - 1;
-  return `<div class="where" title="${esc(locs.join(" · "))}"><span class="first">${highlight(locs[0])}</span>${extra ? `<span class="more">+${extra} more location${extra > 1 ? "s" : ""}</span>` : ""}</div>`;
+  return `<div class="where" title="${esc(locs.join(" · "))}"><span class="first">${highlight(locs[0])}</span>${extra ? `<span class="more">${t("more.locations", extra)}</span>` : ""}</div>`;
+}
+// Phones: where · deadline · pay on one line instead of four columns.
+function metaLine(i) {
+  const locs = locations(i);
+  const parts = [];
+  const where = locs.length ? highlight(locs[0]) + (locs.length > 1 ? ` ${t("more.locations", locs.length - 1)}` : "") : esc(regionNames(i).join(", "));
+  if (where) parts.push(where);
+  const info = deadlineInfo(i);
+  if (info && info.cls !== "past") parts.push(`<span class="${info.cls}">${esc(info.text)}${info.sub ? ` (${esc(info.sub)})` : ""}</span>`);
+  if (i.pay) parts.push(`<span class="mono">${esc(i.pay)}</span>`);
+  return parts.length ? `<div class="meta-line">${parts.join(" · ")}</div>` : "";
 }
 const ICON_STAR = filled => `<svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 4 4.4.5-3.3 3 .9 4.3L8 11.2l-3.9 2.2.9-4.3-3.3-3 4.4-.5z" fill="${filled ? "currentColor" : "none"}" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>`;
-const ICON_HIDE = `<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+const ICON_HIDE = `<svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
 const ICON_X = `<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3l6 6M9 3l-6 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>`;
 
 function row(i) {
   const m = mark(i);
   const fit = i._fit;
   const isSaved = saved.has(i.id);
-  const fitTitle = fit.level < 0 ? "Set your profile to see fit" : FIT_NAMES[fit.level];
+  const fitTitle = fit.level < 0 ? t("fit.none") : t(`fit.${fit.level}`);
   const open = view.open.has(i.id);
-  const tags = (isNew(i) ? '<span class="tag new">New</span>' : "") + (m === "applied" ? '<span class="tag applied">Applied</span>' : "") + (i.source === "programs" ? '<span class="tag program">Program</span>' : "")
-    + (i._match && i._match.level <= 1 ? `<span class="tag match m${i._match.level}">${MATCH_NAMES[i._match.level]}</span>` : "");
-  const first = fit.reasons[0];
-  const why = first && !open ? `<div class="why c${first[0]}">${esc(first[1])}${fit.reasons.length > 1 ? ` · +${fit.reasons.length - 1}` : ""}</div>` : "";
-  return `<div class="row ${open ? "open" : ""} ${fit.level >= 0 ? "fit-" + fit.level : ""}" data-id="${esc(i.id)}">
+  // At most two quiet tags: what you did first, then what's notable.
+  const tags = [];
+  if (m === "applied") tags.push(`<span class="tag applied">${t("tag.applied")}</span>`);
+  if (i._match && i._match.level === 0) tags.push(`<span class="tag match">${t("match.0")}</span>`);
+  if (isNew(i)) tags.push(`<span class="tag new">${t("tag.new")}</span>`);
+  if (i.source === "programs") tags.push(`<span class="tag program">${t("tag.program")}</span>`);
+  // Under the company: only what might get in the way.
+  const problems = fit.reasons.filter(r => r[0] > 0);
+  const why = problems.length && !open ? `<div class="why c${problems[0][0]}">${esc(problems[0][1])}${problems.length > 1 ? " · …" : ""}</div>` : "";
+  return `<div class="row ${open ? "open" : ""}" data-id="${esc(i.id)}">
     <div class="row-main" data-toggle="1" aria-expanded="${open}">
       <span class="fit ${fit.level < 0 ? "none" : FIT_CLASS[fit.level]}" title="${esc(fitTitle)}" role="img" aria-label="${esc(fitTitle)}"></span>
       <div class="role"><a href="${esc(i.url)}" target="_blank" rel="noopener">${highlight(i.title)}</a>
-        <div class="org"><span>${highlight(i.org)}</span>${tags}</div>${why}</div>
+        <div class="org"><span>${highlight(i.org)}</span>${tags.slice(0, 2).join("")}</div>${why}${metaLine(i)}</div>
       ${whereCell(i)}
-      <div class="facts">
-        <div class="pay ${i.pay ? "" : "none"}" title="${esc(i.pay || "Pay not stated")}">${esc(i.pay || "—")}</div>
-        ${monthStrip(i.season)}
-        ${deadlineCell(i)}
-      </div>
+      <div class="pay ${i.pay ? "" : "none"}" title="${esc(i.pay || t("d.notStated"))}">${esc(i.pay || "—")}</div>
+      ${whenCell(i.season)}
+      ${deadlineCell(i)}
       <div class="actions">
-        <button class="icon-btn save" data-act="save" aria-pressed="${isSaved}" title="${isSaved ? "Remove from saved" : "Save for later"}" aria-label="Save for later">${ICON_STAR(isSaved)}</button>
-        <button class="icon-btn hide" data-act="hide" aria-pressed="${m === "hidden"}" title="${m === "hidden" ? "Show again" : "Hide"}" aria-label="Hide">${ICON_HIDE}</button>
+        <button class="icon-btn save" data-act="save" aria-pressed="${isSaved}" title="${esc(t(isSaved ? "unsave" : "save"))}" aria-label="${esc(t("save"))}">${ICON_STAR(isSaved)}</button>
+        <button class="icon-btn hide" data-act="hide" aria-pressed="${m === "hidden"}" title="${esc(t(m === "hidden" ? "unhide" : "hide"))}" aria-label="${esc(t("hide"))}">${ICON_HIDE}</button>
       </div>
     </div>
     ${open ? details(i) : ""}
   </div>`;
 }
+function matchDetails(i) {
+  const m = i._match;
+  if (!m) return "";
+  if (!i.skills) return `<div><h4>${t("match")}</h4><p class="muted">${t("m.pending")}</p></div>`;
+  const lines = [];
+  if (m.area) lines.push(t("m.area", tv("area", i.area)));
+  if (m.role) lines.push(t("m.role", m.role));
+  if (!i.skills.length) lines.push(t("m.noSkills"));
+  const chips = m.have.map(s => `<span class="skill hit">✓ ${esc(s)}</span>`).concat(m.missing.map(s => `<span class="skill miss">${esc(s)}</span>`)).join("");
+  return `<div><h4>${t(`match.${m.level}`)}</h4>
+    ${i.skills.length ? `<p>${m.have.length ? t("m.have", m.have.length, i.skills.length) : t("m.haveNone", i.skills.length)}</p><div class="skill-list">${chips}</div>` : ""}
+    ${lines.length ? `<p class="muted">${esc(lines.join(" · "))}</p>` : ""}</div>`;
+}
 function details(i) {
   const fit = i._fit;
   const m = mark(i);
-  const reasons = fit.level < 0 ? `<p class="muted">Set your profile to see how this fits you.</p>`
-    : fit.reasons.length ? `<ul class="reasons">${fit.reasons.map(([l, t]) => `<li class="${FIT_CLASS[l]}">${esc(t)}</li>`).join("")}</ul>`
-    : `<p>Nothing in the posting conflicts with your profile.</p>`;
+  const reasons = fit.level < 0 ? `<p class="muted">${t("d.noProfile")}</p>`
+    : fit.reasons.length ? `<ul class="reasons">${fit.reasons.map(([l, x]) => `<li class="${FIT_CLASS[l]}">${esc(x)}</li>`).join("")}</ul>`
+    : `<p>${t("d.noConflict")}</p>`;
   const locs = locations(i);
+  const ns = `<span class="none">${t("d.notStated")}</span>`;
+  const labels = [tv("area", i.area), ...i.warnings.map(w => tv("warn", w))].map(esc).join(" · ");
+  const facts = [
+    [t("d.where"), locs.length ? esc(locs.join(" · ")) : esc(regionNames(i).join(", ")) || ns],
+    [t("d.when"), i.season === "unknown" ? ns : `${esc(seasonText(i.season))}${monthStrip(i.season)}`],
+    [t("d.deadline"), i.deadline ? esc(fmtDate(i.deadline)) : `<span class="none">${t("d.deadlineNone")}</span>`],
+    [t("d.pay"), i.pay ? `<span class="mono">${esc(i.pay)}</span>` : ns],
+    [t("d.labels"), labels],
+    [t("d.found"), esc(t("d.foundVia", fmtDate(i.added), i.source, i.posted ? fmtDate(i.posted) : "")) + (i.note ? `<br><span class="muted">${esc(i.note)}</span>` : "")],
+  ];
   return `<div class="details">
-    ${matchDetails(i)}
-    <div><h4>${fit.level < 0 ? "Fit" : FIT_NAMES[fit.level]}</h4>${reasons}</div>
-    <div><h4>Locations</h4>${locs.length ? `<p>${locs.map(esc).join(" · ")}</p>` : `<p class="muted">Not stated</p>`}<p class="muted">${esc(i.regions.filter(r => r !== "unknown").join(", "))}</p></div>
-    <div><h4>When</h4><p>${esc(SEASON_TEXT[i.season] || i.season)}</p>
-      <h4 style="margin-top:10px">Deadline</h4><p>${i.deadline ? esc(fmtDate(i.deadline)) : "Not stated. Check the posting."}</p></div>
-    <div><h4>Pay</h4>${i.pay ? `<p class="mono">${esc(i.pay)}</p>` : `<p class="muted">Not stated</p>`}
-      <h4 style="margin-top:10px">Labels</h4><p>${esc(i.area)}${i.warnings.length ? " · " + i.warnings.map(esc).join(" · ") : ""}</p></div>
-    <div><h4>Found</h4><p>${esc(fmtDate(i.added))} via ${esc(i.source)}${i.posted ? ` · posted ${esc(fmtDate(i.posted))}` : ""}</p>${i.note ? `<p class="muted">${esc(i.note)}</p>` : ""}</div>
+    <div class="for-you">${matchDetails(i)}<div><h4>${fit.level < 0 ? t("d.foryou") : t(`fit.${fit.level}`)}</h4>${reasons}</div></div>
+    <dl class="facts-list">${facts.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl>
     <div class="detail-actions">
-      <a class="btn primary-link" href="${esc(i.url)}" target="_blank" rel="noopener">Open the posting ↗</a>
-      <button class="btn" data-act="applied" aria-pressed="${m === "applied"}">${m === "applied" ? "✓ Applied" : "Mark as applied"}</button>
-      <button class="btn" data-act="save">${saved.has(i.id) ? "★ Saved" : "☆ Save"}</button>
-      <button class="btn" data-act="hide">${m === "hidden" ? "Show again" : "Hide"}</button>
+      <a class="btn primary-link" href="${esc(i.url)}" target="_blank" rel="noopener">${t("d.open")}</a>
+      <button class="btn" data-act="applied" aria-pressed="${m === "applied"}">${t(m === "applied" ? "d.applied" : "d.markApplied")}</button>
+      <button class="btn" data-act="save">${t(saved.has(i.id) ? "d.saved" : "d.save")}</button>
+      <button class="btn" data-act="hide">${t(m === "hidden" ? "unhide" : "hide")}</button>
     </div>
   </div>`;
 }
 
-function matchDetails(i) {
-  const m = i._match;
-  if (!m) return "";
-  if (!i.skills) return `<div><h4>Résumé match</h4><p class="muted">Skills for this role are read on the next daily update.</p></div>`;
-  const lines = [];
-  if (m.area) lines.push(`In one of your areas (${esc(i.area)})`);
-  if (m.role) lines.push(`Title matches “${esc(m.role)}”`);
-  if (!i.skills.length) lines.push("The posting names no skills vagaLume knows. Read it to judge.");
-  const chips = m.have.map(s => `<span class="skill hit">✓ ${esc(s)}</span>`).concat(m.missing.map(s => `<span class="skill miss">${esc(s)}</span>`)).join("");
-  return `<div class="match-block"><h4>${MATCH_NAMES[m.level]}</h4>
-    ${i.skills.length ? `<p>${m.have.length ? `You have ${m.have.length} of the ${i.skills.length} skills it mentions` : `None of the ${i.skills.length} skills it mentions are in your résumé`}</p><div class="skill-list" style="margin:6px 0">${chips}</div>` : ""}
-    ${lines.length ? `<p class="muted">${lines.join(" · ")}</p>` : ""}</div>`;
-}
 function chipGroup(name, values) {
   const box = document.querySelector(`.chips[data-filter="${name}"]`);
-  box.innerHTML = [["", "Any", null], ...values].map(([value, text, count]) =>
-    `<button class="chip ${count === 0 ? "zero" : ""} ${value === "breaks" ? "preset" : ""}" data-value="${esc(value)}" aria-pressed="${view[name] === value}">${esc(text)}${count != null ? `<small>${count.toLocaleString()}</small>` : ""}</button>`).join("");
+  box.innerHTML = values.map(([value, text, count]) =>
+    `<button class="chip ${count === 0 ? "zero" : ""}" data-value="${esc(value)}" aria-pressed="${view[name] === value}">${esc(text)}${count != null ? `<small>${fmtN(count)}</small>` : ""}</button>`).join("");
 }
 function countBy(items, valuesOf, order) {
   const counts = {};
   items.forEach(i => valuesOf(i).forEach(v => counts[v] = (counts[v] || 0) + 1));
-  for (const v of order) counts[v] ??= 0;
   return Object.keys(counts).sort((a, b) => (order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99) || a.localeCompare(b));
 }
 function buildFilters(inTab) {
   // Counts show how many roles you'd see after clicking, given everything else you picked.
+  // There is no "Any" chip: click a selected chip again to turn it off.
   const base = key => inTab.filter(i => passes(i, key));
   if (resume) {
     const pool = base("match");
     const n0 = pool.filter(i => i._match.level === 0).length, n1 = pool.filter(i => i._match.level === 1).length;
-    chipGroup("match", [["strong", label("match", "strong"), n0], ["good", label("match", "good"), n0 + n1]]);
-  }
+    chipGroup("match", [["strong", t("chip.match.strong"), n0], ["good", t("chip.match.good"), n0 + n1]]);
+  } else chipGroup("match", []);
   if (hasProfile()) {
     const pool = base("fit");
     const n0 = pool.filter(i => i._fit.level === 0).length, n1 = pool.filter(i => i._fit.level === 1).length;
-    chipGroup("fit", [["good", label("fit", "good"), n0], ["check", label("fit", "check"), n0 + n1]]);
-  }
+    chipGroup("fit", [["good", t("chip.fit.good"), n0], ["check", t("chip.fit.check"), n0 + n1]]);
+  } else chipGroup("fit", []);
   const areaPool = base("area");
-  chipGroup("area", countBy(areaPool, i => [i.area], AREA_ORDER).map(v => [v, v, areaPool.filter(i => i.area === v).length]));
+  chipGroup("area", countBy(areaPool, i => [i.area], AREA_ORDER).map(v => [v, tv("area", v), areaPool.filter(i => i.area === v).length]));
   const regionPool = base("region");
-  chipGroup("region", countBy(regionPool, i => i.regions.filter(r => r !== "unknown"), REGION_ORDER).map(v => [v, label("region", v), regionPool.filter(i => i.regions.includes(v)).length]));
+  chipGroup("region", countBy(regionPool, i => i.regions.filter(r => r !== "unknown"), REGION_ORDER).map(v => [v, tv("region", v), regionPool.filter(i => i.regions.includes(v)).length]));
   const seasonPool = base("season");
-  const seasons = countBy(seasonPool, i => [i.season], SEASON_ORDER.slice(1));
-  chipGroup("season", [["breaks", label("season", "breaks"), seasonPool.filter(i => fitsBreaks(i.season)).length],
-    ...seasons.map(v => [v, label("season", v), seasonPool.filter(i => i.season === v).length])]);
+  const seasons = countBy(seasonPool, i => [i.season], SEASON_ORDER.slice(1)).filter(v => v !== "unknown" || view.season === "unknown");
+  chipGroup("season", [["breaks", t("season.breaks"), seasonPool.filter(i => fitsBreaks(i.season)).length],
+    ...seasons.map(v => [v, tv("season", v), seasonPool.filter(i => i.season === v).length])]);
   const sourcePool = base("source");
   const sources = countBy(sourcePool, i => [i.source], []);
-  $("source").innerHTML = `<option value="">All sources</option>` + sources.map(s => `<option value="${esc(s)}">${esc(s)} (${sourcePool.filter(i => i.source === s).length})</option>`).join("");
+  $("source").innerHTML = `<option value="">${t("filters.allSources")}</option>` + sources.map(s => `<option value="${esc(s)}">${esc(s)} (${fmtN(sourcePool.filter(i => i.source === s).length)})</option>`).join("");
   $("source").value = view.source;
   $("pay-only").checked = !!view.pay;
+  if (view.pay || view.source) $("more-filters").open = true;
 }
+const FILTER_KINDS = { match: "chip.match", fit: "chip.fit", area: "area", region: "region", season: "season" };
 function activeFilters() {
   const pills = [];
-  if (view.q) pills.push(["q", `Search: “${view.q}”`]);
-  for (const key of ["match", "fit", "area", "region", "season", "source"]) if (view[key]) pills.push([key, `${FILTER_NAMES[key]}: ${label(key, view[key])}`]);
-  if (view.pay) pills.push(["pay", "States pay"]);
+  if (view.q) pills.push(["q", t("pill.search", view.q)]);
+  for (const [key, kind] of Object.entries(FILTER_KINDS)) if (view[key]) pills.push([key, tv(kind, view[key])]);
+  if (view.source) pills.push(["source", view.source]);
+  if (view.pay) pills.push(["pay", t("pill.pay")]);
   $("active-filters").innerHTML = pills.length
-    ? pills.map(([key, text]) => `<button class="pill" data-clear="${key}" aria-label="Remove filter ${esc(text)}">${esc(text)}${ICON_X}</button>`).join("") + `<button class="linkish" data-reset="1">Clear all</button>`
+    ? pills.map(([key, text]) => `<button class="pill" data-clear="${key}" aria-label="${esc(t("pill.remove", text))}">${esc(text)}${ICON_X}</button>`).join("") + (pills.length > 1 ? `<button class="linkish" data-reset="1">${t("filters.clear")}</button>` : "")
     : "";
-  $("filters-summary").textContent = pills.length ? `Filters (${pills.length} on)` : "Filters";
+  $("filters-summary").textContent = pills.length ? t("filters.on", pills.length) : t("filters");
 }
 
 function render() {
   if (!DATA) return;
-  const visible = DATA.items.filter(i => mark(i) !== "hidden");
-  const good = visible.filter(i => i._fit.level === 0).length;
-  const strong = resume ? visible.filter(i => i._match.level === 0).length : 0;
-  $("overview").innerHTML =
-    (resume ? `<button class="stat match" data-go="match"><b>${strong.toLocaleString()}</b><span>strong résumé matches</span></button>` : "") +
-    (hasProfile() ? `<button class="stat good" data-go="good"><b>${good.toLocaleString()}</b><span>good fits for you</span></button>` : "") +
-    `<button class="stat soon" data-go="soon"><b>${visible.filter(isSoon).length}</b><span>close within ${SOON_DAYS} days</span></button>` +
-    `<button class="stat new" data-go="new"><b>${visible.filter(isNew).length}</b><span>new today</span></button>` +
-    (saved.size ? `<button class="stat saved" data-go="saved"><b>${saved.size}</b><span>saved</span></button>` : "") +
-    `<span class="updated">${visible.length.toLocaleString()} open · updated ${esc(fmtDate(DATA.updated))}</span>`;
-
   const filtered = DATA.items.filter(i => passes(i));
-  $("tabs").innerHTML = TABS.map(([key, text, test]) =>
-    `<button class="tab" role="tab" data-tab="${key}" aria-selected="${view.tab === key}">${text}<small>${filtered.filter(test).length.toLocaleString()}</small></button>`).join("");
+  $("tabs").innerHTML = TABS.map(([key, test, count, optional]) => {
+    const n = count ? filtered.filter(test).length : 0;
+    if (optional && !n && view.tab !== key) return "";
+    return `<button class="tab" role="tab" data-tab="${key}" aria-selected="${view.tab === key}">${t(`tab.${key}`)}${n ? `<small class="${count === "hot" ? "hot" : ""}">${fmtN(n)}</small>` : ""}</button>`;
+  }).join("");
 
   const inTab = DATA.items.filter(tabTest());
   buildFilters(inTab);
@@ -1111,35 +1326,67 @@ function render() {
   const list = inTab.filter(i => passes(i)).sort(SORTS[sortKey()]);
   $("sort").value = sortKey();
   $("rows").innerHTML = list.slice(0, view.shown).map(row).join("") || emptyState();
-  $("count").textContent = list.length ? `Showing ${Math.min(view.shown, list.length).toLocaleString()} of ${list.length.toLocaleString()}` : "";
+  $("count").textContent = t("count", fmtN(list.length), fmtDate(DATA.updated, false));
   $("more").hidden = list.length <= view.shown;
-  $("more").textContent = `Show ${Math.min(PAGE_SIZE, list.length - view.shown)} more`;
+  $("more").textContent = t("more", Math.min(PAGE_SIZE, list.length - view.shown));
   writeHash();
 }
 function emptyState() {
-  const messages = {
-    saved: "Nothing saved yet. Tap ☆ on any role to build your shortlist.",
-    applied: "Open a role and choose “Mark as applied” to keep track of your applications.",
-    hidden: "Nothing hidden. Tap ✕ on a role you're not interested in.",
-  };
-  const text = messages[view.tab] && !document.querySelector("[data-clear]") ? messages[view.tab] : "No roles match these filters.";
-  return `<div class="empty">${esc(text)}${document.querySelector("[data-clear]") ? ` <button class="linkish" data-reset="1">Clear the filters</button>` : ""}</div>`;
+  const filtersOn = !!document.querySelector("[data-clear]");
+  const text = !filtersOn && ["saved", "applied", "hidden"].includes(view.tab) ? t(`empty.${view.tab}`) : t("empty.none");
+  return `<div class="empty">${esc(text)}${filtersOn ? ` <button class="linkish" data-reset="1">${t("empty.clear")}</button>` : ""}</div>`;
 }
 const rerender = () => { view.shown = PAGE_SIZE; render(); };
 
+function drawLegend() {
+  $("legend").innerHTML = (hasProfile() ? `<div><span class="dot" style="color:var(--good);background:var(--good)"></span>${t("legend.good")}</div>
+      <div><span class="dot" style="color:var(--check);background:var(--check-soft)"></span>${t("legend.check")}</div>
+      <div><span class="dot" style="color:var(--long)"></span>${t("legend.long")}</div>` : "")
+    + (resume ? `<div><span class="tag match"></span>${t("legend.match")}</div>` : "")
+    + `<div><span class="sq" style="background:var(--good)"></span>${t("legend.break")}</div>
+       <div><span class="sq" style="background:var(--check)"></span>${t("legend.class")}</div>
+       <div><span class="sq" style="background:var(--semester)"></span>${t("legend.sem")}</div>`;
+}
+function toggleLegend(show) {
+  $("legend").hidden = !show;
+  $("legend-btn").setAttribute("aria-expanded", String(show));
+}
+
+// ------------------------------------------------------------------ language switch
+function applyLanguage() {
+  document.documentElement.lang = LANG === "pt" ? "pt-BR" : "en";
+  document.querySelectorAll("[data-t]").forEach(el => { el.textContent = t(el.dataset.t); });
+  document.querySelectorAll("[data-t-html]").forEach(el => { el.innerHTML = t(el.dataset.tHtml); });
+  document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === LANG));
+  $("help").innerHTML = t("help.body");
+  $("search").placeholder = t("search.placeholder");
+  $("search").setAttribute("aria-label", t("search.placeholder"));
+  document.querySelector(".search kbd").title = t("search.kbd");
+  $("github-link").title = t("top.github");
+  $("github-link").setAttribute("aria-label", t("top.github"));
+  $("to-top").setAttribute("aria-label", t("top.toTop"));
+  $("source").setAttribute("aria-label", t("filters.source"));
+  $("welcome-count").textContent = DATA ? t("welcome.count", fmtN(DATA.items.length), fmtDate(DATA.updated)) : t("loading");
+  drawPlaces();
+}
+function setLanguage(lang) {
+  LANG = lang;
+  store.set("radar.lang", lang);
+  applyLanguage();
+  if (!$("resume").hidden) { $("prompt-text").value = resumePrompt(DATA?.skillNames || []); $("copy-status").textContent = ""; if (!$("resume-saved").hidden) renderResumeSummary(); }
+  if (!$("app").hidden) showApp();
+}
+
 // ------------------------------------------------------------------ events
 document.addEventListener("click", e => {
+  const langBtn = e.target.closest("[data-lang]");
+  if (langBtn) return setLanguage(langBtn.dataset.lang);
+  if (e.target.closest("#legend-btn")) return toggleLegend($("legend").hidden);
+  if (!$("legend").hidden && !e.target.closest("#legend")) toggleLegend(false);
   const chip = e.target.closest(".chip");
   if (chip) { const f = chip.parentElement.dataset.filter; view[f] = view[f] === chip.dataset.value ? "" : chip.dataset.value; return rerender(); }
   const tab = e.target.closest(".tab");
   if (tab) { view.tab = tab.dataset.tab; return rerender(); }
-  const stat = e.target.closest(".stat");
-  if (stat) {
-    if (stat.dataset.go === "good") { view.fit = "good"; view.tab = "all"; }
-    else if (stat.dataset.go === "match") { view.match = "strong"; view.tab = "all"; }
-    else { view.tab = stat.dataset.go; }
-    return rerender();
-  }
   const pill = e.target.closest("[data-clear]");
   if (pill) { view[pill.dataset.clear] = ""; if (pill.dataset.clear === "q") $("search").value = ""; return rerender(); }
   if (e.target.closest("[data-reset]")) return resetFilters();
@@ -1165,7 +1412,6 @@ function resetFilters() {
   $("search").value = "";
   rerender();
 }
-$("reset").addEventListener("click", resetFilters);
 let searchTimer;
 $("search").addEventListener("input", e => { clearTimeout(searchTimer); searchTimer = setTimeout(() => { view.q = e.target.value.trim(); rerender(); }, 120); });
 $("source").addEventListener("change", e => { view.source = e.target.value; rerender(); });
@@ -1178,7 +1424,10 @@ window.addEventListener("scroll", () => { $("to-top").hidden = $("app").hidden |
 document.addEventListener("keydown", e => {
   const typing = /input|select|textarea/i.test(document.activeElement?.tagName || "");
   if (e.key === "/" && !typing && !$("app").hidden) { e.preventDefault(); $("search").focus(); }
-  if (e.key === "Escape" && view.open.size) { view.open.clear(); render(); }
+  if (e.key === "Escape") {
+    if (!$("legend").hidden) return toggleLegend(false);
+    if (view.open.size) { view.open.clear(); render(); }
+  }
 });
 window.addEventListener("hashchange", () => { readHash(); $("search").value = view.q; rerender(); });
 // Load the next page by itself when "Show more" scrolls into view.
@@ -1188,21 +1437,22 @@ if ("IntersectionObserver" in window) {
 if (window.matchMedia("(max-width: 900px)").matches) $("filters").open = false;
 
 // ------------------------------------------------------------------ start
+applyLanguage();
 $("search").value = view.q;
 profile ? showApp() : showWelcome();
 fetch("data.json", { cache: "no-cache" })
   .then(r => r.json())
   .then(data => {
     DATA = data;
-    $("welcome-count").textContent = `${data.items.length.toLocaleString()} open roles and programs, updated ${fmtDate(data.updated)}. Your answers stay in this browser.`;
+    applyLanguage();
     $("sources").innerHTML = data.sources.map(s =>
-      `<tr><td>${esc(s.name)}</td><td>${s.status === "ok" ? "ok" : `<b>${esc(s.status)}</b>`}</td><td class="mono">${s.items}</td><td>${s.problems.map(esc).join("<br>")}</td></tr>`).join("");
+      `<tr><td>${esc(s.name)}</td><td>${s.status === "ok" ? "ok" : `<b>${esc(s.status)}</b>`}</td><td class="mono">${fmtN(s.items)}</td><td>${s.problems.map(esc).join("<br>")}</td></tr>`).join("");
     if (!$("app").hidden) showApp();
     if (!$("resume").hidden) $("prompt-text").value = resumePrompt(data.skillNames || []);
   })
   .catch(() => {
-    $("rows").innerHTML = `<div class="empty">Could not load today's data. Check your connection and reload the page.</div>`;
-    $("welcome-count").textContent = "Could not load today's data. Reload the page to try again.";
+    $("rows").innerHTML = `<div class="empty">${t("loadError")}</div>`;
+    $("welcome-count").textContent = t("welcome.loadError");
   });
 </script>
 </body>
