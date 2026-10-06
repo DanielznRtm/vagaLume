@@ -1,6 +1,6 @@
 # Opportunity Radar — 2026-10-06
 
-**5457** open · **118** new this run · **38** deadlines in the next 14 days · labels by keyword rules
+**5463** open · **124** new this run · **39** deadlines in the next 14 days · labels by keyword rules
 
 Nothing is filtered out: labels and warnings are hints, you decide. UNESP semesters: Mar–Jul and Aug–Dec. Searchable web version: the GitHub Pages site (see the README). Set your status in `config/status.yaml` using the `id`.
 
@@ -10,21 +10,21 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 
 | Source | Status | Items | Checked | Time | Problems |
 |---|---|---|---|---|---|
-| greenhouse | ✅ ok | 785 | 98 | 100s |  |
+| greenhouse | ✅ ok | 793 | 99 | 77s |  |
 | lever | ✅ ok | 107 | 10 | 11s |  |
 | ashby | ✅ ok | 98 | 49 | 36s |  |
-| github_lists | ✅ ok | 3897 | 4 | 4s |  |
+| github_lists | ✅ ok | 3897 | 4 | 3s |  |
 | gupy | ✅ ok | 97 | 17 | 13s |  |
 | programs | ✅ ok | 25 | 25 | 39s |  |
 | google | ✅ ok | 93 | 6 | 6s |  |
-| amazon | ✅ ok | 400 | 14 | 23s |  |
-| nvidia | ✅ ok | 40 | 2 | 3s |  |
+| amazon | ✅ ok | 400 | 14 | 17s |  |
+| nvidia | ✅ ok | 40 | 2 | 5s |  |
 | microsoft | ✅ ok | 83 | 13 | 12s |  |
-| deshaw | ✅ ok | 13 | 1 | 2s |  |
-| drw | ✅ ok | 29 | 1 | 1s |  |
-| meta | ✅ ok | 12 | 1 | 9s |  |
+| deshaw | ✅ ok | 13 | 1 | 1s |  |
+| drw | ✅ ok | 29 | 1 | 2s |  |
+| meta | ✅ ok | 12 | 1 | 8s |  |
 
-## ⏰ Deadlines in the next 14 days (38)
+## ⏰ Deadlines in the next 14 days (39)
 
 - [Estágio Superior - Engenharias, Ciência de Dados e Afins](https://equatorialenergia.gupy.io/job/eyJqb2JJZCI6MTE5ODM3MjUsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Grupo Equatorial** · 📍 Uruaçu, Goiás, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-06 · 📅 during semester · `ca36da815fd597cd`
 - [Estágio Superior - Engenharias, Ciência de Dados ou Afins](https://equatorialenergia.gupy.io/job/eyJqb2JJZCI6MTE5ODQyNjYsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Grupo Equatorial** · 📍 Anápolis, Goiás, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-06 · 📅 during semester · `70b1a370a74d2d7a`
@@ -60,12 +60,13 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Programa: Estágio de Férias Janeiro/2027](https://programa-estagio-ferias-demarest.gupy.io/job/eyJqb2JJZCI6MTI0Njc3NTUsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Estágio de Férias Janeiro 2027 Demarest Advogados** · 📍 São Paulo, São Paulo, Brazil (hybrid) · Dec–Feb · Brazil · ⏳ 2026-10-14 · 📅 fits Dec–Feb break · `529448c568154f62`
 - [Estágio em Tecnologia da Informação](https://grupomag.gupy.io/job/eyJqb2JJZCI6MTI1MTI5NzMsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Grupo MAG** · 📍 Rio de Janeiro, Rio de Janeiro, Brazil (hybrid) · year-round · Brazil · ⏳ 2026-10-15 · 📅 during semester · `7ed2092b0115aae6`
 - [Software Engineer Intern (Summer 2027)](https://job-boards.greenhouse.io/khanacademy/jobs/8250259) — **Khan Academy** · 📍 Remote (US + Canada Only) · May–Aug · US/Canada/remote · ⏳ 2026-10-16 · 🛂 📆 · 📅 clashes with semester · `2f863d30e0a77121`
+- [Women in Trading and Technology Internship (WiTTI) – Winter 2027](https://www.hudsonrivertrading.com/careers/job/?gh_jid=8188637) — **Hudson River Trading** · 📍 New York, NY, United States · year-round · US/Canada · ⏳ 2026-10-16 · 🛂 📆 · 📅 during semester · **NEW** · `140b28be63e0e453`
 - [Estágio - Belém/PA](https://redemoura.gupy.io/job/eyJqb2JJZCI6MTI2Njk3OTIsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Baterias Moura** · 📍 Belém, Pará, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-18 · 📅 during semester · `eb84ce3ca2260538`
 - [Pessoa Estagiária em Administração](https://wwfbrasil.gupy.io/job/eyJqb2JJZCI6MTI2NzIwMDEsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **WWF-Brasil** · 📍 Brasília, Distrito Federal, Brazil (hybrid) · year-round · Brazil · ⏳ 2026-10-19 · 📅 during semester · `d4bd0db074d4c474`
 - [Estágio em Tecnologia - Automação, IA & Desenvolvimento](https://b4a.gupy.io/job/eyJqb2JJZCI6MTIyMDQ1MzcsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **B4A** · 📍 São Paulo, São Paulo, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-19 · 📅 during semester · `f32954f9acf46ac8`
 - [Estagiário (a) / Programa de Estágio - Cresol Confederação CSC](https://cresolcarreiras.gupy.io/job/eyJqb2JJZCI6MTI2NzEzNDgsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Cresol Oficial** · 📍 Francisco Beltrão, Paraná, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-20 · 📅 during semester · `36932a8f0d72e41e`
 
-## 🆕 New this run (118 more, besides any above)
+## 🆕 New this run (123 more, besides any above)
 
 ### ML (3)
 
@@ -84,7 +85,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Research Sciences INTERN](https://apply.careers.microsoft.com/careers/job/1970393556972877) — **Microsoft** · 📍 Tokyo, Tokyo, JP · unknown · Asia/ME · 📅 dates unknown · **NEW** · `c959f81eff76e136`
 - [Research Sciences INTERN](https://apply.careers.microsoft.com/careers/job/1970393556641091) — **Microsoft** · 📍 IN · unknown · unknown · 📅 dates unknown · **NEW** · `d4a2c71bea3440d2`
 
-### SWE (37)
+### SWE (38)
 
 - [Critical Facility Engineer](https://www.metacareers.com/jobs/1690022942358388/) — **Meta** · 📍 Henrico, VA / Mesa, AZ / Kansas City, MO / Ashburn, VA / Temple, TX / Gallatin,  · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `c0031c2b08b373d2`
 - [DFX Engineering Intern](https://www.metacareers.com/jobs/1095054769939445/) — **Meta** · 📍 Sunnyvale, CA / Seattle, WA · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `af6b326fbbe9f007`
@@ -123,6 +124,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Cloud Solution Architect - Tomoh Apprenticeship](https://apply.careers.microsoft.com/careers/job/1970393556944328) — **Microsoft** · 📍 Dubai, Dubai, AE · unknown · Asia/ME · 📅 dates unknown · **NEW** · `67807803f7ef06ba`
 - [Solution Engineer - Tomoh Apprenticeship](https://apply.careers.microsoft.com/careers/job/1970393556944057) — **Microsoft** · 📍 Dubai, Dubai, AE · unknown · Asia/ME · 📅 dates unknown · **NEW** · `f6f64bf323eb0809`
 - [Software Engineering INTERN](https://apply.careers.microsoft.com/careers/job/1970393556957962) — **Microsoft** · 📍 IL · unknown · unknown · 📅 dates unknown · **NEW** · `0b46f85ed5a70c3a`
+- [Software Engineering Internship (C++ or Python) – Summer 2027](https://www.hudsonrivertrading.com/careers/job/?gh_jid=8052083) — **Hudson River Trading** · 📍 Austin, TX, United States; Chicago, Illinois, United States; London, United King · May–Aug · US/Canada/Europe/Asia/ME · 🛂 · 📅 clashes with semester · **NEW** · `f3d42fa34566f4b3`
 
 ### data (18)
 
@@ -145,7 +147,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Data Center Technicians Intern](https://apply.careers.microsoft.com/careers/job/1970393556999836) — **Microsoft** · 📍 Melbourne, VIC, AU · unknown · Asia/ME · 📅 dates unknown · **NEW** · `cbf1ca12a3027032`
 - [Data Center Technicians Intern](https://apply.careers.microsoft.com/careers/job/1970393556999849) — **Microsoft** · 📍 Sydney, NSW, AU · unknown · Asia/ME · 📅 dates unknown · **NEW** · `1a095422ca2f7ca4`
 
-### quant (13)
+### quant (16)
 
 - [Floor Trader](https://www.drw.com/work-at-drw/listings/floor-trader-3552394) — **DRW** · 📍 Chicago, United States · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `f7dc1a320b6585db`
 - [Proprietary Trading Intern (New York) – Summer 2027](https://www.deshaw.com/careers/proprietary-trading-intern-new-york-summer-2027-5731) — **D. E. Shaw** · 📍 New York · May–Aug · US/Canada · 🛂 · 📅 clashes with semester · **NEW** · `952741e9d94d9abd`
@@ -160,12 +162,16 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Quantitative Trading Analyst Intern](https://www.drw.com/work-at-drw/listings/quantitative-trading-analyst-intern-3454789) — **DRW** · 📍 London, United Kingdom · unknown · Europe · 📅 dates unknown · **NEW** · `97ee3b5f95d47d48`
 - [Rotational Associates Program](https://www.deshaw.com/careers/rotational-associates-program-6020) — **D. E. Shaw** · 📍 New York · unknown · US/Canada · 🛂 ❔ · 📅 dates unknown · **NEW** · `2f81e3deac6861d6`
 - [Research Intern - Quantum Algorithms](https://apply.careers.microsoft.com/careers/job/1970393557021663) — **Microsoft** · 📍 Redmond, WA, US · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `15449c6bbf6debb7`
+- [Campus Sourcer](https://www.hudsonrivertrading.com/careers/job/?gh_jid=8047119) — **Hudson River Trading** · 📍 New York, NY, United States · unknown · US/Canada · 🛂 ❔ · 📅 dates unknown · **NEW** · `9c8048858e6ddc4d`
+- [Algorithm Development (Quant Research & Trading) Internship – Summer 2027](https://www.hudsonrivertrading.com/careers/job/?gh_jid=7964062) — **Hudson River Trading** · 📍 London, United Kingdom; New York, NY, United States; Singapore · May–Aug · US/Canada/Europe/Asia/ME · 🛂 · 📅 clashes with semester · **NEW** · `13e037505b1211c9`
+- [Algorithm Development (Quant Research & Trading) PhD Internship – Summer 2027](https://www.hudsonrivertrading.com/careers/job/?gh_jid=8059837) — **Hudson River Trading** · 📍 London, United Kingdom; New York, NY, United States; Singapore · May–Aug · US/Canada/Europe/Asia/ME · 🛂 🎓 · 📅 clashes with semester · **NEW** · `a3e1823e55a120db`
 
-### hardware (3)
+### hardware (4)
 
 - [Electrical Engineering Intern](https://www.metacareers.com/jobs/1105729655266553/) — **Meta** · 📍 Sunnyvale, CA / New York, NY · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `e1f4aae441b91276`
 - [FPGA Intern](https://www.drw.com/work-at-drw/listings/fpga-intern-3496753) — **DRW** · 📍 London, United Kingdom · unknown · Europe · 📅 dates unknown · **NEW** · `dd6c096c8f675d89`
 - [Mechanical Engineering Intern, Infrastructure](https://www.metacareers.com/jobs/921722064324989/) — **Meta** · 📍 Menlo Park, CA · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `edb4b71d24c06db9`
+- [Hardware Engineer Internship - Summer 2027](https://www.hudsonrivertrading.com/careers/job/?gh_jid=7899574) — **Hudson River Trading** · 📍 New York, NY, United States · May–Aug · US/Canada · 🛂 📆 · 📅 clashes with semester · **NEW** · `3d54895cf7f02511`
 
 ### other (36)
 
@@ -224,7 +230,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Khipu (Latin American Meeting in AI)](https://khipu.ai/) — **Khipu** · year-round · LatAm · 🛂 · 📅 during semester · _page unchanged since 2026-10-05_ · `a972e723fe273817`
 - [LatinX in AI](https://www.latinxinai.org/) — **LatinX in AI** · unknown · remote · 📅 dates unknown · _page unchanged since 2026-10-05 · workshops at NeurIPS/ICML/CVPR, mentoring and travel grants_ · `e769fa4f1ed78088`
 - [MATS (ML Alignment & Theory Scholars)](https://www.matsprogram.org/) — **MATS** · year-round · US/Canada/Europe · 🛂 · 📅 during semester · _page unchanged since 2026-10-05_ · `13c0c75d9fd1b30d`
-- [Microsoft students & graduates](https://careers.microsoft.com/v2/global/en/students) — **Microsoft** · unknown · unknown · 🎓 · 📅 dates unknown · _page changed on 2026-10-06_ · `a7a835e09bfa5567`
+- [Microsoft students & graduates](https://careers.microsoft.com/v2/global/en/students) — **Microsoft** · unknown · unknown · 🎓 · 📅 dates unknown · _page unchanged since 2026-10-06_ · `a7a835e09bfa5567`
 - [Mitacs Globalink Research Internship](https://www.mitacs.ca/our-programs/globalink-research-internship-students/) — **Mitacs (Canada)** · May–Aug · US/Canada · 🛂 · 📅 clashes with semester · _page unchanged since 2026-10-05 · Brazil is a partner country; 12 weeks in May–Oct; applications open mid-year_ · `8bf039670e27b8fc`
 - [MLSS (Machine Learning Summer Schools)](http://mlss.cc/) — **MLSS** · May–Aug · unknown · 📅 clashes with semester · _page unchanged since 2026-10-05 · several schools a year in different countries_ · `05e2e9473ecb47ba`
 - [NVIDIA university recruiting](https://www.nvidia.com/en-us/about-nvidia/careers/university-recruiting/) — **NVIDIA** · year-round · unknown · 📅 during semester · _page changed on 2026-10-06_ · `2b027129de638006`
@@ -1012,6 +1018,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Research Scientist PhD Intern, 2027](https://www.google.com/about/careers/applications/jobs/results/111285665542349510) — **Google** · May–Aug · Europe · ⏳ 2026-10-23 · 🛂 🎓 📆 · `0c879cbbc943f4f1`
 - [Software Engineering PhD Intern, 2027](https://www.google.com/about/careers/applications/jobs/results/107087730147500742) — **Google** · May–Aug · Europe · ⏳ 2026-10-23 · 🛂 🎓 📆 · `cb94cfc05c434779`
 - [ESTÁGIO - Pesquisa e Desenvolvimento em Engenharia](https://tecban.gupy.io/job/eyJqb2JJZCI6MTIzMjQxMTIsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Tecban** · year-round · Brazil · ⏳ 2026-10-26 · `b4cd1efc0c47240e`
+- [PhD Winter Internship - 2027](https://www.hudsonrivertrading.com/careers/job/?gh_jid=8212741) — **Hudson River Trading** · year-round · US/Canada · ⏳ 2026-10-30 · 🛂 🎓 📆 · `79405785812b4ba1`
 - [Student Researcher, 2027](https://www.google.com/about/careers/applications/jobs/results/120211620121977542) — **Google** · year-round · Asia/ME · ⏳ 2026-12-13 · 🎓 · `9ce267c459e8e3f1`
 - [Student Researcher, 2027](https://www.google.com/about/careers/applications/jobs/results/86733690079453894) — **Google** · year-round · Europe · ⏳ 2026-12-13 · 🎓 · `8c4957a5e7fb239c`
 - [Estágio Técnico em Pesquisa e Desenvolvimento (R&D) - Campinas/SP](https://ecolab.gupy.io/job/eyJqb2JJZCI6MTI0NTM2NjksInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Ecolab** · year-round · Brazil · ⏳ 2026-12-31 · `c7c9f0bdb7807e5c`
@@ -1063,7 +1070,6 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Research & Development Co-op - WashU (Spring 2027)](https://mastercard.wd1.myworkdayjobs.com/Campus/job/OFallon-Missouri/Research---Development-Co-Op--WashU---Spring-2027---St-Louis--MO--US_R-291654) — **Mastercard** · year-round · US/Canada · 🛂 · `6b631f6e64b3b062`
 - [Research and Development PhD Intern](https://pg.wd5.myworkdayjobs.com/1000/job/MASON-BUS-AND-INNOVATION-CTR/R-D-PhD-Summer-Intern--AI-Agents-for-Automated-Machine-Learning-Research_R000158985) — **Procter & Gamble** · May–Aug · US/Canada · 🛂 🎓 · `0b2769af2f3ce312`
 - [Perplexity Research Fellowship](https://jobs.ashbyhq.com/perplexity/ab076e26-adf1-414f-a006-7b1bdc9247c8) — **Perplexity** · unknown · US/Canada · 🛂 📆 · `0e68c0c879281491`
-- [PhD Winter Intern (Winter 2027)](https://www.hudsonrivertrading.com/careers/job/?gh_jid=8212741) — **Hudson River Trading** · year-round · US/Canada · 🛂 🎓 · `79405785812b4ba1`
 - [R&D Engineer Intern - Research & Development Engineering](https://eaton.eightfold.ai/careers/job/687239185039) — **Eaton** · May–Aug · US/Canada · 🛂 · `8abf1bae29a665da`
 - [2027 Summer Intern, MS/PhD, Software Engineer, Multiverse](https://careers.withwaymo.com/jobs?gh_jid=8214519) — **Waymo** · May–Aug · US/Canada · 🛂 🎓 · `f13fc1f24fa65103`
 - [2027 Summer Intern, PhD, Learning-Based Behavior for Special Vehicles](https://careers.withwaymo.com/jobs?gh_jid=8203191) — **Waymo** · May–Aug · US/Canada · 🛂 🎓 · `64199f65c883f95d`
@@ -3251,7 +3257,6 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Data Engineer Intern](https://campus-americas.icims.com/jobs/26272/data-engineer-intern%2c-2027-summer-u.s./job) — **Atlassian** · May–Aug · US/Canada · 🛂 · `0695c3dfd7bfb295`
 - [Data Engineer New Grad](https://campus-americas.icims.com/jobs/25998/data-engineer%2c-2027-graduate-u.s/job) — **Atlassian** · year-round · US/Canada · 🛂 🆕grad · `2c42114e2f98d6e2`
 - [Data Processing Developer Technology Intern - 2027](https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/Germany-Munich/Data-Processing-Developer-Technology-Intern---2027_JR2024708) — **NVIDIA** · unknown · unknown · `7c31c3f149551204`
-- [Data Scientist Intern](https://www.hudsonrivertrading.com/careers/job/?gh_jid=8257369) — **Hudson River Trading** · May–Aug · US/Canada/Europe · 🛂 · `eb3a71ef664a7770`
 - [Engineering Data Analyst Intern](https://corningjobs.corning.com/job/Keller-Engineering-Data-Analyst-Intern-Summer-2027-TX-76248/1437049900/?ats=successfactors) — **Corning** · May–Aug · US/Canada · 🛂 · `338fc1d45c6f4636`
 - [People Analytics Data Engineer Intern (Winter 2027, Spring 2027)](https://boards.greenhouse.io/cloudflare/jobs/8241790) — **Cloudflare** · year-round · US/Canada · 🛂 🎓 · `afce22261c400f75`
 - [Spring Data Analyst and Education Policy Intern (Spring 2027)](https://internships-aei.icims.com/jobs/2699/job?mobile=true&needsRedirect=false) — **American Enterprise Institute** · year-round · US/Canada · 🛂 · `26b72a458f5d2f81`
@@ -3270,6 +3275,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Data Science Intern (Spring 2027)](https://nc.wd108.myworkdayjobs.com/NC_Careers/job/Wake-County-NC/Data-Science-Intern_JR-125225) — **State of North Carolina** · year-round · US/Canada · 🛂 · `427e94bd8217d4b9`
 - [Data Scientist Intern](https://capitalone.wd12.myworkdayjobs.com/Capital_One/job/Toronto-ON/Intern--Data-Scientist---Summer-2027_R1002165-1) — **Capital One** · May–Aug · US/Canada · 🛂 · `820365c7a9061e8a`
 - [Data Scientist Intern (Winter 2027)](https://soti.wd3.myworkdayjobs.com/SOTI-Next-Gen/job/Mississauga-Canada--Meadowvale-Office-HQ/Data-Scientist--Intern--Jan-2027-12-Months-_R10571) — **SOTI** · year-round · US/Canada · 🛂 · `7f1c2f2a92e389bd`
+- [Data Scientist Intern - 2027](https://www.hudsonrivertrading.com/careers/job/?gh_jid=8257369) — **Hudson River Trading** · May–Aug · US/Canada/Europe · 🛂 · `eb3a71ef664a7770`
 - [Early Careers New Grad - Analytics Development Program](https://hcsc.wd1.myworkdayjobs.com/en-US/HCSC_External/job/National-Remote/Early-Careers-New-Grad---Analytics-Development-Program--REMOTE-_R0059520) — **HCSC** · year-round · US/Canada/remote · 🛂 🆕grad · `aa557d56acddb9fb`
 - [IT Developer Analyst Intern](https://msd.wd5.myworkdayjobs.com/searchjobs/job/GBR---London---London-Moorgate-WeWork/Student-Placement---IT-Developer-Analyst_R418573) — **Merck** · May–Aug · Europe · `b08f1bfec98e1094`
 - [People Analytics Data Engineering Intern (Winter/Spring 2027)](https://boards.greenhouse.io/cloudflare/jobs/8241790?gh_jid=8241790) — **Cloudflare** · year-round · unknown · 🛂 · `3a5b308f66a2e0f6`

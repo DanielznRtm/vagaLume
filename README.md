@@ -34,7 +34,7 @@ Numbers from the run on 2026-10-06, after removing duplicates:
 
 | Source | Module | How | Items |
 |---|---|---|---|
-| Greenhouse boards (98 companies) | `greenhouse.py` | public JSON API | 785 |
+| Greenhouse boards (99 companies, incl. Hudson River Trading) | `greenhouse.py` | public JSON API | 793 |
 | Lever boards (10 companies) | `lever.py` | public JSON API | 107 |
 | Ashby boards (49 companies) | `ashby.py` | public JSON API | 98 |
 | GitHub lists (SimplifyJobs Summer 2027, Off-Season, New Grad; vanshb03 Summer 2027) | `github_lists.py` | parses README tables (HTML and Markdown) | 3,724 |
@@ -71,11 +71,11 @@ same browser: add `render: true` in `programs.yaml`.
   small update.
 - **Microsoft** sometimes answers "429 Too Many Requests". The bot then waits
   15 s and 45 s before retrying, as the site asks.
-- **Sites that block bots on purpose** are not scraped: Hudson River Trading,
-  Citadel / Citadel Securities, MBZUAI and the OpenAI Residency page use
-  Cloudflare-style bot protection that also stops a headless browser. The bot
-  respects that. Check these by hand (links below); their internships often
-  show up in the SimplifyJobs lists anyway.
+- **Sites behind Cloudflare's bot check** (Citadel, MBZUAI, OpenAI Residency)
+  stop even a full headless browser at a "security verification" page. Getting
+  past it would mean disguising the browser or solving the challenge, which is
+  defeating their anti-bot protection, so the radar doesn't do it. Where
+  possible it reads the same postings from another source instead (see below).
 - **New-grad roles** are included because you asked for the SimplifyJobs
   new-grad list. They carry the warning `new-grad role (after graduation)`.
 - Postings that a source stops listing are marked closed. If a source is only
@@ -84,12 +84,15 @@ same browser: add `render: true` in `programs.yaml`.
 
 ### Check these by hand
 
-These block bots, so the radar can't read them:
+| Site | What the radar still sees | Link |
+|---|---|---|
+| Citadel / Citadel Securities | their internships and new-grad roles from the SimplifyJobs lists | https://www.citadel.com/careers/students/ |
+| MBZUAI UGRIP | nothing | https://mbzuai.ac.ae/ugrip/ |
+| OpenAI Residency | residency roles when OpenAI posts them on its Ashby board (already read daily) | https://openai.com/residency/ |
 
-- Hudson River Trading: https://www.hudsonrivertrading.com/campus-recruiting/
-- Citadel and Citadel Securities: https://www.citadel.com/careers/students/
-- MBZUAI UGRIP: https://mbzuai.ac.ae/ugrip/
-- OpenAI Residency: https://openai.com/residency/
+Hudson River Trading used to be on this list. Its website blocks bots, but its
+jobs live on Greenhouse under the board name `wehrtyou`, so it is now read
+from the public API like any other company.
 
 ### Companies not on Greenhouse, Lever or Ashby
 
