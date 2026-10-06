@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS opportunities (
     last_seen     TEXT NOT NULL,
     deadline      TEXT,
     pay           TEXT,           -- e.g. "$54–60/hr"; empty when not stated
+    skills        TEXT,           -- comma-separated, e.g. "Python,PyTorch" (radar/skills.py)
     area          TEXT,
     season        TEXT,
     regions       TEXT,           -- comma-separated, e.g. "Brazil,remote"
@@ -68,6 +69,8 @@ def _add_missing_columns(conn: sqlite3.Connection) -> None:
     existing = {row["name"] for row in conn.execute("PRAGMA table_info(opportunities)")}
     if "pay" not in existing:
         conn.execute("ALTER TABLE opportunities ADD COLUMN pay TEXT")
+    if "skills" not in existing:
+        conn.execute("ALTER TABLE opportunities ADD COLUMN skills TEXT")
 
 
 def _join(items: list[str]) -> str:
@@ -97,7 +100,8 @@ def upsert(conn: sqlite3.Connection, opp: Opportunity, today: str) -> bool:
     values = {
         "id": opp.id, "title": opp.title, "org": opp.org, "source": opp.source,
         "location": opp.location, "remote": int(opp.remote), "url": opp.url,
-        "posted_date": opp.posted_date, "deadline": opp.deadline, "pay": opp.pay, "area": opp.area,
+        "posted_date": opp.posted_date, "deadline": opp.deadline, "pay": opp.pay, "skills": _join(opp.skills),
+        "area": opp.area,
         "season": opp.season, "regions": _join(opp.regions), "warnings": _join(opp.warnings),
         "calendar_note": opp.calendar_note, "note": opp.note, "labeled_by": opp.labeled_by,
         "is_open": int(opp.is_open), "last_seen": today,
@@ -164,6 +168,7 @@ class StoredOpportunity:
     last_seen: str
     deadline: str
     pay: str
+    skills: list[str]
     area: str
     season: str
     regions: list[str]
@@ -183,7 +188,7 @@ def load_all(conn: sqlite3.Connection) -> list[StoredOpportunity]:
             location=r["location"] or "", remote=bool(r["remote"]), url=r["url"],
             posted_date=r["posted_date"] or "", first_seen=r["first_seen"],
             last_seen=r["last_seen"], deadline=r["deadline"] or "check page", pay=r["pay"] or "",
-            area=r["area"] or "other", season=r["season"] or "unknown",
+            skills=_split(r["skills"]), area=r["area"] or "other", season=r["season"] or "unknown",
             regions=_split(r["regions"]), warnings=_split(r["warnings"]),
             calendar_note=r["calendar_note"] or "", note=r["note"] or "",
             labeled_by=r["labeled_by"] or "rules", is_open=bool(r["is_open"]), status=r["status"],

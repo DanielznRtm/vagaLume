@@ -128,6 +128,7 @@ at the top of that file, so you can change them.
 | calendar note | whether it fits UNESP's breaks or clashes with the semesters (Mar–Jul, Aug–Dec) |
 | deadline | a date when the source or the text states one, otherwise `check page` |
 | pay | when stated: structured fields from Ashby, Lever and Greenhouse, otherwise read from the description by `radar/pay.py` (it understands formats like `$54 — $60 USD`, `109,395.00 USD Annually` and `Bolsa auxílio: R$1.357,28/mês`). About 700 roles have it today. |
+| skills | the skills a posting mentions, from a fixed list of about 80 in `radar/skills.py` (Python, C++, PyTorch, SQL, ROS, PLC, MATLAB, Embedded systems…), in English and Portuguese. Used by the résumé match on the site. Roles from the GitHub lists only have a title, so few skills are found for them. |
 
 **Optional Claude labelling.** If the secret `ANTHROPIC_API_KEY` is set, new
 postings are also sent (title, location and description) to Claude Haiku 4.5,
@@ -163,6 +164,39 @@ any time with the button at the top right. It is saved in your browser only.
 Fit only sorts and flags. Every role stays on the page unless you filter it
 out yourself.
 
+**Résumé match (no AI inside vagaLume).** Click **Match my résumé** at the
+top (or the link on the first screen):
+
+1. Copy the prompt. It lists the skill names vagaLume knows, so the answer
+   uses the same spelling.
+2. Paste it into the AI chat you already use (ChatGPT, Gemini, Claude…) and
+   attach your résumé. The prompt asks it to leave out your name and contact
+   details and to answer with a small JSON summary: level, field, country,
+   graduation month, where you can work, languages, areas, skills, the kind
+   of roles you want and the months you're free.
+3. Paste the answer back. vagaLume finds the `{ … }` part even if the AI
+   wrapped it in text or a code block, and shows what it read.
+
+The summary is stored in your browser only. With it:
+
+- Every role gets a **match**: *Strong*, *Good*, *Some* or *Low*. It adds up
+  the skills the posting mentions that are in your résumé (programming
+  languages listed as alternatives, like "Java, Python or Go", count as one),
+  whether the role is in one of your areas, and whether its title contains
+  one of the roles you want. Strong and Good matches get a tag; open a row to
+  see which skills match (✓) and which are missing.
+- A **Résumé match** filter, a **Best résumé match** sort (the default; long
+  shots still go last) and a "strong résumé matches" count at the top.
+- Your **profile** is filled in from the summary.
+- **Fit gets sharper:** countries where you can already work don't get the
+  visa warning; a new-grad job is fine when you graduate within a year; an
+  estágio says it's in Portuguese if you don't list Portuguese; and your free
+  months replace UNESP's calendar in the month strip, the "Fits my breaks"
+  filter, and a "runs outside the months you're free" note.
+
+It's keyword matching, so it's a hint for sorting, not a verdict: read the
+posting before deciding.
+
 **Each row shows:**
 
 | Column | What it is |
@@ -170,7 +204,7 @@ out yourself.
 | Role | title (links to the posting), company, `NEW` / `APPLIED` tags |
 | Where | the first location, then "+N more locations". Open the row for all of them. |
 | Pay | when the posting states it, e.g. `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`, `$94K–125K/yr` |
-| When | a 12-month strip, January to December. Grey months are UNESP semesters (Mar–Jun, Aug–Nov). The role's months are green when they fall in a break and amber when they clash with classes. |
+| When | a 12-month strip, January to December. Grey months are UNESP semesters (Mar–Jun, Aug–Nov), or the months you're not free if your résumé summary lists them. The role's months are green when they fall in a break and amber when they clash with classes. |
 | Deadline | the date and the days left, red within 14 days |
 
 Click a row to open its details: fit reasons, all locations, dates, pay,
@@ -182,13 +216,13 @@ labels and where it was found.
   are highlighted.
 - **Tabs:** All · New · Closing soon · Saved · Programs & schools · Applied ·
   Hidden. Each shows its count.
-- **Filters:** Fit, Area, Where, When (including a **Fits my breaks**
+- **Filters:** Résumé match (with a résumé), Fit, Area, Where, When (including a **Fits my breaks**
   shortcut for Dec–Feb and July), "only roles that state pay", and Source.
   The number on each chip is how many roles you'd see after clicking it,
   given the other filters you already picked.
 - **Active filters** show as pills above the list. Click a pill's × to remove
   it, or "Clear all".
-- **Sort:** best fit (with a profile), deadline, newest, or company.
+- **Sort:** best résumé match (with a résumé), best fit (with a profile), deadline, newest, or company.
 - **☆ Save** builds a shortlist (the Saved tab). **✕ Hide** moves a role to
   Hidden. Inside an opened row you can also **Mark as applied**. All of this
   is saved in your browser, and clicking again undoes it.
@@ -317,6 +351,7 @@ radar/
   browser.py       headless Chromium, only for sites that need JavaScript
   labels.py        keyword rules for area / season / region / warnings
   pay.py           finds the pay in a description ("$54–60/hr", "R$1,357/mo")
+  skills.py        finds the skills a posting mentions (for the résumé match)
   llm.py           optional Claude labelling (only with ANTHROPIC_API_KEY)
   db.py            SQLite storage, dedupe by id (hash of the URL)
   report.py        writes reports/latest.md
