@@ -3,32 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Opportunity Radar</title>
+<title>vagaLume</title>
+<meta name="description" content="Student internships, research programs, fellowships and schools, collected every morning and sorted by how well they fit you.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23c9e84a' fill-opacity='.35'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23c9e84a'/%3E%3Ccircle cx='16' cy='16' r='3.2' fill='%23fffbe0'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
 <!--
-  The whole web interface is this one file: no frameworks, no build step.
-  It downloads data.json (written by the bot on every run) and shows it.
-  Your profile and your Applied / Hide clicks are saved in this browser
+  vagaLume's whole web interface is this one file: no frameworks, no build
+  step. It downloads data.json (written by the bot on every run) and shows it.
+  Your profile, saved roles and Applied / Hide clicks stay in this browser
   (localStorage); nothing is sent anywhere.
 -->
 <style>
   /* Layout: a filter rail on the left and a dense, scannable list of roles on
-     the right; each row expands in place for the details. */
+     the right; each row expands in place. Identity: a night-forest teal for
+     ink and controls, and one firefly "lume" glow used only for the brand. */
   :root {
-    --paper: #f4f6f3;      /* page background, a faint green-grey */
+    --paper: #f3f6f2;      /* page background, faint green-grey */
     --surface: #ffffff;    /* rows, panels */
-    --ink: #16201b;        /* text */
-    --muted: #5b6862;      /* secondary text */
-    --line: #dde3de;       /* hairlines */
-    --accent: #0d6b5c;     /* deep teal: links, selected states */
-    --accent-soft: #e0efea;
-    --good: #1d7a3d;  --good-soft: #e3f3e7;
-    --check: #9a5a00; --check-soft: #fbefdc;
-    --long: #b3261e;  --long-soft: #fbe5e3;
-    --semester: #d9dfda;   /* month strip: months you're in class */
-    --break: #f4f6f3;      /* month strip: break months */
+    --ink: #142019;        /* text */
+    --muted: #5a6861;      /* secondary text */
+    --line: #dce3dd;       /* hairlines */
+    --accent: #0c6a5b;     /* night-forest teal: links, selected states */
+    --accent-soft: #e0efe9;
+    --lume: #c9e84a;       /* firefly glow (brand only) */
+    --good: #1d7a3d;  --good-soft: #e2f3e6;
+    --check: #9a5a00; --check-soft: #fbefdb;
+    --long: #b3261e;  --long-soft: #fbe4e2;
+    --semester: #d8dfd9;   /* month strip: months in class */
+    --break: #f3f6f2;      /* month strip: break months */
+    --mark-bg: #f6f0a8;    /* search highlight */
 
     --font-display: "Bricolage Grotesque", "Schibsted Grotesk", system-ui, sans-serif;
     --font-body: "Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -40,18 +45,18 @@
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --paper: #101513; --surface: #171e1b; --ink: #e5ebe7; --muted: #95a39c; --line: #27312c;
-      --accent: #5cc3ac; --accent-soft: #17332b;
-      --good: #74d391; --good-soft: #163021; --check: #f0b45e; --check-soft: #352812; --long: #ff8d80; --long-soft: #3a1b18;
-      --semester: #2b3530; --break: #171e1b;
+      --paper: #0e1411; --surface: #151d19; --ink: #e5ece7; --muted: #94a39b; --line: #25302a;
+      --accent: #5cc3ac; --accent-soft: #16322a; --lume: #d4f05a;
+      --good: #74d391; --good-soft: #152f20; --check: #f0b45e; --check-soft: #342711; --long: #ff8d80; --long-soft: #3a1b18;
+      --semester: #2a352f; --break: #151d19; --mark-bg: #4b4a12;
       color-scheme: dark;
     }
   }
   :root[data-theme="dark"] {
-    --paper: #101513; --surface: #171e1b; --ink: #e5ebe7; --muted: #95a39c; --line: #27312c;
-    --accent: #5cc3ac; --accent-soft: #17332b;
-    --good: #74d391; --good-soft: #163021; --check: #f0b45e; --check-soft: #352812; --long: #ff8d80; --long-soft: #3a1b18;
-    --semester: #2b3530; --break: #171e1b;
+    --paper: #0e1411; --surface: #151d19; --ink: #e5ece7; --muted: #94a39b; --line: #25302a;
+    --accent: #5cc3ac; --accent-soft: #16322a; --lume: #d4f05a;
+    --good: #74d391; --good-soft: #152f20; --check: #f0b45e; --check-soft: #342711; --long: #ff8d80; --long-soft: #3a1b18;
+    --semester: #2a352f; --break: #151d19; --mark-bg: #4b4a12;
     color-scheme: dark;
   }
 
@@ -64,14 +69,25 @@
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
   .mono { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
   .muted { color: var(--muted); }
+  mark { background: var(--mark-bg); color: inherit; border-radius: 2px; padding: 0 1px; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* ---------- brand ---------- */
+  .brand { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 500; letter-spacing: -.01em; color: var(--ink); text-decoration: none; }
+  .brand b { font-weight: 700; }
+  .lume { position: relative; width: 26px; height: 26px; flex: none; display: grid; place-items: center; }
+  .lume::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, var(--lume) 0 32%, color-mix(in srgb, var(--lume) 45%, transparent) 33% 55%, transparent 72%); }
+  .lume::after { content: ""; position: relative; width: 7px; height: 7px; border-radius: 50%; background: #fffbe0; box-shadow: 0 0 6px 2px var(--lume); }
 
   /* ---------- welcome screen ---------- */
-  .welcome { min-height: 100vh; display: grid; place-items: center; padding: 32px var(--gutter); }
-  .welcome-card { width: 100%; max-width: 640px; display: grid; gap: 28px; }
-  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .01em; }
-  .brand svg { flex: none; }
-  .welcome h1 { font-family: var(--font-display); font-size: clamp(2rem, 6vw, 2.9rem); line-height: 1.05; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
-  .welcome p.lead { margin: 10px 0 0; color: var(--muted); font-size: 1.05rem; max-width: 52ch; }
+  .welcome { min-height: 100vh; display: grid; place-items: center; padding: 32px var(--gutter); position: relative; overflow: hidden; }
+  .fireflies { position: absolute; inset: 0; pointer-events: none; }
+  .fireflies i { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: var(--lume); box-shadow: 0 0 10px 3px var(--lume); opacity: .55; }
+  .welcome-card { width: 100%; max-width: 640px; display: grid; gap: 26px; position: relative; }
+  .welcome .brand { font-size: 1.15rem; }
+  .welcome h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.1rem, 6.2vw, 3.1rem); line-height: 1.04; margin: 0; text-wrap: balance; letter-spacing: -.02em; }
+  .welcome h1 em { font-style: normal; background: linear-gradient(transparent 62%, color-mix(in srgb, var(--lume) 70%, transparent) 62%); padding: 0 .08em; }
+  .welcome p.lead { margin: 12px 0 0; color: var(--muted); font-size: 1.05rem; max-width: 54ch; }
   .question { display: grid; gap: 10px; }
   .question h2 { margin: 0; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
   .levels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
@@ -88,53 +104,69 @@
   .welcome .fineprint { font-size: .85rem; color: var(--muted); margin: 0; }
 
   /* ---------- app shell ---------- */
-  .app { max-width: 1320px; margin: 0 auto; padding: 20px var(--gutter) 48px; }
+  .app { max-width: 1320px; margin: 0 auto; padding: 18px var(--gutter) 48px; }
   .topbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px; }
-  .topbar .brand { font-family: var(--font-display); font-size: 1.35rem; }
-  .profile-chip { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); cursor: pointer; }
+  .topbar .brand { font-size: 1.4rem; }
+  .top-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .profile-chip, .ghost { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); cursor: pointer; text-decoration: none; color: var(--ink); font-size: .92rem; }
   .profile-chip .edit { color: var(--accent); font-size: .85rem; }
-  .overview { margin: 18px 0 20px; display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: baseline; }
+  .ghost svg { color: var(--muted); }
+  .overview { margin: 16px 0 18px; display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: baseline; }
   .overview .updated { color: var(--muted); font-size: .9rem; }
   .stat { background: none; border: 0; padding: 0; cursor: pointer; text-align: left; font-size: .98rem; }
   .stat b { font-family: var(--font-data); font-weight: 500; font-size: 1.05rem; margin-right: 4px; }
   .stat:hover span { text-decoration: underline; text-underline-offset: 3px; }
-  .stat.good b { color: var(--good); } .stat.soon b { color: var(--long); } .stat.new b { color: var(--accent); }
+  .stat.good b { color: var(--good); } .stat.soon b { color: var(--long); } .stat.new b { color: var(--accent); } .stat.saved b { color: var(--check); }
 
-  .layout { display: grid; grid-template-columns: 236px minmax(0, 1fr); gap: 28px; align-items: start; }
+  .layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 28px; align-items: start; }
 
   /* filters */
-  .filters { position: sticky; top: 16px; }
+  .filters { position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow: auto; scrollbar-width: thin; }
   .filters > summary { display: none; }
-  .filters-body { display: grid; gap: 20px; }
+  .filters-body { display: grid; gap: 20px; padding-bottom: 8px; }
   .fgroup { display: grid; gap: 7px; }
   .fgroup h3 { margin: 0; font-size: .74rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
   .chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .chip { padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); cursor: pointer; font-size: .86rem; white-space: nowrap; }
-  .chip small { color: var(--muted); font-family: var(--font-data); font-size: .74rem; margin-left: 3px; }
+  .chip small { color: var(--muted); font-family: var(--font-data); font-size: .74rem; margin-left: 4px; }
   .chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--surface); }
   .chip[aria-pressed="true"] small { color: inherit; opacity: .7; }
+  .chip.zero { opacity: .45; }
+  .chip.preset { border-style: dashed; }
   .check-row { display: flex; align-items: center; gap: 8px; font-size: .9rem; cursor: pointer; }
   select { padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); width: 100%; }
   .reset { justify-self: start; }
 
   /* toolbar */
-  .toolbar { display: grid; gap: 12px; margin-bottom: 10px; }
+  .toolbar { display: grid; gap: 12px; margin-bottom: 8px; }
   .search { position: relative; }
-  .search input { width: 100%; padding: 11px 14px 11px 38px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); font-size: 1rem; }
-  .search svg { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+  .search input { width: 100%; padding: 11px 44px 11px 38px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); font-size: 1rem; }
+  .search > svg { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+  .search kbd { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-family: var(--font-data); font-size: .75rem; color: var(--muted); border: 1px solid var(--line); border-radius: 5px; padding: 0 6px; background: var(--paper); }
   .tabs-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; }
   .tabs { display: flex; flex-wrap: wrap; gap: 2px; border-bottom: 1px solid var(--line); }
-  .tab { background: none; border: 0; border-bottom: 2px solid transparent; padding: 7px 10px 8px; cursor: pointer; color: var(--muted); font-weight: 500; margin-bottom: -1px; }
+  .tab { background: none; border: 0; border-bottom: 2px solid transparent; padding: 7px 10px 8px; cursor: pointer; color: var(--muted); font-weight: 500; margin-bottom: -1px; white-space: nowrap; }
   .tab small { font-family: var(--font-data); font-size: .76rem; margin-left: 3px; }
   .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
   .sort { display: flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); }
   .sort select { width: auto; color: var(--ink); }
 
+  .active-filters { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 0; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 6px 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--ink); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); font-size: .85rem; cursor: pointer; }
+  .pill span { color: var(--muted); }
+  .pill svg { color: var(--accent); }
+  .count-line { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; align-items: center; margin: 4px 0 8px; font-size: .85rem; color: var(--muted); }
+  .legend { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: center; }
+  .legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .legend .dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid currentColor; display: inline-block; }
+  .legend .sq { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+
   /* list */
   .list { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
-  .cols, .row-main { display: grid; grid-template-columns: 22px minmax(0, 2.6fr) minmax(0, 1.3fr) minmax(0, .9fr) 92px 96px 74px; gap: 14px; align-items: center; padding: 0 14px; }
+  .cols, .row-main { display: grid; grid-template-columns: 22px minmax(0, 2.6fr) minmax(0, 1.3fr) minmax(0, .9fr) 92px 96px 92px; gap: 14px; align-items: center; padding: 0 14px; }
   .cols { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; padding-block: 10px; border-bottom: 1px solid var(--line); }
-  .row { border-bottom: 1px solid var(--line); }
+  .row { border-bottom: 1px solid var(--line); box-shadow: inset 3px 0 0 var(--stripe, transparent); }
+  .row.fit-0 { --stripe: var(--good); } .row.fit-1 { --stripe: var(--check); } .row.fit-2 { --stripe: var(--long); }
   .row:last-child { border-bottom: 0; }
   .row-main { padding-block: 11px; cursor: pointer; }
   .row-main:hover { background: color-mix(in srgb, var(--accent-soft) 45%, transparent); }
@@ -143,9 +175,12 @@
   .role a { color: var(--ink); font-weight: 600; text-decoration: none; }
   .role a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
   .role .org { color: var(--muted); font-size: .88rem; display: flex; flex-wrap: wrap; gap: 0 8px; align-items: center; }
-  .tag { font-size: .7rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; padding: 0 6px; border-radius: 4px; }
+  .why { font-size: .8rem; margin-top: 1px; }
+  .why.c1 { color: var(--check); } .why.c2 { color: var(--long); }
+  .tag { font-size: .68rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; padding: 0 6px; border-radius: 4px; }
   .tag.new { background: var(--accent-soft); color: var(--accent); }
   .tag.applied { background: var(--good-soft); color: var(--good); }
+  .tag.program { background: color-mix(in srgb, var(--lume) 35%, transparent); color: var(--ink); }
   .where { min-width: 0; font-size: .9rem; }
   .where .first { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .where .more { color: var(--muted); font-size: .82rem; }
@@ -157,14 +192,12 @@
   .deadline.past { color: var(--muted); text-decoration: line-through; }
   .deadline.none { color: var(--muted); font-family: var(--font-body); font-size: .82rem; }
 
-  /* fit dot */
   .fit { width: 12px; height: 12px; border-radius: 50%; border: 2px solid currentColor; justify-self: center; }
   .fit.good { color: var(--good); background: var(--good); }
   .fit.check { color: var(--check); background: var(--check-soft); }
   .fit.long { color: var(--long); background: transparent; }
   .fit.none { color: var(--line); }
 
-  /* month strip: J F M A M J J A S O N D */
   .months { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; width: 84px; }
   .months i { height: 14px; border-radius: 2px; background: var(--break); box-shadow: inset 0 0 0 1px var(--line); }
   .months i.sem { background: var(--semester); box-shadow: none; }
@@ -176,27 +209,30 @@
   .actions { display: flex; gap: 4px; justify-content: flex-end; }
   .icon-btn { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); cursor: pointer; color: var(--muted); }
   .icon-btn:hover { color: var(--ink); border-color: var(--muted); }
-  .icon-btn[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+  .icon-btn.save[aria-pressed="true"] { color: var(--check); border-color: var(--check); background: var(--check-soft); }
+  .icon-btn.hide[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
 
-  /* expanded details */
-  .details { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px 28px; padding: 4px 14px 18px 50px; background: var(--accent-soft); font-size: .9rem; }
+  .details { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px 28px; padding: 4px 14px 18px 50px; background: var(--accent-soft); font-size: .9rem; }
   .details h4 { margin: 0 0 4px; font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
   .details ul { margin: 0; padding-left: 18px; }
   .details p { margin: 0; }
   .reasons li.long { color: var(--long); } .reasons li.check { color: var(--check); }
-  .details .open-link { font-weight: 600; }
+  .detail-actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; padding-top: 4px; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; font-weight: 500; text-decoration: none; color: var(--ink); }
+  .btn.primary-link { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+  .btn[aria-pressed="true"] { border-color: var(--good); color: var(--good); background: var(--good-soft); }
 
   .more-btn { display: block; margin: 16px auto 0; padding: 9px 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); cursor: pointer; }
-  .empty { padding: 40px 16px; text-align: center; color: var(--muted); }
-  .count { font-size: .85rem; color: var(--muted); margin: 0 0 8px; }
+  .empty, .loading { padding: 40px 16px; text-align: center; color: var(--muted); }
+  .loading .lume { margin: 0 auto 12px; }
+  .to-top { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; display: grid; place-items: center; box-shadow: 0 4px 14px rgb(0 0 0 / .12); }
 
   footer { margin-top: 40px; display: grid; gap: 14px; font-size: .9rem; }
   footer details { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 16px; }
   footer summary { cursor: pointer; font-weight: 600; }
   footer p { max-width: 75ch; }
-  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; }
-  .legend span { display: inline-flex; align-items: center; gap: 6px; }
-  .swatch { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
+  .footer-line { display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--muted); font-size: .85rem; }
+  .swatch { width: 12px; height: 12px; border-radius: 2px; display: inline-block; vertical-align: -1px; }
   .table-wrap { overflow-x: auto; }
   table { border-collapse: collapse; width: 100%; font-size: .86rem; }
   td, th { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
@@ -204,30 +240,30 @@
   /* ---------- small screens ---------- */
   @media (max-width: 900px) {
     .layout { grid-template-columns: minmax(0, 1fr); gap: 14px; }
-    .filters { position: static; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 14px; }
+    main { min-width: 0; }
+    .filters { position: static; max-height: none; overflow: visible; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 14px; }
     .filters > summary { display: list-item; cursor: pointer; font-weight: 600; }
     .filters[open] > summary { margin-bottom: 14px; }
-    .pay.none { display: none; }
     .cols { display: none; }
+    .legend .sem-legend { display: none; }
     .row-main { grid-template-columns: 18px minmax(0, 1fr) auto; grid-template-areas: "fit role actions" ". where where" ". facts facts"; row-gap: 6px; }
     .row-main > .fit { grid-area: fit; align-self: start; margin-top: 5px; }
     .row-main > .role { grid-area: role; }
     .row-main > .actions { grid-area: actions; align-self: start; }
     .row-main > .where { grid-area: where; }
     .row-main > .facts { grid-area: facts; display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; }
+    .pay.none { display: none; }
     .details { padding-left: 46px; }
     .levels { grid-template-columns: minmax(0, 1fr); }
-  }
-  @media (min-width: 901px) { .facts { display: contents; } }
-  @media (max-width: 900px) {
-    /* one swipeable line of tabs instead of two wrapped lines */
-    main { min-width: 0; }
     .tabs-row { display: grid; gap: 10px; }
     .tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
     .tabs::-webkit-scrollbar { display: none; }
-    .tab { white-space: nowrap; flex: none; }
+    .tab { flex: none; }
+    .search kbd { display: none; }
+    .ghost .label { display: none; }
   }
-  /* Touch screens: every control at least ~40px tall so it's easy to hit. */
+  @media (min-width: 901px) { .facts { display: contents; } }
+  /* Touch screens: controls at least ~40px so they're easy to hit. */
   @media (pointer: coarse) {
     .icon-btn { width: 42px; height: 42px; border-radius: 10px; }
     .chip { padding: 8px 13px; font-size: .92rem; }
@@ -238,22 +274,35 @@
     .check-row input { width: 20px; height: 20px; }
     .filters > summary, footer summary { padding-block: 8px; }
     .reset, .linkish { padding-block: 8px; }
-    select { min-height: 42px; }
-    .profile-chip { min-height: 42px; }
+    select, .profile-chip, .ghost, .pill { min-height: 42px; }
+    .btn { min-height: 44px; }
     .row-main:active { background: var(--accent-soft); }
   }
-  @media (prefers-reduced-motion: no-preference) { .row-main, .chip, .tab { transition: background-color .12s, color .12s, border-color .12s; } }
+  @media (prefers-reduced-motion: no-preference) {
+    .row-main, .chip, .tab, .icon-btn { transition: background-color .12s, color .12s, border-color .12s; }
+    .lume::before { animation: glow 3.2s ease-in-out infinite; }
+    .fireflies i { animation: drift 9s ease-in-out infinite, blink 3.4s ease-in-out infinite; }
+    .fireflies i:nth-child(2n) { animation-duration: 12s, 4.1s; }
+    .fireflies i:nth-child(3n) { animation-duration: 10s, 2.7s; animation-delay: -3s, -1s; }
+    @keyframes glow { 0%, 100% { opacity: .75; transform: scale(.9); } 50% { opacity: 1; transform: scale(1.08); } }
+    @keyframes blink { 0%, 100% { opacity: .1; } 45%, 60% { opacity: .75; } }
+    @keyframes drift { 0%, 100% { translate: 0 0; } 33% { translate: 18px -14px; } 66% { translate: -12px 10px; } }
+  }
 </style>
 </head>
 <body>
 
 <!-- ======================= welcome / profile ======================= -->
 <section class="welcome" id="welcome" hidden>
+  <div class="fireflies" aria-hidden="true">
+    <i style="left:8%;top:18%"></i><i style="left:86%;top:12%"></i><i style="left:74%;top:72%"></i>
+    <i style="left:14%;top:80%"></i><i style="left:52%;top:8%"></i><i style="left:92%;top:44%"></i><i style="left:4%;top:50%"></i>
+  </div>
   <div class="welcome-card">
-    <div class="brand"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11.5" fill="none" stroke="currentColor" stroke-opacity=".35"/><circle cx="13" cy="13" r="6.5" fill="none" stroke="currentColor" stroke-opacity=".35"/><path d="M13 13 L13 1.5 A11.5 11.5 0 0 1 23.4 8.2 Z" fill="var(--accent)" fill-opacity=".85"/><circle cx="18.5" cy="6.8" r="1.6" fill="var(--accent)"/></svg>Opportunity Radar</div>
+    <span class="brand"><span class="lume" aria-hidden="true"></span><span>vaga<b>Lume</b></span></span>
     <div>
-      <h1>Which opportunities fit you?</h1>
-      <p class="lead">Tell the radar where you are in your studies. It sorts internships, research programs and schools by how well they fit, and says what might get in the way. Nothing is hidden.</p>
+      <h1>A little light on <em>every student opening.</em></h1>
+      <p class="lead">Internships, research programs, fellowships and schools from 13 sources, collected every morning. Tell vagaLume where you are in your studies and it sorts them by fit and says what might get in the way. Nothing is hidden.</p>
     </div>
     <div class="question" role="group" aria-labelledby="q-level">
       <h2 id="q-level">I'm studying for a</h2>
@@ -271,15 +320,21 @@
       <button class="primary" id="start" disabled>Show my opportunities</button>
       <button class="linkish" id="skip">Skip and show everything</button>
     </div>
-    <p class="fineprint" id="welcome-count"></p>
+    <p class="fineprint" id="welcome-count">Loading today's opportunities…</p>
   </div>
 </section>
 
 <!-- ======================= main app ======================= -->
 <div class="app" id="app" hidden>
   <header class="topbar">
-    <div class="brand"><svg width="24" height="24" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11.5" fill="none" stroke="currentColor" stroke-opacity=".35"/><circle cx="13" cy="13" r="6.5" fill="none" stroke="currentColor" stroke-opacity=".35"/><path d="M13 13 L13 1.5 A11.5 11.5 0 0 1 23.4 8.2 Z" fill="var(--accent)" fill-opacity=".85"/><circle cx="18.5" cy="6.8" r="1.6" fill="var(--accent)"/></svg>Opportunity Radar</div>
-    <button class="profile-chip" id="profile-chip"><span id="profile-text"></span><span class="edit">Change</span></button>
+    <span class="brand"><span class="lume" aria-hidden="true"></span><span>vaga<b>Lume</b></span></span>
+    <div class="top-actions">
+      <button class="profile-chip" id="profile-chip"><span id="profile-text"></span><span class="edit">Change</span></button>
+      <a class="ghost" href="https://github.com/PedroCamargoLINCE/vagaLume" target="_blank" rel="noopener" title="Source code on GitHub">
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        <span class="label">Star on GitHub</span>
+      </a>
+    </div>
   </header>
 
   <div class="overview" id="overview"></div>
@@ -288,22 +343,19 @@
     <details class="filters" id="filters" open>
       <summary id="filters-summary">Filters</summary>
       <div class="filters-body">
-      <div class="fgroup" id="fit-group">
-        <h3>Fit for you</h3>
-        <div class="chips" data-filter="fit"></div>
-      </div>
-      <div class="fgroup"><h3>Area</h3><div class="chips" data-filter="area"></div></div>
-      <div class="fgroup"><h3>Where</h3><div class="chips" data-filter="region"></div></div>
-      <div class="fgroup"><h3>When</h3><div class="chips" data-filter="season"></div></div>
-      <div class="fgroup">
-        <h3>Pay</h3>
-        <label class="check-row"><input type="checkbox" id="pay-only"> Only roles that state pay</label>
-      </div>
-      <div class="fgroup">
-        <h3>Source</h3>
-        <select id="source" aria-label="Source"></select>
-      </div>
-      <button class="linkish reset" id="reset">Clear all filters</button>
+        <div class="fgroup" id="fit-group"><h3>Fit for you</h3><div class="chips" data-filter="fit"></div></div>
+        <div class="fgroup"><h3>Area</h3><div class="chips" data-filter="area"></div></div>
+        <div class="fgroup"><h3>Where</h3><div class="chips" data-filter="region"></div></div>
+        <div class="fgroup"><h3>When</h3><div class="chips" data-filter="season"></div></div>
+        <div class="fgroup">
+          <h3>Pay</h3>
+          <label class="check-row"><input type="checkbox" id="pay-only"> Only roles that state pay</label>
+        </div>
+        <div class="fgroup">
+          <h3>Source</h3>
+          <select id="source" aria-label="Source"></select>
+        </div>
+        <button class="linkish reset" id="reset">Clear all filters</button>
       </div>
     </details>
 
@@ -311,7 +363,9 @@
       <div class="toolbar">
         <div class="search">
           <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          <input type="search" id="search" placeholder="Search role, company or city" aria-label="Search role, company or city">
+          <label for="search" class="visually-hidden">Search role, company or city</label>
+          <input type="search" id="search" placeholder="Search role, company or city" autocomplete="off">
+          <kbd title="Press / to search">/</kbd>
         </div>
         <div class="tabs-row">
           <div class="tabs" role="tablist" id="tabs"></div>
@@ -322,15 +376,25 @@
             <option value="org">Company A–Z</option>
           </select></label>
         </div>
+        <div class="active-filters" id="active-filters"></div>
       </div>
-      <p class="count" id="count"></p>
+      <div class="count-line">
+        <span id="count"></span>
+        <span class="legend" id="legend">
+          <span class="fit-legend"><span class="dot" style="color:var(--good);background:var(--good)"></span>good fit</span>
+          <span class="fit-legend"><span class="dot" style="color:var(--check);background:var(--check-soft)"></span>check</span>
+          <span class="fit-legend"><span class="dot" style="color:var(--long)"></span>long shot</span>
+          <span class="sem-legend"><span class="sq" style="background:var(--good)"></span>in a break</span>
+          <span class="sem-legend"><span class="sq" style="background:var(--check)"></span>during classes</span>
+        </span>
+      </div>
       <div class="list" id="list">
         <div class="cols" aria-hidden="true">
           <span title="Fit for your profile">Fit</span><span>Role</span><span>Where</span><span>Pay</span>
-          <span title="J F M A M J J A S O N D · grey = UNESP semester, green = in a break, amber = during the semester">When</span>
+          <span title="January to December. Grey: UNESP semester. Green: the role runs in a break. Amber: it clashes with classes.">When</span>
           <span>Deadline</span><span></span>
         </div>
-        <div id="rows"></div>
+        <div id="rows"><div class="loading"><span class="lume" aria-hidden="true"></span>Loading opportunities…</div></div>
       </div>
       <button class="more-btn" id="more" hidden>Show more</button>
     </main>
@@ -339,23 +403,23 @@
   <footer>
     <details>
       <summary>How to read this page</summary>
-      <p><b>Fit</b> compares each role with your profile: <span style="color:var(--good)">●</span> good fit, <span style="color:var(--check)">◐</span> check something (a visa, a graduation-year rule, a job for after you graduate), <span style="color:var(--long)">○</span> long shot (for example a PhD-only role while you're an undergrad). Open a row to see why.</p>
-      <div class="legend">
-        <b>When</b>
-        <span><i class="swatch" style="background:var(--semester)"></i>UNESP semester (Mar–Jun, Aug–Nov)</span>
-        <span><i class="swatch" style="background:var(--break);box-shadow:inset 0 0 0 1px var(--line)"></i>break (Dec–Feb, Jul)</span>
-        <span><i class="swatch" style="background:var(--good)"></i>role runs in a break</span>
-        <span><i class="swatch" style="background:var(--check)"></i>role runs during the semester</span>
-      </div>
-      <p><b>Pay</b> is shown when the posting states it (hr = per hour, mo = per month, yr = per year). Annual figures for internships are usually the hourly rate scaled to a year.</p>
-      <p>The bot keeps every student posting it finds. Labels and fit are hints, not verdicts. Applied, Hide and your profile are saved only in this browser. For statuses every device sees, use <code>config/status.yaml</code> in the repository.</p>
+      <p><b>Fit</b> compares each role with your profile: a full dot is a good fit, a half-filled dot means check something (a visa, a graduation-year rule, a job for after you graduate), an empty dot is a long shot (for example a PhD-only role while you're an undergrad). The reason shows under the company; open the row for all of them.</p>
+      <p><b>When</b> is a January–December strip. <i class="swatch" style="background:var(--semester)"></i> UNESP semester months (Mar–Jun, Aug–Nov). <i class="swatch" style="background:var(--good)"></i> the role runs in a break. <i class="swatch" style="background:var(--check)"></i> it clashes with classes.</p>
+      <p><b>Pay</b> appears when the posting states it (hr = per hour, mo = per month, yr = per year). Annual figures for internships are usually the hourly rate scaled to a year.</p>
+      <p><b>☆ Save</b> builds a shortlist, <b>✕ Hide</b> removes a role from your lists, and inside a row you can mark it <b>Applied</b>. All of this stays in this browser. vagaLume never hides anything by itself: labels and fit are hints, not verdicts.</p>
+      <p>Your filters live in the page address, so you can bookmark a view (for example "ML roles in Europe") or send it to a friend.</p>
     </details>
     <details>
       <summary>Sources</summary>
       <div class="table-wrap"><table><thead><tr><th>Source</th><th>Status</th><th>Items</th><th>Problems</th></tr></thead><tbody id="sources"></tbody></table></div>
     </details>
+    <div class="footer-line">
+      <span>vagaLume updates every morning at 09:00 (Brasília).</span>
+      <a href="https://github.com/PedroCamargoLINCE/vagaLume" target="_blank" rel="noopener">Code, guide and how to add companies</a>
+    </div>
   </footer>
 </div>
+<button class="to-top" id="to-top" hidden aria-label="Back to top"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 10l5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 
 <script>
 // ------------------------------------------------------------------ settings
@@ -370,26 +434,34 @@ const PLACES = [  // where you study -> the radar's region label
 ];
 const LEVEL_NAMES = { undergrad: "Undergrad", masters: "Master's student", phd: "PhD student" };
 const REGION_ORDER = ["Brazil", "LatAm", "US/Canada", "Europe", "Asia/ME", "remote"];
-const SEASON_ORDER = ["Dec–Feb", "Jul", "May–Aug", "year-round", "unknown"];
+const SEASON_ORDER = ["breaks", "Dec–Feb", "Jul", "May–Aug", "year-round", "unknown"];
 const AREA_ORDER = ["ML", "research", "SWE", "data", "quant", "hardware", "other"];
-// Months each season covers (1 = January). UNESP: semesters Mar–Jun and Aug–Nov.
 const SEASON_MONTHS = { "Dec–Feb": [12, 1, 2], "Jul": [7], "May–Aug": [5, 6, 7, 8], "year-round": [1,2,3,4,5,6,7,8,9,10,11,12], "unknown": [] };
-const SEMESTER = new Set([3, 4, 5, 6, 8, 9, 10, 11]);
+const SEMESTER = new Set([3, 4, 5, 6, 8, 9, 10, 11]);  // UNESP: Mar–Jun and Aug–Nov
 const SEASON_TEXT = {
   "Dec–Feb": "Dec–Feb · fits the summer break", "Jul": "July · fits the July break",
   "May–Aug": "May–Aug · overlaps the semester", "year-round": "During the semester",
   "unknown": "Dates not stated",
 };
+const LABELS = {  // how filter values are written on chips and pills
+  region: { remote: "Remote" },
+  season: { breaks: "Fits my breaks", "year-round": "Year-round", unknown: "Not stated" },
+  fit: { good: "Good fit", check: "Good + check" },
+};
+const FILTER_NAMES = { fit: "Fit", area: "Area", region: "Where", season: "When", source: "Source" };
 
 // ------------------------------------------------------------------ state
-let DATA = { items: [], sources: [] };
+let DATA = null;
 const store = {
   get(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } },
   set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch {} },
 };
 let profile = store.get("radar.profile", null);   // {level, place} or {skipped: true}
 let marks = store.get("radar.marks", {});         // id -> "applied" | "hidden" | "none"
-const view = { tab: "all", fit: "", area: "", region: "", season: "", source: "", payOnly: false, q: "", sort: "fit", shown: PAGE_SIZE, open: new Set() };
+let saved = new Set(store.get("radar.saved", []));
+const DEFAULT_VIEW = { tab: "all", fit: "", area: "", region: "", season: "", source: "", pay: "", q: "", sort: "" };
+const view = { ...DEFAULT_VIEW, shown: PAGE_SIZE, open: new Set() };
+readHash();
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -400,15 +472,36 @@ const hasProfile = () => profile && profile.level;
 const isNew = i => i.added === DATA.updated && i.source !== "programs";
 const isSoon = i => { const d = daysLeft(i.deadline); return d !== null && d >= 0 && d <= SOON_DAYS; };
 const locations = i => i.location.split(" / ").map(s => s.trim()).filter(Boolean);
+const label = (filter, value) => (LABELS[filter] || {})[value] || value;
 
 function mark(item) {
   const m = marks[item.id];
   if (m) return m === "none" ? "" : m;
   return item.status === "applied" ? "applied" : item.status === "ignored" ? "hidden" : "";
 }
+function setMark(item, value) {
+  marks[item.id] = mark(item) === value ? "none" : value;  // the same click again undoes it
+  store.set("radar.marks", marks);
+}
+function toggleSave(id) {
+  saved.has(id) ? saved.delete(id) : saved.add(id);
+  store.set("radar.saved", [...saved]);
+}
+
+// The view lives in the page address (#area=ML&region=Europe), so a view can be bookmarked or shared.
+function readHash() {
+  const params = new URLSearchParams(location.hash.slice(1));
+  for (const key of Object.keys(DEFAULT_VIEW)) view[key] = params.get(key) ?? DEFAULT_VIEW[key];
+}
+function writeHash() {
+  const params = new URLSearchParams();
+  for (const [key, empty] of Object.entries(DEFAULT_VIEW)) if (view[key] && view[key] !== empty) params.set(key, view[key]);
+  const hash = params.toString();
+  history.replaceState(null, "", hash ? `#${hash}` : location.pathname + location.search);
+}
 
 // ------------------------------------------------------------------ fit
-// Returns {level: 0 good | 1 check | 2 long shot, reasons: [[level, text], ...]}.
+// {level: 0 good | 1 check | 2 long shot | -1 no profile, reasons: [[level, text], ...]}
 function computeFit(item) {
   if (!hasProfile()) return { level: -1, reasons: [] };
   const reasons = [];
@@ -424,7 +517,7 @@ function computeFit(item) {
   if (lvl === "phd" && /undergrad|bachelor|\bBS\b(?!\/)|\bB\.S\./i.test(t) && !/phd/i.test(t)) add(1, "Aimed at undergraduates");
   if (w.has("new-grad role (after graduation)")) add(1, "A job for after you graduate");
   if (w.has("unsure if student role")) add(1, "Might not be a student role");
-  if (w.has("grad-year limit?")) add(1, "Mentions a graduation-year or year-of-study rule");
+  if (w.has("grad-year limit?")) add(1, "Mentions a graduation-year rule");
 
   // A Brazilian estágio needs a contract with a Brazilian university, even when remote.
   const estagio = item.source === "gupy" || /est[áa]gi/i.test(t);
@@ -433,11 +526,11 @@ function computeFit(item) {
   // Location: programs are built for international students, remote is anywhere.
   const mine = (PLACES.find(p => p[0] === profile.place) || [])[2];
   const where = item.regions.filter(r => r !== "remote" && r !== "unknown");
-  const remoteOk = item.regions.includes("remote");
-  if (!estagio && item.source !== "programs" && where.length && !remoteOk && !where.includes(mine)) {
-    if (where.includes("US/Canada")) add(1, "Needs work authorization for the US or Canada");
-    else add(1, `Abroad (${where.join(", ")}): check visa and work permit`);
+  if (!estagio && item.source !== "programs" && where.length && !item.regions.includes("remote") && !where.includes(mine)) {
+    if (where.includes("US/Canada")) add(1, "Needs US or Canada work authorization");
+    else add(1, `Abroad (${where.join(", ")}): check visa`);
   }
+  reasons.sort((a, b) => b[0] - a[0]);
   return { level: reasons.reduce((m, r) => Math.max(m, r[0]), 0), reasons };
 }
 const FIT_NAMES = ["Good fit", "Check", "Long shot"];
@@ -447,6 +540,7 @@ const FIT_CLASS = ["good", "check", "long"];
 function showWelcome() {
   $("app").hidden = true;
   $("welcome").hidden = false;
+  $("to-top").hidden = true;
   const chosen = { level: profile?.level || "", place: profile?.place || "" };
   $("places").innerHTML = PLACES.map(([key, name]) => `<button class="place" data-place="${key}" aria-pressed="${chosen.place === key}">${name}</button>`).join("");
   document.querySelectorAll(".level").forEach(b => b.setAttribute("aria-pressed", b.dataset.level === chosen.level));
@@ -463,8 +557,8 @@ function showWelcome() {
     document.querySelectorAll(".place").forEach(x => x.setAttribute("aria-pressed", x === b));
     refresh();
   };
-  $("start").onclick = () => { profile = chosen; store.set("radar.profile", profile); view.sort = "fit"; showApp(); };
-  $("skip").onclick = () => { profile = { skipped: true }; store.set("radar.profile", profile); view.sort = "deadline"; showApp(); };
+  $("start").onclick = () => { profile = chosen; store.set("radar.profile", profile); view.sort = ""; showApp(); };
+  $("skip").onclick = () => { profile = { skipped: true }; store.set("radar.profile", profile); view.sort = ""; showApp(); };
   refresh();
   window.scrollTo(0, 0);
 }
@@ -473,68 +567,45 @@ function showWelcome() {
 function showApp() {
   $("welcome").hidden = true;
   $("app").hidden = false;
-  DATA.items.forEach(i => { i._fit = computeFit(i); });
   if (hasProfile()) {
     const place = PLACES.find(p => p[0] === profile.place);
     $("profile-text").textContent = `${LEVEL_NAMES[profile.level]} in ${place ? place[1] : "?"}`;
   } else {
-    $("profile-text").textContent = "No profile set";
+    $("profile-text").textContent = "Set your profile";
   }
   $("fit-group").hidden = !hasProfile();
+  document.querySelectorAll(".fit-legend").forEach(el => el.hidden = !hasProfile());
   $("sort").querySelector('option[value="fit"]').hidden = !hasProfile();
-  if (!hasProfile() && view.sort === "fit") view.sort = "deadline";
-  $("sort").value = view.sort;
-  buildFilters();
+  if (!DATA) return;  // still loading; start() calls showApp again
+  DATA.items.forEach(i => { i._fit = computeFit(i); });
+  if (!hasProfile() && view.fit) view.fit = "";
   render();
 }
-
-function chipGroup(name, values, labels = {}) {
-  const box = document.querySelector(`.chips[data-filter="${name}"]`);
-  box.innerHTML = [["", "Any", null], ...values].map(([value, label, count]) =>
-    `<button class="chip" data-value="${esc(value)}" aria-pressed="${view[name] === value}">${esc(label)}${count != null ? `<small>${count}</small>` : ""}</button>`).join("");
-}
-function counted(values, order) {
-  const counts = {};
-  values.forEach(v => counts[v] = (counts[v] || 0) + 1);
-  const keys = Object.keys(counts).sort((a, b) => (order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99) || a.localeCompare(b));
-  return keys.map(k => [k, k, counts[k]]);
-}
-function buildFilters() {
-  const items = DATA.items;
-  if (hasProfile()) {
-    const n = l => items.filter(i => i._fit.level === l).length;
-    chipGroup("fit", [["good", "Good fit", n(0)], ["check", "Good + check", n(0) + n(1)]]);
-  }
-  chipGroup("area", counted(items.map(i => i.area), AREA_ORDER));
-  chipGroup("region", counted(items.flatMap(i => i.regions.filter(r => r !== "unknown")), REGION_ORDER).map(([k, l, c]) => [k, k === "remote" ? "Remote" : l, c]));
-  chipGroup("season", counted(items.map(i => i.season), SEASON_ORDER).map(([k, l, c]) => [k, k === "year-round" ? "Year-round" : k === "unknown" ? "Not stated" : l, c]));
-  const sources = counted(items.map(i => i.source), []);
-  $("source").innerHTML = `<option value="">All sources</option>` + sources.map(([k, , c]) => `<option value="${esc(k)}">${esc(k)} (${c})</option>`).join("");
-  $("source").value = view.source;
-  $("pay-only").checked = view.payOnly;
-}
+const sortKey = () => view.sort || (hasProfile() ? "fit" : "deadline");
 
 const TABS = [
   ["all", "All", i => mark(i) !== "hidden"],
   ["new", "New", i => isNew(i) && mark(i) !== "hidden"],
   ["soon", "Closing soon", i => isSoon(i) && mark(i) !== "hidden"],
+  ["saved", "Saved", i => saved.has(i.id)],
   ["programs", "Programs & schools", i => i.source === "programs" && mark(i) !== "hidden"],
   ["applied", "Applied", i => mark(i) === "applied"],
   ["hidden", "Hidden", i => mark(i) === "hidden"],
 ];
+const tabTest = () => (TABS.find(t => t[0] === view.tab) || TABS[0])[2];
 
-function passesFilters(i) {
-  if (view.q) {
-    const hay = `${i.title} ${i.org} ${i.location}`.toLowerCase();
-    if (!view.q.split(/\s+/).every(word => hay.includes(word))) return false;
-  }
-  if (view.fit === "good" && i._fit.level !== 0) return false;
-  if (view.fit === "check" && !(i._fit.level === 0 || i._fit.level === 1)) return false;
-  if (view.area && i.area !== view.area) return false;
-  if (view.region && !i.regions.includes(view.region)) return false;
-  if (view.season && i.season !== view.season) return false;
-  if (view.source && i.source !== view.source) return false;
-  if (view.payOnly && !i.pay) return false;
+// Each filter as a test; `skip` leaves one out so its own chips can count what they would add.
+const FILTER_TESTS = {
+  q: i => view.q.toLowerCase().split(/\s+/).filter(Boolean).every(w => `${i.title} ${i.org} ${i.location}`.toLowerCase().includes(w)),
+  fit: i => view.fit === "good" ? i._fit.level === 0 : i._fit.level === 0 || i._fit.level === 1,
+  area: i => i.area === view.area,
+  region: i => i.regions.includes(view.region),
+  season: i => view.season === "breaks" ? i.season === "Dec–Feb" || i.season === "Jul" : i.season === view.season,
+  source: i => i.source === view.source,
+  pay: i => !!i.pay,
+};
+function passes(i, skip) {
+  for (const key of Object.keys(FILTER_TESTS)) if (key !== skip && view[key] && !FILTER_TESTS[key](i)) return false;
   return true;
 }
 
@@ -547,14 +618,16 @@ const SORTS = {
   org: (a, b) => a.org.localeCompare(b.org) || a.title.localeCompare(b.title),
 };
 
-// ------------------------------------------------------------------ rendering
+// ------------------------------------------------------------------ rendering helpers
+function highlight(text) {
+  const safe = esc(text);
+  const words = view.q.trim().split(/\s+/).filter(w => w.length > 1).map(w => esc(w).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  return words.length ? safe.replace(new RegExp(`(${words.join("|")})`, "gi"), "<mark>$1</mark>") : safe;
+}
 function monthStrip(season) {
   const on = new Set(SEASON_MONTHS[season] || []);
-  const cells = Array.from({ length: 12 }, (_, k) => {
-    const m = k + 1;
-    return `<i class="${SEMESTER.has(m) ? "sem" : ""} ${on.has(m) ? "on" : ""}"></i>`;
-  }).join("");
-  return `<div title="${esc(SEASON_TEXT[season] || season)}"><div class="months ${season === "unknown" ? "unknown" : ""}" aria-hidden="true">${cells}</div><div class="months-label">${esc(season === "year-round" ? "Year-round" : season === "unknown" ? "Not stated" : season)}</div></div>`;
+  const cells = Array.from({ length: 12 }, (_, k) => `<i class="${SEMESTER.has(k + 1) ? "sem" : ""} ${on.has(k + 1) ? "on" : ""}"></i>`).join("");
+  return `<div title="${esc(SEASON_TEXT[season] || season)}"><div class="months ${season === "unknown" ? "unknown" : ""}" aria-hidden="true">${cells}</div><div class="months-label">${esc(label("season", season))}</div></div>`;
 }
 function deadlineCell(i) {
   const d = daysLeft(i.deadline);
@@ -568,22 +641,26 @@ function whereCell(i) {
   const regions = i.regions.filter(r => r !== "unknown");
   if (!locs.length) return `<div class="where"><span class="first muted">${esc(regions.join(", ") || "Not stated")}</span></div>`;
   const extra = locs.length - 1;
-  return `<div class="where" title="${esc(locs.join(" · "))}"><span class="first">${esc(locs[0])}</span>${extra ? `<span class="more">+${extra} more location${extra > 1 ? "s" : ""}</span>` : ""}</div>`;
+  return `<div class="where" title="${esc(locs.join(" · "))}"><span class="first">${highlight(locs[0])}</span>${extra ? `<span class="more">+${extra} more location${extra > 1 ? "s" : ""}</span>` : ""}</div>`;
 }
-const ICON_CHECK = `<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const ICON_STAR = filled => `<svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 4 4.4.5-3.3 3 .9 4.3L8 11.2l-3.9 2.2.9-4.3-3.3-3 4.4-.5z" fill="${filled ? "currentColor" : "none"}" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>`;
 const ICON_HIDE = `<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+const ICON_X = `<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3l6 6M9 3l-6 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>`;
 
 function row(i) {
   const m = mark(i);
   const fit = i._fit;
-  const fitTitle = fit.level < 0 ? "Set your profile to see fit" : `${FIT_NAMES[fit.level]}${fit.reasons.length ? ": " + fit.reasons.map(r => r[1]).join("; ") : ""}`;
+  const isSaved = saved.has(i.id);
+  const fitTitle = fit.level < 0 ? "Set your profile to see fit" : FIT_NAMES[fit.level];
   const open = view.open.has(i.id);
-  const tags = `${isNew(i) ? '<span class="tag new">New</span>' : ""}${m === "applied" ? '<span class="tag applied">Applied</span>' : ""}`;
-  return `<div class="row ${open ? "open" : ""}" data-id="${esc(i.id)}">
+  const tags = (isNew(i) ? '<span class="tag new">New</span>' : "") + (m === "applied" ? '<span class="tag applied">Applied</span>' : "") + (i.source === "programs" ? '<span class="tag program">Program</span>' : "");
+  const first = fit.reasons[0];
+  const why = first && !open ? `<div class="why c${first[0]}">${esc(first[1])}${fit.reasons.length > 1 ? ` · +${fit.reasons.length - 1}` : ""}</div>` : "";
+  return `<div class="row ${open ? "open" : ""} ${fit.level >= 0 ? "fit-" + fit.level : ""}" data-id="${esc(i.id)}">
     <div class="row-main" data-toggle="1" aria-expanded="${open}">
       <span class="fit ${fit.level < 0 ? "none" : FIT_CLASS[fit.level]}" title="${esc(fitTitle)}" role="img" aria-label="${esc(fitTitle)}"></span>
-      <div class="role"><a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.title)}</a>
-        <div class="org"><span>${esc(i.org)}</span>${tags}</div></div>
+      <div class="role"><a href="${esc(i.url)}" target="_blank" rel="noopener">${highlight(i.title)}</a>
+        <div class="org"><span>${highlight(i.org)}</span>${tags}</div>${why}</div>
       ${whereCell(i)}
       <div class="facts">
         <div class="pay ${i.pay ? "" : "none"}" title="${esc(i.pay || "Pay not stated")}">${esc(i.pay || "—")}</div>
@@ -591,8 +668,8 @@ function row(i) {
         ${deadlineCell(i)}
       </div>
       <div class="actions">
-        <button class="icon-btn" data-mark="applied" aria-pressed="${m === "applied"}" title="${m === "applied" ? "Unmark applied" : "Mark as applied"}" aria-label="Mark as applied">${ICON_CHECK}</button>
-        <button class="icon-btn" data-mark="hidden" aria-pressed="${m === "hidden"}" title="${m === "hidden" ? "Show again" : "Hide"}" aria-label="Hide">${ICON_HIDE}</button>
+        <button class="icon-btn save" data-act="save" aria-pressed="${isSaved}" title="${isSaved ? "Remove from saved" : "Save for later"}" aria-label="Save for later">${ICON_STAR(isSaved)}</button>
+        <button class="icon-btn hide" data-act="hide" aria-pressed="${m === "hidden"}" title="${m === "hidden" ? "Show again" : "Hide"}" aria-label="Hide">${ICON_HIDE}</button>
       </div>
     </div>
     ${open ? details(i) : ""}
@@ -600,6 +677,7 @@ function row(i) {
 }
 function details(i) {
   const fit = i._fit;
+  const m = mark(i);
   const reasons = fit.level < 0 ? `<p class="muted">Set your profile to see how this fits you.</p>`
     : fit.reasons.length ? `<ul class="reasons">${fit.reasons.map(([l, t]) => `<li class="${FIT_CLASS[l]}">${esc(t)}</li>`).join("")}</ul>`
     : `<p>Nothing in the posting conflicts with your profile.</p>`;
@@ -611,45 +689,102 @@ function details(i) {
       <h4 style="margin-top:10px">Deadline</h4><p>${i.deadline ? esc(fmtDate(i.deadline)) : "Not stated. Check the posting."}</p></div>
     <div><h4>Pay</h4>${i.pay ? `<p class="mono">${esc(i.pay)}</p>` : `<p class="muted">Not stated</p>`}
       <h4 style="margin-top:10px">Labels</h4><p>${esc(i.area)}${i.warnings.length ? " · " + i.warnings.map(esc).join(" · ") : ""}</p></div>
-    <div><h4>Found</h4><p>${esc(fmtDate(i.added))} via ${esc(i.source)}${i.posted ? ` · posted ${esc(fmtDate(i.posted))}` : ""}</p>${i.note ? `<p class="muted">${esc(i.note)}</p>` : ""}
-      <p style="margin-top:8px"><a class="open-link" href="${esc(i.url)}" target="_blank" rel="noopener">Open the posting ↗</a></p></div>
+    <div><h4>Found</h4><p>${esc(fmtDate(i.added))} via ${esc(i.source)}${i.posted ? ` · posted ${esc(fmtDate(i.posted))}` : ""}</p>${i.note ? `<p class="muted">${esc(i.note)}</p>` : ""}</div>
+    <div class="detail-actions">
+      <a class="btn primary-link" href="${esc(i.url)}" target="_blank" rel="noopener">Open the posting ↗</a>
+      <button class="btn" data-act="applied" aria-pressed="${m === "applied"}">${m === "applied" ? "✓ Applied" : "Mark as applied"}</button>
+      <button class="btn" data-act="save">${saved.has(i.id) ? "★ Saved" : "☆ Save"}</button>
+      <button class="btn" data-act="hide">${m === "hidden" ? "Show again" : "Hide"}</button>
+    </div>
   </div>`;
 }
 
+function chipGroup(name, values) {
+  const box = document.querySelector(`.chips[data-filter="${name}"]`);
+  box.innerHTML = [["", "Any", null], ...values].map(([value, text, count]) =>
+    `<button class="chip ${count === 0 ? "zero" : ""} ${value === "breaks" ? "preset" : ""}" data-value="${esc(value)}" aria-pressed="${view[name] === value}">${esc(text)}${count != null ? `<small>${count.toLocaleString()}</small>` : ""}</button>`).join("");
+}
+function countBy(items, valuesOf, order) {
+  const counts = {};
+  items.forEach(i => valuesOf(i).forEach(v => counts[v] = (counts[v] || 0) + 1));
+  for (const v of order) counts[v] ??= 0;
+  return Object.keys(counts).sort((a, b) => (order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99) || a.localeCompare(b));
+}
+function buildFilters(inTab) {
+  // Counts show how many roles you'd see after clicking, given everything else you picked.
+  const base = key => inTab.filter(i => passes(i, key));
+  if (hasProfile()) {
+    const pool = base("fit");
+    const n0 = pool.filter(i => i._fit.level === 0).length, n1 = pool.filter(i => i._fit.level === 1).length;
+    chipGroup("fit", [["good", label("fit", "good"), n0], ["check", label("fit", "check"), n0 + n1]]);
+  }
+  const areaPool = base("area");
+  chipGroup("area", countBy(areaPool, i => [i.area], AREA_ORDER).map(v => [v, v, areaPool.filter(i => i.area === v).length]));
+  const regionPool = base("region");
+  chipGroup("region", countBy(regionPool, i => i.regions.filter(r => r !== "unknown"), REGION_ORDER).map(v => [v, label("region", v), regionPool.filter(i => i.regions.includes(v)).length]));
+  const seasonPool = base("season");
+  const seasons = countBy(seasonPool, i => [i.season], SEASON_ORDER.slice(1));
+  chipGroup("season", [["breaks", label("season", "breaks"), seasonPool.filter(i => i.season === "Dec–Feb" || i.season === "Jul").length],
+    ...seasons.map(v => [v, label("season", v), seasonPool.filter(i => i.season === v).length])]);
+  const sourcePool = base("source");
+  const sources = countBy(sourcePool, i => [i.source], []);
+  $("source").innerHTML = `<option value="">All sources</option>` + sources.map(s => `<option value="${esc(s)}">${esc(s)} (${sourcePool.filter(i => i.source === s).length})</option>`).join("");
+  $("source").value = view.source;
+  $("pay-only").checked = !!view.pay;
+}
+function activeFilters() {
+  const pills = [];
+  if (view.q) pills.push(["q", `Search: “${view.q}”`]);
+  for (const key of ["fit", "area", "region", "season", "source"]) if (view[key]) pills.push([key, `${FILTER_NAMES[key]}: ${label(key, view[key])}`]);
+  if (view.pay) pills.push(["pay", "States pay"]);
+  $("active-filters").innerHTML = pills.length
+    ? pills.map(([key, text]) => `<button class="pill" data-clear="${key}" aria-label="Remove filter ${esc(text)}">${esc(text)}${ICON_X}</button>`).join("") + `<button class="linkish" data-reset="1">Clear all</button>`
+    : "";
+  $("filters-summary").textContent = pills.length ? `Filters (${pills.length} on)` : "Filters";
+}
+
 function render() {
-  const filtered = DATA.items.filter(passesFilters);
-  // overview line (counts before tabs, after filters)
+  if (!DATA) return;
   const visible = DATA.items.filter(i => mark(i) !== "hidden");
   const good = visible.filter(i => i._fit.level === 0).length;
-  const soon = visible.filter(isSoon).length;
-  const fresh = visible.filter(isNew).length;
   $("overview").innerHTML =
     (hasProfile() ? `<button class="stat good" data-go="good"><b>${good.toLocaleString()}</b><span>good fits for you</span></button>` : "") +
-    `<button class="stat soon" data-go="soon"><b>${soon}</b><span>close within ${SOON_DAYS} days</span></button>` +
-    `<button class="stat new" data-go="new"><b>${fresh}</b><span>new in the latest run</span></button>` +
+    `<button class="stat soon" data-go="soon"><b>${visible.filter(isSoon).length}</b><span>close within ${SOON_DAYS} days</span></button>` +
+    `<button class="stat new" data-go="new"><b>${visible.filter(isNew).length}</b><span>new today</span></button>` +
+    (saved.size ? `<button class="stat saved" data-go="saved"><b>${saved.size}</b><span>saved</span></button>` : "") +
     `<span class="updated">${visible.length.toLocaleString()} open · updated ${esc(fmtDate(DATA.updated))}</span>`;
 
-  $("tabs").innerHTML = TABS.map(([key, label, test]) =>
-    `<button class="tab" role="tab" data-tab="${key}" aria-selected="${view.tab === key}">${label}<small>${filtered.filter(test).length.toLocaleString()}</small></button>`).join("");
+  const filtered = DATA.items.filter(i => passes(i));
+  $("tabs").innerHTML = TABS.map(([key, text, test]) =>
+    `<button class="tab" role="tab" data-tab="${key}" aria-selected="${view.tab === key}">${text}<small>${filtered.filter(test).length.toLocaleString()}</small></button>`).join("");
 
-  const test = TABS.find(t => t[0] === view.tab)[2];
-  const list = filtered.filter(test).sort(SORTS[view.sort]);
-  $("rows").innerHTML = list.slice(0, view.shown).map(row).join("") ||
-    `<div class="empty">No roles match. Try another tab, or <button class="linkish" data-reset="1">clear the filters</button>.</div>`;
+  const inTab = DATA.items.filter(tabTest());
+  buildFilters(inTab);
+  activeFilters();
+
+  const list = inTab.filter(i => passes(i)).sort(SORTS[sortKey()]);
+  $("sort").value = sortKey();
+  $("rows").innerHTML = list.slice(0, view.shown).map(row).join("") || emptyState();
   $("count").textContent = list.length ? `Showing ${Math.min(view.shown, list.length).toLocaleString()} of ${list.length.toLocaleString()}` : "";
   $("more").hidden = list.length <= view.shown;
   $("more").textContent = `Show ${Math.min(PAGE_SIZE, list.length - view.shown)} more`;
-
-  const active = ["fit", "area", "region", "season", "source"].filter(k => view[k]).length + (view.payOnly ? 1 : 0);
-  $("filters-summary").textContent = active ? `Filters (${active} on)` : "Filters";
-  document.querySelectorAll(".chips").forEach(box => box.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", view[box.dataset.filter] === c.dataset.value)));
+  writeHash();
+}
+function emptyState() {
+  const messages = {
+    saved: "Nothing saved yet. Tap ☆ on any role to build your shortlist.",
+    applied: "Open a role and choose “Mark as applied” to keep track of your applications.",
+    hidden: "Nothing hidden. Tap ✕ on a role you're not interested in.",
+  };
+  const text = messages[view.tab] && !document.querySelector("[data-clear]") ? messages[view.tab] : "No roles match these filters.";
+  return `<div class="empty">${esc(text)}${document.querySelector("[data-clear]") ? ` <button class="linkish" data-reset="1">Clear the filters</button>` : ""}</div>`;
 }
 const rerender = () => { view.shown = PAGE_SIZE; render(); };
 
 // ------------------------------------------------------------------ events
 document.addEventListener("click", e => {
   const chip = e.target.closest(".chip");
-  if (chip) { view[chip.parentElement.dataset.filter] = chip.dataset.value; return rerender(); }
+  if (chip) { const f = chip.parentElement.dataset.filter; view[f] = view[f] === chip.dataset.value ? "" : chip.dataset.value; return rerender(); }
   const tab = e.target.closest(".tab");
   if (tab) { view.tab = tab.dataset.tab; return rerender(); }
   const stat = e.target.closest(".stat");
@@ -657,13 +792,16 @@ document.addEventListener("click", e => {
     if (stat.dataset.go === "good") { view.fit = "good"; view.tab = "all"; } else { view.tab = stat.dataset.go; }
     return rerender();
   }
+  const pill = e.target.closest("[data-clear]");
+  if (pill) { view[pill.dataset.clear] = ""; if (pill.dataset.clear === "q") $("search").value = ""; return rerender(); }
   if (e.target.closest("[data-reset]")) return resetFilters();
-  const markBtn = e.target.closest(".icon-btn");
-  if (markBtn) {
-    const id = markBtn.closest(".row").dataset.id;
+  const act = e.target.closest("[data-act]");
+  if (act) {
+    const id = act.closest(".row").dataset.id;
     const item = DATA.items.find(i => i.id === id);
-    marks[id] = mark(item) === markBtn.dataset.mark ? "none" : markBtn.dataset.mark;  // click again to undo
-    store.set("radar.marks", marks);
+    if (act.dataset.act === "save") toggleSave(id);
+    if (act.dataset.act === "hide") setMark(item, "hidden");
+    if (act.dataset.act === "applied") setMark(item, "applied");
     return render();
   }
   if (e.target.closest("a")) return;  // links open the posting
@@ -675,20 +813,35 @@ document.addEventListener("click", e => {
   }
 });
 function resetFilters() {
-  Object.assign(view, { fit: "", area: "", region: "", season: "", source: "", payOnly: false, q: "" });
-  $("search").value = ""; $("source").value = ""; $("pay-only").checked = false;
+  Object.assign(view, { fit: "", area: "", region: "", season: "", source: "", pay: "", q: "" });
+  $("search").value = "";
   rerender();
 }
 $("reset").addEventListener("click", resetFilters);
-$("search").addEventListener("input", e => { view.q = e.target.value.trim().toLowerCase(); rerender(); });
+let searchTimer;
+$("search").addEventListener("input", e => { clearTimeout(searchTimer); searchTimer = setTimeout(() => { view.q = e.target.value.trim(); rerender(); }, 120); });
 $("source").addEventListener("change", e => { view.source = e.target.value; rerender(); });
-$("pay-only").addEventListener("change", e => { view.payOnly = e.target.checked; rerender(); });
+$("pay-only").addEventListener("change", e => { view.pay = e.target.checked ? "1" : ""; rerender(); });
 $("sort").addEventListener("change", e => { view.sort = e.target.value; rerender(); });
 $("more").addEventListener("click", () => { view.shown += PAGE_SIZE; render(); });
 $("profile-chip").addEventListener("click", showWelcome);
+$("to-top").addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+window.addEventListener("scroll", () => { $("to-top").hidden = $("app").hidden || window.scrollY < 1200; }, { passive: true });
+document.addEventListener("keydown", e => {
+  const typing = /input|select|textarea/i.test(document.activeElement?.tagName || "");
+  if (e.key === "/" && !typing && !$("app").hidden) { e.preventDefault(); $("search").focus(); }
+  if (e.key === "Escape" && view.open.size) { view.open.clear(); render(); }
+});
+window.addEventListener("hashchange", () => { readHash(); $("search").value = view.q; rerender(); });
+// Load the next page by itself when "Show more" scrolls into view.
+if ("IntersectionObserver" in window) {
+  new IntersectionObserver(entries => { if (entries[0].isIntersecting && !$("more").hidden) $("more").click(); }, { rootMargin: "400px" }).observe($("more"));
+}
 if (window.matchMedia("(max-width: 900px)").matches) $("filters").open = false;
 
 // ------------------------------------------------------------------ start
+$("search").value = view.q;
+profile ? showApp() : showWelcome();
 fetch("data.json", { cache: "no-cache" })
   .then(r => r.json())
   .then(data => {
@@ -696,10 +849,11 @@ fetch("data.json", { cache: "no-cache" })
     $("welcome-count").textContent = `${data.items.length.toLocaleString()} open roles and programs, updated ${fmtDate(data.updated)}. Your answers stay in this browser.`;
     $("sources").innerHTML = data.sources.map(s =>
       `<tr><td>${esc(s.name)}</td><td>${s.status === "ok" ? "ok" : `<b>${esc(s.status)}</b>`}</td><td class="mono">${s.items}</td><td>${s.problems.map(esc).join("<br>")}</td></tr>`).join("");
-    profile ? showApp() : showWelcome();
+    if (!$("app").hidden) showApp();
   })
   .catch(() => {
-    document.body.innerHTML = `<p style="padding:24px">Could not load the data (data.json). Try reloading the page.</p>`;
+    $("rows").innerHTML = `<div class="empty">Could not load today's data. Check your connection and reload the page.</div>`;
+    $("welcome-count").textContent = "Could not load today's data. Reload the page to try again.";
   });
 </script>
 </body>

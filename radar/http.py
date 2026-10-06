@@ -13,8 +13,8 @@ from typing import Any
 import requests
 
 USER_AGENT = (
-    "opportunity-radar/1.0 (personal student job-alert bot; "
-    "+https://github.com/PedroCamargoLINCE/opportunity-radar)"
+    "vagaLume/1.0 (personal student job-alert bot; "
+    "+https://github.com/PedroCamargoLINCE/vagaLume)"
 )
 TIMEOUT_SECONDS = 25
 DELAY_SECONDS = 0.6  # pause before every request

@@ -26,7 +26,7 @@ REPORT_URL_ENV = "RADAR_REPORT_URL"  # optional link to the published report
 def summary_text(data: ReportData) -> str:
     """A short plain-text digest: counts, deadlines soon, then new items."""
     lines = [
-        f"Opportunity Radar {data.today}: {data.new_total} new, "
+        f"vagaLume {data.today}: {data.new_total} new, "
         f"{len(data.soon)} deadlines in 14 days, {data.total_open} open.",
     ]
     failed = [h.name for h in data.health if h.status != "ok"]
@@ -80,7 +80,7 @@ def send_email(text: str, subject: str) -> bool:
 def notify(data: ReportData) -> None:
     """Send the digest on every configured channel; never crash the run."""
     text = summary_text(data)
-    subject = f"Opportunity Radar {data.today}: {data.new_total} new"
+    subject = f"vagaLume {data.today}: {data.new_total} new"
     for name, send in (("Telegram", lambda: send_telegram(text)), ("email", lambda: send_email(text, subject))):
         try:
             if send():

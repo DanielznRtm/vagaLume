@@ -2,7 +2,7 @@ name: Tests
 
 on:
   push:
-    paths-ignore: ["data/**", "reports/**", "docs/data.json"]
+    paths-ignore: ["data/**", "reports/**", "docs/data.json", "docs/stats.json"]
   pull_request:
 
 jobs:

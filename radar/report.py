@@ -148,7 +148,7 @@ def _md_grouped(items: list[StoredOpportunity], detailed: bool = False) -> list[
 
 def render_markdown(data: ReportData) -> str:
     lines = [
-        f"# Opportunity Radar — {data.today}",
+        f"# vagaLume — {data.today}",
         "",
         f"**{data.total_open}** open · **{data.new_total}** new this run · "
         f"**{len(data.soon)}** deadlines in the next {SOON_DAYS} days · labels by {data.labeled_by}",

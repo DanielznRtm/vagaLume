@@ -37,6 +37,20 @@ def item_record(opp: StoredOpportunity) -> dict[str, object]:
     }
 
 
+def stats(opportunities: list[StoredOpportunity], health: list[SourceHealth], today: str) -> dict[str, object]:
+    """Small summary used by the live badges in the README (shields.io reads it)."""
+    open_items = [o for o in opportunities if o.is_open]
+    healthy = sum(1 for h in health if h.status == "ok")
+    return {
+        "updated": today,
+        "open": f"{len(open_items):,}",
+        "new": str(sum(1 for o in open_items if o.first_seen == today and o.source != "programs")),
+        "with_pay": f"{sum(1 for o in open_items if o.pay):,}",
+        "sources": f"{healthy}/{len(health)} healthy",
+        "sources_ok": healthy == len(health),
+    }
+
+
 def write_data(
     opportunities: list[StoredOpportunity],
     health: list[SourceHealth],
@@ -59,4 +73,6 @@ def write_data(
     lines = ",\n".join(json.dumps(item, ensure_ascii=False) for item in payload.pop("items"))
     head = json.dumps(payload, ensure_ascii=False)[:-1]
     path.write_text(f'{head}, "items": [\n{lines}\n]}}\n', encoding="utf-8")
+    summary = stats(opportunities, health, today)
+    (Path(out_dir) / "stats.json").write_text(json.dumps(summary, indent=1) + "\n", encoding="utf-8")
     return path
