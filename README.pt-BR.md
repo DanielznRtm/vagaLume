@@ -49,8 +49,9 @@ no GitHub, a Gupy e o site de cada escola de verão, toda semana. Um *vagalume*
 | ⏰ **Prazos em destaque** | Vagas que fecham logo e vagas novas têm abas próprias. |
 | ☆ **A sua lista** | Salve, marque como candidatado ou esconda. Os filtros ficam no link, então dá para guardar *"vagas de ML na Europa"* ou mandar para um amigo. |
 
-> O site está em inglês, mas entende vagas em português: os estágios da Gupy
-> são lidos normalmente, e o currículo pode estar em qualquer língua.
+> 🇧🇷 **O site também está em português**: ele abre em português se o seu
+> navegador estiver em português, e o botão **EN | PT** no topo troca a língua
+> a qualquer momento. O prompt do currículo também vem em português.
 
 <details>
 <summary><b>Algumas das empresas e programas acompanhados</b></summary>
@@ -66,25 +67,25 @@ no GitHub, a Gupy e o site de cada escola de verão, toda semana. Um *vagalume*
 
 ## Veja
 
-<img alt="A lista do vagaLume no modo escuro: filtros à esquerda; cada vaga mostra o match com o currículo, a compatibilidade, o local, a remuneração, uma tirinha dos meses e o prazo" src="assets/screenshot-dark.png">
+<img alt="A lista do vagaLume no modo escuro: filtros à esquerda; cada vaga mostra o match com o currículo, a compatibilidade, o local, a remuneração, uma tirinha dos meses e o prazo" src="assets/screenshot-dark-pt.png">
 
 Funciona no celular também, no modo claro e no escuro. **[Abrir →](https://pedrocamargolince.github.io/vagaLume/)**
 
 ## Comparar com o seu currículo
 
-1. No site, clique em **Match my résumé** e copie o prompt.
+1. No site, clique em **Comparar currículo** e copie o prompt.
 2. Cole o prompt na IA que você usa (ChatGPT, Gemini, Claude…) e anexe o seu
    currículo. O prompt pede um resumo curto em JSON, **sem nome nem contatos**.
 3. Cole a resposta de volta no site.
 
-Pronto: cada vaga ganha uma etiqueta de compatibilidade (*Strong*, *Good*…),
+Pronto: cada vaga ganha um nível de match (*forte*, *bom*…),
 dá para ordenar por "melhor match" e, ao abrir uma vaga, você vê quais
 habilidades você tem (✓) e quais faltam. O resumo também deixa a análise mais
 precisa: países onde você já pode trabalhar deixam de gerar alerta de visto,
 vagas de recém-formado passam a valer se você se forma em até um ano, e os
 meses livres do seu calendário substituem o calendário da UNESP.
 
-<img alt="Uma vaga aberta: quais das suas habilidades ela cita (✓), quais faltam, e por que combina" src="assets/screenshot-match.png">
+<img alt="Uma vaga aberta: quais das suas habilidades ela cita (✓), quais faltam, e por que combina" src="assets/screenshot-match-pt.png">
 
 Tudo fica salvo só no seu navegador. O vagaLume não tem servidor e nunca vê o
 seu currículo.

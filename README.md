@@ -48,6 +48,7 @@ little light that finds the openings for you.
 | 💸 **Pay, when it's stated** | `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`: read from job boards and descriptions in English and Portuguese. |
 | 📅 **Fits your calendar?** | A tiny January–December strip on every role shows whether it falls in your breaks or clashes with your semester. |
 | ⏰ **Deadlines up front** | Closing-soon roles and brand-new ones each get their own tab. |
+| 🌐 **English and Português** | The site opens in Portuguese for Brazilian browsers, and an **EN \| PT** switch at the top changes it any time, including the résumé prompt. |
 | ☆ **Your shortlist** | Save, mark as applied, or hide. Filters live in the link, so you can bookmark *"ML roles in Europe"* or send it to a friend. |
 
 <details>

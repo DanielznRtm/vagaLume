@@ -1,5 +1,45 @@
+# What is NOT ignored on purpose: data/radar.db (the bot's memory: first-seen
+# dates, your statuses, page hashes), docs/data.json + docs/stats.json (the
+# website and the README badges) and reports/latest.md. The daily workflow
+# commits them, and everything else can be rebuilt from the code and config/.
+
+# Python
 .venv/
+venv/
 __pycache__/
-*.pyc
-.pytest_cache/
+*.py[cod]
+*.egg-info/
+build/
+dist/
 .env
+
+# Test and tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# SQLite's temporary files while the bot is running (the database is data/radar.db)
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Playwright / Node (only if you script the browser yourself)
+node_modules/
+test-results/
+playwright-report/
+
+# Logs and scratch files
+*.log
+*.tmp
+*.bak
+
+# Editors and operating systems
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini

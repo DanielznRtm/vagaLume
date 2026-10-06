@@ -145,6 +145,14 @@ key, everything works the same using the keyword rules.
 The site is one plain HTML file, `docs/index.html` (no frameworks, no build
 step). Each run rewrites `docs/data.json` and the page shows it.
 
+**English and Português.** The site opens in Portuguese when the browser is
+set to Portuguese, and in English otherwise; the **EN | PT** switch at the top
+of every screen changes it and is remembered. Everything is translated,
+including the résumé prompt, dates and numbers (`5.474`, `6 de out.`).
+Postings themselves stay as their companies wrote them. All the texts live in
+`STRINGS` at the top of the page's script, one `[English, Português]` pair per
+text, so adding a language means adding a column.
+
 **First visit: your profile.** The page asks two things: what you're studying
 for (Bachelor's, Master's or PhD) and where your university is (Brazil, other
 Latin America, United States, Canada, United Kingdom, Europe, Asia, Middle
@@ -185,8 +193,9 @@ The summary is stored in your browser only. With it:
   whether the role is in one of your areas, and whether its title contains
   one of the roles you want. Strong and Good matches get a tag; open a row to
   see which skills match (✓) and which are missing.
-- A **Résumé match** filter, a **Best résumé match** sort (the default; long
-  shots still go last) and a "strong résumé matches" count at the top.
+- **Strong résumé match** and **Good match or better** filters under "For
+  you", and a **Best résumé match** sort (the default; long shots still go
+  last).
 - Your **profile** is filled in from the summary.
 - **Fit gets sharper:** countries where you can already work don't get the
   visa warning; a new-grad job is fine when you graduate within a year; an
@@ -201,30 +210,41 @@ posting before deciding.
 
 | Column | What it is |
 |---|---|
-| Role | title (links to the posting), company, `NEW` / `APPLIED` tags |
-| Where | the first location, then "+N more locations". Open the row for all of them. |
-| Pay | when the posting states it, e.g. `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`, `$94K–125K/yr` |
-| When | a 12-month strip, January to December. Grey months are UNESP semesters (Mar–Jun, Aug–Nov), or the months you're not free if your résumé summary lists them. The role's months are green when they fall in a break and amber when they clash with classes. |
-| Deadline | the date and the days left, red within 14 days |
+| Role | title (links to the posting), company, and at most two small tags: Applied, Strong match, New or Program. Under it, in amber or red, the first thing that might get in the way. |
+| Where | the first location, then "+N more". Open the row for all of them. |
+| Pay | when the posting states it, e.g. `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`, `$94K–125K/yr`; a dash otherwise |
+| When | for roles with a season, a 12-month strip, January to December. Grey months are UNESP semesters (Mar–Jun, Aug–Nov), or the months you're not free if your résumé summary lists them. The role's months are green when they fall in a break and amber when they clash with classes. Year-round roles just say so; a dash means the posting doesn't say. |
+| Deadline | the date (a dash when none is stated), with the days left in red when it closes within 14 days |
 
-Click a row to open its details: fit reasons, all locations, dates, pay,
-labels and where it was found.
+On a phone the row is shorter: the title, the company and one line with the
+place, the deadline and the pay.
+
+Click a row to open it. On the left, **for you**: the résumé match with the
+skills you have (✓) and the missing ones, then every fit reason. On the right,
+the **details**: all locations, when, deadline, pay, labels and where it was
+found. Below, the buttons: open the posting, mark as applied, save, hide.
 
 **Around the list:**
 
 - **Search** over role, company and city. Press `/` to jump to it; matches
   are highlighted.
-- **Tabs:** All · New · Closing soon · Saved · Programs & schools · Applied ·
-  Hidden. Each shows its count.
-- **Filters:** Résumé match (with a résumé), Fit, Area, Where, When (including a **Fits my breaks**
-  shortcut for Dec–Feb and July), "only roles that state pay", and Source.
-  The number on each chip is how many roles you'd see after clicking it,
-  given the other filters you already picked.
+- **Tabs:** All · New · Closing soon · Saved · Programs & schools, plus
+  Applied and Hidden once you have marked something. Only New, Closing soon
+  and the lists you build show a count.
+- **Filters:** *For you* (good fit, no long shots, and with a résumé: strong
+  match, good match or better), Area, Where and When (including a **Fits my
+  breaks** shortcut). Under **More filters**: only roles that state pay, and
+  the source. The small number on each chip is how many roles you'd see after
+  clicking it, given the other filters you already picked. Click a selected
+  chip again to turn it off.
 - **Active filters** show as pills above the list. Click a pill's × to remove
   it, or "Clear all".
+- **How to read** (next to the number of roles) explains the dots and the
+  month strip.
 - **Sort:** best résumé match (with a résumé), best fit (with a profile), deadline, newest, or company.
 - **☆ Save** builds a shortlist (the Saved tab). **✕ Hide** moves a role to
-  Hidden. Inside an opened row you can also **Mark as applied**. All of this
+  Hidden; it appears when you point at a row (on phones, it's inside the
+  opened row). Inside an opened row you can also **Mark as applied**. All of this
   is saved in your browser, and clicking again undoes it.
 - The list loads more rows by itself as you scroll.
 - **Your filters live in the address bar** (for example
@@ -376,8 +396,11 @@ are caught per source), **label** with rules (plus Claude if a key is set),
   links here, waits 0.6 s before each request, uses 25 s timeouts, retries
   once (longer pauses after a 429), and does not get around bot protection.
   A full run makes about 240 requests and opens 2 pages in the browser.
-- **Repository size.** `data/radar.db` (2.8 MB) and `docs/data.json` (2.5 MB)
-  are committed every day.
-  Git stores each version, so the repository grows over time. If it gets too
-  big, you can delete old history, or store the database as a workflow
-  artifact instead.
+- **Repository size.** `data/radar.db` (2.8 MB), `docs/data.json` (2.5 MB)
+  and `reports/latest.md` are committed every day: the database is the bot's
+  memory (first-seen dates, your statuses, page hashes) and the JSON is the
+  website, so they stay in git on purpose. `.gitignore` keeps everything else
+  out (caches, virtual environments, SQLite's temporary files, editor
+  folders), and `.gitattributes` marks the daily files as generated so GitHub
+  collapses them in diffs. Git stores each daily version, so the repository
+  still grows over time; the database is binary, so it grows the most.
