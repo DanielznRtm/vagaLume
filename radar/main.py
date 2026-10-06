@@ -17,15 +17,19 @@ from datetime import date
 from pathlib import Path
 from typing import Any, Callable
 
-from . import db, labels, llm, notify, report
+from . import db, labels, llm, notify, report, site
 from .config import ROOT, load_config
 from .models import Opportunity
-from .sources import SourceResult, amazon, ashby, github_lists, google, greenhouse, gupy, lever, nvidia, programs
+from .sources import (
+    SourceResult, amazon, ashby, github_lists, google, greenhouse, gupy, lever, meta, microsoft, nextjs_sites, nvidia,
+    programs,
+)
 
 log = logging.getLogger("radar")
 
 DB_PATH = ROOT / "data" / "radar.db"
 REPORTS_DIR = ROOT / "reports"
+SITE_DIR = ROOT / "docs"  # served by GitHub Pages
 
 # name -> function(config, conn, today) -> SourceResult
 SOURCES: dict[str, Callable[[dict[str, Any], sqlite3.Connection, str], SourceResult]] = {
@@ -38,6 +42,10 @@ SOURCES: dict[str, Callable[[dict[str, Any], sqlite3.Connection, str], SourceRes
     "google": lambda cfg, conn, today: google.fetch(cfg),
     "amazon": lambda cfg, conn, today: amazon.fetch(cfg),
     "nvidia": lambda cfg, conn, today: nvidia.fetch(cfg),
+    "microsoft": lambda cfg, conn, today: microsoft.fetch(cfg),
+    "deshaw": lambda cfg, conn, today: nextjs_sites.fetch_deshaw(cfg),
+    "drw": lambda cfg, conn, today: nextjs_sites.fetch_drw(cfg),
+    "meta": lambda cfg, conn, today: meta.fetch(cfg),  # needs Playwright (headless browser)
 }
 
 
@@ -79,7 +87,13 @@ def apply_status_file(conn: sqlite3.Connection, statuses: dict[str, str]) -> Non
             log.warning("status.yaml: %s (%s)", error, opp_id)
 
 
-def run(only: list[str] | None = None, db_path: Path = DB_PATH, reports_dir: Path = REPORTS_DIR, send: bool = True) -> report.ReportData:
+def run(
+    only: list[str] | None = None,
+    db_path: Path = DB_PATH,
+    reports_dir: Path = REPORTS_DIR,
+    site_dir: Path = SITE_DIR,
+    send: bool = True,
+) -> report.ReportData:
     today = date.today().isoformat()
     config = load_config()
     conn = db.connect(db_path)
@@ -117,9 +131,11 @@ def run(only: list[str] | None = None, db_path: Path = DB_PATH, reports_dir: Pat
     apply_status_file(conn, config.get("status") or {})
     conn.commit()
 
-    # 4. Reports and notifications.
-    data = report.build(db.load_all(conn), health, today, labeled_by)
+    # 4. Reports, website data and notifications.
+    everything = db.load_all(conn)
+    data = report.build(everything, health, today, labeled_by)
     report.write_reports(data, reports_dir)
+    site.write_data(everything, health, today, labeled_by, site_dir)
     conn.execute("VACUUM")  # keep the committed database file small
     conn.close()
     if send:
@@ -145,7 +161,7 @@ def check_config() -> int:
                 print(f"FAIL  {ats:10} {company['slug']:28} {error}")
     for program in config["programs"]:
         try:
-            text = programs.main_text(get_text(program["url"]))
+            text = programs.page_text(program)
             print(f"OK    program    {program['name'][:45]:45} {len(text)} chars")
         except Exception as error:  # noqa: BLE001
             problems += 1
@@ -179,7 +195,7 @@ def main(argv: list[str] | None = None) -> int:
         if unknown:
             parser.error(f"unknown source(s): {', '.join(sorted(unknown))}; choose from {', '.join(SOURCES)}")
     data = run(only=only, send=not options.no_notify)
-    print(f"\nDone: {data.total_open} open, {data.new_total} new. Reports in {REPORTS_DIR}/")
+    print(f"\nDone: {data.total_open} open, {data.new_total} new. Website data in {SITE_DIR}/, report in {REPORTS_DIR}/")
     return 0
 
 

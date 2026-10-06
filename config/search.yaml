@@ -52,6 +52,11 @@ amazon_queries:
   - intern
   - internship
 
+# Microsoft careers searches.
+microsoft_queries:
+  - intern
+  - student
+
 # NVIDIA (Workday). The facet id below means "worker sub type = Intern
 # (Fixed Term)". If NVIDIA changes it, set applied_facets to {} and
 # search_text to "intern" to fall back to a title search.

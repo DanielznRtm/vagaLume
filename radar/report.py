@@ -1,19 +1,16 @@
-"""Write reports/latest.md and reports/index.html.
+"""Write reports/latest.md (the web interface lives in docs/, see site.py).
 
 Order, as requested:
   1. deadlines in the next 14 days
   2. new items (found in this run)
   3. watched program pages
   4. everything else that is open
-Each list is grouped by category (area). Nothing is filtered out; the
-HTML page has filters, but every box starts ticked.
+Each list is grouped by category (area). Nothing is filtered out.
 """
 
 from __future__ import annotations
 
-import html
-import json
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from datetime import date, timedelta
 from pathlib import Path
 
@@ -156,7 +153,7 @@ def render_markdown(data: ReportData) -> str:
         "",
         "Nothing is filtered out: labels and warnings are hints, you decide. "
         "UNESP semesters: Mar–Jul and Aug–Dec. "
-        "Filterable version with full details: [`index.html`](index.html). "
+        "Searchable web version: the GitHub Pages site (see the README). "
         "Set your status in `config/status.yaml` using the `id`.",
         "",
         "Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ unsure if student role · "
@@ -190,211 +187,7 @@ def render_markdown(data: ReportData) -> str:
     return "\n".join(lines) + "\n"
 
 
-# ---------------------------------------------------------------------------
-# HTML (one self-contained file; the filtering happens in the browser)
-# ---------------------------------------------------------------------------
-def _item_json(opp: StoredOpportunity, section: str) -> dict[str, object]:
-    record = asdict(opp)
-    record["section"] = section
-    record["calendar_short"] = CALENDAR_SHORT.get(opp.season, "")
-    return record
-
-
-def render_html(data: ReportData) -> str:
-    items: list[dict[str, object]] = []
-    for section, members in (
-        ("soon", data.soon), ("new", data.new), ("programs", data.programs),
-        ("rest", data.rest), ("ignored", data.ignored),
-    ):
-        items.extend(_item_json(o, section) for o in members)
-    payload = {
-        "today": data.today,
-        "labeledBy": data.labeled_by,
-        "areaOrder": AREA_ORDER,
-        "health": [asdict(h) for h in data.health],
-        "items": items,
-    }
-    # "</" inside JSON would end the <script> tag early, so escape it.
-    blob = json.dumps(payload, ensure_ascii=False).replace("</", "<\\/")
-    return HTML_TEMPLATE.replace("__DATA__", blob).replace("__TITLE__", html.escape(f"Opportunity Radar — {data.today}"))
-
-
 def write_reports(data: ReportData, out_dir: str | Path) -> None:
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     (out / "latest.md").write_text(render_markdown(data), encoding="utf-8")
-    (out / "index.html").write_text(render_html(data), encoding="utf-8")
-
-
-HTML_TEMPLATE = r"""<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>__TITLE__</title>
-<style>
-:root { --bg:#fafafa; --fg:#1d1d1f; --muted:#6b6b70; --card:#fff; --line:#e3e3e6; --accent:#2f5bd3;
-        --warn-bg:#fff4e0; --warn-fg:#8a4b00; --chip:#eef1f8; --new:#e6f6ea; --new-fg:#1c6b33; }
-@media (prefers-color-scheme: dark) {
-  :root { --bg:#141416; --fg:#ececf0; --muted:#9a9aa3; --card:#1d1d21; --line:#2e2e34; --accent:#8fb0ff;
-          --warn-bg:#3a2a10; --warn-fg:#ffcf8a; --chip:#272b36; --new:#173523; --new-fg:#8fe0a8; }
-}
-* { box-sizing: border-box; }
-body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
-main { max-width:1100px; margin:0 auto; padding:16px; }
-h1 { font-size:1.5rem; margin:.2em 0; } h2 { font-size:1.2rem; margin:1.6em 0 .4em; } h3 { font-size:1rem; margin:1.2em 0 .4em; color:var(--muted); }
-.summary { color:var(--muted); }
-details.filters { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px 14px; margin:12px 0; }
-details.filters summary { cursor:pointer; font-weight:600; }
-.fgroup { margin:8px 0; } .fgroup b { display:block; font-size:.85rem; color:var(--muted); margin-bottom:2px; }
-.fgroup label { display:inline-block; margin:2px 10px 2px 0; font-size:.9rem; white-space:nowrap; }
-.fgroup .hint { font-size:.8rem; color:var(--muted); }
-input[type=search] { width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:8px; background:var(--bg); color:var(--fg); font-size:1rem; }
-button { font:inherit; padding:4px 10px; border-radius:6px; border:1px solid var(--line); background:var(--chip); color:var(--fg); cursor:pointer; }
-.card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin:8px 0; }
-.card a.title { color:var(--accent); font-weight:600; text-decoration:none; } .card a.title:hover { text-decoration:underline; }
-.meta { color:var(--muted); font-size:.88rem; margin-top:2px; overflow-wrap:anywhere; }
-.chips { margin-top:6px; display:flex; flex-wrap:wrap; gap:4px; }
-.chip { background:var(--chip); border-radius:999px; padding:1px 9px; font-size:.8rem; }
-.chip.warn { background:var(--warn-bg); color:var(--warn-fg); }
-.chip.new { background:var(--new); color:var(--new-fg); font-weight:600; }
-.id { font-family:ui-monospace,monospace; font-size:.75rem; color:var(--muted); user-select:all; }
-table.health { border-collapse:collapse; width:100%; font-size:.88rem; }
-table.health td, table.health th { border-bottom:1px solid var(--line); padding:4px 6px; text-align:left; vertical-align:top; }
-.health-wrap { overflow-x:auto; }
-.empty { color:var(--muted); font-style:italic; }
-</style>
-</head>
-<body>
-<main>
-<h1>Opportunity Radar</h1>
-<div class="summary" id="summary"></div>
-<p class="summary">Nothing is hidden by default. Labels and warnings are hints from keyword rules (or Claude), not decisions. UNESP semesters: Mar–Jul and Aug–Dec.</p>
-
-<details class="filters" open>
-  <summary>Filters</summary>
-  <div class="fgroup"><input type="search" id="q" placeholder="Search title, org, location…"></div>
-  <div id="filter-groups"></div>
-  <div class="fgroup"><button id="reset">Tick everything again</button> <span class="hint" id="count"></span></div>
-</details>
-
-<div id="sections"></div>
-
-<h2>Source health</h2>
-<div class="health-wrap"><table class="health" id="health"></table></div>
-</main>
-
-<script id="radar-data" type="application/json">__DATA__</script>
-<script>
-const DATA = JSON.parse(document.getElementById('radar-data').textContent);
-const ITEMS = DATA.items;
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
-// Each filter: which field, and how multi-valued fields match.
-//   any  = show if ANY of the item's values is ticked (regions)
-//   all  = show only if ALL of the item's values are ticked (warnings:
-//          untick "PhD-level?" to hide items carrying that warning)
-const FILTERS = [
-  {key:'area', label:'Area'},
-  {key:'season', label:'Season'},
-  {key:'regions', label:'Region', multi:'any', hint:'shown if any of its regions is ticked'},
-  {key:'warnings', label:'Warnings', multi:'all', none:'(no warnings)', hint:'untick a warning to hide items that have it'},
-  {key:'source', label:'Source'},
-  {key:'status', label:'Status'},
-];
-const state = {};
-function valuesOf(item, f) {
-  const v = item[f.key];
-  if (Array.isArray(v)) return v.length ? v : (f.none ? [f.none] : []);
-  return [v];
-}
-function buildFilters() {
-  const box = document.getElementById('filter-groups');
-  box.innerHTML = '';
-  for (const f of FILTERS) {
-    const counts = {};
-    ITEMS.forEach(it => valuesOf(it, f).forEach(v => counts[v] = (counts[v] || 0) + 1));
-    const order = f.key === 'area' ? DATA.areaOrder : [];
-    const vals = Object.keys(counts).sort((a, b) => {
-      const ia = order.indexOf(a), ib = order.indexOf(b);
-      if (ia !== -1 || ib !== -1) return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
-      return a.localeCompare(b);
-    });
-    state[f.key] = new Set(vals);
-    const div = document.createElement('div');
-    div.className = 'fgroup';
-    div.innerHTML = `<b>${f.label}${f.hint ? ` <span class="hint">(${f.hint})</span>` : ''}</b>` +
-      vals.map(v => `<label><input type="checkbox" data-k="${esc(f.key)}" value="${esc(v)}" checked> ${esc(v)} <span class="hint">${counts[v]}</span></label>`).join('');
-    box.appendChild(div);
-  }
-  box.querySelectorAll('input[type=checkbox]').forEach(cb => cb.addEventListener('change', e => {
-    const set = state[e.target.dataset.k];
-    e.target.checked ? set.add(e.target.value) : set.delete(e.target.value);
-    render();
-  }));
-}
-function visible(it) {
-  const q = document.getElementById('q').value.trim().toLowerCase();
-  if (q && !`${it.title} ${it.org} ${it.location} ${it.note} ${it.id}`.toLowerCase().includes(q)) return false;
-  for (const f of FILTERS) {
-    const vals = valuesOf(it, f), set = state[f.key];
-    if (f.multi === 'all') { if (!vals.every(v => set.has(v))) return false; }
-    else if (!vals.some(v => set.has(v))) return false;
-  }
-  return true;
-}
-function card(it) {
-  const warn = it.warnings.map(w => `<span class="chip warn">⚠️ ${esc(w)}</span>`).join('');
-  const isNew = it.first_seen === DATA.today && it.source !== 'programs';
-  const deadline = it.deadline === 'check page' ? 'deadline: check page' : `deadline: <b>${esc(it.deadline)}</b>`;
-  return `<div class="card">
-    <a class="title" href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.title)}</a>
-    <div class="meta"><b>${esc(it.org)}</b>${it.location ? ' · 📍 ' + esc(it.location) : ''}${it.remote ? ' · remote' : ''}</div>
-    <div class="meta">${deadline} · posted ${esc(it.posted_date || '?')} · first seen ${esc(it.first_seen)} · via ${esc(it.source)}${it.labeled_by === 'claude' ? ' · labels by Claude' : ''}</div>
-    <div class="meta">📅 ${esc(it.calendar_note)}</div>
-    ${it.note ? `<div class="meta">📝 ${esc(it.note)}</div>` : ''}
-    <div class="chips">${isNew ? '<span class="chip new">NEW</span>' : ''}<span class="chip">${esc(it.area)}</span><span class="chip">🗓 ${esc(it.season)}</span>${it.regions.map(r => `<span class="chip">🌎 ${esc(r)}</span>`).join('')}<span class="chip">${esc(it.status)}</span>${warn}</div>
-    <div class="id" title="id for config/status.yaml">${esc(it.id)}</div>
-  </div>`;
-}
-function grouped(list) {
-  const areas = [...DATA.areaOrder, ...new Set(list.map(i => i.area).filter(a => !DATA.areaOrder.includes(a)))];
-  return areas.map(a => {
-    const members = list.filter(i => i.area === a);
-    return members.length ? `<h3>${esc(a)} (${members.length})</h3>` + members.map(card).join('') : '';
-  }).join('');
-}
-const SECTIONS = [
-  {key:'soon', title:'⏰ Deadlines in the next 14 days', flat:true, empty:'None found. Many postings only say "check page".'},
-  {key:'new', title:'🆕 New this run', empty:'Nothing new today.'},
-  {key:'programs', title:'📄 Watched program pages', flat:true},
-  {key:'rest', title:'📋 Everything else that is open'},
-  {key:'ignored', title:'🙈 Ignored by you', flat:true},
-];
-function render() {
-  const shown = ITEMS.filter(visible);
-  document.getElementById('count').textContent = `${shown.length} of ${ITEMS.length} shown`;
-  document.getElementById('sections').innerHTML = SECTIONS.map(s => {
-    const list = shown.filter(i => i.section === s.key);
-    const all = ITEMS.filter(i => i.section === s.key).length;
-    if (!all && s.key === 'ignored') return '';
-    const body = list.length ? (s.flat ? list.map(card).join('') : grouped(list)) : `<p class="empty">${esc(s.empty || 'Nothing matches the filters.')}</p>`;
-    return `<h2>${s.title} (${list.length}${list.length !== all ? ' of ' + all : ''})</h2>` + body;
-  }).join('');
-}
-function renderHeader() {
-  const n = s => ITEMS.filter(i => i.section === s).length;
-  const fresh = ITEMS.filter(i => i.first_seen === DATA.today && i.source !== 'programs').length;
-  document.getElementById('summary').textContent =
-    `${DATA.today} · ${ITEMS.length} open items · ${fresh} new · ${n('soon')} deadlines within 14 days · labels by ${DATA.labeledBy}`;
-  const icon = {ok:'✅', partial:'⚠️', failed:'❌'};
-  document.getElementById('health').innerHTML = '<tr><th>Source</th><th>Status</th><th>Items</th><th>Checked</th><th>Time</th><th>Problems</th></tr>' +
-    DATA.health.map(h => `<tr><td>${esc(h.name)}</td><td>${icon[h.status] || ''} ${esc(h.status)}</td><td>${h.items}</td><td>${h.checked}</td><td>${Math.round(h.seconds)}s</td><td>${h.errors.map(esc).join('<br>')}</td></tr>`).join('');
-}
-document.getElementById('q').addEventListener('input', render);
-document.getElementById('reset').addEventListener('click', () => { document.getElementById('q').value = ''; buildFilters(); render(); });
-renderHeader(); buildFilters(); render();
-</script>
-</body>
-</html>
-"""

@@ -13,6 +13,8 @@
 #   warnings list of extra warnings, quoted because of the "?": ["PhD-level?"]
 #   notes    a reminder shown in the report
 #   student  false if it might not be a student program (adds "unsure")
+#   render   true if the page is built by JavaScript: it is then opened in a
+#            headless browser (slower, needs Playwright)
 #
 # Leave a field out and the keyword rules fill it in from the page text.
 # Every active URL below was checked on 2026-10-05 and returned the page.
@@ -49,7 +51,7 @@ programs:
   #   url: https://mbzuai.ac.ae/ugrip/
   #   area: ML
   #   regions: [Asia/ME]
-  #   # 403 Forbidden for bots (Cloudflare) on 2026-10-05
+  #   # Cloudflare blocks bots, also headless browsers (checked 2026-10-06)
 
   - name: Summer@EPFL
     org: EPFL
@@ -97,14 +99,14 @@ programs:
     url: https://research.google/programs-and-events/student-engagement/
     area: research
 
-  - name: Microsoft students & graduates (watched page; API rate-limited)
+  - name: Microsoft students & graduates
     org: Microsoft
     url: https://careers.microsoft.com/v2/global/en/students
 
-  # - name: Meta university programs
-  #   url: https://www.metacareers.com/careerprograms/students
-  #   # Page is built by JavaScript and Meta has no public jobs API, so
-  #   # neither a search nor a page watch works. Check it by hand.
+  - name: Meta university programs
+    org: Meta
+    url: https://www.metacareers.com/careerprograms/students
+    render: true  # built by JavaScript; Meta internships come from the meta source
 
   - name: Amazon internships for students
     org: Amazon
@@ -131,7 +133,8 @@ programs:
   # - name: OpenAI Residency
   #   org: OpenAI
   #   url: https://openai.com/residency/
-  #   # 403 Forbidden for bots (Cloudflare) on 2026-10-05
+  #   # Cloudflare shows bots an empty page (checked 2026-10-06, also with a
+  #   # headless browser). OpenAI's own job board is covered via Ashby.
 
   # --- Schools and courses ---------------------------------------------------
   - name: EEML (Eastern European ML Summer School)
@@ -190,28 +193,24 @@ programs:
   #   org: Hudson River Trading
   #   url: https://www.hudsonrivertrading.com/campus-recruiting/
   #   area: quant
-  #   # 403 Forbidden for bots on 2026-10-05
+  #   # Blocks bots with 403, also headless browsers (checked 2026-10-06)
 
   # - name: Citadel / Citadel Securities students
   #   org: Citadel
   #   url: https://www.citadel.com/careers/students/
   #   area: quant
-  #   # 403 Forbidden for bots on 2026-10-05
+  #   # Cloudflare "security verification", also for headless browsers (2026-10-06)
 
   - name: Two Sigma careers (students)
     org: Two Sigma
     url: https://www.twosigma.com/careers/students/
     area: quant
 
-  # - name: D. E. Shaw students
-  #   url: https://www.deshaw.com/careers/students
-  #   # Page is built by JavaScript (0 characters of text). Check by hand.
+  # D. E. Shaw internships come from the deshaw source (radar/sources/nextjs_sites.py).
 
   - name: SIG interns & co-ops
     org: Susquehanna (SIG)
     url: https://sig.com/careers/interns-co-ops/
     area: quant
 
-  # - name: DRW campus listings
-  #   url: https://www.drw.com/work-at-drw/listings?filterType=campus&value=Campus
-  #   # The job list is loaded by JavaScript; the static text never changes.
+  # DRW campus listings come from the drw source (radar/sources/nextjs_sites.py).

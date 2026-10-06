@@ -24,5 +24,7 @@ def no_network(monkeypatch):
     def blocked(*args, **kwargs):
         raise AssertionError("tests must not use the network")
 
-    monkeypatch.setattr("radar.http._request", blocked)
-    monkeypatch.setattr("requests.post", blocked)
+    from radar import http
+
+    monkeypatch.setattr(http._session, "request", blocked)  # radar/http.py
+    monkeypatch.setattr("requests.post", blocked)  # Claude API and Telegram

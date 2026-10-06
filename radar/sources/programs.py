@@ -22,6 +22,7 @@ import sqlite3
 from datetime import date
 from typing import Any
 
+from ..browser import render
 from ..db import page_hash_changed
 from ..http import get_text
 from ..models import NO_DEADLINE, Opportunity
@@ -59,6 +60,14 @@ def _visible_text(fragment: str) -> str:
     return "\n".join(lines)
 
 
+def page_text(program: dict[str, Any]) -> str:
+    """Visible text of a program page. `render: true` in programs.yaml means
+    the page is built by JavaScript, so we open it in a headless browser."""
+    if program.get("render"):
+        return render(program["url"]).text
+    return main_text(get_text(program["url"]))
+
+
 def content_hash(text: str) -> str:
     normalized = re.sub(r"\s+", " ", text).strip().lower()
     return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
@@ -89,9 +98,9 @@ def fetch(config: dict[str, Any], conn: sqlite3.Connection | None = None, today:
     for program in config.get("programs", []) or []:
         result.checked += 1
         try:
-            text = main_text(get_text(program["url"]))
+            text = page_text(program)
             if len(text) < MIN_TEXT_CHARS:
-                raise ValueError("page has almost no text (blocked or rendered by JavaScript?)")
+                raise ValueError("page has almost no text (blocked, or built by JavaScript: try render: true)")
             changed, last_changed = (False, today)
             if conn is not None:
                 changed, last_changed = page_hash_changed(conn, program["url"], content_hash(text), today)
