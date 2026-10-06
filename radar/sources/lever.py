@@ -10,6 +10,7 @@ from typing import Any
 from ..http import get_json
 from ..labels import is_student_candidate, student_level
 from ..models import Opportunity
+from ..pay import from_range
 from ..textutil import html_to_text, iso_date
 from . import SourceResult
 from .ats import fetch_boards
@@ -24,6 +25,15 @@ def _description(job: dict[str, Any]) -> str:
         # list items come as HTML <li> snippets
         parts.append(f"{block.get('text', '')}: {html_to_text(block.get('content', ''))}")
     return "\n".join(part for part in parts if part)
+
+
+LEVER_PERIODS = {"per-hour-wage": "hr", "per-week-salary": "wk", "per-month-salary": "mo", "per-year-salary": "yr"}
+
+
+def _pay(job: dict[str, Any]) -> str:
+    """Lever's optional salaryRange: {min, max, currency, interval}."""
+    salary = job.get("salaryRange") or {}
+    return from_range(salary.get("min"), salary.get("max"), salary.get("currency", "USD"), LEVER_PERIODS.get(salary.get("interval", ""), ""))
 
 
 def parse(data: list[dict[str, Any]], org: str) -> list[Opportunity]:
@@ -53,6 +63,7 @@ def parse(data: list[dict[str, Any]], org: str) -> list[Opportunity]:
                 remote=job.get("workplaceType") == "remote" or "remote" in location.lower(),
                 posted_date=iso_date(job.get("createdAt")),
                 description=_description(job),
+                pay=_pay(job),
                 hints=["student"] if flagged_student else [],
             )
         )

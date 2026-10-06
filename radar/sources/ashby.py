@@ -15,7 +15,7 @@ from . import SourceResult
 from .ats import fetch_boards
 
 NAME = "ashby"
-URL = "https://api.ashbyhq.com/posting-api/job-board/{slug}"
+URL = "https://api.ashbyhq.com/posting-api/job-board/{slug}?includeCompensation=true"
 
 
 def _location(job: dict[str, Any]) -> str:
@@ -26,6 +26,13 @@ def _location(job: dict[str, Any]) -> str:
     if country and country not in text:
         text = f"{text}, {country}" if text else country
     return text
+
+
+def _pay(job: dict[str, Any]) -> str:
+    """Ashby already writes a summary such as "$50/hr" or "CA$215K – CA$310K"."""
+    compensation = job.get("compensation") or {}
+    summary = compensation.get("scrapeableCompensationSalarySummary") or compensation.get("compensationTierSummary") or ""
+    return summary.split("•")[0].replace(" - ", "–").replace(" – ", "–").strip()
 
 
 def parse(data: dict[str, Any], org: str) -> list[Opportunity]:
@@ -50,6 +57,7 @@ def parse(data: dict[str, Any], org: str) -> list[Opportunity]:
                 remote=bool(job.get("isRemote")) or job.get("workplaceType") == "Remote",
                 posted_date=iso_date(job.get("publishedAt")),
                 description=job.get("descriptionPlain", "") or "",
+                pay=_pay(job),
                 hints=["student"] if flagged_student else [],
             )
         )

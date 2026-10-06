@@ -52,6 +52,7 @@ class Opportunity:
     remote: bool = False
     posted_date: str = ""  # ISO date "YYYY-MM-DD" when known
     deadline: str = NO_DEADLINE  # ISO date, or "check page"
+    pay: str = ""  # short label such as "$54–60/hr" or "R$1,800/mo"; "" = not stated
     # Free text used only while labelling; it is NOT stored in the database
     # (that keeps data/radar.db small enough to commit every day).
     description: str = ""

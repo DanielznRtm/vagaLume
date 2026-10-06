@@ -13,6 +13,7 @@ from __future__ import annotations
 import re
 
 from .models import NO_DEADLINE, Opportunity
+from .pay import find_pay
 from .textutil import find_deadline
 
 # ---------------------------------------------------------------------------
@@ -342,6 +343,8 @@ def apply_rules(opp: Opportunity) -> Opportunity:
     opp.calendar_note = calendar_note(opp.season)
     if opp.deadline == NO_DEADLINE or not opp.deadline:
         opp.deadline = find_deadline(opp.description) or NO_DEADLINE
+    if not opp.pay:
+        opp.pay = find_pay(opp.description)
     opp.labeled_by = "rules"
     return opp
 

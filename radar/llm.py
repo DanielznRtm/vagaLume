@@ -44,9 +44,10 @@ SCHEMA = {
         "regions": {"type": "array", "items": {"type": "string", "enum": REGIONS}},
         "warnings": {"type": "array", "items": {"type": "string", "enum": WARNINGS}},
         "deadline": {"type": "string", "description": "YYYY-MM-DD, or empty if not stated"},
+        "pay": {"type": "string", "description": "short pay label like '$45/hr' or 'R$1,800/mo', or empty"},
         "student_role": {"type": "string", "enum": ["yes", "no", "unsure"]},
     },
-    "required": ["area", "season", "regions", "warnings", "deadline", "student_role"],
+    "required": ["area", "season", "regions", "warnings", "deadline", "pay", "student_role"],
     "additionalProperties": False,
 }
 
@@ -63,6 +64,7 @@ academic year (fall/spring/co-op/regular estágio), "unknown" if not stated.
 citizenship, sponsorship or clearance; "PhD-level?" if it targets PhD/advanced-degree \
 students; "grad-year limit?" if it restricts graduation year or year of study.
 - deadline: the application deadline if the text states one, else "".
+- pay: the pay or stipend if stated, as a short label like "$45/hr", "€1,800/mo" or "R$1,800/mo", else "".
 - student_role: "yes" if aimed at students, "no" if clearly a regular job, else "unsure"."""
 
 
@@ -117,6 +119,8 @@ def _merge(opp: Opportunity, answer: dict[str, object]) -> None:
     deadline = str(answer.get("deadline") or "")
     if re.fullmatch(r"\d{4}-\d{2}-\d{2}", deadline) and opp.deadline == NO_DEADLINE:
         opp.deadline = deadline
+    if not opp.pay and answer.get("pay"):
+        opp.pay = str(answer["pay"])[:40]
     opp.calendar_note = calendar_note(opp.season)
     opp.labeled_by = "claude"
 

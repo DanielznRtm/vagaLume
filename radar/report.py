@@ -122,6 +122,8 @@ def _md_line(opp: StoredOpportunity, detailed: bool = False) -> str:
     parts.append(f"{opp.season} · {'/'.join(opp.regions)}")
     if opp.deadline != "check page":
         parts.append(f"⏳ {opp.deadline}")
+    if opp.pay:
+        parts.append(f"💰 {opp.pay}")
     if warnings:
         parts.append(warnings)
     if detailed:

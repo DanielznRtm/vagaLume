@@ -12,6 +12,7 @@ from typing import Any
 from ..http import get_json
 from ..labels import is_student_candidate, student_level
 from ..models import NO_DEADLINE, Opportunity
+from ..pay import from_range, parse_number
 from ..textutil import html_to_text, iso_date
 from . import SourceResult
 from .ats import fetch_boards
@@ -41,6 +42,8 @@ def parse(data: dict[str, Any], org: str) -> list[Opportunity]:
             # Jane Street calls its interns just "Software Engineer"; make that visible.
             title = f"{title} ({employment})"
         duration = _metadata(job, "Duration")  # e.g. "May-August"
+        low, high = _metadata(job, "Min salary"), _metadata(job, "Max salary")  # Jane Street
+        pay = from_range(parse_number(low) if low else None, parse_number(high) if high else None, "USD", "")
         location = (job.get("location") or {}).get("name", "")
         items.append(
             Opportunity(
@@ -52,6 +55,7 @@ def parse(data: dict[str, Any], org: str) -> list[Opportunity]:
                 remote="remote" in location.lower(),
                 posted_date=iso_date(job.get("first_published") or job.get("updated_at")),
                 deadline=iso_date(job.get("application_deadline")) or NO_DEADLINE,
+                pay=pay,
                 description=html_to_text(html_to_text(job.get("content", ""))),  # content is HTML-escaped HTML
                 hints=(["student"] if flagged_student else []) + ([duration] if duration else []),
             )

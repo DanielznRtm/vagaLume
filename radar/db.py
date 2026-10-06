@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS opportunities (
     first_seen    TEXT NOT NULL,
     last_seen     TEXT NOT NULL,
     deadline      TEXT,
+    pay           TEXT,           -- e.g. "$54–60/hr"; empty when not stated
     area          TEXT,
     season        TEXT,
     regions       TEXT,           -- comma-separated, e.g. "Brazil,remote"
@@ -58,7 +59,15 @@ def connect(path: str | Path) -> sqlite3.Connection:
     conn = sqlite3.connect(str(path))
     conn.row_factory = sqlite3.Row
     conn.executescript(SCHEMA)
+    _add_missing_columns(conn)
     return conn
+
+
+def _add_missing_columns(conn: sqlite3.Connection) -> None:
+    """Databases made by an older version lack newer columns; add them."""
+    existing = {row["name"] for row in conn.execute("PRAGMA table_info(opportunities)")}
+    if "pay" not in existing:
+        conn.execute("ALTER TABLE opportunities ADD COLUMN pay TEXT")
 
 
 def _join(items: list[str]) -> str:
@@ -88,7 +97,7 @@ def upsert(conn: sqlite3.Connection, opp: Opportunity, today: str) -> bool:
     values = {
         "id": opp.id, "title": opp.title, "org": opp.org, "source": opp.source,
         "location": opp.location, "remote": int(opp.remote), "url": opp.url,
-        "posted_date": opp.posted_date, "deadline": opp.deadline, "area": opp.area,
+        "posted_date": opp.posted_date, "deadline": opp.deadline, "pay": opp.pay, "area": opp.area,
         "season": opp.season, "regions": _join(opp.regions), "warnings": _join(opp.warnings),
         "calendar_note": opp.calendar_note, "note": opp.note, "labeled_by": opp.labeled_by,
         "is_open": int(opp.is_open), "last_seen": today,
@@ -103,10 +112,13 @@ def upsert(conn: sqlite3.Connection, opp: Opportunity, today: str) -> bool:
     if opp.labeled_by == "rules" and row["labeled_by"] == "claude":
         for name in ("area", "season", "regions", "warnings", "calendar_note", "labeled_by"):
             values.pop(name)
+        if not opp.pay:
+            values.pop("pay")  # keep the pay Claude found
         if opp.deadline == "check page":
             values.pop("deadline")
     if not opp.note:
         values.pop("note")  # keep the old note (e.g. "page changed on ...")
+
     assignments = ", ".join(f"{name}=:{name}" for name in values if name != "id")
     conn.execute(f"UPDATE opportunities SET {assignments} WHERE id=:id", values)
     return False
@@ -151,6 +163,7 @@ class StoredOpportunity:
     first_seen: str
     last_seen: str
     deadline: str
+    pay: str
     area: str
     season: str
     regions: list[str]
@@ -169,7 +182,7 @@ def load_all(conn: sqlite3.Connection) -> list[StoredOpportunity]:
             id=r["id"], title=r["title"], org=r["org"], source=r["source"],
             location=r["location"] or "", remote=bool(r["remote"]), url=r["url"],
             posted_date=r["posted_date"] or "", first_seen=r["first_seen"],
-            last_seen=r["last_seen"], deadline=r["deadline"] or "check page",
+            last_seen=r["last_seen"], deadline=r["deadline"] or "check page", pay=r["pay"] or "",
             area=r["area"] or "other", season=r["season"] or "unknown",
             regions=_split(r["regions"]), warnings=_split(r["warnings"]),
             calendar_note=r["calendar_note"] or "", note=r["note"] or "",
