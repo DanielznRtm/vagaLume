@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="1200" height="360" role="img" aria-label="vaga Lume: a little light on every student opening">
-  <title>vaga Lume</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="1200" height="360" role="img" aria-label="vagaLume: a little light on every student opening">
+  <title>vagaLume</title>
   <defs>
     <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#0b1a16"/>
@@ -39,7 +39,7 @@
     <circle cx="1012" cy="180" r="24" fill="#d4f05a"/>
     <circle cx="1012" cy="180" r="11" fill="#fbffe6"/>
   </g>
-  <text x="84" y="190" class="title">vaga <tspan class="lume">Lume</tspan></text>
+  <text x="84" y="190" class="title">vaga<tspan class="lume">Lume</tspan></text>
   <text x="88" y="240" class="tag">a little light on every student opening</text>
   <text x="88" y="282" class="sub">Internships · research programs · fellowships · schools — collected every morning</text>
 </svg>

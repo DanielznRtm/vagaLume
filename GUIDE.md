@@ -1,11 +1,11 @@
-# vaga Lume: the full guide
+# vagaLume: the full guide
 
 This is the detailed manual: how every source works, what each label means,
 how to add companies and programs, and how to run your own copy. For the short
 tour, see the [README](README.md). The website is at
 **https://pedrocamargolince.github.io/vagaLume/**.
 
-vaga Lume is a small Python bot that runs every day on GitHub Actions and collects **student
+vagaLume is a small Python bot that runs every day on GitHub Actions and collects **student
 opportunities**: internships (summer and regular, Brazil and abroad), estágio,
 research internships, fellowships, summer schools, and student programs at big
 tech companies, AI labs and trading firms.
@@ -267,7 +267,7 @@ be opened in the headless browser instead.
 3. **Turn on the website:** *Settings → Pages → Deploy from a branch → main,
    /docs*.
 4. The schedule is daily at **09:00 Brasília (12:00 UTC)**. To run it now, open
-   *Actions → vaga Lume → Run workflow*.
+   *Actions → vagaLume → Run workflow*.
 
 ### Secrets (all optional)
 

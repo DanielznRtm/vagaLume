@@ -1,12 +1,12 @@
 <p align="center">
   <a href="https://pedrocamargolince.github.io/vagaLume/">
-    <img src="assets/banner.svg" alt="vaga Lume: a little light on every student opening" width="100%">
+    <img src="assets/banner.svg" alt="vagaLume: a little light on every student opening" width="100%">
   </a>
 </p>
 
 <p align="center">
   <a href="https://pedrocamargolince.github.io/vagaLume/"><img alt="Open the app" src="https://img.shields.io/badge/%E2%9C%A8%20Open%20the%20app-c9e84a?style=for-the-badge"></a>
-  <a href="https://github.com/PedroCamargoLINCE/vagaLume"><img alt="Star vaga Lume on GitHub" src="https://img.shields.io/github/stars/PedroCamargoLINCE/vagaLume?style=for-the-badge&logo=github&label=Star&labelColor=0f2a23&color=0c6a5b"></a>
+  <a href="https://github.com/PedroCamargoLINCE/vagaLume"><img alt="Star vagaLume on GitHub" src="https://img.shields.io/github/stars/PedroCamargoLINCE/vagaLume?style=for-the-badge&logo=github&label=Star&labelColor=0f2a23&color=0c6a5b"></a>
   <a href="GUIDE.md"><img alt="Read the guide" src="https://img.shields.io/badge/Read%20the%20guide-GUIDE.md-5cc3ac?style=for-the-badge&labelColor=0f2a23"></a>
   <a href="https://github.com/PedroCamargoLINCE/vagaLume/fork"><img alt="Run your own copy" src="https://img.shields.io/badge/Run%20your%20own-fork%20it-f0b45e?style=for-the-badge&logo=github&labelColor=0f2a23"></a>
 </p>
@@ -26,16 +26,16 @@
 </p>
 
 <p align="center">
-  <img src="assets/demo.gif" alt="vaga Lume in action: pick your level and country, filter by area, search, open a role and save it" width="92%">
+  <img src="assets/demo.gif" alt="vagaLume in action: pick your level and country, filter by area, search, open a role and save it" width="92%">
 </p>
 
 ---
 
-## Why vaga Lume?
+## Why vagaLume?
 
 Hunting for internships means checking dozens of career pages, a few GitHub
 lists, Gupy, and every summer-school site, every single week. *Vaga* is
-Portuguese for a job opening, and a *vagalume* is a firefly: vaga Lume is a
+Portuguese for a job opening, and a *vagalume* is a firefly: vagaLume is a
 little light that finds the openings for you.
 
 | | |
@@ -63,7 +63,7 @@ little light that finds the openings for you.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/screenshot-dark.png">
-  <img alt="The vaga Lume list: filters on the left; each role shows its fit, location, pay, a month strip and the deadline" src="assets/screenshot-light.png">
+  <img alt="The vagaLume list: filters on the left; each role shows its fit, location, pay, a month strip and the deadline" src="assets/screenshot-light.png">
 </picture>
 
 Works on phones too, in light and dark mode. **[Open it →](https://pedrocamargolince.github.io/vagaLume/)**
@@ -89,7 +89,7 @@ Sources table shows which ones worked.
 1. **[Fork this repository](https://github.com/PedroCamargoLINCE/vagaLume/fork).**
 2. In your fork, go to **Settings → Actions → General** and choose **Read and write permissions**.
 3. Go to **Settings → Pages → Deploy from a branch → `main` / `/docs`**.
-4. Open **Actions → vaga Lume → Run workflow**. A few minutes later your site is at `https://<your-username>.github.io/vagaLume/`.
+4. Open **Actions → vagaLume → Run workflow**. A few minutes later your site is at `https://<your-username>.github.io/vagaLume/`.
 5. Make it yours: add companies to [`config/companies.yaml`](config/companies.yaml), programs to [`config/programs.yaml`](config/programs.yaml), and searches to [`config/search.yaml`](config/search.yaml).
 
 Optional: Telegram or email digests and Claude labelling. Setting up the secrets is covered in the [guide](GUIDE.md#secrets-all-optional).
@@ -110,11 +110,11 @@ page, the code layout (written to be readable by beginners), and the tests.
 
 ## Like it? ⭐
 
-If vaga Lume helps you find something, **star the repository**. It's the
+If vagaLume helps you find something, **star the repository**. It's the
 easiest way to help other students find it too.
 
 <p align="center">
-  <a href="https://github.com/PedroCamargoLINCE/vagaLume"><img alt="Star vaga Lume" src="https://img.shields.io/github/stars/PedroCamargoLINCE/vagaLume?style=for-the-badge&logo=github&label=Star%20vaga%20Lume&labelColor=0f2a23&color=c9e84a"></a>
+  <a href="https://github.com/PedroCamargoLINCE/vagaLume"><img alt="Star vagaLume" src="https://img.shields.io/github/stars/PedroCamargoLINCE/vagaLume?style=for-the-badge&logo=github&label=Star%20vagaLume&labelColor=0f2a23&color=c9e84a"></a>
 </p>
 
 <p align="center">

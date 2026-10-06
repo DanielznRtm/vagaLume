@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>vaga Lume</title>
+<title>vagaLume</title>
 <meta name="description" content="Student internships, research programs, fellowships and schools, collected every morning and sorted by how well they fit you.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23c9e84a' fill-opacity='.35'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23c9e84a'/%3E%3Ccircle cx='16' cy='16' r='3.2' fill='%23fffbe0'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
 <!--
-  vaga Lume's whole web interface is this one file: no frameworks, no build
+  vagaLume's whole web interface is this one file: no frameworks, no build
   step. It downloads data.json (written by the bot on every run) and shows it.
   Your profile, saved roles and Applied / Hide clicks stay in this browser
   (localStorage); nothing is sent anywhere.
@@ -299,10 +299,10 @@
     <i style="left:14%;top:80%"></i><i style="left:52%;top:8%"></i><i style="left:92%;top:44%"></i><i style="left:4%;top:50%"></i>
   </div>
   <div class="welcome-card">
-    <span class="brand"><span class="lume" aria-hidden="true"></span><span>vaga <b>Lume</b></span></span>
+    <span class="brand"><span class="lume" aria-hidden="true"></span><span>vaga<b>Lume</b></span></span>
     <div>
       <h1>A little light on <em>every student opening.</em></h1>
-      <p class="lead">Internships, research programs, fellowships and schools from 13 sources, collected every morning. Tell vaga Lume where you are in your studies and it sorts them by fit and says what might get in the way. Nothing is hidden.</p>
+      <p class="lead">Internships, research programs, fellowships and schools from 13 sources, collected every morning. Tell vagaLume where you are in your studies and it sorts them by fit and says what might get in the way. Nothing is hidden.</p>
     </div>
     <div class="question" role="group" aria-labelledby="q-level">
       <h2 id="q-level">I'm studying for a</h2>
@@ -327,7 +327,7 @@
 <!-- ======================= main app ======================= -->
 <div class="app" id="app" hidden>
   <header class="topbar">
-    <span class="brand"><span class="lume" aria-hidden="true"></span><span>vaga <b>Lume</b></span></span>
+    <span class="brand"><span class="lume" aria-hidden="true"></span><span>vaga<b>Lume</b></span></span>
     <div class="top-actions">
       <button class="profile-chip" id="profile-chip"><span id="profile-text"></span><span class="edit">Change</span></button>
       <a class="ghost" href="https://github.com/PedroCamargoLINCE/vagaLume" target="_blank" rel="noopener" title="Source code on GitHub">
@@ -406,7 +406,7 @@
       <p><b>Fit</b> compares each role with your profile: a full dot is a good fit, a half-filled dot means check something (a visa, a graduation-year rule, a job for after you graduate), an empty dot is a long shot (for example a PhD-only role while you're an undergrad). The reason shows under the company; open the row for all of them.</p>
       <p><b>When</b> is a January–December strip. <i class="swatch" style="background:var(--semester)"></i> UNESP semester months (Mar–Jun, Aug–Nov). <i class="swatch" style="background:var(--good)"></i> the role runs in a break. <i class="swatch" style="background:var(--check)"></i> it clashes with classes.</p>
       <p><b>Pay</b> appears when the posting states it (hr = per hour, mo = per month, yr = per year). Annual figures for internships are usually the hourly rate scaled to a year.</p>
-      <p><b>☆ Save</b> builds a shortlist, <b>✕ Hide</b> removes a role from your lists, and inside a row you can mark it <b>Applied</b>. All of this stays in this browser. vaga Lume never hides anything by itself: labels and fit are hints, not verdicts.</p>
+      <p><b>☆ Save</b> builds a shortlist, <b>✕ Hide</b> removes a role from your lists, and inside a row you can mark it <b>Applied</b>. All of this stays in this browser. vagaLume never hides anything by itself: labels and fit are hints, not verdicts.</p>
       <p>Your filters live in the page address, so you can bookmark a view (for example "ML roles in Europe") or send it to a friend.</p>
     </details>
     <details>
@@ -414,7 +414,7 @@
       <div class="table-wrap"><table><thead><tr><th>Source</th><th>Status</th><th>Items</th><th>Problems</th></tr></thead><tbody id="sources"></tbody></table></div>
     </details>
     <div class="footer-line">
-      <span>vaga Lume updates every morning at 09:00 (Brasília).</span>
+      <span>vagaLume updates every morning at 09:00 (Brasília).</span>
       <a href="https://github.com/PedroCamargoLINCE/vagaLume" target="_blank" rel="noopener">Code, guide and how to add companies</a>
     </div>
   </footer>
