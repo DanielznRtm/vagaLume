@@ -110,9 +110,9 @@ greenhouse:
   - {slug: xtxmarketstechnologies, name: XTX Markets}
   - {slug: thetradedesk, name: The Trade Desk}
   - {slug: marshallwace, name: Marshall Wace}  # valid board, 0 jobs on 2026-10-05
-  # - {slug: hudsonrivertrading, name: Hudson River Trading}  # not on these ATSs; site blocks bots
-  # - {slug: citadel, name: Citadel}                         # not on these ATSs; site blocks bots
-  # - {slug: citadelsecurities, name: Citadel Securities}    # not on these ATSs; site blocks bots
+  - {slug: wehrtyou, name: Hudson River Trading}  # HRT's board has an unusual name ("we HRT you")
+  # - {slug: citadel, name: Citadel}                         # own site behind Cloudflare; roles come via the GitHub lists
+  # - {slug: citadelsecurities, name: Citadel Securities}    # own site behind Cloudflare; roles come via the GitHub lists
   # - {slug: twosigma, name: Two Sigma}                      # not on these ATSs; see programs.yaml
   # - {slug: deshaw, name: D. E. Shaw}                       # scraped by the deshaw source instead
   # - {slug: sig, name: Susquehanna (SIG)}                   # not on these ATSs; see programs.yaml

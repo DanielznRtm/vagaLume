@@ -189,11 +189,8 @@ programs:
     url: https://www.janestreet.com/join-jane-street/internships/
     area: quant
 
-  # - name: Hudson River Trading campus (Explore HRT / Inside HRT)
-  #   org: Hudson River Trading
-  #   url: https://www.hudsonrivertrading.com/campus-recruiting/
-  #   area: quant
-  #   # Blocks bots with 403, also headless browsers (checked 2026-10-06)
+  # Hudson River Trading: all its jobs (internships, Explore/Inside HRT) come
+  # from its Greenhouse board "wehrtyou" in companies.yaml.
 
   # - name: Citadel / Citadel Securities students
   #   org: Citadel
