@@ -67,6 +67,8 @@ def test_report_sections_and_website_data(tmp_path):
     assert fresh["url"] == "https://e.com/new"  # tracking parameters removed
     assert fresh["deadline"] == ""  # "check page" becomes empty
     assert payload["sources"][0]["name"] == "greenhouse"
+    badge = json.loads((tmp_path / "stats.json").read_text())  # read by the README badges
+    assert badge == {"updated": "2026-10-05", "open": "3", "new": "1", "with_pay": "0", "sources": "1/1 healthy", "sources_ok": True}
 
 
 def test_notifications_are_skipped_without_env(monkeypatch):

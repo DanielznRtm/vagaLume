@@ -1,1 +1,4 @@
-"""Opportunity Radar: collects student opportunities every day."""
+"""vaga Lume: collects student opportunities every day.
+
+(The package is still called `radar`, so the command stays `python -m radar`.)
+"""
