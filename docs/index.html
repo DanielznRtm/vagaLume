@@ -58,7 +58,7 @@
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
   html, body { margin: 0; }
-  body { background: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body); -webkit-font-smoothing: antialiased; }
+  body { background: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body); -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
   a { color: var(--accent); }
   button, input, select { font: inherit; color: inherit; }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
@@ -219,6 +219,29 @@
     .levels { grid-template-columns: minmax(0, 1fr); }
   }
   @media (min-width: 901px) { .facts { display: contents; } }
+  @media (max-width: 900px) {
+    /* one swipeable line of tabs instead of two wrapped lines */
+    main { min-width: 0; }
+    .tabs-row { display: grid; gap: 10px; }
+    .tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab { white-space: nowrap; flex: none; }
+  }
+  /* Touch screens: every control at least ~40px tall so it's easy to hit. */
+  @media (pointer: coarse) {
+    .icon-btn { width: 42px; height: 42px; border-radius: 10px; }
+    .chip { padding: 8px 13px; font-size: .92rem; }
+    .chips { gap: 8px; }
+    .tab { padding: 12px 12px 13px; }
+    .stat { padding-block: 8px; }
+    .check-row { min-height: 40px; }
+    .check-row input { width: 20px; height: 20px; }
+    .filters > summary, footer summary { padding-block: 8px; }
+    .reset, .linkish { padding-block: 8px; }
+    select { min-height: 42px; }
+    .profile-chip { min-height: 42px; }
+    .row-main:active { background: var(--accent-soft); }
+  }
   @media (prefers-reduced-motion: no-preference) { .row-main, .chip, .tab { transition: background-color .12s, color .12s, border-color .12s; } }
 </style>
 </head>
@@ -586,7 +609,7 @@ function details(i) {
     <div><h4>Locations</h4>${locs.length ? `<p>${locs.map(esc).join(" · ")}</p>` : `<p class="muted">Not stated</p>`}<p class="muted">${esc(i.regions.filter(r => r !== "unknown").join(", "))}</p></div>
     <div><h4>When</h4><p>${esc(SEASON_TEXT[i.season] || i.season)}</p>
       <h4 style="margin-top:10px">Deadline</h4><p>${i.deadline ? esc(fmtDate(i.deadline)) : "Not stated. Check the posting."}</p></div>
-    <div><h4>Pay</h4><p class="mono">${esc(i.pay || "Not stated")}</p>
+    <div><h4>Pay</h4>${i.pay ? `<p class="mono">${esc(i.pay)}</p>` : `<p class="muted">Not stated</p>`}
       <h4 style="margin-top:10px">Labels</h4><p>${esc(i.area)}${i.warnings.length ? " · " + i.warnings.map(esc).join(" · ") : ""}</p></div>
     <div><h4>Found</h4><p>${esc(fmtDate(i.added))} via ${esc(i.source)}${i.posted ? ` · posted ${esc(fmtDate(i.posted))}` : ""}</p>${i.note ? `<p class="muted">${esc(i.note)}</p>` : ""}
       <p style="margin-top:8px"><a class="open-link" href="${esc(i.url)}" target="_blank" rel="noopener">Open the posting ↗</a></p></div>
