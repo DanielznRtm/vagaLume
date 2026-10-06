@@ -1,0 +1,97 @@
+{
+ "status": 200,
+ "error": {
+  "message": "",
+  "body": ""
+ },
+ "data": {
+  "positions": [
+   {
+    "id": 1970393556922922,
+    "displayJobId": "200042195",
+    "name": "Software Engineer: Fullstack Product (Web + Services)  Intern Opportunities for University Students,",
+    "locations": [
+     "United States, Washington, Redmond"
+    ],
+    "standardizedLocations": [
+     "Redmond, WA, US"
+    ],
+    "postedTs": 1790838000,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Software Engineering",
+    "creationTs": 1782937949,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "200042195",
+    "positionUrl": "/careers/job/1970393556922922"
+   },
+   {
+    "id": 1970393556922929,
+    "displayJobId": "200042197",
+    "name": "Software Engineer: AI/ML & LLM Intern Opportunities for University Students, Redmond",
+    "locations": [
+     "United States, Washington, Redmond"
+    ],
+    "standardizedLocations": [
+     "Redmond, WA, US"
+    ],
+    "postedTs": 1790838000,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Software Engineering",
+    "creationTs": 1782938291,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "200042197",
+    "positionUrl": "/careers/job/1970393556922929"
+   },
+   {
+    "id": 1970393556922931,
+    "displayJobId": "200042200",
+    "name": "Software Engineer: Data Platform/Analytics Intern Opportunities for University Students, Redmond",
+    "locations": [
+     "United States, Washington, Redmond"
+    ],
+    "standardizedLocations": [
+     "Redmond, WA, US"
+    ],
+    "postedTs": 1790838000,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Software Engineering",
+    "creationTs": 1782938535,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "200042200",
+    "positionUrl": "/careers/job/1970393556922931"
+   },
+   {
+    "id": 1970393557022480,
+    "displayJobId": "200059346",
+    "name": "Research Intern - Security Research Group, Microsoft Research Redmond",
+    "locations": [
+     "United States, Washington, Redmond"
+    ],
+    "standardizedLocations": [
+     "Redmond, WA, US"
+    ],
+    "postedTs": 1790888114,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Research Sciences",
+    "creationTs": 1790879333,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "200059346",
+    "positionUrl": "/careers/job/1970393557022480"
+   }
+  ],
+  "count": 102
+ },
+ "metadata": null
+}

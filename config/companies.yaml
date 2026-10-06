@@ -110,13 +110,13 @@ greenhouse:
   - {slug: xtxmarketstechnologies, name: XTX Markets}
   - {slug: thetradedesk, name: The Trade Desk}
   - {slug: marshallwace, name: Marshall Wace}  # valid board, 0 jobs on 2026-10-05
-  # - {slug: hudsonrivertrading, name: Hudson River Trading}  # not on these ATSs; see programs.yaml
+  # - {slug: hudsonrivertrading, name: Hudson River Trading}  # not on these ATSs; site blocks bots
   # - {slug: citadel, name: Citadel}                         # not on these ATSs; site blocks bots
   # - {slug: citadelsecurities, name: Citadel Securities}    # not on these ATSs; site blocks bots
   # - {slug: twosigma, name: Two Sigma}                      # not on these ATSs; see programs.yaml
-  # - {slug: deshaw, name: D. E. Shaw}                       # not on these ATSs; see programs.yaml
+  # - {slug: deshaw, name: D. E. Shaw}                       # scraped by the deshaw source instead
   # - {slug: sig, name: Susquehanna (SIG)}                   # not on these ATSs; see programs.yaml
-  # - {slug: drw, name: DRW}                                 # not on these ATSs; see programs.yaml
+  # - {slug: drw, name: DRW}                                 # scraped by the drw source instead
   # - {slug: gresearch, name: G-Research}                    # not on these ATSs
   # - {slug: radixtrading, name: Radix Trading}              # not on these ATSs
   # - {slug: headlands, name: Headlands Technologies}        # not on these ATSs

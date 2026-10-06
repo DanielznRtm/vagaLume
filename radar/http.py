@@ -23,21 +23,35 @@ _session = requests.Session()
 _session.headers.update({"User-Agent": USER_AGENT, "Accept-Language": "en-US,en;q=0.8,pt-BR;q=0.6"})
 
 
+RATE_LIMIT_WAITS = (15, 45)  # seconds to wait after a "429 Too Many Requests"
+
+
 def _request(method: str, url: str, **kwargs: Any) -> requests.Response:
-    """Send one request, retrying once on network errors or 5xx answers."""
+    """Send one request.
+
+    Network errors and 5xx answers get one more try. A 429 ("too many
+    requests, slow down") gets up to two more tries after longer pauses, as
+    the site asked. Other 4xx answers fail straight away.
+    """
     kwargs.setdefault("timeout", TIMEOUT_SECONDS)
+    waits = [DELAY_SECONDS, DELAY_SECONDS * 2]  # pause before each try
+    slow_down_waits = list(RATE_LIMIT_WAITS)
     last_error: Exception | None = None
-    for attempt in range(2):
-        time.sleep(DELAY_SECONDS * (attempt + 1))
+    while waits:
+        time.sleep(waits.pop(0))
         try:
             response = _session.request(method, url, **kwargs)
         except requests.RequestException as error:
             last_error = error
             continue
+        if response.status_code == 429 and slow_down_waits:
+            waits.insert(0, slow_down_waits.pop(0))  # wait longer, then try again
+            last_error = requests.HTTPError(f"429 Too Many Requests from {url}")
+            continue
         if response.status_code >= 500:
             last_error = requests.HTTPError(f"{response.status_code} from {url}")
             continue
-        response.raise_for_status()  # 4xx: no point retrying
+        response.raise_for_status()  # other 4xx: no point retrying
         return response
     assert last_error is not None
     raise last_error

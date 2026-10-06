@@ -11,13 +11,14 @@ each posting gets **labels** (area, season, region) and **warnings** (such as
 "US work auth?" or "PhD-level?"). When it is unclear whether a posting is for
 students, it is still shown, with the warning `unsure if student role`.
 
-Every day it writes:
+Every day it updates:
 
-- `reports/latest.md`: readable on GitHub. Order: deadlines in the next 14 days,
-  then new items, then watched program pages, then everything else that is
-  open, grouped by category.
-- `reports/index.html`: the same data as a page with filters. Every filter
-  starts ticked, so nothing is hidden until you choose.
+- **The website** (`docs/`, served by GitHub Pages): one plain page with a
+  search box, tabs (All, New, Closing in 14 days, Programs & schools, Applied,
+  Hidden), a few filters and a table. See [The website](#the-website).
+- `reports/latest.md`: the same list as a Markdown file you can read on
+  GitHub. Order: deadlines in the next 14 days, then new items, then watched
+  program pages, then everything else that is open, grouped by category.
 - `data/radar.db`: an SQLite database with every posting ever seen and your
   status for each one.
 
@@ -29,24 +30,34 @@ Each source is one module in `radar/sources/`. They all return the same record
 (`radar/models.py`). If one source fails, the run goes on, and the failure shows
 up in the **Source health** table at the top of the report.
 
-These are the numbers from the first real run (2026-10-05), after removing
-duplicates:
+Numbers from the run on 2026-10-06, after removing duplicates:
 
-| Source | Module | How | Status | Items |
-|---|---|---|---|---|
-| Greenhouse boards (98 companies) | `greenhouse.py` | public JSON API | ✅ working | 785 |
-| Lever boards (10 companies) | `lever.py` | public JSON API | ✅ working | 107 |
-| Ashby boards (49 companies) | `ashby.py` | public JSON API | ✅ working | 98 |
-| GitHub lists (SimplifyJobs Summer 2027, Off-Season, New Grad; vanshb03 Summer 2027) | `github_lists.py` | parses README tables (HTML and Markdown) | ✅ working | 3,731 |
-| Gupy (estágio in Brazil) | `gupy.py` | reads the JSON embedded in the search page | ✅ working, see limits | 97 |
-| Program pages (24 pages) | `programs.py` | page-change watcher | ✅ working | 24 |
-| Google Careers | `google.py` | reads the job data embedded in the results page | ✅ working (fragile) | 63 |
-| Amazon Jobs | `amazon.py` | JSON endpoint behind amazon.jobs search | ✅ working | 400 |
-| NVIDIA (Workday) | `nvidia.py` | Workday JSON endpoint, "Intern" filter | ✅ working | 40 |
-| Microsoft | - | its search API answered **429 Too Many Requests** every time | ⚠️ watched page instead | - |
-| Meta | - | no public API, and the pages are built by JavaScript | ❌ not covered, check by hand | - |
+| Source | Module | How | Items |
+|---|---|---|---|
+| Greenhouse boards (98 companies) | `greenhouse.py` | public JSON API | 785 |
+| Lever boards (10 companies) | `lever.py` | public JSON API | 107 |
+| Ashby boards (49 companies) | `ashby.py` | public JSON API | 98 |
+| GitHub lists (SimplifyJobs Summer 2027, Off-Season, New Grad; vanshb03 Summer 2027) | `github_lists.py` | parses README tables (HTML and Markdown) | 3,724 |
+| Gupy (estágio in Brazil) | `gupy.py` | reads the JSON embedded in the search page | 97 |
+| Program pages (25 pages) | `programs.py` | page-change watcher | 25 |
+| Google Careers | `google.py` | reads the job data embedded in the results page | 63 |
+| Amazon Jobs | `amazon.py` | JSON endpoint behind amazon.jobs search | 400 |
+| NVIDIA (Workday) | `nvidia.py` | Workday JSON endpoint, "Intern" filter | 40 |
+| Microsoft | `microsoft.py` | JSON endpoint behind its search page | 72 |
+| D. E. Shaw | `nextjs_sites.py` | reads the JSON embedded in the page (Next.js) | 12 |
+| DRW | `nextjs_sites.py` | reads the JSON embedded in the page (Next.js) | 23 |
+| Meta | `meta.py` | **headless browser** (Playwright): opens the internship search and catches the job list the page downloads | 11 |
 
-Total on the first run: **5,345 open items**.
+Total: **5,457 open items**, all 13 sources healthy.
+
+**Scraping without a public API.** Most sites that have no official API still
+load their jobs from somewhere: a JSON endpoint that the search page calls
+(Microsoft, Amazon), or JSON embedded in the HTML (Gupy, Google, D. E. Shaw,
+DRW). The bot reads those directly with plain HTTP, which is fast and simple.
+Only Meta answers plain requests with an empty page, so `meta.py` opens it
+in a headless Chromium (`radar/browser.py`) and reads the job list the page
+fetches for itself. Program pages that are built by JavaScript can use the
+same browser: add `render: true` in `programs.yaml`.
 
 ### Limits you should know about
 
@@ -54,53 +65,44 @@ Total on the first run: **5,345 open items**.
   **12 newest results per search term**, so the bot runs 17 searches (see
   `config/search.yaml`). Older estágio postings that drop off the first page are
   missed. Add more terms to cover more.
-- **Google** has no API. The parser reads a data blob inside the page by
-  position. If Google changes its page, this source will show as failed in the
-  report. The Google student pages in `programs.yaml` act as a backup.
-- **Microsoft**'s job search API (`apply.careers.microsoft.com`) refused every
-  request with HTTP 429, so Microsoft is covered only as a watched page
-  (`careers.microsoft.com/v2/global/en/students`), plus whatever the GitHub
-  lists pick up.
-- **Meta**'s career site is built entirely by JavaScript and has no public API.
-  Neither a search nor a page watch works. Meta internships still show up
-  through the SimplifyJobs lists.
+- **Google, Meta, Microsoft, D. E. Shaw, DRW** are scraped from their own
+  websites. If one of them redesigns its site, that source will show as failed
+  in the Sources table (the other sources keep working) and its parser needs a
+  small update.
+- **Microsoft** sometimes answers "429 Too Many Requests". The bot then waits
+  15 s and 45 s before retrying, as the site asks.
+- **Sites that block bots on purpose** are not scraped: Hudson River Trading,
+  Citadel / Citadel Securities, MBZUAI and the OpenAI Residency page use
+  Cloudflare-style bot protection that also stops a headless browser. The bot
+  respects that. Check these by hand (links below); their internships often
+  show up in the SimplifyJobs lists anyway.
 - **New-grad roles** are included because you asked for the SimplifyJobs
   new-grad list. They carry the warning `new-grad role (after graduation)`.
 - Postings that a source stops listing are marked closed. If a source is only
   partly healthy, closing waits until a posting hasn't been seen for 30 days.
 - No LinkedIn scraping, by design.
 
-### Companies that could not be added
+### Check these by hand
 
-These were checked on 2026-10-05 and are not on Greenhouse, Lever or Ashby, or
-their board could not be found. They stay commented out in
-`config/companies.yaml`:
+These block bots, so the radar can't read them:
 
-- **Trading:** Hudson River Trading, Citadel, Citadel Securities, Two Sigma,
-  D. E. Shaw, Susquehanna (SIG), DRW, G-Research, Radix, Headlands. Two Sigma
-  and SIG are watched as pages instead. HRT and Citadel block bots (HTTP 403),
-  and D. E. Shaw and DRW pages are JavaScript-only, so check those by hand.
+- Hudson River Trading: https://www.hudsonrivertrading.com/campus-recruiting/
+- Citadel and Citadel Securities: https://www.citadel.com/careers/students/
+- MBZUAI UGRIP: https://mbzuai.ac.ae/ugrip/
+- OpenAI Residency: https://openai.com/residency/
+
+### Companies not on Greenhouse, Lever or Ashby
+
+They stay commented out in `config/companies.yaml`:
+
+- **Trading:** Two Sigma and SIG (watched as program pages), G-Research,
+  Radix, Headlands. D. E. Shaw and DRW have their own scrapers now.
 - **AI:** Google DeepMind (covered by the Google source and the Student
   Researcher page), Mistral AI, Hugging Face (uses Workable, which isn't
   supported).
 - **Brazil:** iFood, Mercado Livre, PicPay, CloudWalk, Creditas, Hotmart,
   Olist, TOTVS, Tractian, Loggi. Several of them hire interns through Gupy, so
   the Gupy source may catch them.
-
-### Program pages that could not be watched
-
-Also commented out in `config/programs.yaml`:
-
-| Page | Why |
-|---|---|
-| MBZUAI UGRIP | HTTP 403 (bot protection) |
-| OpenAI Residency | HTTP 403 (bot protection) |
-| Hudson River Trading campus (Explore/Inside HRT) | HTTP 403 |
-| Citadel students | HTTP 403 |
-| Google STEP | page is built by JavaScript. STEP roles are found by the Google source instead (query `STEP`). |
-| Meta university programs | page is built by JavaScript |
-| D. E. Shaw students | page is built by JavaScript |
-| DRW campus listings | job list is loaded by JavaScript |
 
 ---
 
@@ -128,18 +130,45 @@ key, everything works the same using the keyword rules.
 
 ---
 
-## Your status for each posting
+## The website
 
-Every posting has a status: `new`, `seen`, `applied` or `ignored`. The bot only
-ever changes `new` to `seen` (on the next run). To set your own status:
+The site is one plain HTML file, `docs/index.html`. Each run rewrites
+`docs/data.json` and the page shows it. The page has:
 
-1. Copy the posting's id (the small grey code in the report, such as `55047c2880ed6544`).
-2. Add a line to `config/status.yaml`, for example `55047c2880ed6544: applied`.
-   You can do this on github.com with the pencil icon.
+- **Search** over role, company and place.
+- **Tabs**: All · New (found in the latest run) · Closing in 14 days ·
+  Programs & schools · Applied · Hidden. Each tab shows its count.
+- **Filters**: Area, Region, Season, Source, plus "Hide roles marked: US
+  auth? / PhD? / grad year? / new grad / unsure". Nothing is hidden until you
+  pick something.
+- **Sort**: deadline first (default), newest first, or company A–Z.
+- **Applied** and **Hide** buttons on each row. These are saved in your
+  browser. Click again to undo.
+- The **Sources** section at the bottom shows whether each source worked.
 
-The next run applies it. `ignored` items move to an "Ignored by you" section at
-the bottom of the report. You can also do this locally:
-`python -m radar status 55047c2880ed6544 applied`.
+**Turn it on (one time):** in the repository go to *Settings → Pages*, set
+*Source* to **Deploy from a branch**, pick branch **main** and folder
+**/docs**, and save. A minute later the site is live at
+**https://pedrocamargolince.github.io/opportunity-radar/**, and it updates
+after every daily run. The repository is public, so the site is public too.
+
+To try it on your computer: `python -m http.server -d docs` and open
+http://localhost:8000.
+
+### Statuses that follow you everywhere
+
+The Applied/Hide buttons only remember things in one browser. For a status
+that every device sees, add the posting's id to `config/status.yaml` (edit it
+on github.com), for example:
+
+```yaml
+55047c2880ed6544: applied
+3f9a1c2b7d4e5f60: ignored   # shows under "Hidden"
+```
+
+Statuses are `new`, `seen`, `applied` or `ignored`. The bot itself only
+changes `new` to `seen` on the next run. Locally you can also run
+`python -m radar status <id> applied`.
 
 ---
 
@@ -169,7 +198,8 @@ run `python -m radar check-config` to confirm that it returns jobs.
 ```
 
 Run `python -m radar check-config`. If the page shows fewer than 200
-characters, it is probably built by JavaScript and can't be watched.
+characters, it is probably built by JavaScript: add `render: true` and it will
+be opened in the headless browser instead.
 
 **More Gupy searches, GitHub lists, Google/Amazon queries:** edit
 `config/search.yaml`.
@@ -183,7 +213,9 @@ characters, it is probably built by JavaScript and can't be watched.
 2. **Allow the workflow to push.** Go to *Settings → Actions → General →
    Workflow permissions* and pick **Read and write permissions**. The workflow
    commits `data/radar.db` and `reports/`.
-3. The schedule is daily at **09:00 Brasília (12:00 UTC)**. To run it now, open
+3. **Turn on the website:** *Settings → Pages → Deploy from a branch → main,
+   /docs*.
+4. The schedule is daily at **09:00 Brasília (12:00 UTC)**. To run it now, open
    *Actions → Opportunity Radar → Run workflow*.
 
 ### Secrets (all optional)
@@ -201,20 +233,9 @@ secret*. Anything you leave out is skipped without errors.
 | `EMAIL_TO` | where to send the digest |
 | `EMAIL_FROM` | optional sender address (defaults to `SMTP_USER`) |
 
-You can also set the repository **variable** `RADAR_REPORT_URL`, for example a
-GitHub Pages link to `reports/index.html`, and the digest will include it.
-
-### Reading the HTML report
-
-GitHub shows `reports/latest.md` nicely but shows `index.html` only as code.
-You have three options:
-
-- Download it (*Raw → Save as*) and open it in your browser.
-- Clone the repo and open `reports/index.html`.
-- Turn on GitHub Pages (*Settings → Pages → Deploy from branch → main / root*)
-  and open `https://<user>.github.io/opportunity-radar/reports/`. On a free
-  account, Pages needs the repository to be public, and that makes your list
-  public too.
+You can also set the repository **variable** `RADAR_REPORT_URL` to the site
+address (https://pedrocamargolince.github.io/opportunity-radar/) and the digest
+will link to it.
 
 ---
 
@@ -224,8 +245,9 @@ You have three options:
 python3.12 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements-dev.txt
+python -m playwright install chromium   # headless browser, only needed for Meta
 
-python -m radar                      # full run (about 4 minutes)
+python -m radar                      # full run (about 5 minutes)
 python -m radar --only gupy,programs # just some sources
 python -m radar --no-notify          # don't send Telegram/email
 python -m radar check-config         # verify every slug and program URL
@@ -240,29 +262,34 @@ python -m pytest -q                  # tests (offline, use saved samples)
 radar/
   main.py          the daily run, step by step (start reading here)
   models.py        the Opportunity record every source returns
-  http.py          polite HTTP: user-agent, timeouts, small delays, one retry
+  http.py          polite HTTP: user-agent, timeouts, small delays, retries
+  browser.py       headless Chromium, only for sites that need JavaScript
   labels.py        keyword rules for area / season / region / warnings
   llm.py           optional Claude labelling (only with ANTHROPIC_API_KEY)
   db.py            SQLite storage, dedupe by id (hash of the URL)
-  report.py        writes latest.md and index.html
+  report.py        writes reports/latest.md
+  site.py          writes docs/data.json for the website
   notify.py        optional Telegram / email digest
   textutil.py      HTML to text, date parsing, deadline finding
   sources/         one module per source; each has a pure parse() function
+docs/              the website: index.html (fixed) + data.json (updated daily)
 config/            companies.yaml, programs.yaml, search.yaml, status.yaml
 tests/             pytest tests; tests/fixtures holds saved real responses
 ```
 
 A run does four things, in this order: **collect** from each source (failures
 are caught per source), **label** with rules (plus Claude if a key is set),
-**store** in SQLite (dedupe by URL hash, keep your status), and **report**
-(Markdown, HTML, notifications).
+**store** in SQLite (dedupe by URL hash, keep your status), and **publish**
+(website data, Markdown report, notifications).
 
 ## Notes
 
 - **Polite scraping.** The bot sends a user-agent that says what it is and
-  links here, waits 0.6 s before each request, uses 25 s timeouts, and retries
-  only once. A full run makes about 220 requests.
-- **Database size.** `data/radar.db` is about 2.7 MB and is committed every day.
+  links here, waits 0.6 s before each request, uses 25 s timeouts, retries
+  once (longer pauses after a 429), and does not get around bot protection.
+  A full run makes about 240 requests and opens 2 pages in the browser.
+- **Repository size.** `data/radar.db` (2.8 MB) and `docs/data.json` (2.5 MB)
+  are committed every day.
   Git stores each version, so the repository grows over time. If it gets too
   big, you can delete old history, or store the database as a workflow
   artifact instead.

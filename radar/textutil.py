@@ -101,6 +101,7 @@ def parse_english_date(text: str) -> date | None:
 _DEADLINE_CUES = re.compile(
     r"(deadline|apply by|applications? (?:close|closes|due|are due|will close)|"
     r"application before|submit (?:your application|applications) by|no later than|"
+    r"applications? (?:are |is )?open until|accepting applications until|"
     r"prazo|inscri\w+ até|inscri\w+ (?:vão|vai) até|candidaturas até)",
     re.I,
 )

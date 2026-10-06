@@ -1,11 +1,10 @@
 """Database, reports, notifications, Claude labelling and the main loop."""
 
 import json
-import re
 
 import pytest
 
-from radar import db, llm, main, notify, report
+from radar import db, llm, main, notify, report, site
 from radar.labels import apply_rules
 from radar.models import Opportunity
 from radar.sources import SourceResult
@@ -43,13 +42,15 @@ def test_set_status_rejects_unknown_values():
         db.set_status(conn, "x", "maybe")
 
 
-def test_report_sections_and_html_filters_start_ticked(tmp_path):
+def test_report_sections_and_website_data(tmp_path):
     conn = db.connect(":memory:")
     db.upsert(conn, make(title="Old Intern", url="https://e.com/old"), "2026-09-01")
-    db.upsert(conn, make(title="Fresh Intern", url="https://e.com/new"), "2026-10-05")
+    db.upsert(conn, make(title="Fresh Intern", url="https://e.com/new?utm_source=x"), "2026-10-05")
     db.upsert(conn, make(title="Soon Intern", url="https://e.com/soon", deadline="2026-10-10"), "2026-09-01")
+    db.upsert(conn, make(title="Closed Intern", url="https://e.com/closed", is_open=False), "2026-09-01")
     health = [report.SourceHealth(name="greenhouse", items=3, checked=1)]
-    data = report.build(db.load_all(conn), health, "2026-10-05", "keyword rules")
+    everything = db.load_all(conn)
+    data = report.build(everything, health, "2026-10-05", "keyword rules")
     assert [o.title for o in data.soon] == ["Soon Intern"]
     assert [o.title for o in data.new] == ["Fresh Intern"]
     assert [o.title for o in data.rest] == ["Old Intern"]
@@ -57,10 +58,15 @@ def test_report_sections_and_html_filters_start_ticked(tmp_path):
     report.write_reports(data, tmp_path)
     markdown = (tmp_path / "latest.md").read_text()
     assert markdown.index("Deadlines in the next") < markdown.index("New this run") < markdown.index("Everything else")
-    page = (tmp_path / "index.html").read_text()
-    blob = re.search(r'<script id="radar-data" type="application/json">(.*?)</script>', page, re.S).group(1)
-    assert len(json.loads(blob)["items"]) == 3
-    assert "checked>" in page or "' checked" in page or " checked " in page  # checkboxes start ticked
+
+    path = site.write_data(everything, health, "2026-10-05", "keyword rules", tmp_path)
+    payload = json.loads(path.read_text())
+    assert payload["updated"] == "2026-10-05"
+    assert sorted(i["title"] for i in payload["items"]) == ["Fresh Intern", "Old Intern", "Soon Intern"]  # open only
+    fresh = next(i for i in payload["items"] if i["title"] == "Fresh Intern")
+    assert fresh["url"] == "https://e.com/new"  # tracking parameters removed
+    assert fresh["deadline"] == ""  # "check page" becomes empty
+    assert payload["sources"][0]["name"] == "greenhouse"
 
 
 def test_notifications_are_skipped_without_env(monkeypatch):
@@ -110,8 +116,9 @@ def test_one_failing_source_does_not_break_the_run(tmp_path, monkeypatch):
 
     monkeypatch.setattr(main, "SOURCES", {"broken": broken, "working": working, "partial": partial})
     monkeypatch.setattr(main, "load_config", lambda: {"status": {}})
-    data = main.run(db_path=tmp_path / "radar.db", reports_dir=tmp_path, send=False)
+    data = main.run(db_path=tmp_path / "radar.db", reports_dir=tmp_path, site_dir=tmp_path, send=False)
     statuses = {h.name: h.status for h in data.health}
     assert statuses == {"broken": "failed", "working": "ok", "partial": "partial"}
     assert data.total_open == 2
     assert "site is down" in (tmp_path / "latest.md").read_text()
+    assert len(json.loads((tmp_path / "data.json").read_text())["items"]) == 2
