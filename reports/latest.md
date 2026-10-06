@@ -1,6 +1,6 @@
-# Opportunity Radar — 2026-10-06
+# vagaLume — 2026-10-06
 
-**5476** open · **253** new this run · **39** deadlines in the next 14 days · labels by keyword rules
+**5476** open · **255** new this run · **38** deadlines in the next 14 days · labels by keyword rules
 
 Nothing is filtered out: labels and warnings are hints, you decide. UNESP semesters: Mar–Jul and Aug–Dec. Searchable web version: the GitHub Pages site (see the README). Set your status in `config/status.yaml` using the `id`.
 
@@ -11,26 +11,25 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 | Source | Status | Items | Checked | Time | Problems |
 |---|---|---|---|---|---|
 | greenhouse | ✅ ok | 794 | 99 | 72s |  |
-| lever | ✅ ok | 106 | 10 | 13s |  |
+| lever | ✅ ok | 106 | 10 | 14s |  |
 | ashby | ✅ ok | 98 | 49 | 33s |  |
-| github_lists | ✅ ok | 3914 | 4 | 3s |  |
+| github_lists | ✅ ok | 3912 | 4 | 3s |  |
 | gupy | ✅ ok | 95 | 17 | 12s |  |
-| programs | ✅ ok | 25 | 25 | 34s |  |
-| google | ✅ ok | 92 | 6 | 6s |  |
-| amazon | ✅ ok | 400 | 14 | 18s |  |
+| programs | ✅ ok | 25 | 25 | 31s |  |
+| google | ✅ ok | 92 | 6 | 5s |  |
+| amazon | ✅ ok | 400 | 14 | 16s |  |
 | nvidia | ✅ ok | 40 | 2 | 3s |  |
-| microsoft | ✅ ok | 73 | 12 | 10s |  |
+| microsoft | ✅ ok | 75 | 12 | 25s |  |
 | deshaw | ✅ ok | 13 | 1 | 1s |  |
 | drw | ✅ ok | 29 | 1 | 1s |  |
 | meta | ✅ ok | 18 | 1 | 6s |  |
 
-## ⏰ Deadlines in the next 14 days (39)
+## ⏰ Deadlines in the next 14 days (38)
 
 - [Estágio Superior - Engenharias, Ciência de Dados e Afins](https://equatorialenergia.gupy.io/job/eyJqb2JJZCI6MTE5ODM3MjUsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Grupo Equatorial** · 📍 Uruaçu, Goiás, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-06 · 📅 during semester · `ca36da815fd597cd`
 - [Estágio Superior - Engenharias, Ciência de Dados ou Afins](https://equatorialenergia.gupy.io/job/eyJqb2JJZCI6MTE5ODQyNjYsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Grupo Equatorial** · 📍 Anápolis, Goiás, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-06 · 📅 during semester · `70b1a370a74d2d7a`
 - [Programa de Estágio Afirmativo Wellhub 2027](https://job-boards.greenhouse.io/gympass/jobs/8816636002) — **Wellhub (Gympass)** · 📍 Brazil (São Paulo - Hybrid) · year-round · Brazil · ⏳ 2026-10-07 · 📆 · 📅 during semester · `a5a173c44652728f`
 - [Associate Product Manager, Intern](https://careers.duolingo.com/jobs/8806187002?gh_jid=8806187002) — **Duolingo** · 📍 Pittsburgh, PA · May–Aug · US/Canada · ⏳ 2026-10-08 · 💰 $54–56/hr · 🛂 📆 · 📅 clashes with semester · `168d36fc706d9da5`
-- [Estágio em Supply Chain](https://mideacarrier.gupy.io/job/eyJqb2JJZCI6MTI2ODMzNTYsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Midea Carrier** · 📍 Canoas, Rio Grande do Sul, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-09 · 💰 R$1,500/mo · 📅 during semester · **NEW** · `acd512cd2b6a9517`
 - [Programa de Estágio - Acelera Planalto Central - Agência Vianópolis/GO](https://sicredi.gupy.io/job/eyJqb2JJZCI6MTI2NzA4NDUsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Sicredi** · 📍 Vianópolis, Goiás, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-09 · 💰 R$900–1,100/mo · 📆 · 📅 during semester · `11e5ff4792726e6a`
 - [Estágio em Tecnologia - Suporte](https://vagasfgc.gupy.io/job/eyJqb2JJZCI6MTI2NDE5NTIsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **FGC - Fundo Garantidor de Créditos** · 📍 São Paulo, São Paulo, Brazil (hybrid) · year-round · Brazil · ⏳ 2026-10-09 · 💰 R$2,500/mo · 📅 during semester · `7cef5ea6f6fca06b`
 - [Customer and Partner Solutions Engineering Intern, BS/MS, Summer 2027](https://www.google.com/about/careers/applications/jobs/results/114405557703451334) — **Google** · 📍 Mountain View, CA, USA / Ann Arbor, MI, USA / Atlanta, GA, USA / Austin, TX, USA · May–Aug · US/Canada · ⏳ 2026-10-09 · 💰 $82K–109K/yr · 🛂 📆 · 📅 clashes with semester · `66c416e3eaea17a0`
@@ -66,7 +65,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [ESTÁGIO EM DESENVOLVIMENTO DE PESSOAS](https://estagioteconsuape.gupy.io/job/eyJqb2JJZCI6MTE4NDk4MjUsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Programa de Estágio / Tecon Suape** · 📍 Ipojuca, Pernambuco, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-20 · 💰 R$1,621/mo · 📅 during semester · **NEW** · `36b1f8663a8b73d4`
 - [Estagiário (a) / Programa de Estágio - Cresol Confederação CSC](https://cresolcarreiras.gupy.io/job/eyJqb2JJZCI6MTI2NzEzNDgsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Cresol Oficial** · 📍 Francisco Beltrão, Paraná, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-20 · 📅 during semester · `36932a8f0d72e41e`
 
-## 🆕 New this run (247 more, besides any above)
+## 🆕 New this run (250 more, besides any above)
 
 ### ML (20)
 
@@ -103,7 +102,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Research Sciences INTERN](https://apply.careers.microsoft.com/careers/job/1970393556972877) — **Microsoft** · 📍 Tokyo, Tokyo-to, Japan · unknown · Asia/ME · 📅 dates unknown · **NEW** · `c959f81eff76e136`
 - [Research Sciences INTERN](https://apply.careers.microsoft.com/careers/job/1970393556641091) — **Microsoft** · 📍 Multiple Locations, Multiple Locations, India · unknown · Asia/ME · 📅 dates unknown · **NEW** · `d4a2c71bea3440d2`
 
-### SWE (93)
+### SWE (95)
 
 - [Estágio - Engenharia da Qualidade](https://vagasaltona.gupy.io/job/eyJqb2JJZCI6MTI2NTY5MzYsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **#VemParaAltona** · 📍 Blumenau, Santa Catarina, Brazil (on-site) · year-round · Brazil · ⏳ 2026-11-30 · 📅 during semester · **NEW** · `ae488b4fd0168968`
 - [Estágio Administrativo / Sistemas Jurídicos](https://qca.gupy.io/job/eyJqb2JJZCI6MTI2ODUyNzUsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **QCA** · 📍 Recife, Pernambuco, Brazil (hybrid) · year-round · Brazil · ⏳ 2026-12-05 · 📅 during semester · **NEW** · `e47dc9012c1df7e5`
@@ -113,6 +112,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Android Engineer 1](https://jobs.ashbyhq.com/whoop/2910a5f6-fb5e-4fe6-bb9a-24d6995d8173/application?embed=true) — **Whoop** · 📍 Boston, MA · year-round · US/Canada · 🛂 🆕grad · 📅 during semester · **NEW** · _from SimplifyJobs New Grad_ · `61c5ca81061c2a71`
 - [APAC Ecommerce Backend Intern - 2027](https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/Taiwan-Taipei/APAC-Ecommerce-Backend-Intern---2027_JR2027030) — **NVIDIA** · 📍 2 Locations · unknown · unknown · 📅 dates unknown · **NEW** · `f593fc18d92dad54`
 - [Critical Facility Engineer](https://www.metacareers.com/jobs/1690022942358388/) — **Meta** · 📍 Henrico, VA / Mesa, AZ / Kansas City, MO / Ashburn, VA / Temple, TX / Gallatin,  · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `c0031c2b08b373d2`
+- [Database Engineer Intern - Summer 2027](https://job-boards.greenhouse.io/dvtrading/jobs/4741016005) — **DV Trading** · 📍 Chicago · May–Aug · US/Canada · 💰 $40/hr · 🛂 📆 · 📅 clashes with semester · **NEW** · `fec62f593f02f9c2`
 - [DFX Engineering Intern](https://www.metacareers.com/jobs/1095054769939445/) — **Meta** · 📍 Sunnyvale, CA / Seattle, WA · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `af6b326fbbe9f007`
 - [Early Career Mobile Software Engineer, Quality Platform](https://careers.airbnb.com/positions/8257855?gh_jid=8257855) — **Airbnb** · 📍 São Paulo, Brazil · unknown · Brazil · 🆕grad · 📅 dates unknown · **NEW** · `a6a8a9cca1bb5c43`
 - [Electro-Optical Engineer Intern](https://spacedynamicslaboratory.applytojob.com/apply/E1nubjCRhW/ElectroOptical-Engineer-Intern) — **Space Dynamics Laboratory** · 📍 North Logan, UT · May–Aug · US/Canada · 🛂 · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `e608b5f595d7e739`
@@ -174,6 +174,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Software Engineer: Intern Opportunities for University Students - CoreAI - Redmond, WA](https://apply.careers.microsoft.com/careers/job/1970393556951950) — **Microsoft** · 📍 Redmond, Washington, United States · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `f113e962cccbfe5e`
 - [Software Engineer: Internship Opportunities, Azure Databases](https://apply.careers.microsoft.com/careers/job/1970393557002476) — **Microsoft** · 📍 Redmond, Washington, United States · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `d5f378ad1abf33bc`
 - [Software Engineer: Security & Identity Intern Opportunities for University Students, Redmond](https://apply.careers.microsoft.com/careers/job/1970393556922930) — **Microsoft** · 📍 Redmond, Washington, United States · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `fecd5f9caab6f6d9`
+- [Security Operations Engineering INTERN](https://apply.careers.microsoft.com/careers/job/1970393557019490) — **Microsoft** · 📍 Redmond, Washington, United States · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `f439a09f1753da1e`
 - [Software Engineering Co-op](https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-131--5450-C-Ave-NE--BLDG-131/Software-Engineering-Co-op--Summer-Fall-2027-_01871232) — **RTX** · 📍 Cedar Rapids, IA · May–Aug · US/Canada · 🛂 · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `db325b616ef8e98e`
 - [Technical Support Engineer Intern for People with Disabilities (Ignite Program)](https://apply.careers.microsoft.com/careers/job/1970393556937623) — **Microsoft** · 📍 Cairo, Cairo, Egypt · unknown · unknown · 📅 dates unknown · **NEW** · `4019af719d0b6b0a`
 - [Software Engineer Intern](https://hpe.wd5.myworkdayjobs.com/jobsathpe/job/Bristol-Avon-United-Kingdom/Software-Engineering-Internship--Placement-Year-_1215804) — **Hewlett Packard Enterprise** · 📍 Bristol, UK · May–Aug · Europe · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `a5b78b82adcccc03`
@@ -205,6 +206,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [JD/MBA Investment Analyst (New York) – Summer 2027](https://www.deshaw.com/careers/jd-mba-investment-analyst-new-york-summer-2027-6055) — **D. E. Shaw** · 📍 New York · May–Aug · US/Canada · ⏳ 2026-12-02 · 🛂 · 📅 clashes with semester · **NEW** · `a92493faf38dee75`
 - [MBA Investment Analyst (New York) – Summer 2027](https://www.deshaw.com/careers/mba-investment-analyst-new-york-summer-2027-6054) — **D. E. Shaw** · 📍 New York · May–Aug · US/Canada · ⏳ 2026-12-02 · 🛂 · 📅 clashes with semester · **NEW** · `06fe5db8f24303d7`
 - [Estágio Melhoria Contínua - Newell Brands](https://grupoalphamg.gupy.io/job/eyJqb2JJZCI6MTI2ODUzMzUsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Vagas abertas • Grupo Alpha** · 📍 Pouso Alegre, Minas Gerais, Brazil (on-site) · year-round · Brazil · ⏳ 2026-12-05 · 📅 during semester · **NEW** · `c6f008fcb163c8e8`
+- [Estágio em Design Educacional](https://estagio-e-trainee-infnet.gupy.io/job/eyJqb2JJZCI6MTI2ODU5NDQsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Instituto Infnet - Venha ser estagiário ou trainee!** · 📍 Rio de Janeiro, Rio de Janeiro, Brazil (hybrid) · year-round · Brazil · ⏳ 2026-12-21 · 💰 R$1,500/mo · 📅 during semester · **NEW** · `119c6273a5f031d1`
 - [Analytics Intern - Multiple Teams](https://ebwh.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/93389) — **Macy's** · 📍 NYC · May–Aug · US/Canada · 🛂 · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `cb9451b783e663dd`
 - [Business Intelligence Enterprise Anti-Money Laundering Co-op (Winter 2027)](https://cibc.wd3.myworkdayjobs.com/search/job/Toronto-ON/Business-Intelligence--Enterprise-Anti-Money-Laundering-Winter-2027-Co-op_2620595-1) — **CIBC** · 📍 Toronto, ON, Canada · year-round · US/Canada · 🛂 · 📅 during semester · **NEW** · _from SimplifyJobs Off-Season 2027_ · `687db4736fa5ddd6`
 - [Business Intelligence Enterprise Anti-Money Laundering Co-op (Winter 2027)](https://cibc.wd3.myworkdayjobs.com/campus/job/Toronto-ON/Business-Intelligence--Enterprise-Anti-Money-Laundering-Winter-2027-Co-op_2620595) — **CIBC** · 📍 Toronto, ON, Canada · year-round · US/Canada · 🛂 · 📅 during semester · **NEW** · _from SimplifyJobs Off-Season 2027_ · `f0cd232e26fab8c1`
@@ -230,7 +232,6 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Summer Intern - Consumer Insights: Customer & Digital Intelligence and Analytics](https://ebwh.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/93380) — **Macy's** · 📍 NYC · May–Aug · US/Canada · 🛂 · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `6f28c01c96c345ef`
 - [Venture Capital Analyst Intern](https://www.drw.com/work-at-drw/listings/venture-capital-analyst-intern-3467348) — **DRW** · 📍 Chicago, United States · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `c7158a3a79d6dce6`
 - [Data Analyst Co-op - Personal Banking (Winter 2027)](https://rbc.wd3.myworkdayjobs.com/ExternalPrivatePostingStudents/job/TORONTO-Ontario-Canada/Winter-2027-Co-op-Student---Data-Analyst--Personal-Banking---8-months-_R-0000189535) — **Royal Bank of Canada** · 📍 Toronto, ON, Canada · year-round · US/Canada · 🛂 · 📅 during semester · **NEW** · _from SimplifyJobs Off-Season 2027_ · `ce8e18dc80a79235`
-- [Financial Analyst Intern: Finance Rotation Program (FRP)](https://apply.careers.microsoft.com/careers/job/1970393556944773) — **Microsoft** · 📍 Redmond, Washington, United States · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `56aa5c7de79af8f0`
 - [Stagiaire en opérations critiques Centre de données / Critical Environment Ops INTERN Data Center](https://apply.careers.microsoft.com/careers/job/1970393557021518) — **Microsoft** · 📍 Quebec City, Québec, Canada · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `1f8de57cb1c02a00`
 - [Data Center Technicians - IT INTERNSHIP](https://apply.careers.microsoft.com/careers/job/1970393557021556) — **Microsoft** · 📍 Greater Toronto, Ontario, Canada · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `a21c897a0efc2d87`
 - [Data Center Technicians - IT INTERNSHIP - Neurodiversity Hiring Program](https://apply.careers.microsoft.com/careers/job/1970393557016454) — **Microsoft** · 📍 Toronto, Ontario, Canada · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `63822a6faf1240e5`
@@ -292,11 +293,11 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Pre-Silicon Diagnostics Intern](https://hpe.wd5.myworkdayjobs.com/jobsathpe/job/Ft-Collins-Colorado-United-States-of-America/Pre-Silicon-Diagnostics-Intern_1213394) — **Hewlett Packard Enterprise** · 📍 Fort Collins, CO · May–Aug · US/Canada · 🛂 · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `91be00bc64cec9e4`
 - [Hardware Engineer Internship - Summer 2027](https://www.hudsonrivertrading.com/careers/job/?gh_jid=7899574) — **Hudson River Trading** · 📍 New York, NY, United States · May–Aug · US/Canada · 💰 $5,800/mo · 🛂 📆 · 📅 clashes with semester · **NEW** · `3d54895cf7f02511`
 
-### other (41)
+### other (42)
 
-- [PESSOA ESTAGIÁRIA DE RH](https://eucatex.gupy.io/job/eyJqb2JJZCI6MTI2ODQ2OTEsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **EUCATEX** · 📍 Salto, São Paulo, Brazil (on-site) · year-round · Brazil · ⏳ 2026-11-05 · 📅 during semester · **NEW** · `d78a505a83586152`
 - [Programa de Estágio / Residencial Encantos da Zona Norte - Inhaúma/RJ](https://programadeestagiomrveco.gupy.io/job/eyJqb2JJZCI6MTI2NTU4NDIsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Programa de Estágio MRV&CO** · 📍 Rio de Janeiro, Rio de Janeiro, Brazil (on-site) · year-round · Brazil · ⏳ 2026-11-30 · 📅 during semester · **NEW** · `95da165be281413a`
 - [Strategy and Business Development MBA Summer Associate (New York) – Summer 2027](https://www.deshaw.com/careers/strategy-and-business-development-mba-summer-associate-new-york-summer-2027-6088) — **D. E. Shaw** · 📍 New York · May–Aug · US/Canada · ⏳ 2026-12-02 · 🛂 · 📅 clashes with semester · **NEW** · `902385403312202b`
+- [Estágio de RH - Newell Brands](https://grupoalphamg.gupy.io/job/eyJqb2JJZCI6MTI2ODYwOTQsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Vagas abertas • Grupo Alpha** · 📍 Pouso Alegre, Minas Gerais, Brazil (on-site) · year-round · Brazil · ⏳ 2026-12-05 · 📅 during semester · **NEW** · `f66bbb1a13fb8abd`
 - [Banco de Talentos - Programa de Estágio em Obras Tenda - Engenharia Civil ou Arquitetura - Regional GO (Goiânia)](https://estagiodeobratenda.gupy.io/job/eyJqb2JJZCI6MTI2ODI3MzcsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Programa de Estágio de Obra Tenda** · 📍 Goiânia, Goiás, Brazil (on-site) · year-round · Brazil · ⏳ 2026-12-31 · 📅 during semester · **NEW** · `23f129a8c8507426`
 - [Catamaran Managed Services Intern (Fall 2026)](https://rsm.wd1.myworkdayjobs.com/RSMCareers/job/San-Francisco/Catamaran-Managed-Services-Intern---Fall-2026_JR121785) — **RSM** · 📍 SF · year-round · US/Canada · 🛂 · 📅 during semester · **NEW** · _from SimplifyJobs Off-Season 2027_ · `f06e8a26e13e1be2`
 - [IT Intern](https://www.drw.com/work-at-drw/listings/it-intern-3537493) — **DRW** · 📍 Singapore, Singapore · unknown · Asia/ME · 📅 dates unknown · **NEW** · `d1741bcff590779f`
@@ -320,6 +321,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Critical Environment Technician Intern](https://apply.careers.microsoft.com/careers/job/1970393556999847) — **Microsoft** · 📍 Sydney, New South Wales, Australia · unknown · Asia/ME · 📅 dates unknown · **NEW** · `5d15a55261b10e59`
 - [Business Program Mgr - BBBEE Internship (PwD Opportunities)](https://apply.careers.microsoft.com/careers/job/1970393556972272) — **Microsoft** · 📍 Johannesburg, Gauteng, South Africa · unknown · unknown · 📅 dates unknown · **NEW** · `d0167ef684141468`
 - [Customer Success Account Management Intern](https://apply.careers.microsoft.com/careers/job/1970393556998388) — **Microsoft** · 📍 Brussels, Brussels Region, Belgium · unknown · Europe · 📅 dates unknown · **NEW** · `8922ba0770aa13e0`
+- [Technical Solutions: Internship Opportunities](https://apply.careers.microsoft.com/careers/job/1970393556983239) — **Microsoft** · 📍 São Paulo, São Paulo, Brazil · unknown · Brazil · 📅 dates unknown · **NEW** · `3aa891632a91c1c5`
 - [Account Executive Intern](https://apply.careers.microsoft.com/careers/job/1970393556998780) — **Microsoft** · 📍 Brussels, Brussels Region, Belgium · unknown · Europe · 📅 dates unknown · **NEW** · `e5130cc83c26b328`
 - [Account Executive - Erada Internship](https://apply.careers.microsoft.com/careers/job/1970393556943941) — **Microsoft** · 📍 Doha, Ad-Daw?ah, Qatar · unknown · Asia/ME · 📅 dates unknown · **NEW** · `36c2bfbd4694467f`
 - [Account Tech Strategist - Erada Internship](https://apply.careers.microsoft.com/careers/job/1970393556942315) — **Microsoft** · 📍 Doha, Ad-Daw?ah, Qatar · unknown · Asia/ME · 📅 dates unknown · **NEW** · `10ce97298d943402`
@@ -344,7 +346,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [EEML (Eastern European ML Summer School)](https://www.eeml.eu/) — **EEML** · Jul · Europe · 📅 fits July break · _page unchanged since 2026-10-05_ · `a95af1939071e203`
 - [ETH Student Summer Research Fellowship (SSRF)](https://inf.ethz.ch/studies/summer-research-fellowship.html) — **ETH Zurich, D-INFK** · May–Aug · Europe · 📆 · 📅 clashes with semester · _page unchanged since 2026-10-05 · Jul 1–Aug 31; applications Nov 1–Dec 15; needs 2+ years of study_ · `8a56e28b929fb33f`
 - [Google Research student programs](https://research.google/programs-and-events/student-engagement/) — **Google Research** · year-round · unknown · 🎓 📆 · 📅 during semester · _page unchanged since 2026-10-05_ · `b90ae871caca2f49`
-- [Google Student Researcher Program](https://deepmind.google/student-researcher-program/) — **Google / Google DeepMind** · year-round · unknown · 🎓 · 📅 during semester · _page changed on 2026-10-06_ · `5ab2533c00922eb5`
+- [Google Student Researcher Program](https://deepmind.google/student-researcher-program/) — **Google / Google DeepMind** · year-round · unknown · 🎓 · 📅 during semester · _page unchanged since 2026-10-06_ · `5ab2533c00922eb5`
 - [Google students & internships page](https://www.google.com/about/careers/applications/students/) — **Google** · unknown · unknown · 📅 dates unknown · _page unchanged since 2026-10-05_ · `1cba0993d7baa5fe`
 - [IMPA Summer Program (Programa de Verão)](https://impa.br/ensino/programas-de-formacao/programa-de-verao/) — **IMPA** · Dec–Feb · Brazil · 💰 R$1,200/mo · 📅 fits Dec–Feb break · _page unchanged since 2026-10-05 · January–February in Rio; math courses, some with scholarships_ · `6237f512f7f24719`
 - [ISTA ISTernship (summer research internship)](https://phd.ista.ac.at/isternship/) — **Institute of Science and Technology Austria** · May–Aug · Europe · 🎓 · 📅 clashes with semester · _page unchanged since 2026-10-05 · 2–3 months between May 15 and Sep 15; deadline usually early February_ · `82f88b7b07e6d659`
@@ -364,9 +366,9 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Summer@EPFL](https://summer.epfl.ch) — **EPFL** · May–Aug · Europe · 💰 CHF 1,800/mo · 📅 clashes with semester · _page unchanged since 2026-10-05 · deadline usually around Nov 30–Dec 1_ · `8eb85fbf548b2e22`
 - [Two Sigma careers (students)](https://www.twosigma.com/careers/students/) — **Two Sigma** · May–Aug · unknown · 📅 clashes with semester · _page unchanged since 2026-10-05_ · `d5b57e6cebc1df6f`
 
-## 📋 Everything else that is open (5165)
+## 📋 Everything else that is open (5163)
 
-### ML (733)
+### ML (732)
 
 - [Estágio em Inteligência Artificial Generativa](https://slcagricola.gupy.io/job/eyJqb2JJZCI6MTE5ODM5NDQsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **SLC Agrícola** · year-round · Brazil · ⏳ 2026-10-31 · `561add8ebadedd2b`
 - [Estágio em Contabilidade: Dados e Inteligência Artificial](https://estagio-e-trainee-infnet.gupy.io/job/eyJqb2JJZCI6MTI1NDA0MDUsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Instituto Infnet - Venha ser estagiário ou trainee!** · year-round · Brazil/remote · ⏳ 2026-12-21 · 💰 R$1,600/mo · `bb49d2e027c317ff`
@@ -935,7 +937,6 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Research Intern - AI-Native Databases](https://jobs.bytedance.com/en/position/7678450462765254965/detail) — **ByteDance** · May–Aug · US/Canada · 🛂 🎓 · `69bbf956a459eec3`
 - [Research Intern - AI-Native Databases](https://jobs.bytedance.com/en/position/7678451067500529925/detail) — **ByteDance** · May–Aug · US/Canada · 🛂 🎓 · `baa496620877a8ba`
 - [Research Intern - Frontier AI Systems (Winter 2026)](https://jobs.bytedance.com/en/position/7679894132806650165/detail) — **ByteDance** · year-round · US/Canada · 🛂 🎓 · `1ccc2bc9bad6b1b8`
-- [RPA & Agentic AI Software Technologies Intern - Summer 2027](https://medline.wd5.myworkdayjobs.com/en-US/Medline/job/Northbrook-Illinois/RPA---Agentic-AI-Software-Technologies-Intern---Summer-2027_R2617378) — **Medline** · May–Aug · US/Canada · 🛂 · `b71729221a0441a7`
 - [Service Quality Intern](https://momentive.wd1.myworkdayjobs.com/MC/job/US-NY-Waterford/Summer-2027-Intern---Service-Quality_R9767) — **Momentive** · May–Aug · US/Canada · 🛂 · `cad9e332a1bf6ada`
 - [Simulation Intern (Winter 2027)](https://job-boards.greenhouse.io/kodiak/jobs/4378662009) — **Kodiak Robotics** · year-round · US/Canada · 🛂 · `c9aa47e5ce7e00d8`
 - [Software Engineer 1 New Grad - Perception](https://job-boards.greenhouse.io/trueanomalyinc/jobs/5221970007) — **True Anomaly** · year-round · US/Canada · 🛂 🆕grad · `3a400da9db765c42`
@@ -1275,7 +1276,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Tools and Compilers Research and Development (Summer Internship)](https://www.janestreet.com/join-jane-street/apply/5869205002?gh_jid=5869205002) — **Jane Street** · May–Aug · US/Canada · 💰 $250K/yr · 🛂 · `da26fb81ccd01ff3`
 - [Tools & Compilers Research and Development (Summer Internship)](https://www.janestreet.com/join-jane-street/apply/5866838002?gh_jid=5866838002) — **Jane Street** · May–Aug · Europe · `5671055f77d7985a`
 
-### SWE (2000)
+### SWE (1999)
 
 - [【Class of 2028 & 2029／Internship】Software Development Engineers , Amazon International Stores](https://www.amazon.jobs/en/jobs/10503558/class-of-2028-2029-internship-software-development-engineers-amazon-international-stores) — **Amazon Japan G.K.** · May–Aug · Asia/ME · ⏳ 2026-09-27 · 📆 · `a4e4469d75f62e57`
 - [Part-Time Software Engineering BS/MS Intern, 2027](https://www.google.com/about/careers/applications/jobs/results/103632882076918470) — **Google** · year-round · Asia/ME · ⏳ 2026-10-23 · 🛂 📆 · `4e661702c15e9545`
@@ -1424,6 +1425,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Spring 2027 Software Engineering Internship/Co-op](https://job-boards.greenhouse.io/xai/jobs/5252108007) — **xAI** · year-round · US/Canada · 💰 $30–40/hr · 🛂 · `96d4ac127c2c81a1`
 - [Summer 2027 Software Engineering Internship/Co-op](https://job-boards.greenhouse.io/xai/jobs/5255111007) — **xAI** · May–Aug · US/Canada · 💰 $30–40/hr · 🛂 · `1b5a012c81f368cf`
 - [Systems/Calibration Engineer Intern - ADAS Drive](https://generalmotors.wd5.myworkdayjobs.com/en-CA/Careers_GM/job/Milford-Michigan-United-States-of-America/XMLNAME-2027-Summer-Intern---Systems-Calibration-Engineer--ADAS-Drive_JR-202621623) — **General Motors** · May–Aug · US/Canada · 🛂 · `acd16aab5e2fac65`
+- [UX Engineering Intern](https://www.pinterestcareers.com/jobs/?gh_jid=8140210) — **Pinterest** · May–Aug · US/Canada · 🛂 🎓 · `c50d8b65728dde06`
 - [Avionics Engineering Intern](https://job-boards.greenhouse.io/vardaspace/jobs/8010158003) — **Varda Space** · May–Aug · US/Canada · 🛂 · `3b5f4b048ed4b4cf`
 - [Commercial UI Software Engineer Intern (Winter 2027, Spring 2027)](https://www.tesla.com/careers/search/job/285202) — **Tesla** · year-round · US/Canada · 🛂 · `356cb942b6d1db93`
 - [Computer Science and Software Engineering Intern](https://rb.wd5.myworkdayjobs.com/en-US/FRS/job/Chicago-IL/Summer-2027-Intern-Computer-Science-and-Software-Engineering_R-0000033637) — **The Federal Reserve System** · May–Aug · US/Canada · 🛂 · `0cfa192a34760894`
@@ -1470,7 +1472,6 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Systems Test Engineering Intern](https://philips.wd3.myworkdayjobs.com/jobs-and-careers/job/New-Kensington-Pennsylvania-United-States/Intern---Systems-Test-Engineering---New-Kensington--PA---Summer-2027_591469) — **Philips** · May–Aug · US/Canada · 🛂 · `732b14135832d68d`
 - [Technology Intern](https://costar.wd1.myworkdayjobs.com/Costar_Campus/job/Sunnyvale-US/Summer-2027-Technology-Intern---Sunnyvale--CA_R39945) — **CoStar Group** · May–Aug · US/Canada · 🛂 · `153bbef57aabd280`
 - [University Grad Software Engineer 2027 (USA)](https://www.pinterestcareers.com/jobs/?gh_jid=7838591) — **Pinterest** · unknown · US/Canada/remote · 💰 $129K–174K/yr · 🛂 🆕grad · `5854742ab67b9a17`
-- [UX Engineering Intern (San Francisco)](https://www.pinterestcareers.com/jobs/?gh_jid=8140210) — **Pinterest** · unknown · US/Canada · 💰 $8,250–11,000/mo · 🛂 · `c50d8b65728dde06`
 - [2027 Pathways Internship – MBA & Master of Engineering / Operations Leadership / Italy](https://www.amazon.jobs/en/jobs/10544548/2027-pathways-internship-mba-master-of-engineering-operations-leadership-italy) — **Amazon Italia Logistica S.R.L. - B96** · unknown · Europe · 💰 €5,233/mo · `1785216426d99a02`
 - [2027 Pathways Internship – MBA & Master of Engineering / Operations Leadership / Spain](https://www.amazon.jobs/en/jobs/10544315/2027-pathways-internship-mba-master-of-engineering-operations-leadership-spain) — **Amazon Spain Fulfillment, S.L.U. - C05** · unknown · Europe · `c558c7aa38f1a30b`
 - [2027 Summer Intern, BS, Software Engineering, Labeling](https://careers.withwaymo.com/jobs?gh_jid=8238525) — **Waymo** · May–Aug · US/Canada · 💰 $60/hr · 🛂 · `b52299607f689bb5`
@@ -1620,7 +1621,6 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Software Development Engineer Intern - Summer 2027 (USA) , Amazon Dedicated Cloud (ADC)](https://www.amazon.jobs/en/jobs/10559746/software-development-engineer-intern-summer-2027-usa-amazon-dedicated-cloud-adc) — **Amazon.com Services LLC** · May–Aug · US/Canada · 💰 $109K/yr · 🛂 · `cc6eba948c67a5b2`
 - [Software Development Engineer Intern, Amazon Leo - Summer 2027 (USA)](https://www.amazon.jobs/en/jobs/10559762/software-development-engineer-intern-amazon-leo-summer-2027-usa) — **Amazon.com Services LLC** · May–Aug · US/Canada · 💰 $109K/yr · 🛂 · `b9c741fa12d44d4c`
 - [Software Development Engineer New Grad](https://jobs.ashbyhq.com/qumulo/e1cebc33-3bfc-4c86-9581-4d558cd5f8cc/application?embed=true) — **Qumulo** · year-round · US/Canada · 🛂 🆕grad · `013798d4cde76788`
-- [Software Engineer 1](https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-MA-MARLBOROUGH-MA2--1001-Boston-Post-Rd--BLDG-2/Software-Engineer-I--Onsite-_01877495) — **RTX** · year-round · US/Canada · 🛂 🆕grad · `3d2c79ab86540fba`
 - [Software Engineer Co-op - Engineering (Winter 2026)](https://jj.wd5.myworkdayjobs.com/JJ/job/Danvers-Massachusetts-United-States-of-America/Software-Engineering-Co-Op_R-098277) — **Johnson & Johnson** · year-round · US/Canada · 🛂 · `2991209a3c588277`
 - [Software Engineer Early Career - Cloud](https://caci.wd1.myworkdayjobs.com/external/job/Hanover-MD-US/Software-Engineer---Early-Career---Cloud_330679) — **CACI** · year-round · US/Canada/remote · 🛂 🆕grad · `143689fc188a9c4a`
 - [Software Engineer Intern](https://radiancetech.wd12.myworkdayjobs.com/Radiance_External/job/Dayton-Office/Software-Engineer-Intern-Spring-Summer-2027_HR102443) — **Radiance Technologies** · May–Aug · US/Canada · 🛂 · `866854c36353dbfd`
@@ -1996,10 +1996,8 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Systems Engineering Intern - Integration and Test (Winter 2026)](https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-MA-ANDOVER-AN1--350-Lowell-St--AN1-ESSEX-BLDG/Systems-Engineering-Intern---Integration-and-Test--Onsite_01874598) — **RTX** · year-round · US/Canada · 🛂 · `ada436b08634ae63`
 - [Technology Intern](https://firstnational.wd12.myworkdayjobs.com/fnbocareers/job/Omaha---FN-Tower/Summer-2027---Technology-Intern_R-20261653) — **FNBO** · May–Aug · US/Canada · 🛂 · `d29f24656286d257`
 - [Computer Science Intern - Summer 2027](https://jobs.lever.co/anavationllc/4a82ae00-30f0-410c-bf3c-f1cdd18739e7/apply) — **AnaVation** · May–Aug · US/Canada · 🛂 · `e88926aa308b5720`
-- [Software Engineer 1](https://job-boards.greenhouse.io/klaviyocampus/jobs/7989324003) — **Klaviyo** · year-round · US/Canada · 🛂 🆕grad · `76eb15231c30e0fa`
 - [Software Engineer Co-op (Spring 2027)](https://job-boards.greenhouse.io/klaviyocampus/jobs/7989365003) — **Klaviyo** · year-round · US/Canada · 🛂 · `940e8d09cf646f9d`
 - [Software Engineer Intern - Global Technology & Solutions](https://td.wd3.myworkdayjobs.com/TD_Bank_Careers/job/Mount-Laurel-New-Jersey/XMLNAME-2027-Summer-Internship-Program---Global-Technology---Solutions---Software-Engineer--SWE-_R_1510796-1) — **TD Bank** · May–Aug · US/Canada · 🛂 · `c504fbd6964d6f7f`
-- [Software Engineer Intern - Summer 2027](https://job-boards.greenhouse.io/klaviyocampus/jobs/7989364003) — **Klaviyo** · May–Aug · US/Canada · 🛂 · `f56e35ac0a737f59`
 - [Software Engineering Co-op (Winter 2026)](https://autostore.wd3.myworkdayjobs.com/autostore/job/Atlanta-GA-USA/Co-Op---Software-Engineering_JR102692) — **Autostore** · year-round · US/Canada · 🛂 · `a81c0a0aafefb599`
 - [Avionics Electric Propulsion Engineering Intern](https://impulsespace.pinpointhq.com/en/postings/e3b63a8a-129f-4ffa-abe9-fde35e6e6974?ats=pinpointhq) — **Impulse Space** · May–Aug · US/Canada · 🛂 · `d6086a35a9f73dfa`
 - [Channel Integration Engineer Co-op](https://jobs.smartrecruiters.com/WesternDigital/744000149106240) — **Western Digital** · May–Aug · US/Canada · 🛂 · `51dc30d07e879b1a`
@@ -2014,11 +2012,13 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Product Manager Intern - Specialized Cloud (Winter 2026)](https://apply.careers.microsoft.com/careers/job/1970393556983226) — **Microsoft** · year-round · US/Canada · 🛂 · `c44015dd7f6dcb71`
 - [Program Manager, Early Career Talent Program, APJ ECT Tech](https://www.amazon.jobs/en/jobs/10538216/program-manager-early-career-talent-program-apj-ect-tech) — **Amazon Web Services Japan GK** · unknown · Asia/ME · 🆕grad · `a76fb67c9ad2bdfa`
 - [Read/Write Channel Integration Engineer Co-op - Channel Integration](https://jobs.smartrecruiters.com/WesternDigital/744000149105974) — **Western Digital** · May–Aug · US/Canada · 🛂 · `ea3e7f5db2a39875`
+- [Software Engineer 1](https://job-boards.greenhouse.io/klaviyocampus/jobs/7989324003) — **Klaviyo** · year-round · US/Canada · 🛂 🆕grad · `76eb15231c30e0fa`
 - [Software Engineer 1 - Frontend - Upfunnel](https://job-boards.greenhouse.io/affirm/jobs/7985907003) — **Affirm** · year-round · US/Canada/remote · 🛂 🆕grad · `17ea74c260d765c6`
 - [Software Engineer Co-op](https://jobs.ashbyhq.com/megazone/e2889469-cf20-4227-bf24-2a6e885f8dca/application?embed=true) — **MegazoneCloud** · May–Aug · US/Canada · 🛂 · `28b937b9ed69470c`
 - [Software Engineer Intern](https://jobs.ashbyhq.com/ibotta/3130669e-16aa-4f63-834d-b83571c8d269/application?embed=true) — **ibotta** · May–Aug · US/Canada · 🛂 · `5296d01e8048e3a6`
 - [Software Engineer Intern (Winter 2026)](https://apply.careers.microsoft.com/careers/job/1970393556983221) — **Microsoft** · year-round · US/Canada · 🛂 · `7f4cd060be70871c`
 - [Software Engineer Intern (Winter 2026)](https://apply.careers.microsoft.com/careers/job/1970393556983223) — **Microsoft** · year-round · US/Canada · 🛂 · `09fcd77cc331dc85`
+- [Software Engineer Intern - Summer 2027](https://job-boards.greenhouse.io/klaviyocampus/jobs/7989364003) — **Klaviyo** · May–Aug · US/Canada · 🛂 · `f56e35ac0a737f59`
 - [Software Engineer Intern - Summer 2027](https://job-boards.eu.greenhouse.io/veeamsoftware/jobs/4955293101) — **Veeam Software** · May–Aug · US/Canada · 🛂 · `a6fc0d1cd5913d96`
 - [Software Engineer New Grad](https://jobs.l3harris.com/job/Salt-Lake-City-Sr-Associate,-Software-Engineer-UT-84116/1429205900/?ats=successfactors) — **L3Harris Technologies** · year-round · US/Canada · 🛂 🎓 🆕grad · `11c0ec2e0dd5831b`
 - [Software Engineering Intern](https://jobs.smartrecruiters.com/TTP1/744000149038758) — **TTP** · May–Aug · Europe · `1a42b603dbf289ec`
