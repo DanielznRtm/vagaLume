@@ -1,6 +1,6 @@
-# vaga Lume — 2026-10-06
+# Opportunity Radar — 2026-10-06
 
-**5477** open · **254** new this run · **39** deadlines in the next 14 days · labels by keyword rules
+**5476** open · **253** new this run · **39** deadlines in the next 14 days · labels by keyword rules
 
 Nothing is filtered out: labels and warnings are hints, you decide. UNESP semesters: Mar–Jul and Aug–Dec. Searchable web version: the GitHub Pages site (see the README). Set your status in `config/status.yaml` using the `id`.
 
@@ -10,19 +10,19 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 
 | Source | Status | Items | Checked | Time | Problems |
 |---|---|---|---|---|---|
-| greenhouse | ✅ ok | 794 | 99 | 77s |  |
+| greenhouse | ✅ ok | 794 | 99 | 72s |  |
 | lever | ✅ ok | 106 | 10 | 13s |  |
-| ashby | ✅ ok | 98 | 49 | 37s |  |
+| ashby | ✅ ok | 98 | 49 | 33s |  |
 | github_lists | ✅ ok | 3914 | 4 | 3s |  |
-| gupy | ✅ ok | 95 | 17 | 13s |  |
-| programs | ✅ ok | 25 | 25 | 48s |  |
+| gupy | ✅ ok | 95 | 17 | 12s |  |
+| programs | ✅ ok | 25 | 25 | 34s |  |
 | google | ✅ ok | 92 | 6 | 6s |  |
-| amazon | ✅ ok | 400 | 14 | 17s |  |
+| amazon | ✅ ok | 400 | 14 | 18s |  |
 | nvidia | ✅ ok | 40 | 2 | 3s |  |
-| microsoft | ✅ ok | 75 | 12 | 11s |  |
-| deshaw | ✅ ok | 13 | 1 | 2s |  |
-| drw | ✅ ok | 29 | 1 | 2s |  |
-| meta | ✅ ok | 18 | 1 | 8s |  |
+| microsoft | ✅ ok | 73 | 12 | 10s |  |
+| deshaw | ✅ ok | 13 | 1 | 1s |  |
+| drw | ✅ ok | 29 | 1 | 1s |  |
+| meta | ✅ ok | 18 | 1 | 6s |  |
 
 ## ⏰ Deadlines in the next 14 days (39)
 
@@ -66,7 +66,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [ESTÁGIO EM DESENVOLVIMENTO DE PESSOAS](https://estagioteconsuape.gupy.io/job/eyJqb2JJZCI6MTE4NDk4MjUsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Programa de Estágio / Tecon Suape** · 📍 Ipojuca, Pernambuco, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-20 · 💰 R$1,621/mo · 📅 during semester · **NEW** · `36b1f8663a8b73d4`
 - [Estagiário (a) / Programa de Estágio - Cresol Confederação CSC](https://cresolcarreiras.gupy.io/job/eyJqb2JJZCI6MTI2NzEzNDgsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Cresol Oficial** · 📍 Francisco Beltrão, Paraná, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-20 · 📅 during semester · `36932a8f0d72e41e`
 
-## 🆕 New this run (248 more, besides any above)
+## 🆕 New this run (247 more, besides any above)
 
 ### ML (20)
 
@@ -103,7 +103,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Research Sciences INTERN](https://apply.careers.microsoft.com/careers/job/1970393556972877) — **Microsoft** · 📍 Tokyo, Tokyo-to, Japan · unknown · Asia/ME · 📅 dates unknown · **NEW** · `c959f81eff76e136`
 - [Research Sciences INTERN](https://apply.careers.microsoft.com/careers/job/1970393556641091) — **Microsoft** · 📍 Multiple Locations, Multiple Locations, India · unknown · Asia/ME · 📅 dates unknown · **NEW** · `d4a2c71bea3440d2`
 
-### SWE (94)
+### SWE (93)
 
 - [Estágio - Engenharia da Qualidade](https://vagasaltona.gupy.io/job/eyJqb2JJZCI6MTI2NTY5MzYsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **#VemParaAltona** · 📍 Blumenau, Santa Catarina, Brazil (on-site) · year-round · Brazil · ⏳ 2026-11-30 · 📅 during semester · **NEW** · `ae488b4fd0168968`
 - [Estágio Administrativo / Sistemas Jurídicos](https://qca.gupy.io/job/eyJqb2JJZCI6MTI2ODUyNzUsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **QCA** · 📍 Recife, Pernambuco, Brazil (hybrid) · year-round · Brazil · ⏳ 2026-12-05 · 📅 during semester · **NEW** · `e47dc9012c1df7e5`
@@ -174,7 +174,6 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Software Engineer: Intern Opportunities for University Students - CoreAI - Redmond, WA](https://apply.careers.microsoft.com/careers/job/1970393556951950) — **Microsoft** · 📍 Redmond, Washington, United States · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `f113e962cccbfe5e`
 - [Software Engineer: Internship Opportunities, Azure Databases](https://apply.careers.microsoft.com/careers/job/1970393557002476) — **Microsoft** · 📍 Redmond, Washington, United States · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `d5f378ad1abf33bc`
 - [Software Engineer: Security & Identity Intern Opportunities for University Students, Redmond](https://apply.careers.microsoft.com/careers/job/1970393556922930) — **Microsoft** · 📍 Redmond, Washington, United States · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `fecd5f9caab6f6d9`
-- [Security Operations Engineering INTERN](https://apply.careers.microsoft.com/careers/job/1970393557019490) — **Microsoft** · 📍 Redmond, Washington, United States · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `f439a09f1753da1e`
 - [Software Engineering Co-op](https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-IA-CEDAR-RAPIDS-131--5450-C-Ave-NE--BLDG-131/Software-Engineering-Co-op--Summer-Fall-2027-_01871232) — **RTX** · 📍 Cedar Rapids, IA · May–Aug · US/Canada · 🛂 · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `db325b616ef8e98e`
 - [Technical Support Engineer Intern for People with Disabilities (Ignite Program)](https://apply.careers.microsoft.com/careers/job/1970393556937623) — **Microsoft** · 📍 Cairo, Cairo, Egypt · unknown · unknown · 📅 dates unknown · **NEW** · `4019af719d0b6b0a`
 - [Software Engineer Intern](https://hpe.wd5.myworkdayjobs.com/jobsathpe/job/Bristol-Avon-United-Kingdom/Software-Engineering-Internship--Placement-Year-_1215804) — **Hewlett Packard Enterprise** · 📍 Bristol, UK · May–Aug · Europe · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `a5b78b82adcccc03`
