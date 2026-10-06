@@ -2,12 +2,95 @@
  "apiVersion": "1",
  "jobs": [
   {
+   "id": "7133d205-5421-4336-a8e2-6037b5f55073",
+   "title": "Senior Full-Stack Engineer, Internal Applications ",
+   "department": "Engineering & Infra",
+   "team": "Internal Applications",
+   "employmentType": "FullTime",
+   "location": "Toronto",
+   "shouldDisplayCompensationOnJobPostings": true,
+   "secondaryLocations": [
+    {
+     "location": "Canada",
+     "address": {
+      "postalAddress": {
+       "addressCountry": "Canada"
+      }
+     }
+    }
+   ],
+   "publishedAt": "2026-09-15T18:21:37.401+00:00",
+   "isListed": true,
+   "isRemote": true,
+   "workplaceType": "Remote",
+   "address": {
+    "postalAddress": {
+     "addressRegion": "Ontario",
+     "addressCountry": "Canada",
+     "addressLocality": "Toronto"
+    }
+   },
+   "jobUrl": "https://jobs.ashbyhq.com/cohere/7133d205-5421-4336-a8e2-6037b5f55073",
+   "applyUrl": "https://jobs.ashbyhq.com/cohere/7133d205-5421-4336-a8e2-6037b5f55073/application",
+   "descriptionHtml": "",
+   "descriptionPlain": "Who are we?\n\nCohere is the leading security-first enterprise AI company.  We build cutting-edge foundation AI models and end-to-end products that are designed to solve real-world business problems.\n\nWe’re training and deploying frontier models for enterprises who are building AI systems. We believe that our work is instrumental to the widespread adoption of AI and we are looking for folks that want to be part of that.\n\nWe obsess over what we build. Each one of us is responsible for contributing to increasing the capabilities of our models and the value they drive for our customers. Cohere is a team of researchers, engineers, designers, and more, who are all passionate about their craft.\n\nWe are a global technology company headquartered in Toronto with key offices in London, New York City, San Francisco, Montreal, Paris, Berlin and Seoul. Join us!\n\n\n\n\nWHY THIS ROLE?\n\nThis role is for peop",
+   "compensation": {
+    "compensationTierSummary": "CA$215K – CA$310K • Offers Equity",
+    "scrapeableCompensationSalarySummary": "CA$215K - CA$310K",
+    "compensationTiers": [
+     {
+      "id": "3cc19628-39b9-49e9-9282-fab895e322b1",
+      "tierSummary": "Base Salary CA$215K – CA$310K • Offers Equity",
+      "title": "Canada",
+      "additionalInformation": null,
+      "components": [
+       {
+        "id": "c4cc7279-2bd6-4c94-8a98-0c98c903bed0",
+        "summary": "Offers Equity",
+        "compensationType": "EquityPercentage",
+        "interval": "NONE",
+        "currencyCode": null,
+        "minValue": null,
+        "maxValue": null
+       },
+       {
+        "id": "61607966-395b-4ca1-892e-de9247bc96aa",
+        "summary": "Base Salary CA$215K – CA$310K",
+        "compensationType": "Salary",
+        "interval": "1 YEAR",
+        "currencyCode": "CAD",
+        "minValue": 215000,
+        "maxValue": 310000
+       }
+      ]
+     }
+    ],
+    "summaryComponents": [
+     {
+      "compensationType": "EquityPercentage",
+      "interval": "NONE",
+      "currencyCode": null,
+      "minValue": null,
+      "maxValue": null
+     },
+     {
+      "compensationType": "Salary",
+      "interval": "1 YEAR",
+      "currencyCode": "CAD",
+      "minValue": 215000,
+      "maxValue": 310000
+     }
+    ]
+   }
+  },
+  {
    "id": "73bd3e2b-6597-4124-b64b-1e5dbc32e785",
    "title": "Research Internship (Winter 2027)",
    "department": "Internships",
    "team": "Internships",
    "employmentType": "Intern",
    "location": "Canada",
+   "shouldDisplayCompensationOnJobPostings": true,
    "secondaryLocations": [
     {
      "location": "San Francisco",
@@ -88,7 +171,13 @@
    "jobUrl": "https://jobs.ashbyhq.com/cohere/73bd3e2b-6597-4124-b64b-1e5dbc32e785",
    "applyUrl": "https://jobs.ashbyhq.com/cohere/73bd3e2b-6597-4124-b64b-1e5dbc32e785/application",
    "descriptionHtml": "",
-   "descriptionPlain": "Who are we?\n\nCohere is the leading security-first enterprise AI company.  We build cutting-edge foundation AI models and end-to-end products that are designed to solve real-world business problems.\n\nWe’re training and deploying frontier models for enterprises who are building AI systems. We believe that our work is instrumental to the widespread adoption of AI and we are looking for folks that want to be part of that.\n\nWe obsess over what we build. Each one of us is responsible for contributing to increasing the capabilities of our models and the value they drive for our customers. Cohere is a team of researchers, engineers, designers, and more, who are all passionate about their craft.\n\nWe are a global technology company headquartered in Toronto with key offices in London, New York City, San Francisco, Montreal, Paris, Berlin and Seoul. Join us!\n\nWhy this role?\n\nTo have the opportunity "
+   "descriptionPlain": "Who are we?\n\nCohere is the leading security-first enterprise AI company.  We build cutting-edge foundation AI models and end-to-end products that are designed to solve real-world business problems.\n\nWe’re training and deploying frontier models for enterprises who are building AI systems. We believe that our work is instrumental to the widespread adoption of AI and we are looking for folks that want to be part of that.\n\nWe obsess over what we build. Each one of us is responsible for contributing to increasing the capabilities of our models and the value they drive for our customers. Cohere is a team of researchers, engineers, designers, and more, who are all passionate about their craft.\n\nWe are a global technology company headquartered in Toronto with key offices in London, New York City, San Francisco, Montreal, Paris, Berlin and Seoul. Join us!\n\nWhy this role?\n\nTo have the opportunity ",
+   "compensation": {
+    "compensationTierSummary": null,
+    "scrapeableCompensationSalarySummary": null,
+    "compensationTiers": [],
+    "summaryComponents": []
+   }
   },
   {
    "id": "36d1f52f-8270-4652-adf5-5303a0ff341b",
@@ -97,6 +186,7 @@
    "team": "Internships",
    "employmentType": "Intern",
    "location": "Canada",
+   "shouldDisplayCompensationOnJobPostings": true,
    "secondaryLocations": [
     {
      "location": "Europe",
@@ -137,40 +227,13 @@
    "jobUrl": "https://jobs.ashbyhq.com/cohere/36d1f52f-8270-4652-adf5-5303a0ff341b",
    "applyUrl": "https://jobs.ashbyhq.com/cohere/36d1f52f-8270-4652-adf5-5303a0ff341b/application",
    "descriptionHtml": "",
-   "descriptionPlain": "Who are we?\n\nCohere is the leading security-first enterprise AI company.  We build cutting-edge foundation AI models and end-to-end products that are designed to solve real-world business problems.\n\nWe’re training and deploying frontier models for enterprises who are building AI systems. We believe that our work is instrumental to the widespread adoption of AI and we are looking for folks that want to be part of that.\n\nWe obsess over what we build. Each one of us is responsible for contributing to increasing the capabilities of our models and the value they drive for our customers. Cohere is a team of researchers, engineers, designers, and more, who are all passionate about their craft.\n\nWe are a global technology company headquartered in Toronto with key offices in London, New York City, San Francisco, Montreal, Paris, Berlin and Seoul. Join us!\n\nWhy this role?\n\nShip state of the art mo"
-  },
-  {
-   "id": "7133d205-5421-4336-a8e2-6037b5f55073",
-   "title": "Senior Full-Stack Engineer, Internal Applications ",
-   "department": "Engineering & Infra",
-   "team": "Internal Applications",
-   "employmentType": "FullTime",
-   "location": "Toronto",
-   "secondaryLocations": [
-    {
-     "location": "Canada",
-     "address": {
-      "postalAddress": {
-       "addressCountry": "Canada"
-      }
-     }
-    }
-   ],
-   "publishedAt": "2026-09-15T18:21:37.401+00:00",
-   "isListed": true,
-   "isRemote": true,
-   "workplaceType": "Remote",
-   "address": {
-    "postalAddress": {
-     "addressRegion": "Ontario",
-     "addressCountry": "Canada",
-     "addressLocality": "Toronto"
-    }
-   },
-   "jobUrl": "https://jobs.ashbyhq.com/cohere/7133d205-5421-4336-a8e2-6037b5f55073",
-   "applyUrl": "https://jobs.ashbyhq.com/cohere/7133d205-5421-4336-a8e2-6037b5f55073/application",
-   "descriptionHtml": "",
-   "descriptionPlain": "Who are we?\n\nCohere is the leading security-first enterprise AI company.  We build cutting-edge foundation AI models and end-to-end products that are designed to solve real-world business problems.\n\nWe’re training and deploying frontier models for enterprises who are building AI systems. We believe that our work is instrumental to the widespread adoption of AI and we are looking for folks that want to be part of that.\n\nWe obsess over what we build. Each one of us is responsible for contributing to increasing the capabilities of our models and the value they drive for our customers. Cohere is a team of researchers, engineers, designers, and more, who are all passionate about their craft.\n\nWe are a global technology company headquartered in Toronto with key offices in London, New York City, San Francisco, Montreal, Paris, Berlin and Seoul. Join us!\n\n\n\n\nWHY THIS ROLE?\n\nThis role is for peop"
+   "descriptionPlain": "Who are we?\n\nCohere is the leading security-first enterprise AI company.  We build cutting-edge foundation AI models and end-to-end products that are designed to solve real-world business problems.\n\nWe’re training and deploying frontier models for enterprises who are building AI systems. We believe that our work is instrumental to the widespread adoption of AI and we are looking for folks that want to be part of that.\n\nWe obsess over what we build. Each one of us is responsible for contributing to increasing the capabilities of our models and the value they drive for our customers. Cohere is a team of researchers, engineers, designers, and more, who are all passionate about their craft.\n\nWe are a global technology company headquartered in Toronto with key offices in London, New York City, San Francisco, Montreal, Paris, Berlin and Seoul. Join us!\n\nWhy this role?\n\nShip state of the art mo",
+   "compensation": {
+    "compensationTierSummary": null,
+    "scrapeableCompensationSalarySummary": null,
+    "compensationTiers": [],
+    "summaryComponents": []
+   }
   }
  ]
 }

@@ -32,7 +32,7 @@ def test_microsoft_search_page():
     assert len(items) == 4
     first = items[0]
     assert first.url == "https://apply.careers.microsoft.com/careers/job/1970393556922922"
-    assert first.location == "Redmond, WA, US"
+    assert first.location == "Redmond, Washington, United States"
     assert first.posted_date.startswith("2026-")
     assert not first.title.endswith(",")
 

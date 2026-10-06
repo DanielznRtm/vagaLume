@@ -33,7 +33,10 @@ def parse(data: dict[str, Any]) -> tuple[list[Opportunity], int]:
         title = str(job.get("name", "")).strip().rstrip(",")
         if not is_student_candidate(title):
             continue  # the search also returns e.g. "Internal Audit Manager"
-        locations = job.get("standardizedLocations") or job.get("locations") or []
+        # "locations" spells countries out ("India, Karnataka, Bangalore"); we flip
+        # each to "Bangalore, Karnataka, India" so it reads like other sources.
+        full = [", ".join(reversed([part.strip() for part in place.split(",")])) for place in job.get("locations") or []]
+        locations = full or job.get("standardizedLocations") or []
         items.append(
             Opportunity(
                 title=title,

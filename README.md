@@ -122,6 +122,7 @@ at the top of that file, so you can change them.
 | warnings | `US work auth?`, `PhD-level?`, `grad-year limit?`, `unsure if student role`, `new-grad role (after graduation)` |
 | calendar note | whether it fits UNESP's breaks or clashes with the semesters (Mar–Jul, Aug–Dec) |
 | deadline | a date when the source or the text states one, otherwise `check page` |
+| pay | when stated: structured fields from Ashby, Lever and Greenhouse, otherwise read from the description by `radar/pay.py` (it understands formats like `$54 — $60 USD`, `109,395.00 USD Annually` and `Bolsa auxílio: R$1.357,28/mês`). About 700 roles have it today. |
 
 **Optional Claude labelling.** If the secret `ANTHROPIC_API_KEY` is set, new
 postings are also sent (title, location and description) to Claude Haiku 4.5,
@@ -135,19 +136,49 @@ key, everything works the same using the keyword rules.
 
 ## The website
 
-The site is one plain HTML file, `docs/index.html`. Each run rewrites
-`docs/data.json` and the page shows it. The page has:
+The site is one plain HTML file, `docs/index.html` (no frameworks, no build
+step). Each run rewrites `docs/data.json` and the page shows it.
 
-- **Search** over role, company and place.
-- **Tabs**: All · New (found in the latest run) · Closing in 14 days ·
-  Programs & schools · Applied · Hidden. Each tab shows its count.
-- **Filters**: Area, Region, Season, Source, plus "Hide roles marked: US
-  auth? / PhD? / grad year? / new grad / unsure". Nothing is hidden until you
-  pick something.
-- **Sort**: deadline first (default), newest first, or company A–Z.
-- **Applied** and **Hide** buttons on each row. These are saved in your
-  browser. Click again to undo.
-- The **Sources** section at the bottom shows whether each source worked.
+**First visit: your profile.** The page asks two things: what you're studying
+for (Bachelor's, Master's or PhD) and where your university is (Brazil, other
+Latin America, United States, Canada, United Kingdom, Europe, Asia, Middle
+East, Oceania, Africa). You can skip it and see everything unsorted. Change it
+any time with the button at the top right. It is saved in your browser only.
+
+**Fit.** With a profile, every role gets a dot: ● good fit, ◐ check something,
+○ long shot. Open a row to see the reasons, for example:
+
+- "Aimed at PhD or Master's students" (long shot for an undergrad)
+- "Needs work authorization for the US or Canada" (when you study elsewhere)
+- "Estágio requires enrollment at a Brazilian university" (when you study
+  outside Brazil)
+- "A job for after you graduate", "Mentions a graduation-year rule",
+  "Might not be a student role"
+
+Fit only sorts and flags. Every role stays on the page unless you filter it
+out yourself.
+
+**Each row shows:**
+
+| Column | What it is |
+|---|---|
+| Role | title (links to the posting), company, `NEW` / `APPLIED` tags |
+| Where | the first location, then "+N more locations". Open the row for all of them. |
+| Pay | when the posting states it, e.g. `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`, `$94K–125K/yr` |
+| When | a 12-month strip, January to December. Grey months are UNESP semesters (Mar–Jun, Aug–Nov). The role's months are green when they fall in a break and amber when they clash with classes. |
+| Deadline | the date and the days left, red within 14 days |
+
+Click a row to open its details: fit reasons, all locations, dates, pay,
+labels and where it was found.
+
+**Around the list:**
+
+- Search over role, company and city.
+- Tabs: All · New · Closing soon · Programs & schools · Applied · Hidden.
+- Filters: Fit, Area, Where, When, "only roles that state pay", Source.
+- Sort: best fit (with a profile), deadline, newest, or company.
+- ✓ marks a role as applied and ✕ hides it. Both are saved in your browser,
+  and clicking again undoes them.
 
 **Turn it on (one time):** in the repository go to *Settings → Pages*, set
 *Source* to **Deploy from a branch**, pick branch **main** and folder
@@ -268,6 +299,7 @@ radar/
   http.py          polite HTTP: user-agent, timeouts, small delays, retries
   browser.py       headless Chromium, only for sites that need JavaScript
   labels.py        keyword rules for area / season / region / warnings
+  pay.py           finds the pay in a description ("$54–60/hr", "R$1,357/mo")
   llm.py           optional Claude labelling (only with ANTHROPIC_API_KEY)
   db.py            SQLite storage, dedupe by id (hash of the URL)
   report.py        writes reports/latest.md

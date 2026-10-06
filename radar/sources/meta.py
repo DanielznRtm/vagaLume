@@ -44,8 +44,15 @@ def parse(payload: dict[str, Any]) -> list[Opportunity]:
     return list(items.values())
 
 
+ATTEMPTS = 2  # the job list sometimes loads late; one retry fixes that
+
+
 def fetch(config: dict[str, Any]) -> SourceResult:
     page = render(SEARCH_URL, keep=is_job_list)
+    for _ in range(ATTEMPTS - 1):
+        if page.captured:
+            break
+        page = render(SEARCH_URL, keep=is_job_list)
     if not page.captured:
         raise RuntimeError("the job list never loaded (Meta may have changed its page)")
     items: list[Opportunity] = []
