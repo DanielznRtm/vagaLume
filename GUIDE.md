@@ -197,7 +197,10 @@ economics, Law, Health, Biology & agriculture, Communication & design,
 Education & humanities, Architecture, or Other), what you're studying for
 (Bachelor's, Master's or PhD) and where your university is (Brazil, other
 Latin America, United States, Canada, United Kingdom, Europe, Asia, Middle
-East, Oceania, Africa). You can skip it and see everything unsorted. Change it
+East, Oceania, Africa). Each question takes one or more answers: an
+Engineering + Computing student, or someone studying in Brazil with an
+exchange in Europe, picks both, and a role counts as yours if it suits any of
+them. You can skip it and see everything unsorted. Change it
 any time with the button at the top right. It is saved in your browser only.
 
 **Field of study.** The bot labels each role with the fields it is aimed at
@@ -294,10 +297,12 @@ found. Below, the buttons: open the posting, mark as applied, save, hide.
   match, good match or better), Area, Where and When (including a **Fits my
   breaks** shortcut). Under **More filters**: only roles that state pay, and
   the source. The small number on each chip is how many roles you'd see after
-  clicking it, given the other filters you already picked. Click a selected
-  chip again to turn it off.
-- **Active filters** show as pills above the list. Click a pill's × to remove
-  it, or "Clear all".
+  clicking it, given the other filters you already picked. Area, Where and
+  When take several chips at once and add up (ML **or** Data, Brazil **or**
+  Remote); the *For you* ones take one. Click a selected chip again to turn it
+  off.
+- **Active filters** show as pills above the list, one per chip. Click a
+  pill's × to remove it, or "Clear all".
 - **How to read** (next to the number of roles) explains the dots and the
   month strip.
 - **Sort:** best résumé match (with a résumé), best fit (with a profile), deadline, newest, or company.
@@ -307,7 +312,7 @@ found. Below, the buttons: open the posting, mark as applied, save, hide.
   is saved in your browser, and clicking again undoes it.
 - The list loads more rows by itself as you scroll.
 - **Your filters live in the address bar** (for example
-  `…/vagaLume/#area=ML&region=Europe`), so you can bookmark a view or send it
+  `…/vagaLume/#area=ML,data&region=Europe`), so you can bookmark a view or send it
   to a friend.
 
 **Turn it on (one time):** in the repository go to *Settings → Pages*, set
