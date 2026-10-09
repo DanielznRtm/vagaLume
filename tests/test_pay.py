@@ -63,3 +63,8 @@ def test_old_database_gets_pay_column(tmp_path):
     conn = db.connect(path)  # reopening adds it back
     columns = {row["name"] for row in conn.execute("PRAGMA table_info(opportunities)")}
     assert "pay" in columns
+
+
+def test_weekly_hours_are_not_the_pay_period():
+    assert find_pay("Bolsa-auxílio de R$ 1.870,00, 30 horas semanais, por até 2 anos.") == "R$1,870/mo"
+    assert find_pay("Stipend: $2,500 per month, 40 hours per week.") == "$2,500/mo"

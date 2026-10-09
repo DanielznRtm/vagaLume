@@ -20,6 +20,11 @@ from radar.models import Opportunity
     ("Quantitative Researcher Intern", ["exatas"]),
     ("Estágio em Marketing Digital", ["comunicacao"]),
     ("Research Intern", []),  # says nothing about the field
+    ("Estágio em Educação Física", ["saude"]),  # not physics, not education
+    ("Robotics Engineer Intern - Model Based Design", ["engenharia"]),  # engineering design, not graphic design
+    ("Estágio em Design Gráfico", ["comunicacao"]),
+    ("Estágio em Informatica", ["computacao"]),
+    ("Estagiário(a) de Natação", ["saude"]),
 ])
 def test_fields_from_the_title(title, expected):
     assert find_fields(title) == expected
@@ -29,6 +34,8 @@ def test_generic_title_uses_the_course_phrase_not_the_company_blurb():
     description = "Somos uma empresa de tecnologia e dados. Requisitos: cursando Administração ou Economia."
     assert find_fields("Estagiário(a)", description) == ["negocios"]
     assert find_fields("Estagiário(a)", "Empresa de tecnologia e dados.") == []
+    # Only the sentence with the courses counts, not the activities after it.
+    assert find_fields("Estágio em Gastronomia", "Área: Gastronomia. Atividades: manutenção da cozinha.") == ["humanas"]
 
 
 def test_apply_rules_fills_fields():

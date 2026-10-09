@@ -94,7 +94,12 @@ def parse_number(text: str) -> float | None:
         return None
 
 
+# "30 horas semanais", "40 hours per week" describe working hours, not the pay period.
+_WORK_HOURS = re.compile(r"\d+\s*(?:h|hrs?|horas?|hours?)\s*(?:semanais|por semana|/\s?semana|per week|/\s?week|a week|weekly)", re.I)
+
+
 def _period(context: str, value: float, currency: str) -> str:
+    context = _WORK_HOURS.sub(" ", context)
     for name, pattern in PERIODS:
         if pattern.search(context):
             return name

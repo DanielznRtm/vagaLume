@@ -1096,11 +1096,11 @@ $("use-resume").addEventListener("click", () => {
   }
 });
 $("resume").addEventListener("click", e => {
-  if (e.target.closest("#resume-done")) showApp();
+  if (e.target.closest("#resume-done")) openList();
   if (e.target.closest("#resume-replace")) { $("resume-saved").hidden = true; $("resume-steps").hidden = false; }
   if (e.target.closest("#resume-remove")) { setResume(null); renderResumeSummary(); }
 });
-$("resume-back").addEventListener("click", () => profile ? showApp() : showWelcome());
+$("resume-back").addEventListener("click", () => profile ? openList() : showWelcome());
 $("resume-chip").addEventListener("click", showResume);
 $("welcome-resume").addEventListener("click", showResume);
 
@@ -1140,8 +1140,10 @@ $("places").addEventListener("click", e => {
   document.querySelectorAll("[data-place]").forEach(x => x.setAttribute("aria-pressed", x === b));
   welcomeReady();
 });
-$("start").addEventListener("click", () => { profile = { ...chosen }; store.set("radar.profile", profile); view.sort = ""; showApp(); });
-$("skip").addEventListener("click", () => { profile = { skipped: true }; store.set("radar.profile", profile); view.sort = ""; showApp(); });
+// Coming from the welcome or résumé screen, the list starts at the top.
+const openList = () => { showApp(); window.scrollTo(0, 0); };
+$("start").addEventListener("click", () => { profile = { ...chosen }; store.set("radar.profile", profile); view.sort = ""; openList(); });
+$("skip").addEventListener("click", () => { profile = { skipped: true }; store.set("radar.profile", profile); view.sort = ""; openList(); });
 
 // ------------------------------------------------------------------ app
 function showApp() {

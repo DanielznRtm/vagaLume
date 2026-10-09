@@ -28,7 +28,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/demo.gif" alt="vagaLume em uso: escolha seu nível e país, filtre por área, busque, abra uma vaga e salve" width="92%">
+  <img src="assets/demo-pt.gif" alt="vagaLume em uso: escolha a sua área, nível e país, filtre, busque, abra uma vaga, veja as vagas de outras áreas e compare o seu currículo" width="92%">
 </p>
 
 ---

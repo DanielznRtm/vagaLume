@@ -28,7 +28,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/demo.gif" alt="vagaLume in action: pick your level and country, filter by area, search, open a role and save it" width="92%">
+  <img src="assets/demo.gif" alt="vagaLume in action: pick your field, level and country, filter, search, open a role, peek at other fields and match your résumé" width="92%">
 </p>
 
 ---
