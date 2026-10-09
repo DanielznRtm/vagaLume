@@ -75,6 +75,7 @@ class Opportunity:
     calendar_note: str = ""
     labeled_by: str = "rules"
     skills: list[str] = field(default_factory=list)  # e.g. ["Python", "PyTorch"]; see radar/skills.py
+    fields: list[str] = field(default_factory=list)  # fields of study, e.g. ["engenharia"]; see radar/fields.py
 
     # --- filled in by radar.db ---------------------------------------------
     first_seen: str = ""

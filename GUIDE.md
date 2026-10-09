@@ -191,11 +191,32 @@ Postings themselves stay as their companies wrote them. All the texts live in
 `STRINGS` at the top of the page's script, one `[English, Português]` pair per
 text, so adding a language means adding a column.
 
-**First visit: your profile.** The page asks two things: what you're studying
-for (Bachelor's, Master's or PhD) and where your university is (Brazil, other
+**First visit: your profile.** The page asks three things: your field of
+study (Engineering, Computing & IT, Math/physics/chemistry, Business &
+economics, Law, Health, Biology & agriculture, Communication & design,
+Education & humanities, Architecture, or Other), what you're studying for
+(Bachelor's, Master's or PhD) and where your university is (Brazil, other
 Latin America, United States, Canada, United Kingdom, Europe, Asia, Middle
 East, Oceania, Africa). You can skip it and see everything unsorted. Change it
 any time with the button at the top right. It is saved in your browser only.
+
+**Field of study.** The bot labels each role with the fields it is aimed at
+(`radar/fields.py`): from the title, or, when the title doesn't say, from the
+course phrases in the description ("cursando Direito", "degree in Computer
+Science"). The site then:
+
+- shows your field and the related ones together (Engineering, Computing and
+  the exact sciences; Health and Biology; Communication, Business and
+  Humanities...), with roles for your own field first;
+- **hides roles clearly meant only for other fields** (a nursing estágio for
+  an engineering student). "Show roles for other fields", next to the number
+  of roles and in the filters, brings them back, marked as long shots with
+  the reason;
+- always shows roles that don't say which field they want, and the roles you
+  saved, applied to or hid.
+
+With "Other" as your field nothing is hidden. Profiles made before this
+question are asked once more (the other answers are kept).
 
 **Fit.** With a profile, every role gets a dot: ● good fit, ◐ check something,
 ○ long shot. Open a row to see the reasons, for example:

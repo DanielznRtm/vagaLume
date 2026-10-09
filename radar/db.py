@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS opportunities (
     deadline      TEXT,
     pay           TEXT,           -- e.g. "$54–60/hr"; empty when not stated
     skills        TEXT,           -- comma-separated, e.g. "Python,PyTorch" (radar/skills.py)
+    fields        TEXT,           -- fields of study, comma-separated, e.g. "engenharia" (radar/fields.py)
     area          TEXT,
     season        TEXT,
     regions       TEXT,           -- comma-separated, e.g. "Brazil,remote"
@@ -123,8 +124,9 @@ def _add_missing_columns(conn: sqlite3.Connection) -> None:
     existing = {row["name"] for row in conn.execute("PRAGMA table_info(opportunities)")}
     if "pay" not in existing:
         conn.execute("ALTER TABLE opportunities ADD COLUMN pay TEXT")
-    if "skills" not in existing:
-        conn.execute("ALTER TABLE opportunities ADD COLUMN skills TEXT")
+    for column in ("skills", "fields"):
+        if column not in existing:
+            conn.execute(f"ALTER TABLE opportunities ADD COLUMN {column} TEXT")
 
 
 def _join(items: list[str]) -> str:
@@ -156,7 +158,7 @@ def upsert(conn: sqlite3.Connection, opp: Opportunity, today: str) -> bool:
     values = {
         "id": opp.id, "title": opp.title, "org": opp.org, "source": opp.source,
         "location": opp.location, "remote": int(opp.remote), "url": opp.url,
-        "posted_date": opp.posted_date, "deadline": opp.deadline, "pay": opp.pay, "skills": _join(opp.skills),
+        "posted_date": opp.posted_date, "deadline": opp.deadline, "pay": opp.pay, "skills": _join(opp.skills), "fields": _join(opp.fields),
         "area": opp.area,
         "season": opp.season, "regions": _join(opp.regions), "warnings": _join(opp.warnings),
         "calendar_note": opp.calendar_note, "note": opp.note, "labeled_by": opp.labeled_by,
@@ -227,6 +229,7 @@ class StoredOpportunity:
     deadline: str
     pay: str
     skills: list[str]
+    fields: list[str]
     area: str
     season: str
     regions: list[str]
@@ -246,7 +249,7 @@ def load_all(conn: sqlite3.Connection) -> list[StoredOpportunity]:
             location=r["location"] or "", remote=bool(r["remote"]), url=r["url"],
             posted_date=r["posted_date"] or "", first_seen=r["first_seen"],
             last_seen=r["last_seen"], deadline=r["deadline"] or "check page", pay=r["pay"] or "",
-            skills=_split(r["skills"]), area=r["area"] or "other", season=r["season"] or "unknown",
+            skills=_split(r["skills"]), fields=_split(r["fields"]), area=r["area"] or "other", season=r["season"] or "unknown",
             regions=_split(r["regions"]), warnings=_split(r["warnings"]),
             calendar_note=r["calendar_note"] or "", note=r["note"] or "",
             labeled_by=r["labeled_by"] or "rules", is_open=bool(r["is_open"]), status=r["status"],
