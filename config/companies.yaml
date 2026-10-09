@@ -134,15 +134,15 @@ greenhouse:
   - {slug: gympass, name: Wellhub (Gympass)}
   - {slug: rdstation, name: RD Station}
   - {slug: jusbrasil, name: Jusbrasil}
+  - {slug: abinbev, name: AB InBev (Ambev, Campinas)}
+  - {slug: thoughtworks, name: Thoughtworks}
   # - {slug: ifood, name: iFood}               # not on these ATSs (uses Gupy; covered by the Gupy source)
   # - {slug: mercadolivre, name: Mercado Livre} # not on these ATSs
   # - {slug: picpay, name: PicPay}              # not on these ATSs (uses Gupy)
-  # - {slug: cloudwalk, name: CloudWalk}        # not on these ATSs
   # - {slug: creditas, name: Creditas}          # not on these ATSs
   # - {slug: hotmart, name: Hotmart}            # not on these ATSs
   # - {slug: olist, name: Olist}                # not on these ATSs
   # - {slug: totvs, name: TOTVS}                # not on these ATSs
-  # - {slug: tractian, name: Tractian}          # not on these ATSs
   # - {slug: loggi, name: Loggi}                # not on these ATSs
 
 lever:
@@ -155,6 +155,9 @@ lever:
   - {slug: metr, name: METR}
   - {slug: ciandt, name: CI&T}
   - {slug: neon, name: Neon (banco)}
+  - {slug: dlocal, name: dLocal}
+  - {slug: cloudwalk, name: CloudWalk}   # empty on 2026-10-09, but a real board
+  - {slug: tractian, name: Tractian}     # empty on 2026-10-09, but a real board
   - {slug: toptal, name: Toptal}
 
 ashby:
@@ -211,3 +214,40 @@ ashby:
   - {slug: keyrock, name: Keyrock}
   # --- Brazil ---
   - {slug: nubank, name: Nubank}
+
+# --- SmartRecruiters (radar/sources/smartrecruiters.py) ----------------------
+# id: the company identifier in jobs.smartrecruiters.com/<id>/...
+# country: two-letter code to keep (default "br"); "" keeps every country.
+# Careful: a wrong id doesn't fail, it just shows 0 jobs.
+smartrecruiters:
+  - {id: BoschGroup, name: Bosch}
+  - {id: SyngentaGroup, name: Syngenta}
+  - {id: LouisDreyfusCompany, name: Louis Dreyfus Company}
+  - {id: Aumovio, name: Aumovio (ex-Continental Automotive)}
+  - {id: Continental, name: Continental}
+  - {id: Experian, name: Serasa Experian}
+
+# --- Workday, Brazil only (radar/sources/workday.py) ---------------------------
+# From a career-site address https://<tenant>.wd<wd>.myworkdayjobs.com/<site>.
+# The source keeps the Brazilian jobs and, when the site has a "job type"
+# filter, only interns / apprentices / trainees (otherwise it checks titles).
+workday_brazil:
+  - {tenant: santander, wd: 3, site: SantanderCareers, name: Santander}
+  - {tenant: pg, wd: 5, site: "1000", name: P&G}
+  - {tenant: citi, wd: 5, site: "2", name: Citi}
+  - {tenant: mdlz, wd: 3, site: external, name: Mondelēz}
+  - {tenant: accenture, wd: 103, site: AccentureCareers, name: Accenture}
+  - {tenant: hitachi, wd: 1, site: hitachi, name: Hitachi}
+  - {tenant: abbott, wd: 5, site: abbottcareers, name: Abbott}
+  - {tenant: salesforce, wd: 12, site: External_Career_Site, name: Salesforce}
+  - {tenant: agilent, wd: 5, site: agilent_student_careers, name: Agilent}
+  - {tenant: generalmotors, wd: 5, site: Careers_GM, name: General Motors}
+  - {tenant: novartis, wd: 3, site: Novartis_Careers, name: Novartis}
+  - {tenant: hp, wd: 5, site: ExternalCareerSite, name: HP}
+  - {tenant: kimberlyclark, wd: 1, site: GLOBAL, name: Kimberly-Clark}
+  - {tenant: coke, wd: 1, site: coca-cola-careers, name: Coca-Cola}
+  - {tenant: cat, wd: 5, site: CaterpillarCareers, name: Caterpillar}
+  - {tenant: natura, wd: 501, site: NaturaCarreiras, name: Natura}
+  - {tenant: unilever, wd: 3, site: Unilever_Experienced_Professionals, name: Unilever}
+  - {tenant: iberdrola, wd: 3, site: Iberdrola, name: Neoenergia (Iberdrola)}
+  - {tenant: 3m, wd: 1, site: Search, name: 3M}

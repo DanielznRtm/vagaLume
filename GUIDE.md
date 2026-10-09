@@ -2,7 +2,7 @@
 
 This is the detailed manual: how every source works, what each label means,
 how to add companies and programs, and how to run your own copy. For the short
-tour, see the [README](README.md). The website is at
+tour, see the [README](README.md) (in Portuguese; [English version](README.en.md)). The website is at
 **https://pedrocamargolince.github.io/vagaLume/**.
 
 vagaLume is a small Python bot that runs every day on GitHub Actions and collects **student
@@ -43,7 +43,7 @@ Numbers from the run on 2026-10-06, after removing duplicates:
 | Lever boards (10 companies) | `lever.py` | public JSON API | 107 |
 | Ashby boards (49 companies) | `ashby.py` | public JSON API | 98 |
 | GitHub lists (SimplifyJobs Summer 2027, Off-Season, New Grad; vanshb03 Summer 2027) | `github_lists.py` | parses README tables (HTML and Markdown) | 3,724 |
-| Gupy (estágio in Brazil) | `gupy.py` | reads the JSON embedded in the search page | 97 |
+| Gupy (estágio, estágio de férias and trainee in Brazil) | `gupy.py` | the portal's JSON search API, filtered by job type, 100 per page | {gupy} |
 | Program pages (25 pages) | `programs.py` | page-change watcher | 25 |
 | Google Careers | `google.py` | reads the job data embedded in the results page | 63 |
 | Amazon Jobs | `amazon.py` | JSON endpoint behind amazon.jobs search | 400 |
@@ -52,6 +52,14 @@ Numbers from the run on 2026-10-06, after removing duplicates:
 | D. E. Shaw | `nextjs_sites.py` | reads the JSON embedded in the page (Next.js) | 12 |
 | DRW | `nextjs_sites.py` | reads the JSON embedded in the page (Next.js) | 23 |
 | Meta | `meta.py` | **headless browser** (Playwright): opens the internship search and catches the job list the page downloads | 11 |
+| **Brazil:** CIEE (graduação estágio) | `ciee.py` | the public JSON API behind portal.ciee.org.br, 1,000 per page | {ciee} |
+| **Brazil:** Super Estágios (Superior level) | `superestagios.py` | one form POST that returns every active vacancy | {superestagios} |
+| **Brazil:** Sólides Vagas (estágio, last 60 days) | `solides.py` | the JSON route behind the search page, 20 per page | {solides} |
+| **Brazil:** IEL (estágio from the industry federations, last 60 days) | `iel.py` | public Liferay API | {iel} |
+| **Brazil:** Cia de Talentos (open estágio and trainee programs) | `ciadetalentos.py` | the public request the vacancy site makes before login | {ciadetalentos} |
+| **Brazil:** FAPESP Oportunidades (IC, master's and doctoral grants) | `fapesp.py` | parses the static list page | {fapesp} |
+| **Brazil:** SmartRecruiters (Bosch, Syngenta, Louis Dreyfus, Aumovio, Continental, Serasa) | `smartrecruiters.py` | public API, Brazil only | {smartrecruiters} |
+| **Brazil:** Workday (Santander, P&G, Citi, Mondelēz, Accenture, Hitachi and 13 more) | `workday.py` | Workday JSON endpoint with the Brazil and intern/apprentice filters | {workday} |
 
 Total: **5,457 open items**, all 13 sources healthy.
 
@@ -108,9 +116,31 @@ They stay commented out in `config/companies.yaml`:
 - **AI:** Google DeepMind (covered by the Google source and the Student
   Researcher page), Mistral AI, Hugging Face (uses Workable, which isn't
   supported).
-- **Brazil:** iFood, Mercado Livre, PicPay, CloudWalk, Creditas, Hotmart,
-  Olist, TOTVS, Tractian, Loggi. Several of them hire interns through Gupy, so
-  the Gupy source may catch them.
+- **Brazil:** iFood, Mercado Livre, PicPay, Creditas, Hotmart, Olist, TOTVS,
+  Loggi. Most Brazilian companies hire interns through Gupy, which the Gupy
+  source reads in full (every internship, summer and trainee posting).
+  CloudWalk and Tractian are real Lever boards that were empty in October 2026.
+
+### Brazilian job sites we don't read, and why
+
+Checked in October 2026. vagaLume only reads sites that allow it and never
+gets around a block.
+
+| Site | Why not |
+|---|---|
+| Catho | answers bots with HTTP 403 |
+| Indeed, Glassdoor | Cloudflare bot check |
+| InfoJobs | its terms forbid robots and crawlers |
+| Vagas.com.br | robots.txt allows it, but its terms forbid copying content without authorization (asking them is an option) |
+| Nube | the vacancy search needs a login (many Nube vacancies are also on Gupy) |
+| Companhia de Estágios | the vacancy board needs a login; its open programs page is watched in `programs.yaml` |
+| estagiarios.com | Cloudflare block |
+| Coodesh | its API's robots.txt disallows all bots |
+| LinkedIn | never |
+
+Possible later, with care (allowed by robots.txt, few pages a day):
+Empregos.com.br, 99jobs, BNE, Remotar, and the public-sector selection
+notices CIEE publishes (`api-pp.ciee.org.br/api/editais/vitrine`).
 
 ---
 

@@ -10,28 +10,49 @@ from radar.labels import apply_rules
 from radar.sources import amazon, google, gupy, nvidia, programs
 
 
-def test_gupy_reads_embedded_json():
-    items = gupy.parse(fixture_text("gupy_search.html"))
-    assert len(items) == 3
+def test_gupy_reads_the_json_api():
+    items = gupy.parse(fixture_json("gupy_api.json"))
+    titles = [o.title for o in items]
+    assert "Analista de Dados Pleno" not in titles  # not a student role
+    assert len(items) == 5
     first = items[0]
-    assert first.title == "ESTÁGIO - ENGENHARIA/ANÁLISE DE DADOS"
-    assert first.location.startswith("Caçapava, São Paulo, Brazil")
-    assert first.deadline == "2026-10-30"
-    assert first.url.startswith("https://nsggroup.gupy.io/job/")
+    assert first.title == "Estagiário(a)"
+    assert first.location == "Goiânia, Goiás, Brazil (on-site)"
+    assert first.deadline == "2027-01-30"
+    assert first.posted_date == "2026-10-09"
+    assert first.url.startswith("https://colegiosimbios.gupy.io/job/")
     apply_rules(first)
     assert first.regions == ["Brazil"]
-    assert first.area == "data"
 
 
-def test_gupy_title_without_accent_still_counts():
-    # Gupy type "effective" but the title says "Estagio" -> still a student role
-    items = gupy.parse(fixture_text("gupy_search.html"))
-    assert any(o.title == "Estagio em Engenharia de dados" for o in items)
+def test_gupy_trainee_without_place_or_dates():
+    trainee = gupy.parse(fixture_json("gupy_api.json"))[-1]
+    assert trainee.hints == ["unsure-student"]  # trainee: maybe for recent graduates
+    assert trainee.location == "Brazil (remote)" and trainee.remote
+    assert trainee.posted_date == "" and trainee.deadline == "check page"
+    apply_rules(trainee)
+    assert trainee.pay == "R$6,000/mo"
 
 
-def test_gupy_page_without_data_raises():
+def test_gupy_pages_until_a_short_page(monkeypatch):
+    pages = []
+
+    def fake_get_json(url, **kwargs):
+        pages.append(url)
+        offset = int(url.split("offset=")[1])
+        jobs = fixture_json("gupy_api.json")["data"][:1] * (100 if offset < 200 else 3)
+        return {"data": [dict(job, jobUrl=f"https://x.gupy.io/job/{offset}-{n}") for n, job in enumerate(jobs)]}
+
+    monkeypatch.setattr(gupy, "get_json", fake_get_json)
+    result = gupy.fetch({"search": {}})
+    assert len(pages) == 3 and result.checked == 3
+    assert "type=vacancy_type_internship%2Cvacancy_type_summer%2Cvacancy_type_trainee" in pages[0]
+    assert len(result.items) == 203
+
+
+def test_gupy_bad_answer_raises():
     with pytest.raises(ValueError):
-        gupy.parse("<html><body>maintenance</body></html>")
+        gupy.parse({"message": "Failed to fetch jobs"})
 
 
 def test_google_blob():

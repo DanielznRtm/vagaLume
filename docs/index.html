@@ -770,7 +770,7 @@ function computeFit(item) {
     if (lvl === "undergrad") add(2, t("r.phd"));
     else if (lvl === "masters") add(1, t("r.mayPhd"));
   }
-  else if (lvl === "undergrad" && /\bmaster'?s\b|\bMSc\b|(?<![\w-])M\.?S\.?(?=[\s\/,)-]|$)/i.test(title) && !/bachelor|undergrad|\bUG\b|\bB\.?S\.?\b|\bBSc\b/i.test(title)) add(2, t("r.masters"));
+  else if (lvl === "undergrad" && /\bmaster'?s\b|\bmestrado\b|\bMSc\b|(?<![\w-])M\.?S\.?(?=[\s\/,)-]|$)/i.test(title) && !/bachelor|undergrad|\bUG\b|\bB\.?S\.?\b|\bBSc\b/i.test(title)) add(2, t("r.masters"));
   if (/\b(MBA|JD)\b/.test(title)) add(2, t("r.mba"));
   if (lvl === "phd" && /undergrad|bachelor|\bBS\b(?!\/)|\bB\.S\./i.test(title) && !/phd/i.test(title)) add(1, t("r.undergrad"));
   // With a résumé summary we know your graduation date: a new-grad job is fine if you finish within a year.

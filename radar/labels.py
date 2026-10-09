@@ -26,7 +26,7 @@ STRONG_STUDENT_WORDS = [
     r"est[áa]gio", r"estagi[áa]ri[oa]s?", r"est[áa]gios",
     r"co-?op", r"student", r"students", r"fellowship", r"fellows?",
     r"residency", r"summer", r"insight", r"explore",
-    r"apprentice", r"apprenticeship", r"jovem aprendiz", r"aprendiz",
+    r"apprentice", r"apprenticeship", r"jovem aprendiz", r"aprendiz", r"aprendizes",
     r"working student", r"werkstudent", r"praktikum",
     r"scholar", r"scholars", r"scholarship", r"bolsa", r"inicia[çc][ãa]o cient[íi]fica",
     r"undergrad", r"undergraduate", r"ugrip", r"isternship",

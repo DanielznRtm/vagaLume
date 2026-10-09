@@ -1,0 +1,158 @@
+{
+ "offset": 0,
+ "limit": 100,
+ "totalFound": 3,
+ "content": [
+  {
+   "id": "744000154157820",
+   "name": "Estagiário Técnico | Eletrotécnica (Paulínia)",
+   "uuid": "52dfe09f-e8ee-4ecc-a301-98c63eb25193",
+   "jobAdId": "9303787a-6601-4a02-8888-a5e1c34704e6",
+   "defaultJobAd": true,
+   "refNumber": "REF22013A",
+   "company": {
+    "identifier": "SyngentaGroup",
+    "name": "Syngenta Group"
+   },
+   "releasedDate": "2026-10-07T17:01:44.079Z",
+   "location": {
+    "city": "Paulínia",
+    "region": "SP",
+    "country": "br",
+    "remote": false,
+    "hybrid": false,
+    "latitude": "-22.7410533",
+    "longitude": "-47.1743007",
+    "fullLocation": "Paulínia, SP, Brazil"
+   },
+   "industry": {
+    "id": "farming",
+    "label": "Farming"
+   },
+   "department": {
+    "id": "3358646",
+    "label": "Production & Supply"
+   },
+   "function": {
+    "id": "administrative",
+    "label": "Administrative"
+   },
+   "typeOfEmployment": {
+    "id": "intern",
+    "label": "Intern"
+   },
+   "experienceLevel": {
+    "id": "entry_level",
+    "label": "Entry Level"
+   },
+   "visibility": "PUBLIC",
+   "ref": "https://api.smartrecruiters.com/v1/companies/SyngentaGroup/postings/744000154157820",
+   "language": {
+    "code": "pt-BR",
+    "label": "Portuguese (Brazil)",
+    "labelNative": "português (Brasil)"
+   }
+  },
+  {
+   "id": "744000154675782",
+   "name": "Jovem Aprendiz - Holambra (Exclusivo Para Pessoas Pretas e Pardas)",
+   "uuid": "2d241470-e145-4120-af33-b8cbb104aa5a",
+   "jobAdId": "54f2978d-6454-4d0b-b1fc-2cb38afff437",
+   "defaultJobAd": true,
+   "refNumber": "REF22017E",
+   "company": {
+    "identifier": "SyngentaGroup",
+    "name": "Syngenta Group"
+   },
+   "releasedDate": "2026-10-09T13:17:29.302Z",
+   "location": {
+    "city": "Holambra",
+    "region": "SP",
+    "country": "br",
+    "postalCode": "13825-000",
+    "remote": false,
+    "hybrid": false,
+    "latitude": "-22.6273804",
+    "longitude": "-47.04938509999999",
+    "fullLocation": "Holambra, SP, Brazil"
+   },
+   "industry": {
+    "id": "farming",
+    "label": "Farming"
+   },
+   "department": {
+    "id": "3358544",
+    "label": "Development"
+   },
+   "function": {
+    "id": "administrative",
+    "label": "Administrative"
+   },
+   "typeOfEmployment": {
+    "id": "contract",
+    "label": "Contract"
+   },
+   "experienceLevel": {
+    "id": "entry_level",
+    "label": "Entry Level"
+   },
+   "visibility": "PUBLIC",
+   "ref": "https://api.smartrecruiters.com/v1/companies/SyngentaGroup/postings/744000154675782",
+   "language": {
+    "code": "pt-BR",
+    "label": "Portuguese (Brazil)",
+    "labelNative": "português (Brasil)"
+   }
+  },
+  {
+   "id": "744000154674209",
+   "name": "Analista de Contabilidade Pleno (SYNAP)",
+   "uuid": "2873d622-65f5-4591-9fe0-414cfb2d9848",
+   "jobAdId": "7fefa634-163b-4e67-a894-afc08e53a9ae",
+   "defaultJobAd": true,
+   "refNumber": "REF22016N",
+   "company": {
+    "identifier": "SyngentaGroup",
+    "name": "Syngenta Group"
+   },
+   "releasedDate": "2026-10-09T13:02:26.326Z",
+   "location": {
+    "city": "São Paulo",
+    "region": "SP",
+    "country": "br",
+    "remote": false,
+    "hybrid": true,
+    "latitude": "-23.5557714",
+    "longitude": "-46.6395571",
+    "fullLocation": "São Paulo, SP, Brazil"
+   },
+   "industry": {
+    "id": "farming",
+    "label": "Farming"
+   },
+   "department": {
+    "id": "14858891",
+    "label": "Finance (FIN)"
+   },
+   "function": {
+    "id": "sales",
+    "label": "Sales"
+   },
+   "typeOfEmployment": {
+    "id": "permanent",
+    "label": "Full-time"
+   },
+   "experienceLevel": {
+    "id": "mid_senior_level",
+    "label": "Mid-Senior Level"
+   },
+   "visibility": "PUBLIC",
+   "ref": "https://api.smartrecruiters.com/v1/companies/SyngentaGroup/postings/744000154674209",
+   "language": {
+    "code": "pt-BR",
+    "label": "Portuguese (Brazil)",
+    "labelNative": "português (Brasil)"
+   }
+  }
+ ]
+}

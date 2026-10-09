@@ -67,6 +67,13 @@ def post_json(url: str, payload: dict[str, Any], **kwargs: Any) -> Any:
     return _request("POST", url, json=payload, **kwargs).json()
 
 
+def post_form(url: str, form: dict[str, Any], **kwargs: Any) -> str:
+    """POST an HTML-form body and return the response text."""
+    response = _request("POST", url, data=form, **kwargs)
+    response.encoding = response.encoding or "utf-8"
+    return response.text
+
+
 def get_text(url: str, **kwargs: Any) -> str:
     """GET a URL and return the body as text (HTML, Markdown...)."""
     response = _request("GET", url, **kwargs)

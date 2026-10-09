@@ -1,0 +1,115 @@
+{
+ "data": [
+  {
+   "id": 12705135,
+   "name": "Estagiário(a)",
+   "applicationDeadline": "2027-01-30T00:00:00.000Z",
+   "description": "Temos uma oportunidade especial para quem acredita no poder transformador da educação! ✨Mantendo o compromisso de acreditar no potencial de toda criança e jovem, o Simbios oferece, desde o Ensino Fundamental ao Pré-Vestibular, o acolhimento e o suporte para que cada um alcance o seu máximo potencial...",
+   "careerPageName": "Colégio Simbios",
+   "careerPageLogo": "https://attachments.gupy.io/production/companies/79567/career/255599/images/2026-08-05_17-53_companyLogoUrl.png",
+   "careerPageUrl": "",
+   "type": "vacancy_type_internship",
+   "publishedDate": "2026-10-09T14:05:50.286Z",
+   "workplaceType": "on-site",
+   "city": "Goiânia",
+   "state": "Goiás",
+   "jobUrl": "https://colegiosimbios.gupy.io/job/eyJqb2JJZCI6MTI3MDUxMzUsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=?jobBoardSource=gupy_portal",
+   "badges": {
+    "friendlyBadge": true,
+    "isPWD": true
+   },
+   "disabilities": true
+  },
+  {
+   "id": 12704857,
+   "name": "Estagiário(a) de Direito",
+   "applicationDeadline": "2026-10-30T00:00:00.000Z",
+   "description": "Fundado em 1908, o&nbsp;Clube Atlético Mineiro&nbsp;é uma das instituições esportivas mais tradicionais e respeitadas do Brasil, com uma história rica de conquistas e paixão por parte de seus torcedores. Com sede em Belo Horizonte, o Galo, como é carinhosamente conhecido, acumula uma série de título...",
+   "careerPageName": "Atlético Mineiro",
+   "careerPageLogo": "https://attachments.gupy.io/production/companies/68540/career/165423/images/2024-02-18_17-11_companyLogoUrl.png",
+   "careerPageUrl": "",
+   "type": "vacancy_type_internship",
+   "publishedDate": "2026-10-09T13:43:54.047Z",
+   "workplaceType": "on-site",
+   "city": "Belo Horizonte",
+   "state": "Minas Gerais",
+   "jobUrl": "https://galo.gupy.io/job/eyJqb2JJZCI6MTI3MDQ4NTcsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=?jobBoardSource=gupy_portal",
+   "badges": {
+    "friendlyBadge": true,
+    "isPWD": true
+   },
+   "disabilities": true
+  },
+  {
+   "id": 12703894,
+   "name": "0710/PR | Estágio - Agência Carlos Gomes / Cascavel / PR",
+   "applicationDeadline": "2026-10-20T00:00:00.000Z",
+   "description": "Estamos em busca de pessoas que acreditam no poder da cooperação, no protagonismo local e no impacto positivo que podemos gerar juntos. Se você busca desenvolvimento profissional, um ambiente acolhedor e desafiador e quer fazer parte de uma instituição que há mais de 120 anos transforma realidades, ...",
+   "careerPageName": "Sicredi",
+   "careerPageLogo": "https://attachments.gupy.io/production/companies/364/career/317/images/logo.png",
+   "careerPageUrl": "",
+   "type": "vacancy_type_internship",
+   "publishedDate": "2026-10-09T13:31:13.965Z",
+   "workplaceType": "on-site",
+   "city": "Cascavel",
+   "state": "Paraná",
+   "jobUrl": "https://sicredi.gupy.io/job/eyJqb2JJZCI6MTI3MDM4OTQsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=?jobBoardSource=gupy_portal",
+   "badges": {
+    "friendlyBadge": true,
+    "isPWD": true
+   },
+   "disabilities": true
+  },
+  {
+   "id": 12704828,
+   "name": "Estágio de Férias Nova Rodovias - Belo Horizonte/MG",
+   "applicationDeadline": "2026-12-08T00:00:00.000Z",
+   "description": "\nO Estágio de Férias&nbsp;da Nova Rodovias, empresa do grupo 4UM/Opportunity, é uma iniciativa pioneira que conecta jovens talentos a um dos setores mais estratégicos para o desenvolvimento do país. Como o primeiro estágio de férias entre concessionárias rodoviárias brasileiras, foi criado para prop...",
+   "careerPageName": "Nova Rodovias | Estágio de férias",
+   "careerPageLogo": "https://attachments.gupy.io/production/companies/81481/career/263086/images/2026-10-07_12-43_companyLogoUrl.webp",
+   "careerPageUrl": "",
+   "type": "vacancy_type_summer",
+   "publishedDate": "2026-10-09T13:25:17.116Z",
+   "workplaceType": "on-site",
+   "city": "Belo Horizonte",
+   "state": "Minas Gerais",
+   "jobUrl": "https://novarodovias-estagioferias.gupy.io/job/eyJqb2JJZCI6MTI3MDQ4MjgsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=?jobBoardSource=gupy_portal",
+   "badges": {
+    "friendlyBadge": true,
+    "isPWD": true
+   },
+   "disabilities": true
+  },
+  {
+   "id": "1",
+   "name": "Programa Trainee 2027 - Engenharia",
+   "applicationDeadline": null,
+   "description": "Para recém-formados em Engenharia. Bolsa auxílio R$ 6.000,00.",
+   "careerPageName": "Exemplo SA",
+   "type": "vacancy_type_trainee",
+   "publishedDate": null,
+   "workplaceType": "remote",
+   "city": "",
+   "state": "",
+   "jobUrl": "https://exemplo.gupy.io/job/abc"
+  },
+  {
+   "id": "2",
+   "name": "Analista de Dados Pleno",
+   "applicationDeadline": null,
+   "description": "x",
+   "careerPageName": "Outra",
+   "type": "vacancy_type_effective",
+   "publishedDate": "2026-10-09T10:00:00.000Z",
+   "workplaceType": "on-site",
+   "city": "Recife",
+   "state": "Pernambuco",
+   "jobUrl": "https://outra.gupy.io/job/def"
+  }
+ ],
+ "pagination": {
+  "total": 100,
+  "limit": 100,
+  "offset": 0
+ }
+}

@@ -1,0 +1,159 @@
+{
+ "content": [
+  {
+   "codigoVaga": 6263275,
+   "tipoVaga": "ESTAGIO",
+   "nomeEmpresa": "EDITORA PEDRA AZUL",
+   "areaAtuacao": null,
+   "areaProfissional": "Comunicação",
+   "salario": null,
+   "bolsaAuxilio": 900,
+   "quantidadeBeneficios": 1,
+   "tipoAuxilioBolsa": "Mensal",
+   "tipoValorBolsa": "FIXO",
+   "tipoSalarioValor": null,
+   "tipoSalario": null,
+   "bolsaAuxilioDe": null,
+   "bolsaAuxilioAte": null,
+   "salarioDe": null,
+   "salarioAte": null,
+   "beneficios": [],
+   "descricao": "Comércio varejista de livros",
+   "local": {
+    "tipoLogradouro": null,
+    "endereco": null,
+    "numero": null,
+    "bairro": "Jucutuquara",
+    "complemento": null,
+    "cep": null,
+    "cidade": "Vitória",
+    "uf": "ES"
+   },
+   "tipoHorario": "A_COMBINAR",
+   "horarioEntrada": null,
+   "horarioSaida": null,
+   "atividades": [
+    "Auxiliar na elaboração de textos editoriais",
+    "Auxiliar na verificação da edição de textos",
+    "Verificar a edição de textos"
+   ],
+   "requisitos": {
+    "semestreInicio": 1,
+    "semestreFinal": 7,
+    "escolas": null
+   },
+   "nivelEscolar": "SU",
+   "logo": null
+  },
+  {
+   "codigoVaga": 6263252,
+   "tipoVaga": "ESTAGIO",
+   "nomeEmpresa": "ACM",
+   "areaAtuacao": null,
+   "areaProfissional": "Esportes",
+   "salario": null,
+   "bolsaAuxilio": 11.18,
+   "quantidadeBeneficios": 1,
+   "tipoAuxilioBolsa": "Hora",
+   "tipoValorBolsa": "FIXO",
+   "tipoSalarioValor": null,
+   "tipoSalario": null,
+   "bolsaAuxilioDe": null,
+   "bolsaAuxilioAte": null,
+   "salarioDe": null,
+   "salarioAte": null,
+   "beneficios": [],
+   "descricao": "Serviços de assistência social sem alojamento",
+   "local": {
+    "tipoLogradouro": null,
+    "endereco": null,
+    "numero": null,
+    "bairro": "Jardim das Flores",
+    "complemento": null,
+    "cep": null,
+    "cidade": "Osasco",
+    "uf": "SP"
+   },
+   "tipoHorario": "DEFINIDO",
+   "horarioEntrada": "16:00:00",
+   "horarioSaida": "20:00:00",
+   "atividades": [
+    "Auxiliar nas atividades de natação e desporto;",
+    "Acompanhar as atividades realizadas dando todo o suporte necessário.",
+    "Auxiliar e coordenar as modalidades de ginástica, auxilio na musculação e funcional, auxiliar nas atividades aquáticas."
+   ],
+   "requisitos": {
+    "semestreInicio": 5,
+    "semestreFinal": 10,
+    "escolas": null
+   },
+   "nivelEscolar": "SU",
+   "logo": null
+  },
+  {
+   "codigoVaga": 6263249,
+   "tipoVaga": "ESTAGIO",
+   "nomeEmpresa": "ACM",
+   "areaAtuacao": null,
+   "areaProfissional": "Esportes",
+   "salario": null,
+   "bolsaAuxilio": null,
+   "quantidadeBeneficios": 1,
+   "tipoAuxilioBolsa": "Mensal",
+   "tipoValorBolsa": "FIXO",
+   "tipoSalarioValor": null,
+   "tipoSalario": null,
+   "bolsaAuxilioDe": 1200,
+   "bolsaAuxilioAte": 1500,
+   "salarioDe": null,
+   "salarioAte": null,
+   "beneficios": [],
+   "descricao": "Serviços de assistência social sem alojamento",
+   "local": {
+    "tipoLogradouro": null,
+    "endereco": null,
+    "numero": null,
+    "bairro": "Jardim das Flores",
+    "complemento": null,
+    "cep": null,
+    "cidade": "Osasco",
+    "uf": "SP"
+   },
+   "tipoHorario": "DEFINIDO",
+   "horarioEntrada": "15:00:00",
+   "horarioSaida": "19:00:00",
+   "atividades": [
+    "Conduzir o auxílio ao professor nas aulas de hidroginástica"
+   ],
+   "requisitos": {
+    "semestreInicio": 5,
+    "semestreFinal": 10,
+    "escolas": null
+   },
+   "nivelEscolar": "SU",
+   "logo": null
+  }
+ ],
+ "pageable": {
+  "sort": {
+   "sorted": true,
+   "unsorted": false
+  },
+  "pageNumber": 0,
+  "pageSize": 3,
+  "offset": 0,
+  "paged": true,
+  "unpaged": false
+ },
+ "last": false,
+ "totalPages": 741,
+ "totalElements": 2223,
+ "first": true,
+ "sort": {
+  "sorted": true,
+  "unsorted": false
+ },
+ "numberOfElements": 3,
+ "size": 3,
+ "number": 0
+}
