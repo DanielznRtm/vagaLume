@@ -24,8 +24,10 @@ Every day it updates:
 - `reports/latest.md`: the same list as a Markdown file you can read on
   GitHub. Order: deadlines in the next 14 days, then new items, then watched
   program pages, then everything else that is open, grouped by category.
-- `data/radar.db`: an SQLite database with every posting ever seen and your
-  status for each one.
+- `data/opportunities.jsonl` and `data/page_hashes.jsonl`: the database as
+  text, one posting per line, with every posting ever seen and your status for
+  each one. Each run rebuilds a working SQLite file (`data/radar.db`, not
+  committed) from them and writes them back at the end.
 
 ---
 
@@ -356,7 +358,7 @@ a careers-site address).
    default branch (`main`).
 2. **Allow the workflow to push.** Go to *Settings → Actions → General →
    Workflow permissions* and pick **Read and write permissions**. The workflow
-   commits `data/radar.db` and `reports/`.
+   commits `data/*.jsonl`, `reports/` and the website data.
 3. **Turn on the website:** *Settings → Pages → Deploy from a branch → main,
    /docs*.
 4. The schedule is daily at **09:00 Brasília (12:00 UTC)**. To run it now, open
@@ -435,11 +437,18 @@ are caught per source), **label** with rules (plus Claude if a key is set),
   links here, waits 0.6 s before each request, uses 25 s timeouts, retries
   once (longer pauses after a 429), and does not get around bot protection.
   A full run makes about 380 requests and opens 2 pages in the browser.
-- **Repository size.** `data/radar.db` (2.8 MB), `docs/data.json` (2.5 MB)
-  and `reports/latest.md` are committed every day: the database is the bot's
-  memory (first-seen dates, your statuses, page hashes) and the JSON is the
-  website, so they stay in git on purpose. `.gitignore` keeps everything else
-  out (caches, virtual environments, SQLite's temporary files, editor
-  folders), and `.gitattributes` marks the daily files as generated so GitHub
-  collapses them in diffs. Git stores each daily version, so the repository
-  still grows over time; the database is binary, so it grows the most.
+- **Repository size.** The database (`data/*.jsonl`, about 7 MB of text for
+  17,000 roles), `docs/data.json` and `reports/latest.md` are committed every
+  day: the database is the bot's memory (first-seen dates, your statuses, page
+  hashes) and the JSON is the website, so they stay in git on purpose. To keep
+  the daily growth small:
+  - the database is text, one role per line, sorted, so git stores only the
+    lines that changed and merges cleanly;
+  - each role's "last seen" date is refreshed once a week, not every day (it
+    only decides when a role unseen for 30 days is closed), so on a normal day
+    only new and changed roles touch the file. In a test this kept the
+    repository's growth around 25 KB a day, against about 60 KB with daily
+    dates;
+  - `.gitignore` keeps everything else out (the working `radar.db`, caches,
+    virtual environments, editor folders), and `.gitattributes` marks the
+    daily files as generated so GitHub collapses them in diffs.

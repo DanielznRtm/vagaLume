@@ -54,7 +54,7 @@ class Opportunity:
     deadline: str = NO_DEADLINE  # ISO date, or "check page"
     pay: str = ""  # short label such as "$54–60/hr" or "R$1,800/mo"; "" = not stated
     # Free text used only while labelling; it is NOT stored in the database
-    # (that keeps data/radar.db small enough to commit every day).
+    # (that keeps the database small enough to commit every day).
     description: str = ""
     # Extra hints a source can pass to the labeller, e.g. the GitHub lists
     # mark roles that need US citizenship with an emoji.

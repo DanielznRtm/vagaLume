@@ -27,7 +27,8 @@ from .sources import (
 
 log = logging.getLogger("radar")
 
-DB_PATH = ROOT / "data" / "radar.db"
+DATA_DIR = ROOT / "data"
+DB_PATH = DATA_DIR / "radar.db"  # working copy, rebuilt from the text files below (not committed)
 REPORTS_DIR = ROOT / "reports"
 SITE_DIR = ROOT / "docs"  # served by GitHub Pages
 
@@ -102,10 +103,12 @@ def run(
     reports_dir: Path = REPORTS_DIR,
     site_dir: Path = SITE_DIR,
     send: bool = True,
+    text_dir: Path | None = None,
 ) -> report.ReportData:
     today = date.today().isoformat()
     config = load_config()
-    conn = db.connect(db_path)
+    text_dir = Path(text_dir or Path(db_path).parent)  # data/opportunities.jsonl, data/page_hashes.jsonl
+    conn = db.open_state(db_path, text_dir)
     db.mark_previous_new_as_seen(conn, today)
 
     # 1. Collect from every source.
@@ -145,7 +148,7 @@ def run(
     data = report.build(everything, health, today, labeled_by)
     report.write_reports(data, reports_dir)
     site.write_data(everything, health, today, labeled_by, site_dir)
-    conn.execute("VACUUM")  # keep the committed database file small
+    db.save_text(conn, text_dir)  # the committed copy of the database (see db.save_text)
     conn.close()
     if send:
         notify.notify(data)
@@ -190,9 +193,10 @@ def main(argv: list[str] | None = None) -> int:
     if options.command == "status":
         if len(options.args) != 2:
             parser.error("usage: python -m radar status <id> <new|seen|applied|ignored>")
-        conn = db.connect(DB_PATH)
+        conn = db.open_state(DB_PATH, DATA_DIR)
         found = db.set_status(conn, options.args[0], options.args[1])
         conn.commit()
+        db.save_text(conn, DATA_DIR)
         print("updated" if found else "id not found")
         return 0 if found else 1
     if options.command == "check-config":

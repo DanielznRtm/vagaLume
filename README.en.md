@@ -78,7 +78,7 @@ Works on phones too, in light and dark mode. **[Open it →](https://pedrocamarg
 ```mermaid
 flowchart LR
     A["21 sources<br/>Gupy, CIEE, Super Estágios, Sólides, IEL,<br/>job boards, GitHub lists,<br/>career sites, program pages"] --> B["Labels<br/>area · season · region<br/>pay · skills · warnings"]
-    B --> C[("SQLite<br/>data/radar.db")]
+    B --> C[("Database<br/>data/*.jsonl (text)")]
     R["Your résumé<br/>summarized by your own AI chat"] -.-> D
     C --> D["Website<br/>docs/ on GitHub Pages"]
     C --> E["Daily digest<br/>Telegram / email<br/>(optional)"]

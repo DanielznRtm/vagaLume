@@ -97,7 +97,7 @@ seu currículo.
 ```mermaid
 flowchart LR
     A["21 fontes<br/>Gupy, CIEE, Super Estágios, Sólides, IEL,<br/>plataformas de vagas, listas do GitHub,<br/>sites de carreira, páginas de programas"] --> B["Rótulos<br/>área · época · região<br/>remuneração · habilidades · alertas"]
-    B --> C[("SQLite<br/>data/radar.db")]
+    B --> C[("Banco de dados<br/>data/*.jsonl (texto)")]
     R["O seu currículo<br/>resumido pela sua própria IA"] -.-> D
     C --> D["Site<br/>docs/ no GitHub Pages"]
     C --> E["Resumo diário<br/>Telegram / e-mail<br/>(opcional)"]

@@ -1,6 +1,6 @@
 # Files the daily run rewrites: GitHub collapses them in diffs and leaves them
 # out of the language stats. They are still committed and versioned as usual.
-data/radar.db binary linguist-generated=true
+data/*.jsonl linguist-generated=true
 docs/data.json linguist-generated=true
 docs/stats.json linguist-generated=true
 reports/latest.md linguist-generated=true

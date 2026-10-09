@@ -1,7 +1,11 @@
-# What is NOT ignored on purpose: data/radar.db (the bot's memory: first-seen
-# dates, your statuses, page hashes), docs/data.json + docs/stats.json (the
-# website and the README badges) and reports/latest.md. The daily workflow
-# commits them, and everything else can be rebuilt from the code and config/.
+# What is NOT ignored on purpose: data/opportunities.jsonl and
+# data/page_hashes.jsonl (the bot's memory as text: first-seen dates, your
+# statuses, page hashes), docs/data.json + docs/stats.json (the website and
+# the README badges) and reports/latest.md. The daily workflow commits them,
+# and everything else can be rebuilt from them, the code and config/.
+
+# The SQLite database is rebuilt from data/*.jsonl at the start of every run.
+data/radar.db
 
 # Python
 .venv/
