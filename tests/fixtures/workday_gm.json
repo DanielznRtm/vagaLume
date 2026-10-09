@@ -1,0 +1,73 @@
+{
+ "total": 3,
+ "jobPostings": [
+  {
+   "title": "Programa de Estágio GM 2027",
+   "externalPath": "/job/Sao-Caetano-do-Sul/Programa-de-Estgio-GM-2027_JR-1",
+   "locationsText": "São Caetano do Sul",
+   "postedOn": "Posted 3 Days Ago"
+  },
+  {
+   "title": "Aprendizes Senai",
+   "externalPath": "/job/Gravatai/Aprendizes-Senai_JR-2",
+   "locationsText": "2 Locations",
+   "postedOn": "Posted Today"
+  },
+  {
+   "title": "Engenheiro de Manufatura",
+   "externalPath": "/job/Gravatai/Engenheiro_JR-3",
+   "locationsText": "Gravataí, Brazil",
+   "postedOn": "Posted Yesterday"
+  }
+ ],
+ "facets": [
+  {
+   "facetParameter": "Location_Country",
+   "descriptor": "Location Country/Territory",
+   "values": [
+    {
+     "descriptor": "United States of America",
+     "id": "bc33aa3152ec42d4995f4791a106ed09",
+     "count": 671
+    },
+    {
+     "descriptor": "Brazil",
+     "id": "1a29bb1357b240ab99a2fa755cc87c0e",
+     "count": 13
+    }
+   ]
+  },
+  {
+   "facetParameter": "workerSubType",
+   "descriptor": "Job Type",
+   "values": [
+    {
+     "descriptor": "Regular",
+     "id": "81219c91208501cb82113285a61a3b0a",
+     "count": 724
+    },
+    {
+     "descriptor": "Intern (Fixed Term) (Trainee)",
+     "id": "81219c91208501e94c213185a61a320a",
+     "count": 47
+    },
+    {
+     "descriptor": "Co-Op (Fixed Term)",
+     "id": "81219c91208501ec00823185a61a360a",
+     "count": 12
+    },
+    {
+     "descriptor": "Casual",
+     "id": "81219c91208501f5dc523185a61a340a",
+     "count": 2
+    },
+    {
+     "descriptor": "Apprentice (Fixed Term)",
+     "id": "81219c9120850149f3b03185a61a380a",
+     "count": 1
+    }
+   ]
+  }
+ ],
+ "userAuthenticated": false
+}

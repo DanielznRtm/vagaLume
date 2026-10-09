@@ -211,3 +211,128 @@ programs:
     area: quant
 
   # DRW campus listings come from the drw source (radar/sources/nextjs_sites.py).
+
+  # --- Brazil: research and summer programs (checked 2026-10-09) ------------
+  - name: CNPEM Programa Bolsas de Verão (PBV)
+    org: CNPEM (LNLS/Sirius, LNBio, LNBR, LNNano)
+    url: https://pages.cnpem.br/bolsasdeverao/
+    area: research
+    season: Dec–Feb
+    regions: [Brazil, LatAm]
+    notes: "undergrads in exact sciences, engineering and biology; Jan–Feb in Campinas with travel and housing paid; applications Aug–early Sep"
+
+  - name: CNPEM Programa Unificado de Estágios (PUE)
+    org: CNPEM
+    url: https://pages.cnpem.br/pue/
+    area: research
+    season: year-round
+    regions: [Brazil]
+    notes: "paid research internship in Campinas (30 h/week, up to 2 years); applications in August, starts February"
+
+  - name: ICMC-USP Programa de Verão
+    org: ICMC-USP (São Carlos)
+    url: https://verao.icmc.usp.br/
+    area: research
+    season: Dec–Feb
+    regions: [Brazil]
+    notes: "January–February courses; free; for final-year undergrads and grad students"
+
+  - name: IME-USP Programa de Verão
+    org: IME-USP
+    url: https://www.ime.usp.br/verao/index.php
+    area: research
+    season: Dec–Feb
+    regions: [Brazil]
+    notes: "short courses in mathematics, statistics and computer science in Jan–Feb; registration from about November"
+
+  - name: LNCC Programa de Verão (incl. Escola Supercomputador Santos Dumont)
+    org: LNCC/MCTI (Petrópolis)
+    url: https://verao.lncc.br/
+    area: research
+    season: Dec–Feb
+    regions: [Brazil]
+    notes: "HPC school, data science days and short courses in Jan–Feb; applications from November"
+
+  - name: ICTP-SAIFR schools
+    org: ICTP-SAIFR / IFT-UNESP (São Paulo)
+    url: https://www.ictp-saifr.org/
+    area: research
+    season: year-round
+    regions: [Brazil, LatAm]
+    warnings: ["PhD-level?"]
+    notes: "schools in São Paulo, mostly for MSc/PhD students, some admit advanced undergrads (past topics: data science and ML, quantum computing)"
+
+  - name: Perimeter-SAIFR-IFT Journeys into Theoretical Physics
+    org: ICTP-SAIFR / Perimeter Institute
+    url: https://journeys.ictp-saifr.org/
+    area: research
+    season: Jul
+    regions: [Brazil, LatAm]
+    notes: "one week in July in São Paulo for final-year undergrads from Latin America; deadline around May 1"
+
+  - name: Escola São Paulo de Ciência Avançada (ESPCA)
+    org: FAPESP
+    url: http://espca.fapesp.br/proximas/
+    area: research
+    regions: [Brazil]
+    warnings: ["PhD-level?"]
+    notes: "1–2 week schools with travel support for selected students, mostly grad students; topics change every year"
+
+  - name: Tropical Probabilistic AI School
+    org: ProbAI / FGV EMAp (Rio de Janeiro)
+    url: https://tropical.probabilistic.ai/
+    area: ML
+    season: Dec–Feb
+    regions: [Brazil, LatAm]
+    notes: "the page still shows the 2024 edition, so a change probably means a new one"
+
+  - name: INPE Curso de Introdução à Astronomia e Astrofísica (CIAA)
+    org: INPE (São José dos Campos)
+    url: https://www.gov.br/inpe/pt-br/eventos/ciaa
+    area: research
+    regions: [Brazil]
+    notes: "yearly course open to undergrads and teachers"
+
+  - name: CBPF PIBIC/PIBIT (iniciação científica)
+    org: CBPF (Rio de Janeiro)
+    url: https://www.gov.br/cbpf/pt-br/formacao-cientifica/educacao-cientifica/pibic-e-pibit
+    area: research
+    season: year-round
+    regions: [Brazil]
+    notes: "IC calls at CBPF, with a few grants for students from outside Rio"
+
+  # --- Brazil: company internship programs ------------------------------------
+  - name: Embraer Programa de Estágio
+    org: Embraer
+    url: https://embraer.com/corporate-careers/estagio/pt/
+    area: hardware
+    regions: [Brazil]
+    notes: "applications usually Sep–Oct, start in February"
+
+  - name: Itaú programas de carreira (estágio, estágio de férias, trainee)
+    org: Itaú Unibanco
+    url: https://carreiras.itau.com.br/programas
+    regions: [Brazil]
+    notes: "shows whether each program is open"
+
+  - name: Suzano Programa de Estágio
+    org: Suzano
+    url: https://www.suzano.com.br/trabalhe-conosco/estagio
+    regions: [Brazil]
+    notes: "applications usually Sep–Oct, start in Jan–Feb"
+
+  - name: Bosch Brasil, estudantes e graduados
+    org: Bosch
+    url: https://www.bosch.com.br/carreiras/estudantes-e-graduados/
+    regions: [Brazil]
+
+  - name: Raízen programas de talentos (estágio, trainee)
+    org: Raízen
+    url: https://www.raizen.com.br/programas-de-talentos
+    regions: [Brazil]
+
+  - name: Companhia de Estágios, programas abertos
+    org: Companhia de Estágios
+    url: https://www.ciadeestagios.com.br/vagas-de-estagio/
+    regions: [Brazil]
+    notes: "estágio programs of big companies (e.g. Boeing, Stellantis, Danone, Pirelli); each lists its deadline"

@@ -5,7 +5,10 @@ Order, as requested:
   2. new items (found in this run)
   3. watched program pages
   4. everything else that is open
-Each list is grouped by category (area). Nothing is filtered out.
+Each list is grouped by category (area). Nothing is filtered out, but long
+lists are cut at MAX_LINES / MAX_PER_AREA and "everything else" is a table of
+counts, so the file stays small enough to open on GitHub; the website (docs/)
+has every role.
 """
 
 from __future__ import annotations
@@ -26,6 +29,12 @@ CALENDAR_SHORT = {
     "unknown": "dates unknown",
 }
 SOON_DAYS = 14
+# The report lists at most this many roles per section (or per area inside a
+# section) so it stays small enough to open on GitHub; the website has them all.
+MAX_LINES = 150
+MAX_PER_AREA = 60
+SITE_URL = "https://pedrocamargolince.github.io/vagaLume/"
+REGION_ORDER = ["Brazil", "LatAm", "US/Canada", "Europe", "Asia/ME", "remote", "unknown"]
 # Short symbols for warnings in the Markdown report (it must stay small
 # enough for GitHub to display; the HTML report spells them out).
 WARNING_SYMBOLS = {
@@ -138,11 +147,29 @@ def _md_line(opp: StoredOpportunity, detailed: bool = False) -> str:
     return " · ".join(parts)
 
 
+def _more(hidden: int) -> list[str]:
+    return [f"- _… and {hidden} more on the [website]({SITE_URL})._"] if hidden > 0 else []
+
+
+def _md_list(items: list[StoredOpportunity], detailed: bool = False, limit: int = MAX_LINES) -> list[str]:
+    return [_md_line(o, detailed) for o in items[:limit]] + _more(len(items) - limit)
+
+
 def _md_grouped(items: list[StoredOpportunity], detailed: bool = False) -> list[str]:
     lines: list[str] = []
     for area, members in group_by_area(items):
         lines.append(f"\n### {area} ({len(members)})\n")
-        lines.extend(_md_line(o, detailed) for o in members)
+        lines.extend(_md_list(members, detailed, MAX_PER_AREA))
+    return lines
+
+
+def _md_counts(items: list[StoredOpportunity]) -> list[str]:
+    """A table of how many roles there are per area and region."""
+    regions = [r for r in REGION_ORDER if any(r in (o.regions or ["unknown"]) for o in items)]
+    lines = ["", "| Area | " + " | ".join(regions) + " | Total |", "|---|" + "---|" * (len(regions) + 1)]
+    for area, members in group_by_area(items):
+        counts = [sum(1 for o in members if r in (o.regions or ["unknown"])) for r in regions]
+        lines.append(f"| {area} | " + " | ".join(str(c) for c in counts) + f" | {len(members)} |")
     return lines
 
 
@@ -174,18 +201,19 @@ def render_markdown(data: ReportData) -> str:
         lines.append(f"| {h.name} | {icon} {h.status} | {h.items} | {h.checked} | {h.seconds:.0f}s | {problems} |")
 
     lines += ["", f"## ⏰ Deadlines in the next {SOON_DAYS} days ({len(data.soon)})", ""]
-    lines += [_md_line(o, detailed=True) for o in data.soon] or ["_None found. Many postings don't state a deadline (\"check page\")._"]
+    lines += _md_list(data.soon, detailed=True) or ["_None found. Many postings don't state a deadline (\"check page\")._"]
     lines += ["", f"## 🆕 New this run ({len(data.new)} more, besides any above)"]
     # On a normal day the new list is short, so show details; on the very
     # first run everything is new, so keep it compact.
     lines += _md_grouped(data.new, detailed=len(data.new) <= 300) or ["", "_Nothing new today._"]
     lines += ["", f"## 📄 Watched program pages ({len(data.programs)})", ""]
     lines += [_md_line(o, detailed=True) for o in data.programs]
-    lines += ["", f"## 📋 Everything else that is open ({len(data.rest)})"]
-    lines += _md_grouped(data.rest)
+    lines += ["", f"## 📋 Everything else that is open ({len(data.rest)})", "",
+              f"Too many to list here: search and filter them on the [website]({SITE_URL}). By area and region:"]
+    lines += _md_counts(data.rest)
     if data.ignored:
         lines += ["", f"## 🙈 Ignored by you ({len(data.ignored)})", ""]
-        lines += [_md_line(o) for o in data.ignored]
+        lines += _md_list(data.ignored)
     return "\n".join(lines) + "\n"
 
 

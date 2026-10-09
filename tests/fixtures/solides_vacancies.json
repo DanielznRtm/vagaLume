@@ -1,0 +1,478 @@
+{
+ "totalPages": 133,
+ "currentPage": 1,
+ "count": 2650,
+ "data": [
+  {
+   "id": 935704,
+   "title": "Acadêmico de Enfermagem",
+   "description": "<p><strong>Acadêmico de</strong> Enfermagem <strong>ADMINISTRATIVO</strong></p>\n<p><strong>Atividades: </strong>A<span>poiar à coordenação de enfermagem em demandas administrativas (</span><span>Realizar auditoria; </span><span>Acompanhar as trocas de plantão da equipe de enfermagem; </span><span>En...",
+   "currentState": "em_andamento",
+   "referenceId": 127014,
+   "companyName": "ASSOCIACAO PAULO DE TARSO",
+   "companyLogo": "https://c5gwmsmjx1.execute-api.us-east-1.amazonaws.com/prod/dados_processo_seletivo/logo_empresa/134996/Logo.png_name_20230621-4956-1i5u64v.png",
+   "state": {
+    "id": 17,
+    "name": "Minas Gerais",
+    "code": "MG"
+   },
+   "city": {
+    "id": 2310,
+    "name": "Belo Horizonte",
+    "stateId": 17
+   },
+   "slug": "redepaulodetarso",
+   "redirectLink": "https://redepaulodetarso./vacancies/935704?origem=portal",
+   "type": "externa",
+   "isHiddenJob": false,
+   "homeOffice": false,
+   "jobType": "presencial",
+   "openPositions": 1,
+   "salary": {
+    "type": "simple",
+    "showRangeToApplicant": true,
+    "initialRange": 0,
+    "finalRange": 0,
+    "negotiable": false
+   },
+   "hasSpecialNeeds": false,
+   "peopleWithDisabilities": false,
+   "disabilityType": null,
+   "pcdOnly": false,
+   "videoUrl": null,
+   "seniority": [
+    {
+     "id": 371223,
+     "name": "Estagiário",
+     "level": null
+    }
+   ],
+   "recruitmentContractType": [
+    {
+     "id": 167694,
+     "name": "Estágio",
+     "level": null
+    }
+   ],
+   "language": [],
+   "hardSkills": [
+    {
+     "id": 536485,
+     "name": "Comunicação",
+     "level": 1
+    }
+   ],
+   "education": [],
+   "createdAt": "2026-10-09",
+   "availablePositions": 1,
+   "affirmative": [],
+   "occupationAreas": [
+    {
+     "id": 349587,
+     "name": "Saúde",
+     "level": null
+    }
+   ],
+   "isGoogleForJobsEnabled": false,
+   "receivingResume": true,
+   "showSkillsLevel": true,
+   "showModality": true,
+   "shift": [
+    {
+     "id": 39,
+     "name": "Manhã",
+     "level": null
+    }
+   ],
+   "date": {
+    "due": "2026-10-30",
+    "show": false
+   },
+   "preApplyEnabled": false,
+   "startSolidesEnabled": false,
+   "publishers": null,
+   "isDisabled": false
+  },
+  {
+   "id": 935685,
+   "title": "Estagiário(a) em Devops",
+   "description": "<p>Buscamos <strong>uma pessoa para estagiar na área de DevOps</strong>, apoiando a operação e a evolução dos ambientes de aplicação, os processos de CI/CD, o monitoramento e a observabilidade dos sistemas, além da avaliação de soluções em cloud alinhadas às necessidades de cada aplicação.</p>\n<p>A ...",
+   "currentState": "em_andamento",
+   "referenceId": 167788,
+   "companyName": "MENDES & MENDES ADVOGADOS ASSOCIADOS",
+   "companyLogo": "https://c5gwmsmjx1.execute-api.us-east-1.amazonaws.com/prod/dados_processo_seletivo/logo_empresa/175730/Design sem nome (12).png",
+   "state": {
+    "id": 11,
+    "name": "Rio Grande do Norte",
+    "code": "RN"
+   },
+   "city": {
+    "id": 1164,
+    "name": "Natal",
+    "stateId": 11
+   },
+   "slug": "mendesemendes",
+   "redirectLink": "https://mendesemendes./vacancies/935685?origem=portal",
+   "type": "externa",
+   "isHiddenJob": false,
+   "homeOffice": false,
+   "jobType": "hibrido",
+   "openPositions": 1,
+   "salary": {
+    "initialRange": 1400,
+    "finalRange": 1400
+   },
+   "hasSpecialNeeds": false,
+   "peopleWithDisabilities": false,
+   "disabilityType": null,
+   "pcdOnly": false,
+   "videoUrl": null,
+   "seniority": [
+    {
+     "id": 371223,
+     "name": "Estagiário",
+     "level": null
+    }
+   ],
+   "recruitmentContractType": [
+    {
+     "id": 167694,
+     "name": "Estágio",
+     "level": null
+    }
+   ],
+   "language": [],
+   "hardSkills": [
+    {
+     "id": 1124785,
+     "name": "Capacidade analítica",
+     "level": 1
+    },
+    {
+     "id": 1124779,
+     "name": "Comunicação assertiva",
+     "level": 1
+    },
+    {
+     "id": 1150369,
+     "name": "Boa comunicação oral e escrita",
+     "level": 1
+    },
+    {
+     "id": 1150291,
+     "name": "Capacidade de organização e gestão de prazos",
+     "level": 1
+    },
+    {
+     "id": 1150411,
+     "name": "Habilidades de comunicação e trabalho em equipe",
+     "level": 1
+    },
+    {
+     "id": 2170066,
+     "name": "Capacidade de avaliar riscos antes de executar alterações",
+     "level": 1
+    },
+    {
+     "id": 2170067,
+     "name": "Noções de infraestrutura e redes",
+     "level": 1
+    },
+    {
+     "id": 2170068,
+     "name": "Conhecimentos básicos de Azure e/ou AWS",
+     "level": 1
+    },
+    {
+     "id": 2170065,
+     "name": "Perfil Investigativo",
+     "level": 1
+    },
+    {
+     "id": 2170070,
+     "name": "Docker",
+     "level": 1
+    },
+    {
+     "id": 2170071,
+     "name": "Noções de logs e monitoramento",
+     "level": 1
+    },
+    {
+     "id": 2170069,
+     "name": "Noções de Linux",
+     "level": 1
+    },
+    {
+     "id": 2170072,
+     "name": "Noções de CI/CD",
+     "level": 1
+    },
+    {
+     "id": 2170074,
+     "name": "Git",
+     "level": 1
+    },
+    {
+     "id": 2170073,
+     "name": "Conceitos básicos de segurança da informação",
+     "level": 1
+    }
+   ],
+   "education": [
+    {
+     "id": 46,
+     "name": "Tecnólogo",
+     "level": null
+    },
+    {
+     "id": 45,
+     "name": "Graduação",
+     "level": null
+    },
+    {
+     "id": 429327,
+     "name": "Ensino Técnico",
+     "level": null
+    }
+   ],
+   "createdAt": "2026-10-09",
+   "availablePositions": 1,
+   "affirmative": [
+    {
+     "id": 351200,
+     "name": "Vaga afirmativa para Pessoas LGBTQIAP+",
+     "level": null
+    },
+    {
+     "id": 351201,
+     "name": "Vaga afirmativa para Pessoas Pretas",
+     "level": null
+    },
+    {
+     "id": 351202,
+     "name": "Vaga afirmativa para Mulheres",
+     "level": null
+    }
+   ],
+   "occupationAreas": [
+    {
+     "id": 349595,
+     "name": "Jurídico",
+     "level": null
+    }
+   ],
+   "isGoogleForJobsEnabled": true,
+   "receivingResume": true,
+   "showSkillsLevel": true,
+   "showModality": true,
+   "shift": [
+    {
+     "id": 42,
+     "name": "Integral",
+     "level": null
+    }
+   ],
+   "date": {
+    "due": "2026-10-31",
+    "show": false
+   },
+   "preApplyEnabled": false,
+   "startSolidesEnabled": false,
+   "publishers": null,
+   "isDisabled": false
+  },
+  {
+   "id": 935687,
+   "title": "Estagiário(a) em Desenvolvimento",
+   "description": "<p>Buscamos <strong>uma pessoa para estagiar na área de Desenvolvimento de Software</strong>, com interesse em programação e na criação de soluções tecnológicas para apoiar a evolução dos sistemas internos da empresa.</p>\n<p>No dia a dia, você participará do desenvolvimento de novas funcionalidades ...",
+   "currentState": "em_andamento",
+   "referenceId": 167788,
+   "companyName": "MENDES & MENDES ADVOGADOS ASSOCIADOS",
+   "companyLogo": "https://c5gwmsmjx1.execute-api.us-east-1.amazonaws.com/prod/dados_processo_seletivo/logo_empresa/175730/Design sem nome (12).png",
+   "state": {
+    "id": 11,
+    "name": "Rio Grande do Norte",
+    "code": "RN"
+   },
+   "city": {
+    "id": 1164,
+    "name": "Natal",
+    "stateId": 11
+   },
+   "slug": "mendesemendes",
+   "redirectLink": "https://mendesemendes./vacancies/935687?origem=portal",
+   "type": "externa",
+   "isHiddenJob": true,
+   "homeOffice": false,
+   "jobType": "hibrido",
+   "openPositions": 1,
+   "salary": {
+    "type": "simple",
+    "showRangeToApplicant": true,
+    "initialRange": 0,
+    "finalRange": 1400,
+    "negotiable": false
+   },
+   "hasSpecialNeeds": false,
+   "peopleWithDisabilities": false,
+   "disabilityType": null,
+   "pcdOnly": false,
+   "videoUrl": null,
+   "seniority": [
+    {
+     "id": 371223,
+     "name": "Estagiário",
+     "level": null
+    }
+   ],
+   "recruitmentContractType": [
+    {
+     "id": 167694,
+     "name": "Estágio",
+     "level": null
+    }
+   ],
+   "language": [],
+   "hardSkills": [
+    {
+     "id": 1124779,
+     "name": "Comunicação assertiva",
+     "level": 1
+    },
+    {
+     "id": 1150291,
+     "name": "Capacidade de organização e gestão de prazos",
+     "level": 1
+    },
+    {
+     "id": 1150369,
+     "name": "Boa comunicação oral e escrita",
+     "level": 1
+    },
+    {
+     "id": 1150411,
+     "name": "Habilidades de comunicação e trabalho em equipe",
+     "level": 1
+    },
+    {
+     "id": 2170065,
+     "name": "Perfil Investigativo",
+     "level": 1
+    },
+    {
+     "id": 1124785,
+     "name": "Capacidade analítica",
+     "level": 1
+    },
+    {
+     "id": 2170067,
+     "name": "Noções de infraestrutura e redes",
+     "level": 1
+    },
+    {
+     "id": 2170068,
+     "name": "Conhecimentos básicos de Azure e/ou AWS",
+     "level": 1
+    },
+    {
+     "id": 2170069,
+     "name": "Noções de Linux",
+     "level": 1
+    },
+    {
+     "id": 2170070,
+     "name": "Docker",
+     "level": 1
+    },
+    {
+     "id": 2170071,
+     "name": "Noções de logs e monitoramento",
+     "level": 1
+    },
+    {
+     "id": 2170072,
+     "name": "Noções de CI/CD",
+     "level": 1
+    },
+    {
+     "id": 2170073,
+     "name": "Conceitos básicos de segurança da informação",
+     "level": 1
+    },
+    {
+     "id": 2170074,
+     "name": "Git",
+     "level": 1
+    },
+    {
+     "id": 2170066,
+     "name": "Capacidade de avaliar riscos antes de executar alterações",
+     "level": 1
+    }
+   ],
+   "education": [
+    {
+     "id": 45,
+     "name": "Graduação",
+     "level": null
+    },
+    {
+     "id": 46,
+     "name": "Tecnólogo",
+     "level": null
+    },
+    {
+     "id": 429327,
+     "name": "Ensino Técnico",
+     "level": null
+    }
+   ],
+   "createdAt": "2026-10-09",
+   "availablePositions": 1,
+   "affirmative": [
+    {
+     "id": 351200,
+     "name": "Vaga afirmativa para Pessoas LGBTQIAP+",
+     "level": null
+    },
+    {
+     "id": 351201,
+     "name": "Vaga afirmativa para Pessoas Pretas",
+     "level": null
+    },
+    {
+     "id": 351202,
+     "name": "Vaga afirmativa para Mulheres",
+     "level": null
+    }
+   ],
+   "occupationAreas": [
+    {
+     "id": 349595,
+     "name": "Jurídico",
+     "level": null
+    }
+   ],
+   "isGoogleForJobsEnabled": true,
+   "receivingResume": true,
+   "showSkillsLevel": true,
+   "showModality": true,
+   "shift": [
+    {
+     "id": 42,
+     "name": "Integral",
+     "level": null
+    }
+   ],
+   "date": {
+    "due": "2026-10-31",
+    "show": false
+   },
+   "preApplyEnabled": false,
+   "startSolidesEnabled": false,
+   "publishers": null,
+   "isDisabled": false
+  }
+ ]
+}

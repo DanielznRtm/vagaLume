@@ -2,7 +2,7 @@
 
 This is the detailed manual: how every source works, what each label means,
 how to add companies and programs, and how to run your own copy. For the short
-tour, see the [README](README.md). The website is at
+tour, see the [README](README.md) (in Portuguese; [English version](README.en.md)). The website is at
 **https://pedrocamargolince.github.io/vagaLume/**.
 
 vagaLume is a small Python bot that runs every day on GitHub Actions and collects **student
@@ -35,30 +35,38 @@ Each source is one module in `radar/sources/`. They all return the same record
 (`radar/models.py`). If one source fails, the run goes on, and the failure shows
 up in the **Source health** table at the top of the report.
 
-Numbers from the run on 2026-10-06, after removing duplicates:
+Numbers from the run on 2026-10-09, after removing duplicates:
 
 | Source | Module | How | Items |
 |---|---|---|---|
-| Greenhouse boards (99 companies, incl. Hudson River Trading) | `greenhouse.py` | public JSON API | 793 |
-| Lever boards (10 companies) | `lever.py` | public JSON API | 107 |
+| Greenhouse boards (101 companies, incl. Hudson River Trading and AB InBev) | `greenhouse.py` | public JSON API | 810 |
+| Lever boards (13 companies) | `lever.py` | public JSON API | 107 |
 | Ashby boards (49 companies) | `ashby.py` | public JSON API | 98 |
-| GitHub lists (SimplifyJobs Summer 2027, Off-Season, New Grad; vanshb03 Summer 2027) | `github_lists.py` | parses README tables (HTML and Markdown) | 3,724 |
-| Gupy (estágio in Brazil) | `gupy.py` | reads the JSON embedded in the search page | 97 |
-| Program pages (25 pages) | `programs.py` | page-change watcher | 25 |
-| Google Careers | `google.py` | reads the job data embedded in the results page | 63 |
-| Amazon Jobs | `amazon.py` | JSON endpoint behind amazon.jobs search | 400 |
+| GitHub lists (SimplifyJobs Summer 2027, Off-Season, New Grad; vanshb03 Summer 2027) | `github_lists.py` | parses README tables (HTML and Markdown) | 3,898 |
+| Gupy (estágio, estágio de férias and trainee in Brazil) | `gupy.py` | the portal's JSON search API, filtered by job type, 100 per page | 2,665 |
+| Program pages (42 pages, 17 of them Brazilian) | `programs.py` | page-change watcher | 42 |
+| Google Careers | `google.py` | reads the job data embedded in the results page | 90 |
+| Amazon Jobs | `amazon.py` | JSON endpoint behind amazon.jobs search | 431 |
 | NVIDIA (Workday) | `nvidia.py` | Workday JSON endpoint, "Intern" filter | 40 |
-| Microsoft | `microsoft.py` | JSON endpoint behind its search page | 72 |
-| D. E. Shaw | `nextjs_sites.py` | reads the JSON embedded in the page (Next.js) | 12 |
-| DRW | `nextjs_sites.py` | reads the JSON embedded in the page (Next.js) | 23 |
+| Microsoft | `microsoft.py` | JSON endpoint behind its search page | 82 |
+| D. E. Shaw | `nextjs_sites.py` | reads the JSON embedded in the page (Next.js) | 14 |
+| DRW | `nextjs_sites.py` | reads the JSON embedded in the page (Next.js) | 27 |
 | Meta | `meta.py` | **headless browser** (Playwright): opens the internship search and catches the job list the page downloads | 11 |
+| **Brazil:** CIEE (graduação estágio) | `ciee.py` | the public JSON API behind portal.ciee.org.br, 1,000 per page | 2,223 |
+| **Brazil:** Super Estágios (Superior level) | `superestagios.py` | one form POST that returns every active vacancy | 4,723 |
+| **Brazil:** Sólides Vagas (estágio, last 60 days) | `solides.py` | the JSON route behind the search page, 20 per page | 972 |
+| **Brazil:** IEL (estágio from the industry federations, last 60 days) | `iel.py` | public Liferay API | 826 |
+| **Brazil:** Cia de Talentos (open estágio and trainee programs) | `ciadetalentos.py` | the public request the vacancy site makes before login | 10 |
+| **Brazil:** FAPESP Oportunidades (IC, master's and doctoral grants) | `fapesp.py` | parses the static list page | 28 |
+| **Brazil:** SmartRecruiters (Bosch, Syngenta, Louis Dreyfus, Aumovio, Continental, Serasa) | `smartrecruiters.py` | public API, Brazil only | 92 |
+| **Brazil:** Workday (Santander, P&G, Citi, Mondelēz, Accenture, Hitachi and 13 more) | `workday.py` | Workday JSON endpoint with the Brazil and intern/apprentice filters | 70 |
 
-Total: **5,457 open items**, all 13 sources healthy.
+Total: **17,038 open items, 11,688 of them in Brazil**, from 21 sources. (Meta, about 15 items, failed in this test run only because of the test machine's browser.)
 
 **Scraping without a public API.** Most sites that have no official API still
 load their jobs from somewhere: a JSON endpoint that the search page calls
-(Microsoft, Amazon), or JSON embedded in the HTML (Gupy, Google, D. E. Shaw,
-DRW). The bot reads those directly with plain HTTP, which is fast and simple.
+(Microsoft, Amazon, Gupy, CIEE, Sólides), or JSON embedded in the HTML (Google,
+D. E. Shaw, DRW). The bot reads those directly with plain HTTP, which is fast and simple.
 Only Meta answers plain requests with an empty page, so `meta.py` opens it
 in a headless Chromium (`radar/browser.py`) and reads the job list the page
 fetches for itself. Program pages that are built by JavaScript can use the
@@ -66,10 +74,16 @@ same browser: add `render: true` in `programs.yaml`.
 
 ### Limits you should know about
 
-- **Gupy** no longer has a public JSON API. Its search page holds only the
-  **12 newest results per search term**, so the bot runs 17 searches (see
-  `config/search.yaml`). Older estágio postings that drop off the first page are
-  missed. Add more terms to cover more.
+- **Gupy, CIEE, Sólides, Super Estágios, IEL and Cia de Talentos** are read
+  through the same JSON requests their own websites make. They are not
+  official APIs, so a redesign can break one; it then shows as failed in the
+  Sources table and the others keep working.
+- **CIEE and Super Estágios vacancies have no job title.** vagaLume writes one
+  from the professional area or the accepted courses ("Estágio em
+  Informática"), and Super Estágios hides the company of about a third of its
+  vacancies ("Empresa confidencial").
+- **Sólides and IEL** keep old postings online, so only the last 60 days are
+  read.
 - **Google, Meta, Microsoft, D. E. Shaw, DRW** are scraped from their own
   websites. If one of them redesigns its site, that source will show as failed
   in the Sources table (the other sources keep working) and its parser needs a
@@ -108,9 +122,31 @@ They stay commented out in `config/companies.yaml`:
 - **AI:** Google DeepMind (covered by the Google source and the Student
   Researcher page), Mistral AI, Hugging Face (uses Workable, which isn't
   supported).
-- **Brazil:** iFood, Mercado Livre, PicPay, CloudWalk, Creditas, Hotmart,
-  Olist, TOTVS, Tractian, Loggi. Several of them hire interns through Gupy, so
-  the Gupy source may catch them.
+- **Brazil:** iFood, Mercado Livre, PicPay, Creditas, Hotmart, Olist, TOTVS,
+  Loggi. Most Brazilian companies hire interns through Gupy, which the Gupy
+  source reads in full (every internship, summer and trainee posting).
+  CloudWalk and Tractian are real Lever boards that were empty in October 2026.
+
+### Brazilian job sites we don't read, and why
+
+Checked in October 2026. vagaLume only reads sites that allow it and never
+gets around a block.
+
+| Site | Why not |
+|---|---|
+| Catho | answers bots with HTTP 403 |
+| Indeed, Glassdoor | Cloudflare bot check |
+| InfoJobs | its terms forbid robots and crawlers |
+| Vagas.com.br | robots.txt allows it, but its terms forbid copying content without authorization (asking them is an option) |
+| Nube | the vacancy search needs a login (many Nube vacancies are also on Gupy) |
+| Companhia de Estágios | the vacancy board needs a login; its open programs page is watched in `programs.yaml` |
+| estagiarios.com | Cloudflare block |
+| Coodesh | its API's robots.txt disallows all bots |
+| LinkedIn | never |
+
+Possible later, with care (allowed by robots.txt, few pages a day):
+Empregos.com.br, 99jobs, BNE, Remotar, and the public-sector selection
+notices CIEE publishes (`api-pp.ciee.org.br/api/editais/vitrine`).
 
 ---
 
@@ -306,8 +342,11 @@ Run `python -m radar check-config`. If the page shows fewer than 200
 characters, it is probably built by JavaScript: add `render: true` and it will
 be opened in the headless browser instead.
 
-**More Gupy searches, GitHub lists, Google/Amazon queries:** edit
-`config/search.yaml`.
+**Gupy job types, CIEE and Super Estágios school levels, GitHub lists,
+Google/Amazon queries:** edit `config/search.yaml`. **Brazilian employers on
+SmartRecruiters or Workday:** add them to `smartrecruiters` or `workday_brazil`
+in `config/companies.yaml` (the comments there explain how to read the id from
+a careers-site address).
 
 ---
 
@@ -352,7 +391,7 @@ source .venv/bin/activate
 pip install -r requirements-dev.txt
 python -m playwright install chromium   # headless browser, only needed for Meta
 
-python -m radar                      # full run (about 5 minutes)
+python -m radar                      # full run (about 8 minutes)
 python -m radar --only gupy,programs # just some sources
 python -m radar --no-notify          # don't send Telegram/email
 python -m radar check-config         # verify every slug and program URL
@@ -395,7 +434,7 @@ are caught per source), **label** with rules (plus Claude if a key is set),
 - **Polite scraping.** The bot sends a user-agent that says what it is and
   links here, waits 0.6 s before each request, uses 25 s timeouts, retries
   once (longer pauses after a 429), and does not get around bot protection.
-  A full run makes about 240 requests and opens 2 pages in the browser.
+  A full run makes about 380 requests and opens 2 pages in the browser.
 - **Repository size.** `data/radar.db` (2.8 MB), `docs/data.json` (2.5 MB)
   and `reports/latest.md` are committed every day: the database is the bot's
   memory (first-seen dates, your statuses, page hashes) and the JSON is the

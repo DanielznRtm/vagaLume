@@ -20,26 +20,14 @@ github_lists:
     kind: internship
     season: May–Aug
 
-# Gupy searches. Each search returns the 12 newest matches, so more terms
-# means more coverage. Accents are fine.
-gupy_terms:
-  - estágio
-  - estágio engenharia
-  - estágio automação
-  - estágio controle e automação
-  - estágio dados
-  - estágio ciência de dados
-  - estágio machine learning
-  - estágio inteligência artificial
-  - estágio desenvolvimento
-  - estágio software
-  - estágio tecnologia
-  - estágio pesquisa
-  - estágio elétrica
-  - estágio quantitativo
-  - estágio python
-  - programa de estágio
-  - estágio de férias
+# Gupy (portal.gupy.io): job types to collect, comma-joined in one search.
+# Internships, estágio de férias and trainee programs: ~2,700 roles.
+# Add vacancy_type_apprentice for jovem aprendiz (14-24 years old, not
+# university students; about 2,300 more).
+gupy_types:
+  - vacancy_type_internship
+  - vacancy_type_summer
+  - vacancy_type_trainee
 
 # Google Careers: searches at the "intern & apprentice" level.
 google_queries:
@@ -64,3 +52,11 @@ nvidia:
   search_text: ""
   applied_facets:
     workerSubType: ["0c40f6bd1d8f10adf6dae42e46d44a17"]
+
+# CIEE (portal.ciee.org.br): school levels to collect.
+# SU = higher education (graduação), TE = technical, EM = high school.
+ciee_levels: [SU]
+
+# Super Estágios: school levels to keep (the start of its "nivel_ensino"):
+# Superior, Técnico, Médio, Pós-Graduação... An empty list keeps everything.
+superestagios_levels: [Superior]

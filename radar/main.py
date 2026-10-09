@@ -21,8 +21,8 @@ from . import db, labels, llm, notify, report, site
 from .config import ROOT, load_config
 from .models import Opportunity
 from .sources import (
-    SourceResult, amazon, ashby, github_lists, google, greenhouse, gupy, lever, meta, microsoft, nextjs_sites, nvidia,
-    programs,
+    SourceResult, amazon, ashby, ciadetalentos, ciee, fapesp, github_lists, google, greenhouse, gupy, iel, lever, meta,
+    microsoft, nextjs_sites, nvidia, programs, smartrecruiters, solides, superestagios, workday,
 )
 
 log = logging.getLogger("radar")
@@ -46,6 +46,15 @@ SOURCES: dict[str, Callable[[dict[str, Any], sqlite3.Connection, str], SourceRes
     "deshaw": lambda cfg, conn, today: nextjs_sites.fetch_deshaw(cfg),
     "drw": lambda cfg, conn, today: nextjs_sites.fetch_drw(cfg),
     "meta": lambda cfg, conn, today: meta.fetch(cfg),  # needs Playwright (headless browser)
+    # --- Brazil -------------------------------------------------------------
+    "ciee": lambda cfg, conn, today: ciee.fetch(cfg),
+    "solides": lambda cfg, conn, today: solides.fetch(cfg),
+    "superestagios": lambda cfg, conn, today: superestagios.fetch(cfg),
+    "iel": lambda cfg, conn, today: iel.fetch(cfg),
+    "ciadetalentos": lambda cfg, conn, today: ciadetalentos.fetch(cfg),
+    "fapesp": lambda cfg, conn, today: fapesp.fetch(cfg),
+    "smartrecruiters": lambda cfg, conn, today: smartrecruiters.fetch(cfg),
+    "workday": lambda cfg, conn, today: workday.fetch(cfg),
 }
 
 
