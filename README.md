@@ -43,12 +43,12 @@ no GitHub, a Gupy e o site de cada escola de verão, toda semana. Um *vagalume*
 |---|---|
 | 🌎 **No Brasil inteiro e mundo afora** | No Brasil: todos os estágios da Gupy, do CIEE, da Super Estágios, da Sólides e do IEL, os programas da Cia de Talentos, bolsas da FAPESP e os estágios de multinacionais (Santander, P&G, Citi, Bosch, Syngenta…), **mais de 11.000 vagas**, a maioria com o valor da bolsa. No exterior: **mais de 5.000 vagas** nos EUA e Canadá, na Europa, na Ásia e remotas, de big techs, laboratórios de IA, empresas de trading e programas de pesquisa. |
 | 🔭 **21 fontes, uma lista** | Também páginas Greenhouse, Lever e Ashby de mais de 160 empresas, as listas da SimplifyJobs, Google, Amazon, Microsoft, NVIDIA, Meta, D. E. Shaw, DRW e 42 páginas de programas de pesquisa e verão. Cerca de **17.000 vagas abertas** num dia normal. |
-| 🎯 **Só o que é da sua área, na ordem certa** | Diga a sua área de estudo, se está na graduação, no mestrado ou no doutorado, e onde estuda. Vagas de outras áreas ficam escondidas (um clique mostra tudo), e cada vaga ganha um ponto (boa, verificar algo, improvável) com o motivo, como *"exige autorização de trabalho nos EUA"* ou *"voltada a doutorandos"*. |
+| 🎯 **Só o que é da sua área, na ordem certa** | Diga a sua área de estudo, se está na graduação, no mestrado ou no doutorado, e onde estuda (pode marcar mais de uma: *Engenharia* e *Computação*, *Brasil* e *Europa*). Vagas de outras áreas ficam escondidas (um clique mostra tudo), e cada vaga ganha um ponto (boa, verificar algo, improvável) com o motivo, como *"exige autorização de trabalho nos EUA"* ou *"voltada a doutorandos"*. |
 | 📄 **Compare com o seu currículo** | Cole um prompt pronto e o seu currículo na IA que você já usa (ChatGPT, Gemini, Claude…), traga a resposta de volta, e cada vaga mostra o quanto combina: *"você tem 6 das 10 habilidades que ela cita"*. Nenhuma IA roda dentro do vagaLume e o seu currículo não sai das suas mãos. |
 | 💸 **Remuneração, quando informada** | `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`: lida das plataformas de vagas e das descrições, em inglês e em português. |
 | 📅 **Cabe no seu calendário?** | Uma tirinha de janeiro a dezembro em cada vaga mostra se ela cai nas suas férias ou bate com o semestre. |
 | ⏰ **Prazos em destaque** | Vagas que fecham logo e vagas novas têm abas próprias. |
-| ☆ **A sua lista** | Salve, marque como candidatado ou esconda. Os filtros ficam no link, então dá para guardar *"vagas de ML na Europa"* ou mandar para um amigo. |
+| ☆ **A sua lista** | Salve, marque como candidatado ou esconda. Os filtros se somam (*ML* e *Dados*, *Brasil* e *Remoto*) e ficam no link, então dá para guardar *"vagas de ML na Europa"* ou mandar para um amigo. |
 
 <details>
 <summary><b>Algumas das empresas e programas acompanhados</b></summary>

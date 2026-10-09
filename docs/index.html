@@ -101,6 +101,7 @@
   .welcome p.lead { margin: 12px 0 0; color: var(--muted); font-size: 1.05rem; max-width: 54ch; }
   .question { display: grid; gap: 10px; }
   .question h2 { margin: 0; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
+  .question h2 .multi { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--faint); font-size: .8rem; }
   .levels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
   .level { text-align: left; padding: 14px 14px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); cursor: pointer; display: grid; gap: 2px; }
   .level b { font-size: 1.02rem; }
@@ -362,11 +363,11 @@
       <p class="lead" data-t="welcome.lead"></p>
     </div>
     <div class="question" role="group" aria-labelledby="q-field">
-      <h2 id="q-field" data-t="welcome.field"></h2>
+      <h2 id="q-field"><span data-t="welcome.field"></span> <small class="multi" data-t="welcome.multi"></small></h2>
       <div class="places" id="fields"></div>
     </div>
     <div class="question" role="group" aria-labelledby="q-level">
-      <h2 id="q-level" data-t="welcome.level"></h2>
+      <h2 id="q-level"><span data-t="welcome.level"></span> <small class="multi" data-t="welcome.multi"></small></h2>
       <div class="levels" id="levels">
         <button class="level" data-level="undergrad" aria-pressed="false"><b data-t="level.undergrad.name"></b><span data-t="level.undergrad.hint"></span></button>
         <button class="level" data-level="masters" aria-pressed="false"><b data-t="level.masters.name"></b><span data-t="level.masters.hint"></span></button>
@@ -374,7 +375,7 @@
       </div>
     </div>
     <div class="question" role="group" aria-labelledby="q-place">
-      <h2 id="q-place" data-t="welcome.place"></h2>
+      <h2 id="q-place"><span data-t="welcome.place"></span> <small class="multi" data-t="welcome.multi"></small></h2>
       <div class="places" id="places"></div>
     </div>
     <div class="welcome-actions">
@@ -525,6 +526,7 @@ const STRINGS = {
   "welcome.lead": ["Internships, research programs, fellowships and schools from 21 sources, collected every morning. Tell vagaLume what and where you study: it sorts the roles by fit, says what might get in the way, and hides the ones meant for other fields (one click shows them).",
     "Estágios, programas de pesquisa, fellowships e escolas de 21 fontes, coletados toda manhã. Conte ao vagaLume o que e onde você estuda: ele ordena as vagas pelo quanto combinam com você, avisa o que pode atrapalhar e esconde as que são de outras áreas (um clique mostra tudo)."],
   "welcome.field": ["My field of study", "Minha área de estudo"],
+  "welcome.multi": ["(one or more)", "(uma ou mais)"],
   "welcome.level": ["I'm studying for a", "Estou cursando"],
   "welcome.place": ["at a university in", "numa universidade em"],
   "welcome.start": ["Show my opportunities", "Ver minhas oportunidades"],
@@ -718,7 +720,13 @@ const SEMESTER = new Set([3, 4, 5, 6, 8, 9, 10, 11]);  // UNESP: Mar–Jun and A
 
 // ------------------------------------------------------------------ state
 let DATA = null;
-let profile = store.get("radar.profile", null);   // {level, place} or {skipped: true}
+// {levels: [...], fields: [...], places: [...]} or {skipped: true}. Older profiles had one
+// level/field/place each; normalizeProfile turns them into lists.
+const normalizeProfile = p => {
+  if (!p || p.skipped || p.levels) return p;
+  return { levels: p.level ? [p.level] : [], fields: p.field ? [p.field] : [], places: p.place ? [p.place] : [] };
+};
+let profile = normalizeProfile(store.get("radar.profile", null));
 let marks = store.get("radar.marks", {});         // id -> "applied" | "hidden" | "none"
 let saved = new Set(store.get("radar.saved", []));
 let resume = store.get("radar.resume", null);    // summary of your résumé, see "résumé match" below
@@ -731,14 +739,17 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": 
 const today = new Date(new Date().toISOString().slice(0, 10));
 const daysLeft = iso => iso ? Math.round((new Date(iso) - today) / 86400000) : null;
 const fmtDate = (iso, year = true) => iso ? new Date(iso + "T00:00").toLocaleDateString(LOCALE(), year ? { day: "numeric", month: "short", year: "numeric" } : { day: "numeric", month: "short" }) : "";
-const hasProfile = () => profile && profile.level;
+const hasProfile = () => !!profile?.levels?.length;
 const isNew = i => i.added === DATA.updated && i.source !== "programs";
 const isSoon = i => { const d = daysLeft(i.deadline); return d !== null && d >= 0 && d <= SOON_DAYS; };
 const locations = i => i.location.split(" / ").map(s => s.trim()).filter(Boolean);
 const regionNames = i => i.regions.filter(r => r !== "unknown").map(r => tv("region", r));
 const placeName = key => t(`place.${key}`);
+// "Engenharia, Computação" or, with more, "Engenharia +2".
+const shortList = names => names.length <= 2 ? names.join(", ") : `${names[0]} +${names.length - 1}`;
 const profileName = () => hasProfile()
-  ? [t(`level.short.${profile.level}`), profile.field ? t(`field.short.${profile.field}`) : "", placeName(profile.place)].filter(Boolean).join(" · ")
+  ? [shortList(profile.levels.map(l => t(`level.short.${l}`))), shortList((profile.fields || []).map(f => t(`field.short.${f}`))),
+     shortList((profile.places || []).map(placeName))].filter(Boolean).join(" · ")
   : t("top.profileNone");
 
 // ------------------------------------------------------------------ field of study
@@ -788,7 +799,7 @@ function toggleSave(id) {
   store.set("radar.saved", [...saved]);
 }
 
-// The view lives in the page address (#area=ML&region=Europe), so a view can be bookmarked or shared.
+// The view lives in the page address (#area=ML,SWE&region=Europe), so a view can be bookmarked or shared.
 function readHash() {
   const params = new URLSearchParams(location.hash.slice(1));
   for (const key of Object.keys(DEFAULT_VIEW)) view[key] = params.get(key) ?? DEFAULT_VIEW[key];
@@ -796,7 +807,7 @@ function readHash() {
 function writeHash() {
   const params = new URLSearchParams();
   for (const [key, empty] of Object.entries(DEFAULT_VIEW)) if (view[key] && view[key] !== empty) params.set(key, view[key]);
-  const hash = params.toString();
+  const hash = params.toString().replace(/%2C/g, ",");  // ML,SWE reads better than ML%2CSWE
   history.replaceState(null, "", hash ? `#${hash}` : location.pathname + location.search);
 }
 
@@ -825,14 +836,15 @@ function computeFit(item) {
   const add = (lvl, text) => reasons.push([lvl, text]);
   const title = item.title;
   const w = new Set(item.warnings);
-  const lvl = profile.level;
+  // With several levels picked, a role is judged by the most advanced one.
+  const levels = new Set(profile.levels);
+  const onlyUndergrad = !levels.has("masters") && !levels.has("phd");
   if (w.has("PhD-level?")) {
-    if (lvl === "undergrad") add(2, t("r.phd"));
-    else if (lvl === "masters") add(1, t("r.mayPhd"));
+    if (!levels.has("phd")) add(onlyUndergrad ? 2 : 1, t(onlyUndergrad ? "r.phd" : "r.mayPhd"));
   }
-  else if (lvl === "undergrad" && /\bmaster'?s\b|\bmestrado\b|\bMSc\b|(?<![\w-])M\.?S\.?(?=[\s\/,)-]|$)/i.test(title) && !/bachelor|undergrad|\bUG\b|\bB\.?S\.?\b|\bBSc\b/i.test(title)) add(2, t("r.masters"));
+  else if (onlyUndergrad && /\bmaster'?s\b|\bmestrado\b|\bMSc\b|(?<![\w-])M\.?S\.?(?=[\s\/,)-]|$)/i.test(title) && !/bachelor|undergrad|\bUG\b|\bB\.?S\.?\b|\bBSc\b/i.test(title)) add(2, t("r.masters"));
   if (/\b(MBA|JD)\b/.test(title)) add(2, t("r.mba"));
-  if (lvl === "phd" && /undergrad|bachelor|\bBS\b(?!\/)|\bB\.S\./i.test(title) && !/phd/i.test(title)) add(1, t("r.undergrad"));
+  if (levels.size === 1 && levels.has("phd") && /undergrad|bachelor|\bBS\b(?!\/)|\bB\.S\./i.test(title) && !/phd/i.test(title)) add(1, t("r.undergrad"));
   // With a résumé summary we know your graduation date: a new-grad job is fine if you finish within a year.
   const grad = resume?.graduation ? monthsUntil(resume.graduation) : null;
   if (w.has("new-grad role (after graduation)")) {
@@ -844,14 +856,14 @@ function computeFit(item) {
 
   // A Brazilian estágio needs a contract with a Brazilian university, even when remote.
   const estagio = item.source === "gupy" || /est[áa]gi/i.test(title);
-  if (estagio && profile.place !== "brazil") add(2, t("r.estagio"));
+  if (estagio && !profile.places.includes("brazil")) add(2, t("r.estagio"));
   if (estagio && resume?.languages.length && !resume.languages.some(l => /portug/i.test(l))) add(1, t("r.portuguese"));
 
   // Location: programs are built for international students, remote is anywhere.
-  const mine = (PLACES.find(p => p[0] === profile.place) || [])[1];
+  const mine = new Set(profile.places.map(regionOfPlace).filter(Boolean));
   const where = item.regions.filter(r => r !== "remote" && r !== "unknown");
   const canWork = new Set((resume?.workAuth || []).map(c => regionOfPlace(placeOf(c))).filter(Boolean));
-  if (!estagio && item.source !== "programs" && where.length && !item.regions.includes("remote") && !where.includes(mine) && !where.some(r => canWork.has(r))) {
+  if (!estagio && item.source !== "programs" && where.length && !item.regions.includes("remote") && !where.some(r => mine.has(r) || canWork.has(r))) {
     if (where.includes("US/Canada")) add(1, t("r.us"));
     else add(1, t("r.abroad", where.map(r => tv("region", r)).join(", ")));
   }
@@ -862,10 +874,14 @@ function computeFit(item) {
   // Field of study: 0 = your field, 1 = a related one, 2 = the role doesn't say.
   let fieldRank = 2, otherField = false;
   const fields = item.fields || [];
-  if (profile.field && profile.field !== "outra" && fields.length) {
-    if (fields.includes(profile.field)) { fieldRank = 0; add(0, t("r.yourField", fieldNames([profile.field]))); }
-    else if (fields.some(f => FIELD_RELATED[profile.field]?.includes(f))) { fieldRank = 1; add(0, t("r.relatedField", fieldNames(fields))); }
-    else { otherField = true; add(2, t("r.otherField", fieldNames(fields))); }
+  const mineF = (profile.fields || []).filter(f => f !== "outra");
+  if (mineF.length && fields.length) {
+    const related = new Set(mineF.flatMap(f => FIELD_RELATED[f] || []));
+    const yours = fields.filter(f => mineF.includes(f));
+    if (yours.length) { fieldRank = 0; add(0, t("r.yourField", fieldNames(yours))); }
+    else if (fields.some(f => related.has(f))) { fieldRank = 1; add(0, t("r.relatedField", fieldNames(fields))); }
+    // "Outra" among your fields means a role for another field may still be yours: nothing is hidden.
+    else if (!profile.fields.includes("outra")) { otherField = true; add(2, t("r.otherField", fieldNames(fields))); }
   }
   reasons.sort((a, b) => b[0] - a[0]);
   return { level: reasons.reduce((m, r) => Math.max(m, r[0]), 0), reasons, fieldRank, otherField };
@@ -1028,10 +1044,12 @@ function setResume(value) {
   if (value) {
     // The résumé also answers the welcome questions.
     const place = placeOf(value.country);
-    const field = fieldFromText(value.field) || profile?.field || "";
-    if (value.level && place) profile = { level: value.level, place, field: field || "outra" };
-    else if (profile?.level) profile = { ...profile, field: field || profile.field };
-    else profile = profile || { skipped: true };
+    const field = fieldFromText(value.field);
+    const add = (list, item) => item && !list.includes(item) ? [...list, item] : list;
+    const old = hasProfile() ? profile : { levels: [], fields: [], places: [] };
+    const next = { levels: add(old.levels, value.level), fields: add(old.fields || [], field), places: add(old.places || [], place) };
+    if (!next.fields.length) next.fields = ["outra"];
+    profile = next.levels.length && next.places.length ? next : profile || { skipped: true };
     store.set("radar.profile", profile);
     view.sort = "";
   } else if (view.sort === "match") view.sort = "";
@@ -1105,44 +1123,40 @@ $("resume-chip").addEventListener("click", showResume);
 $("welcome-resume").addEventListener("click", showResume);
 
 // ------------------------------------------------------------------ welcome
-const chosen = { field: "", level: "", place: "" };  // the answers on the welcome screen before you confirm
-const welcomeReady = () => { $("start").disabled = !(chosen.field && chosen.level && chosen.place); };
+// The answers on the welcome screen before you confirm; each question takes one or more.
+const chosen = { fields: [], levels: [], places: [] };
+const welcomeReady = () => { $("start").disabled = !(chosen.fields.length && chosen.levels.length && chosen.places.length); };
+const toggleIn = (list, item) => list.includes(item) ? list.filter(x => x !== item) : [...list, item];
 function drawPlaces() {
-  $("fields").innerHTML = FIELDS.map(key => `<button class="place" data-field="${key}" aria-pressed="${chosen.field === key}">${t(`field.${key}`)}</button>`).join("");
-  $("places").innerHTML = PLACES.map(([key]) => `<button class="place" data-place="${key}" aria-pressed="${chosen.place === key}">${placeName(key)}</button>`).join("");
+  $("fields").innerHTML = FIELDS.map(key => `<button class="place" data-field="${key}" aria-pressed="${chosen.fields.includes(key)}">${t(`field.${key}`)}</button>`).join("");
+  $("places").innerHTML = PLACES.map(([key]) => `<button class="place" data-place="${key}" aria-pressed="${chosen.places.includes(key)}">${placeName(key)}</button>`).join("");
+  document.querySelectorAll(".level").forEach(b => b.setAttribute("aria-pressed", chosen.levels.includes(b.dataset.level)));
 }
 function showWelcome() {
   $("app").hidden = true;
   $("resume").hidden = true;
   $("welcome").hidden = false;
   $("to-top").hidden = true;
-  Object.assign(chosen, { field: profile?.field || "", level: profile?.level || "", place: profile?.place || "" });
+  Object.assign(chosen, { fields: [...(profile?.fields || [])], levels: [...(profile?.levels || [])], places: [...(profile?.places || [])] });
   drawPlaces();
-  document.querySelectorAll(".level").forEach(b => b.setAttribute("aria-pressed", b.dataset.level === chosen.level));
   welcomeReady();
   window.scrollTo(0, 0);
 }
-$("levels").addEventListener("click", e => {
-  const b = e.target.closest(".level"); if (!b) return;
-  chosen.level = b.dataset.level;
-  document.querySelectorAll(".level").forEach(x => x.setAttribute("aria-pressed", x === b));
-  welcomeReady();
-});
-$("fields").addEventListener("click", e => {
-  const b = e.target.closest("[data-field]"); if (!b) return;
-  chosen.field = b.dataset.field;
-  document.querySelectorAll("[data-field]").forEach(x => x.setAttribute("aria-pressed", x === b));
-  welcomeReady();
-});
-$("places").addEventListener("click", e => {
-  const b = e.target.closest("[data-place]"); if (!b) return;
-  chosen.place = b.dataset.place;
-  document.querySelectorAll("[data-place]").forEach(x => x.setAttribute("aria-pressed", x === b));
-  welcomeReady();
-});
+// Each click adds or removes that answer.
+for (const [box, selector, key, attr] of [["levels", ".level", "levels", "level"], ["fields", "[data-field]", "fields", "field"], ["places", "[data-place]", "places", "place"]]) {
+  $(box).addEventListener("click", e => {
+    const b = e.target.closest(selector); if (!b) return;
+    chosen[key] = toggleIn(chosen[key], b.dataset[attr]);
+    b.setAttribute("aria-pressed", chosen[key].includes(b.dataset[attr]));
+    welcomeReady();
+  });
+}
 // Coming from the welcome or résumé screen, the list starts at the top.
 const openList = () => { showApp(); window.scrollTo(0, 0); };
-$("start").addEventListener("click", () => { profile = { ...chosen }; store.set("radar.profile", profile); view.sort = ""; openList(); });
+$("start").addEventListener("click", () => {
+  profile = { levels: [...chosen.levels], fields: [...chosen.fields], places: [...chosen.places] };
+  store.set("radar.profile", profile); view.sort = ""; openList();
+});
 $("skip").addEventListener("click", () => { profile = { skipped: true }; store.set("radar.profile", profile); view.sort = ""; openList(); });
 
 // ------------------------------------------------------------------ app
@@ -1185,14 +1199,25 @@ const TABS = [
 ];
 const tabTest = () => (TABS.find(tb => tb[0] === view.tab) || TABS[0])[1];
 
+// Área, Onde and Quando take several values, kept comma-separated in the view
+// (#area=ML,SWE): a role passes if it matches any of them. Fit and résumé match
+// are steps (good ⊂ no long shots), so they take one value.
+const MULTI = new Set(["area", "region", "season"]);
+const picked = key => view[key] ? view[key].split(",") : [];
+const isPicked = (key, value) => MULTI.has(key) ? picked(key).includes(value) : view[key] === value;
+function togglePick(key, value) {
+  if (!MULTI.has(key)) { view[key] = view[key] === value ? "" : value; return; }
+  view[key] = toggleIn(picked(key), value).join(",");
+}
+
 // Each filter as a test; `skip` leaves one out so its own chips can count what they would add.
 const FILTER_TESTS = {
   q: i => view.q.toLowerCase().split(/\s+/).filter(Boolean).every(w => `${i.title} ${i.org} ${i.location}`.toLowerCase().includes(w)),
   match: i => !!i._match && (view.match === "strong" ? i._match.level === 0 : i._match.level <= 1),
   fit: i => view.fit === "good" ? i._fit.level === 0 : i._fit.level === 0 || i._fit.level === 1,
-  area: i => i.area === view.area,
-  region: i => i.regions.includes(view.region),
-  season: i => view.season === "breaks" ? fitsBreaks(i.season) : i.season === view.season,
+  area: i => picked("area").includes(i.area),
+  region: i => picked("region").some(r => i.regions.includes(r)),
+  season: i => picked("season").some(v => v === "breaks" ? fitsBreaks(i.season) : i.season === v),
   source: i => i.source === view.source,
   pay: i => !!i.pay,
 };
@@ -1343,7 +1368,7 @@ function details(i) {
 function chipGroup(name, values) {
   const box = document.querySelector(`.chips[data-filter="${name}"]`);
   box.innerHTML = values.map(([value, text, count]) =>
-    `<button class="chip ${count === 0 ? "zero" : ""}" data-value="${esc(value)}" aria-pressed="${view[name] === value}">${esc(text)}${count != null ? `<small>${fmtN(count)}</small>` : ""}</button>`).join("");
+    `<button class="chip ${count === 0 ? "zero" : ""}" data-value="${esc(value)}" aria-pressed="${isPicked(name, value)}">${esc(text)}${count != null ? `<small>${fmtN(count)}</small>` : ""}</button>`).join("");
 }
 function countBy(items, valuesOf, order) {
   const counts = {};
@@ -1369,7 +1394,7 @@ function buildFilters(inTab) {
   const regionPool = base("region");
   chipGroup("region", countBy(regionPool, i => i.regions.filter(r => r !== "unknown"), REGION_ORDER).map(v => [v, tv("region", v), regionPool.filter(i => i.regions.includes(v)).length]));
   const seasonPool = base("season");
-  const seasons = countBy(seasonPool, i => [i.season], SEASON_ORDER.slice(1)).filter(v => v !== "unknown" || view.season === "unknown");
+  const seasons = countBy(seasonPool, i => [i.season], SEASON_ORDER.slice(1)).filter(v => v !== "unknown" || isPicked("season", "unknown"));
   chipGroup("season", [["breaks", t("season.breaks"), seasonPool.filter(i => fitsBreaks(i.season)).length],
     ...seasons.map(v => [v, tv("season", v), seasonPool.filter(i => i.season === v).length])]);
   const sourcePool = base("source");
@@ -1383,7 +1408,11 @@ const FILTER_KINDS = { match: "chip.match", fit: "chip.fit", area: "area", regio
 function activeFilters() {
   const pills = [];
   if (view.q) pills.push(["q", t("pill.search", view.q)]);
-  for (const [key, kind] of Object.entries(FILTER_KINDS)) if (view[key]) pills.push([key, tv(kind, view[key])]);
+  for (const [key, kind] of Object.entries(FILTER_KINDS)) {
+    if (!view[key]) continue;
+    if (MULTI.has(key)) picked(key).forEach(value => pills.push([`${key}:${value}`, tv(kind, value)]));  // one pill per value
+    else pills.push([key, tv(kind, view[key])]);
+  }
   if (view.source) pills.push(["source", view.source]);
   if (view.pay) pills.push(["pay", t("pill.pay")]);
   if (view.others) pills.push(["others", t("pill.others")]);
@@ -1475,13 +1504,18 @@ document.addEventListener("click", e => {
   if (e.target.closest("#legend-btn")) return toggleLegend($("legend").hidden);
   if (!$("legend").hidden && !e.target.closest("#legend")) toggleLegend(false);
   const chip = e.target.closest(".chip");
-  if (chip) { const f = chip.parentElement.dataset.filter; view[f] = view[f] === chip.dataset.value ? "" : chip.dataset.value; return rerender(); }
+  if (chip) { togglePick(chip.parentElement.dataset.filter, chip.dataset.value); return rerender(); }
   const tab = e.target.closest(".tab");
   if (tab) { view.tab = tab.dataset.tab; return rerender(); }
   const others = e.target.closest("[data-others]");
   if (others) { view.others = others.dataset.others; return rerender(); }
   const pill = e.target.closest("[data-clear]");
-  if (pill) { view[pill.dataset.clear] = ""; if (pill.dataset.clear === "q") $("search").value = ""; return rerender(); }
+  if (pill) {
+    const [key, value] = pill.dataset.clear.split(":");
+    if (value) togglePick(key, value); else view[key] = "";
+    if (key === "q") $("search").value = "";
+    return rerender();
+  }
   if (e.target.closest("[data-reset]")) return resetFilters();
   const act = e.target.closest("[data-act]");
   if (act) {
@@ -1534,7 +1568,7 @@ if (window.matchMedia("(max-width: 900px)").matches) $("filters").open = false;
 applyLanguage();
 $("search").value = view.q;
 // Profiles from before the field question go back to the welcome screen once (answers kept).
-profile && (profile.skipped || profile.field) ? showApp() : showWelcome();
+profile && (profile.skipped || profile.fields?.length) ? showApp() : showWelcome();
 fetch("data.json", { cache: "no-cache" })
   .then(r => r.json())
   .then(data => {

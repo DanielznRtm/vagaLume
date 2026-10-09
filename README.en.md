@@ -44,12 +44,12 @@ little light that finds the openings for you.
 |---|---|
 | 🌎 **All of Brazil, and the world** | In Brazil: every estágio on Gupy, CIEE, Super Estágios, Sólides and IEL, the Cia de Talentos programs, FAPESP research grants and the internships of multinationals (Santander, P&G, Citi, Bosch, Syngenta…), **over 11,000 roles**, most with the stipend shown. Abroad: **over 5,000 roles** in the US and Canada, Europe, Asia and remote, from big tech, AI labs, trading firms and research programs. |
 | 🔭 **21 sources, one list** | Plus Greenhouse, Lever and Ashby boards of 160+ companies, the SimplifyJobs lists, Google, Amazon, Microsoft, NVIDIA, Meta, D. E. Shaw, DRW and 42 research and summer-program pages. About **17,000 open roles** on a normal day. |
-| 🎯 **Your field, in the right order** | Tell it your field of study, whether you're doing a Bachelor's, Master's or PhD, and where you study. Roles for other fields are hidden (one click shows them), and every role gets a dot (good fit, check something, long shot) with the reason, like *"needs US work authorization"* or *"aimed at PhD students"*. |
+| 🎯 **Your field, in the right order** | Tell it your field of study, whether you're doing a Bachelor's, Master's or PhD, and where you study (pick as many as apply: *Engineering* and *Computing*, *Brazil* and *Europe*). Roles for other fields are hidden (one click shows them), and every role gets a dot (good fit, check something, long shot) with the reason, like *"needs US work authorization"* or *"aimed at PhD students"*. |
 | 📄 **Match your résumé** | Paste a ready-made prompt and your résumé into the AI chat you already use (ChatGPT, Gemini, Claude…), paste its answer back, and every role shows how well it matches: *"you have 6 of the 10 skills it mentions"*. No AI runs inside vagaLume and your résumé never leaves your hands. |
 | 💸 **Pay, when it's stated** | `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`: read from job boards and descriptions in English and Portuguese. |
 | 📅 **Fits your calendar?** | A tiny January–December strip on every role shows whether it falls in your breaks or clashes with your semester. |
 | ⏰ **Deadlines up front** | Closing-soon roles and brand-new ones each get their own tab. |
-| ☆ **Your shortlist** | Save, mark as applied, or hide. Filters live in the link, so you can bookmark *"ML roles in Europe"* or send it to a friend. |
+| ☆ **Your shortlist** | Save, mark as applied, or hide. Filters add up (*ML* and *Data*, *Brazil* and *Remote*) and live in the link, so you can bookmark *"ML roles in Europe"* or send it to a friend. |
 
 <details>
 <summary><b>Some of the companies and programs it watches</b></summary>
