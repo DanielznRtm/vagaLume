@@ -128,3 +128,16 @@ def test_one_failing_source_does_not_break_the_run(tmp_path, monkeypatch):
     assert data.total_open == 2
     assert "site is down" in (tmp_path / "latest.md").read_text()
     assert len(json.loads((tmp_path / "data.json").read_text())["items"]) == 2
+
+
+def test_report_stays_short_with_many_roles():
+    conn = db.connect(":memory:")
+    for n in range(400):
+        db.upsert(conn, make(title=f"Intern {n}", url=f"https://e.com/{n}"), "2026-09-01")
+    for n in range(200):
+        db.upsert(conn, make(title=f"New Intern {n}", url=f"https://e.com/new{n}"), "2026-10-05")
+    data = report.build(db.load_all(conn), [], "2026-10-05", "keyword rules")
+    markdown = report.render_markdown(data)
+    assert "… and 140 more on the [website]" in markdown  # 200 new roles in one area, 60 listed
+    assert "Intern 399" not in markdown  # "everything else" is a table of counts
+    assert "| other | 400 | 400 |" in markdown  # area, region (unknown) and total

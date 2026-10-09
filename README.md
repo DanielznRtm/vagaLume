@@ -41,7 +41,8 @@ no GitHub, a Gupy e o site de cada escola de verão, toda semana. Um *vagalume*
 
 | | |
 |---|---|
-| 🔭 **13 fontes, uma lista** | Páginas Greenhouse, Lever e Ashby de mais de 150 empresas, as listas da SimplifyJobs, a Gupy (estágios no Brasil), Google, Amazon, Microsoft, NVIDIA, Meta, D. E. Shaw, DRW e 25 páginas de programas de pesquisa. Cerca de **5.400 vagas abertas** num dia normal. |
+| 🇧🇷 **O Brasil inteiro** | Todos os estágios da Gupy, do CIEE, da Super Estágios, da Sólides e do IEL, os programas da Cia de Talentos, bolsas da FAPESP e as vagas de estágio de multinacionais (Santander, P&G, Citi, Bosch, Syngenta…). **Mais de 11.000 vagas no Brasil**, com o valor da bolsa em 2 de cada 3. |
+| 🔭 **21 fontes, uma lista** | Também páginas Greenhouse, Lever e Ashby de mais de 160 empresas, as listas da SimplifyJobs, Google, Amazon, Microsoft, NVIDIA, Meta, D. E. Shaw, DRW e 42 páginas de programas de pesquisa e verão. Cerca de **17.000 vagas abertas** num dia normal. |
 | 🎯 **Ordenado por compatibilidade, nunca filtrado por você** | Diga se você está na graduação, no mestrado ou no doutorado e onde estuda. Cada vaga ganha um ponto (boa, verificar algo, improvável) e o motivo, como *"exige autorização de trabalho nos EUA"* ou *"voltada a doutorandos"*. Nada some, a menos que você esconda. |
 | 📄 **Compare com o seu currículo** | Cole um prompt pronto e o seu currículo na IA que você já usa (ChatGPT, Gemini, Claude…), traga a resposta de volta, e cada vaga mostra o quanto combina: *"você tem 6 das 10 habilidades que ela cita"*. Nenhuma IA roda dentro do vagaLume e o seu currículo não sai das suas mãos. |
 | 💸 **Remuneração, quando informada** | `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`: lida das plataformas de vagas e das descrições, em inglês e em português. |
@@ -60,7 +61,8 @@ no GitHub, a Gupy e o site de cada escola de verão, toda semana. Um *vagalume*
 **Laboratórios de IA:** Anthropic, OpenAI, xAI, Cohere, Thinking Machines, Perplexity, Cursor, ElevenLabs, Physical Intelligence, Isomorphic Labs<br>
 **Big techs:** Google, Microsoft, Meta, Amazon, NVIDIA, Stripe, Databricks, SpaceX, Cloudflare, Figma<br>
 **Trading:** Jane Street, Hudson River Trading, Jump, Optiver, IMC, Two Sigma, D. E. Shaw, DRW, SIG, Five Rings<br>
-**Brasil:** Nubank, Stone, QuintoAndar, BTG Pactual, XP, Banco Inter, C6, EBANX, VTEX, CI&T, além dos estágios mais recentes da Gupy todo dia<br>
+**Brasil:** todos os estágios da Gupy, CIEE, Super Estágios, Sólides e IEL; Nubank, Stone, QuintoAndar, BTG Pactual, XP, Banco Inter, C6, EBANX, VTEX, CI&T, Santander, Itaú, Embraer, Bosch, Syngenta, Ambev (AB InBev)<br>
+**Pesquisa no Brasil:** FAPESP Oportunidades, CNPEM Bolsas de Verão, programas de verão do ICMC, IME-USP e LNCC, ICTP-SAIFR<br>
 **Programas de pesquisa e escolas:** ISTA ISTernship, ETH SSRF, Summer@EPFL, OIST, KAUST VSRP, Mitacs Globalink, Google Student Researcher, Anthropic Fellows, MATS, EEML, OxML, MLSS, Khipu, LatinX in AI, Programa de Verão do IMPA
 
 </details>
@@ -94,7 +96,7 @@ seu currículo.
 
 ```mermaid
 flowchart LR
-    A["13 fontes<br/>plataformas de vagas, listas do GitHub,<br/>Gupy, sites de carreira,<br/>páginas de programas"] --> B["Rótulos<br/>área · época · região<br/>remuneração · habilidades · alertas"]
+    A["21 fontes<br/>Gupy, CIEE, Super Estágios, Sólides, IEL,<br/>plataformas de vagas, listas do GitHub,<br/>sites de carreira, páginas de programas"] --> B["Rótulos<br/>área · época · região<br/>remuneração · habilidades · alertas"]
     B --> C[("SQLite<br/>data/radar.db")]
     R["O seu currículo<br/>resumido pela sua própria IA"] -.-> D
     C --> D["Site<br/>docs/ no GitHub Pages"]
@@ -122,7 +124,7 @@ configurar os segredos está no [guia](GUIDE.md#secrets-all-optional) (em inglê
 # ou rode no seu computador
 pip install -r requirements.txt
 python -m playwright install chromium
-python -m radar          # coleta tudo (uns 5 minutos)
+python -m radar          # coleta tudo (uns 8 minutos)
 python -m http.server -d docs   # depois abra http://localhost:8000
 ```
 

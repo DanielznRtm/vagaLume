@@ -42,7 +42,8 @@ little light that finds the openings for you.
 
 | | |
 |---|---|
-| 🔭 **13 sources, one list** | Greenhouse, Lever and Ashby boards of 150+ companies, the SimplifyJobs lists, Gupy (estágio in Brazil), Google, Amazon, Microsoft, NVIDIA, Meta, D. E. Shaw, DRW and 25 research-program pages. About **5,400 open roles** on a normal day. |
+| 🇧🇷 **All of Brazil** | Every estágio on Gupy, CIEE, Super Estágios, Sólides and IEL, the Cia de Talentos programs, FAPESP research grants, and the internships of multinationals in Brazil (Santander, P&G, Citi, Bosch, Syngenta…). **Over 11,000 roles in Brazil**, two in three with the stipend shown. |
+| 🔭 **21 sources, one list** | Plus Greenhouse, Lever and Ashby boards of 160+ companies, the SimplifyJobs lists, Google, Amazon, Microsoft, NVIDIA, Meta, D. E. Shaw, DRW and 42 research and summer-program pages. About **17,000 open roles** on a normal day. |
 | 🎯 **Sorted by fit, never filtered for you** | Tell it whether you're doing a Bachelor's, Master's or PhD and where you study. Every role gets a dot (good fit, check something, long shot) and the reason, like *"needs US work authorization"* or *"aimed at PhD students"*. Nothing is ever hidden unless you hide it. |
 | 📄 **Match your résumé** | Paste a ready-made prompt and your résumé into the AI chat you already use (ChatGPT, Gemini, Claude…), paste its answer back, and every role shows how well it matches: *"you have 6 of the 10 skills it mentions"*. No AI runs inside vagaLume and your résumé never leaves your hands. |
 | 💸 **Pay, when it's stated** | `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`: read from job boards and descriptions in English and Portuguese. |
@@ -58,7 +59,8 @@ little light that finds the openings for you.
 **AI labs:** Anthropic, OpenAI, xAI, Cohere, Thinking Machines, Perplexity, Cursor, ElevenLabs, Physical Intelligence, Isomorphic Labs<br>
 **Big tech:** Google, Microsoft, Meta, Amazon, NVIDIA, Stripe, Databricks, SpaceX, Cloudflare, Figma<br>
 **Trading:** Jane Street, Hudson River Trading, Jump, Optiver, IMC, Two Sigma, D. E. Shaw, DRW, SIG, Five Rings<br>
-**Brazil:** Nubank, Stone, QuintoAndar, BTG Pactual, XP, Banco Inter, C6, EBANX, VTEX, CI&T, plus the newest estágios on Gupy every day<br>
+**Brazil:** every estágio on Gupy, CIEE, Super Estágios, Sólides and IEL; Nubank, Stone, QuintoAndar, BTG Pactual, XP, Banco Inter, C6, EBANX, VTEX, CI&T, Santander, Itaú, Embraer, Bosch, Syngenta, Ambev (AB InBev)<br>
+**Research in Brazil:** FAPESP Oportunidades, CNPEM summer fellowships, ICMC, IME-USP and LNCC summer programs, ICTP-SAIFR<br>
 **Research programs and schools:** ISTA ISTernship, ETH SSRF, Summer@EPFL, OIST, KAUST VSRP, Mitacs Globalink, Google Student Researcher, Anthropic Fellows, MATS, EEML, OxML, MLSS, Khipu, LatinX in AI, IMPA Summer Program
 
 </details>
@@ -75,7 +77,7 @@ Works on phones too, in light and dark mode. **[Open it →](https://pedrocamarg
 
 ```mermaid
 flowchart LR
-    A["13 sources<br/>job boards, GitHub lists,<br/>Gupy, career sites,<br/>program pages"] --> B["Labels<br/>area · season · region<br/>pay · skills · warnings"]
+    A["21 sources<br/>Gupy, CIEE, Super Estágios, Sólides, IEL,<br/>job boards, GitHub lists,<br/>career sites, program pages"] --> B["Labels<br/>area · season · region<br/>pay · skills · warnings"]
     B --> C[("SQLite<br/>data/radar.db")]
     R["Your résumé<br/>summarized by your own AI chat"] -.-> D
     C --> D["Website<br/>docs/ on GitHub Pages"]
@@ -102,7 +104,7 @@ Optional: Telegram or email digests and Claude labelling. Setting up the secrets
 # or run it on your computer
 pip install -r requirements.txt
 python -m playwright install chromium
-python -m radar          # collect everything (about 5 minutes)
+python -m radar          # collect everything (about 8 minutes)
 python -m http.server -d docs   # then open http://localhost:8000
 ```
 

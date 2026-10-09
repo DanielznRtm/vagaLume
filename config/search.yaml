@@ -52,3 +52,11 @@ nvidia:
   search_text: ""
   applied_facets:
     workerSubType: ["0c40f6bd1d8f10adf6dae42e46d44a17"]
+
+# CIEE (portal.ciee.org.br): school levels to collect.
+# SU = higher education (graduação), TE = technical, EM = high school.
+ciee_levels: [SU]
+
+# Super Estágios: school levels to keep (the start of its "nivel_ensino"):
+# Superior, Técnico, Médio, Pós-Graduação... An empty list keeps everything.
+superestagios_levels: [Superior]
