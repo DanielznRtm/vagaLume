@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://pedrocamargolince.github.io/vagaLume/">
-    <img src="assets/banner.svg" alt="vagaLume: uma luzinha em cada vaga para estudantes" width="100%">
+    <img src="assets/banner-pt.svg" alt="vagaLume: uma luzinha em cada vaga para estudantes" width="100%">
   </a>
 </p>
 
