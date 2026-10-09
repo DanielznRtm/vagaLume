@@ -6,7 +6,7 @@ on:
   workflow_dispatch:       # "Run workflow" button on the Actions tab
 
 permissions:
-  contents: write          # needed to commit data/radar.db, reports/ and docs/data.json
+  contents: write          # needed to commit data/*.jsonl, reports/ and docs/data.json
 
 concurrency:
   group: radar             # never run two copies at once (they would both edit the database)
@@ -48,7 +48,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/radar.db reports/ docs/data.json docs/stats.json
+          # The database is kept as text (data/*.jsonl); the binary radar.db is a
+          # local working copy. The first run after the switch removes it from git.
+          git rm --cached --quiet --ignore-unmatch data/radar.db
+          git add data/opportunities.jsonl data/page_hashes.jsonl reports/ docs/data.json docs/stats.json
           if git diff --cached --quiet; then
             echo "Nothing changed."
             exit 0

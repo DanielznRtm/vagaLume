@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://pedrocamargolince.github.io/vagaLume/">
-    <img src="assets/banner.svg" alt="vagaLume: uma luzinha em cada vaga para estudantes" width="100%">
+    <img src="assets/banner-pt.svg" alt="vagaLume: uma luzinha em cada vaga para estudantes" width="100%">
   </a>
 </p>
 
@@ -28,7 +28,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/demo.gif" alt="vagaLume em uso: escolha seu nível e país, filtre por área, busque, abra uma vaga e salve" width="92%">
+  <img src="assets/demo-pt.gif" alt="vagaLume em uso: escolha a sua área, nível e país, filtre, busque, abra uma vaga, veja as vagas de outras áreas e compare o seu currículo" width="92%">
 </p>
 
 ---
@@ -41,18 +41,14 @@ no GitHub, a Gupy e o site de cada escola de verão, toda semana. Um *vagalume*
 
 | | |
 |---|---|
-| 🇧🇷 **O Brasil inteiro** | Todos os estágios da Gupy, do CIEE, da Super Estágios, da Sólides e do IEL, os programas da Cia de Talentos, bolsas da FAPESP e as vagas de estágio de multinacionais (Santander, P&G, Citi, Bosch, Syngenta…). **Mais de 11.000 vagas no Brasil**, com o valor da bolsa em 2 de cada 3. |
+| 🌎 **No Brasil inteiro e mundo afora** | No Brasil: todos os estágios da Gupy, do CIEE, da Super Estágios, da Sólides e do IEL, os programas da Cia de Talentos, bolsas da FAPESP e os estágios de multinacionais (Santander, P&G, Citi, Bosch, Syngenta…), **mais de 11.000 vagas**, a maioria com o valor da bolsa. No exterior: **mais de 5.000 vagas** nos EUA e Canadá, na Europa, na Ásia e remotas, de big techs, laboratórios de IA, empresas de trading e programas de pesquisa. |
 | 🔭 **21 fontes, uma lista** | Também páginas Greenhouse, Lever e Ashby de mais de 160 empresas, as listas da SimplifyJobs, Google, Amazon, Microsoft, NVIDIA, Meta, D. E. Shaw, DRW e 42 páginas de programas de pesquisa e verão. Cerca de **17.000 vagas abertas** num dia normal. |
-| 🎯 **Ordenado por compatibilidade, nunca filtrado por você** | Diga se você está na graduação, no mestrado ou no doutorado e onde estuda. Cada vaga ganha um ponto (boa, verificar algo, improvável) e o motivo, como *"exige autorização de trabalho nos EUA"* ou *"voltada a doutorandos"*. Nada some, a menos que você esconda. |
+| 🎯 **Só o que é da sua área, na ordem certa** | Diga a sua área de estudo, se está na graduação, no mestrado ou no doutorado, e onde estuda. Vagas de outras áreas ficam escondidas (um clique mostra tudo), e cada vaga ganha um ponto (boa, verificar algo, improvável) com o motivo, como *"exige autorização de trabalho nos EUA"* ou *"voltada a doutorandos"*. |
 | 📄 **Compare com o seu currículo** | Cole um prompt pronto e o seu currículo na IA que você já usa (ChatGPT, Gemini, Claude…), traga a resposta de volta, e cada vaga mostra o quanto combina: *"você tem 6 das 10 habilidades que ela cita"*. Nenhuma IA roda dentro do vagaLume e o seu currículo não sai das suas mãos. |
 | 💸 **Remuneração, quando informada** | `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`: lida das plataformas de vagas e das descrições, em inglês e em português. |
 | 📅 **Cabe no seu calendário?** | Uma tirinha de janeiro a dezembro em cada vaga mostra se ela cai nas suas férias ou bate com o semestre. |
 | ⏰ **Prazos em destaque** | Vagas que fecham logo e vagas novas têm abas próprias. |
 | ☆ **A sua lista** | Salve, marque como candidatado ou esconda. Os filtros ficam no link, então dá para guardar *"vagas de ML na Europa"* ou mandar para um amigo. |
-
-> 🇧🇷 **O site também está em português**: ele abre em português se o seu
-> navegador estiver em português, e o botão **EN | PT** no topo troca a língua
-> a qualquer momento. O prompt do currículo também vem em português.
 
 <details>
 <summary><b>Algumas das empresas e programas acompanhados</b></summary>
@@ -97,7 +93,7 @@ seu currículo.
 ```mermaid
 flowchart LR
     A["21 fontes<br/>Gupy, CIEE, Super Estágios, Sólides, IEL,<br/>plataformas de vagas, listas do GitHub,<br/>sites de carreira, páginas de programas"] --> B["Rótulos<br/>área · época · região<br/>remuneração · habilidades · alertas"]
-    B --> C[("SQLite<br/>data/radar.db")]
+    B --> C[("Banco de dados<br/>data/*.jsonl (texto)")]
     R["O seu currículo<br/>resumido pela sua própria IA"] -.-> D
     C --> D["Site<br/>docs/ no GitHub Pages"]
     C --> E["Resumo diário<br/>Telegram / e-mail<br/>(opcional)"]

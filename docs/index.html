@@ -361,6 +361,10 @@
       <h1 data-t-html="welcome.title"></h1>
       <p class="lead" data-t="welcome.lead"></p>
     </div>
+    <div class="question" role="group" aria-labelledby="q-field">
+      <h2 id="q-field" data-t="welcome.field"></h2>
+      <div class="places" id="fields"></div>
+    </div>
     <div class="question" role="group" aria-labelledby="q-level">
       <h2 id="q-level" data-t="welcome.level"></h2>
       <div class="levels" id="levels">
@@ -449,6 +453,7 @@
           <h3 data-t="filters.foryou"></h3>
           <div class="chips" data-filter="match"></div>
           <div class="chips" data-filter="fit"></div>
+          <label class="check-row" id="others-row" hidden><input type="checkbox" id="show-others"> <span id="others-label"></span></label>
         </div>
         <div class="fgroup"><h3 data-t="filters.area"></h3><div class="chips" data-filter="area"></div></div>
         <div class="fgroup"><h3 data-t="filters.where"></h3><div class="chips" data-filter="region"></div></div>
@@ -517,8 +522,9 @@
 // cities) stays as the posting wrote it.
 const STRINGS = {
   "welcome.title": ["A little light on <em>every student opening.</em>", "Uma luzinha em <em>cada vaga para estudantes.</em>"],
-  "welcome.lead": ["Internships, research programs, fellowships and schools from 21 sources, collected every morning. Tell vagaLume where you are in your studies and it sorts them by fit and says what might get in the way. Nothing is hidden.",
-    "Estágios, programas de pesquisa, fellowships e escolas de 21 fontes, coletados toda manhã. Conte ao vagaLume em que ponto dos estudos você está, e ele ordena tudo pelo quanto combina com você e avisa o que pode atrapalhar. Nada é escondido."],
+  "welcome.lead": ["Internships, research programs, fellowships and schools from 21 sources, collected every morning. Tell vagaLume what and where you study: it sorts the roles by fit, says what might get in the way, and hides the ones meant for other fields (one click shows them).",
+    "Estágios, programas de pesquisa, fellowships e escolas de 21 fontes, coletados toda manhã. Conte ao vagaLume o que e onde você estuda: ele ordena as vagas pelo quanto combinam com você, avisa o que pode atrapalhar e esconde as que são de outras áreas (um clique mostra tudo)."],
+  "welcome.field": ["My field of study", "Minha área de estudo"],
   "welcome.level": ["I'm studying for a", "Estou cursando"],
   "welcome.place": ["at a university in", "numa universidade em"],
   "welcome.start": ["Show my opportunities", "Ver minhas oportunidades"],
@@ -536,6 +542,15 @@ const STRINGS = {
   "place.uk": ["United Kingdom", "Reino Unido"], "place.europe": ["Europe", "Europa"],
   "place.asia": ["Asia", "Ásia"], "place.mideast": ["Middle East", "Oriente Médio"],
   "place.oceania": ["Oceania", "Oceania"], "place.africa": ["Africa", "África"],
+  "field.engenharia": ["Engineering", "Engenharias"], "field.computacao": ["Computing & IT", "Computação e TI"],
+  "field.exatas": ["Math, physics & chemistry", "Matemática, Física e Química"], "field.negocios": ["Business & economics", "Administração, Economia e Contábeis"],
+  "field.direito": ["Law", "Direito"], "field.saude": ["Health", "Saúde"], "field.biologicas": ["Biology & agriculture", "Biológicas e Agrárias"],
+  "field.comunicacao": ["Communication & design", "Comunicação e Design"], "field.humanas": ["Education & humanities", "Educação e Humanas"],
+  "field.arquitetura": ["Architecture", "Arquitetura"], "field.outra": ["Other", "Outra"],
+  "field.short.engenharia": ["Engineering", "Engenharia"], "field.short.computacao": ["Computing", "Computação"], "field.short.exatas": ["Sciences", "Exatas"],
+  "field.short.negocios": ["Business", "Negócios"], "field.short.direito": ["Law", "Direito"], "field.short.saude": ["Health", "Saúde"],
+  "field.short.biologicas": ["Biology", "Biológicas"], "field.short.comunicacao": ["Communication", "Comunicação"], "field.short.humanas": ["Humanities", "Humanas"],
+  "field.short.arquitetura": ["Architecture", "Arquitetura"], "field.short.outra": ["Other field", "Outra área"],
 
   "top.resume": ["Match my résumé", "Comparar currículo"], "top.resumeDone": ["Résumé", "Currículo"],
   "top.profileNone": ["Set your profile", "Definir perfil"], "top.github": ["Star vagaLume on GitHub", "Dê uma estrela no GitHub"],
@@ -549,6 +564,11 @@ const STRINGS = {
   "chip.fit.good": ["Good fit", "Combina bem"], "chip.fit.check": ["No long shots", "Sem improváveis"],
   "chip.match.strong": ["Strong résumé match", "Match forte"], "chip.match.good": ["Good match or better", "Match bom ou melhor"],
   "pill.search": [q => `Search: “${q}”`, q => `Busca: “${q}”`], "pill.pay": ["States pay", "Com remuneração"],
+  "pill.others": ["Showing other fields", "Mostrando outras áreas"],
+  "others.toggle": [n => `Show roles for other fields (${n})`, n => `Mostrar vagas de outras áreas (${n})`],
+  "others.show": [n => `${n} for other fields hidden · show`, n => `${n} de outras áreas escondidas · mostrar`],
+  "others.hide": ["hide other fields", "esconder outras áreas"],
+  "empty.others": [n => `${n} roles for other fields are hidden.`, n => `${n} vagas de outras áreas estão escondidas.`],
   "pill.remove": [x => `Remove filter ${x}`, x => `Remover filtro ${x}`],
 
   "search.placeholder": ["Search role, company or city", "Buscar vaga, empresa ou cidade"], "search.kbd": ["Press / to search", "Aperte / para buscar"],
@@ -601,6 +621,9 @@ const STRINGS = {
   "r.gradYearYou": [y => `Mentions a graduation-year rule (you graduate in ${y})`, y => `Cita regra de ano de formatura (você se forma em ${y})`],
   "r.gradYear": ["Mentions a graduation-year rule", "Cita regra de ano de formatura"],
   "r.estagio": ["Estágio requires enrollment at a Brazilian university", "Estágio exige matrícula numa universidade brasileira"],
+  "r.yourField": [f => `For your field (${f})`, f => `Para a sua área (${f})`],
+  "r.relatedField": [f => `For a related field (${f})`, f => `Para uma área próxima (${f})`],
+  "r.otherField": [f => `For another field: ${f}`, f => `Para outra área: ${f}`],
   "r.portuguese": ["The posting is in Portuguese", "A vaga é em português"],
   "r.us": ["Needs US or Canada work authorization", "Exige autorização de trabalho nos EUA ou no Canadá"],
   "r.abroad": [w => `Abroad (${w}): check visa`, w => `No exterior (${w}): verifique o visto`],
@@ -648,13 +671,15 @@ const STRINGS = {
 <p><b>Résumé match</b> compares the skills a posting mentions (Python, PyTorch, ROS, PLC…) and its area and title with the summary your AI chat made from your résumé. Strong matches get a tag; open a row to see which skills match and which are missing. It's keyword matching, so read the posting before deciding.</p>
 <p><b>When</b> is a January–December strip. <i class="swatch" style="background:var(--semester)"></i> months in class: UNESP's semesters (Mar–Jun, Aug–Nov), or the months your résumé summary doesn't list as free. <i class="swatch" style="background:var(--good)"></i> the role runs in a break. <i class="swatch" style="background:var(--check)"></i> it clashes with classes.</p>
 <p><b>Pay</b> appears when the posting states it (hr = per hour, mo = per month, yr = per year).</p>
-<p><b>☆ Save</b> builds a shortlist and <b>✕ Hide</b> (it appears when you point at a row, and inside an opened row) removes a role from your lists; inside a row you can also mark it <b>Applied</b>. All of this stays in this browser. vagaLume never hides anything by itself: labels and fit are hints, not verdicts.</p>
+<p><b>Your field of study</b> hides the roles clearly meant for other fields (a law estágio for an engineering student, for example); roles that don't say which field they want always stay. "Show roles for other fields", under the number of roles or in the filters, brings them back. Related fields are shown together: engineering, computing and the exact sciences, for example.</p>
+<p><b>☆ Save</b> builds a shortlist and <b>✕ Hide</b> (it appears when you point at a row, and inside an opened row) removes a role from your lists; inside a row you can also mark it <b>Applied</b>. All of this stays in this browser. Apart from other fields, vagaLume doesn't hide anything by itself: labels and fit are hints, not verdicts.</p>
 <p>Your filters live in the page address, so you can bookmark a view (for example "ML roles in Europe") or send it to a friend.</p>`,
 `<p><b>Perfil</b> compara cada vaga com você: ponto cheio combina bem, ponto pela metade pede para verificar algo (visto, regra de ano de formatura, vaga para depois de formado), ponto vazio é improvável (por exemplo, vaga só para doutorado e você está na graduação). O motivo aparece embaixo da empresa; abra a vaga para ver todos.</p>
 <p><b>Match com o currículo</b> compara as habilidades que a vaga cita (Python, PyTorch, ROS, CLP…), a área e o título com o resumo que a sua IA fez do seu currículo. Matches fortes ganham uma etiqueta; abra a vaga para ver quais habilidades batem e quais faltam. É uma comparação por palavras-chave, então leia a vaga antes de decidir.</p>
 <p><b>Quando</b> é uma tirinha de janeiro a dezembro. <i class="swatch" style="background:var(--semester)"></i> meses de aula: os semestres da UNESP (mar–jun, ago–nov), ou os meses que o resumo do seu currículo não lista como livres. <i class="swatch" style="background:var(--good)"></i> a vaga cai nas férias. <i class="swatch" style="background:var(--check)"></i> ela bate com as aulas.</p>
 <p><b>Remuneração</b> aparece quando a vaga informa (hr = por hora, mo = por mês, yr = por ano).</p>
-<p><b>☆ Salvar</b> monta a sua lista e <b>✕ Esconder</b> (aparece ao apontar para a vaga, e dentro da vaga aberta) tira uma vaga das suas listas; dentro da vaga você também pode marcar <b>Candidatada</b>. Tudo isso fica neste navegador. O vagaLume nunca esconde nada sozinho: rótulos e compatibilidade são dicas, não veredictos.</p>
+<p><b>A sua área de estudo</b> esconde as vagas claramente de outras áreas (um estágio de Direito para quem faz Engenharia, por exemplo); vagas que não dizem a área ficam sempre visíveis. "Mostrar vagas de outras áreas", embaixo do número de vagas ou nos filtros, traz tudo de volta. Áreas próximas aparecem juntas: Engenharia, Computação e Exatas, por exemplo.</p>
+<p><b>☆ Salvar</b> monta a sua lista e <b>✕ Esconder</b> (aparece ao apontar para a vaga, e dentro da vaga aberta) tira uma vaga das suas listas; dentro da vaga você também pode marcar <b>Candidatada</b>. Tudo isso fica neste navegador. Fora as outras áreas, o vagaLume não esconde nada sozinho: rótulos e compatibilidade são dicas, não veredictos.</p>
 <p>Os filtros ficam no endereço da página, então dá para salvar uma visão (por exemplo "vagas de ML na Europa") ou mandar para um amigo.</p>`],
   "sources.title": ["Sources", "Fontes"], "sources.source": ["Source", "Fonte"], "sources.status": ["Status", "Situação"],
   "sources.items": ["Items", "Itens"], "sources.problems": ["Problems", "Problemas"],
@@ -697,7 +722,7 @@ let profile = store.get("radar.profile", null);   // {level, place} or {skipped:
 let marks = store.get("radar.marks", {});         // id -> "applied" | "hidden" | "none"
 let saved = new Set(store.get("radar.saved", []));
 let resume = store.get("radar.resume", null);    // summary of your résumé, see "résumé match" below
-const DEFAULT_VIEW = { tab: "all", match: "", fit: "", area: "", region: "", season: "", source: "", pay: "", q: "", sort: "" };
+const DEFAULT_VIEW = { tab: "all", others: "", match: "", fit: "", area: "", region: "", season: "", source: "", pay: "", q: "", sort: "" };
 const view = { ...DEFAULT_VIEW, shown: PAGE_SIZE, open: new Set() };
 readHash();
 
@@ -712,7 +737,42 @@ const isSoon = i => { const d = daysLeft(i.deadline); return d !== null && d >= 
 const locations = i => i.location.split(" / ").map(s => s.trim()).filter(Boolean);
 const regionNames = i => i.regions.filter(r => r !== "unknown").map(r => tv("region", r));
 const placeName = key => t(`place.${key}`);
-const profileName = () => hasProfile() ? `${t(`level.short.${profile.level}`)} · ${placeName(profile.place)}` : t("top.profileNone");
+const profileName = () => hasProfile()
+  ? [t(`level.short.${profile.level}`), profile.field ? t(`field.short.${profile.field}`) : "", placeName(profile.place)].filter(Boolean).join(" · ")
+  : t("top.profileNone");
+
+// ------------------------------------------------------------------ field of study
+// The bot labels each role with the fields it's aimed at (radar/fields.py).
+// Your field and its neighbours count as yours; a role only for other fields
+// is hidden until you ask to see it. Roles that don't say stay visible.
+const FIELDS = ["engenharia", "computacao", "exatas", "negocios", "direito", "saude", "biologicas", "comunicacao", "humanas", "arquitetura", "outra"];
+const FIELD_RELATED = {
+  engenharia: ["computacao", "exatas", "arquitetura"],
+  computacao: ["engenharia", "exatas"],
+  exatas: ["engenharia", "computacao", "negocios"],
+  negocios: ["exatas", "comunicacao"],
+  direito: [],
+  saude: ["biologicas"],
+  biologicas: ["saude", "exatas"],
+  comunicacao: ["negocios", "humanas", "arquitetura"],
+  humanas: ["comunicacao"],
+  arquitetura: ["engenharia", "comunicacao"],
+};
+const fieldNames = fields => fields.map(f => t(`field.short.${f}`)).join(", ");
+// A field written in the résumé summary ("Control and Automation Engineering") -> one of FIELDS.
+const FIELD_FROM_TEXT = [
+  ["engenharia", /engineer|engenh/i], ["computacao", /comput|software|information (systems|technology)|data science|ci[eê]ncia de dados/i],
+  ["exatas", /math|statist|physic|chemi|matem|estat[ií]st|f[ií]sica|qu[ií]mica/i], ["direito", /law|legal|direito/i],
+  ["saude", /medic|nurs|pharm|nutri|psycholog|health|dent|physio|enferm|farm[aá]c|sa[uú]de|psicolog|odonto|fisioter/i],
+  ["biologicas", /biolog|agro|environment|forest|food|ambient|florest|alimento/i],
+  ["negocios", /business|econom|account|administra|finance|contab/i],
+  ["comunicacao", /communic|journal|marketing|design|advertis|comunica|jornal|publicidade/i],
+  ["arquitetura", /architect|urban|arquitet/i],
+  ["humanas", /educat|languag|letters|history|sociolog|philosoph|pedagog|social|relations|touris|letras|hist[oó]ria|filosof|turismo/i],
+];
+const fieldFromText = text => (FIELD_FROM_TEXT.find(([, pattern]) => pattern.test(text || "")) || [""])[0];
+// Roles you keep (saved, applied, hidden) always show in their own tabs.
+const hiddenByField = i => !view.others && i._fit?.otherField && !saved.has(i.id) && !mark(i);
 
 function mark(item) {
   const m = marks[item.id];
@@ -760,7 +820,7 @@ function seasonText(season) {
 // ------------------------------------------------------------------ fit
 // {level: 0 good | 1 check | 2 long shot | -1 no profile, reasons: [[level, text], ...]}
 function computeFit(item) {
-  if (!hasProfile()) return { level: -1, reasons: [] };
+  if (!hasProfile()) return { level: -1, reasons: [], fieldRank: 2, otherField: false };
   const reasons = [];
   const add = (lvl, text) => reasons.push([lvl, text]);
   const title = item.title;
@@ -799,8 +859,16 @@ function computeFit(item) {
   if (resume?.months.length && SEASON_MONTHS[item.season]?.length && item.season !== "year-round" && !fitsBreaks(item.season)) {
     add(1, t("r.months", tv("season", item.season)));
   }
+  // Field of study: 0 = your field, 1 = a related one, 2 = the role doesn't say.
+  let fieldRank = 2, otherField = false;
+  const fields = item.fields || [];
+  if (profile.field && profile.field !== "outra" && fields.length) {
+    if (fields.includes(profile.field)) { fieldRank = 0; add(0, t("r.yourField", fieldNames([profile.field]))); }
+    else if (fields.some(f => FIELD_RELATED[profile.field]?.includes(f))) { fieldRank = 1; add(0, t("r.relatedField", fieldNames(fields))); }
+    else { otherField = true; add(2, t("r.otherField", fieldNames(fields))); }
+  }
   reasons.sort((a, b) => b[0] - a[0]);
-  return { level: reasons.reduce((m, r) => Math.max(m, r[0]), 0), reasons };
+  return { level: reasons.reduce((m, r) => Math.max(m, r[0]), 0), reasons, fieldRank, otherField };
 }
 const FIT_CLASS = ["good", "check", "long"];
 
@@ -960,7 +1028,9 @@ function setResume(value) {
   if (value) {
     // The résumé also answers the welcome questions.
     const place = placeOf(value.country);
-    if (value.level && place) profile = { level: value.level, place };
+    const field = fieldFromText(value.field) || profile?.field || "";
+    if (value.level && place) profile = { level: value.level, place, field: field || "outra" };
+    else if (profile?.level) profile = { ...profile, field: field || profile.field };
     else profile = profile || { skipped: true };
     store.set("radar.profile", profile);
     view.sort = "";
@@ -1026,17 +1096,19 @@ $("use-resume").addEventListener("click", () => {
   }
 });
 $("resume").addEventListener("click", e => {
-  if (e.target.closest("#resume-done")) showApp();
+  if (e.target.closest("#resume-done")) openList();
   if (e.target.closest("#resume-replace")) { $("resume-saved").hidden = true; $("resume-steps").hidden = false; }
   if (e.target.closest("#resume-remove")) { setResume(null); renderResumeSummary(); }
 });
-$("resume-back").addEventListener("click", () => profile ? showApp() : showWelcome());
+$("resume-back").addEventListener("click", () => profile ? openList() : showWelcome());
 $("resume-chip").addEventListener("click", showResume);
 $("welcome-resume").addEventListener("click", showResume);
 
 // ------------------------------------------------------------------ welcome
-const chosen = { level: "", place: "" };  // the answers on the welcome screen before you confirm
+const chosen = { field: "", level: "", place: "" };  // the answers on the welcome screen before you confirm
+const welcomeReady = () => { $("start").disabled = !(chosen.field && chosen.level && chosen.place); };
 function drawPlaces() {
+  $("fields").innerHTML = FIELDS.map(key => `<button class="place" data-field="${key}" aria-pressed="${chosen.field === key}">${t(`field.${key}`)}</button>`).join("");
   $("places").innerHTML = PLACES.map(([key]) => `<button class="place" data-place="${key}" aria-pressed="${chosen.place === key}">${placeName(key)}</button>`).join("");
 }
 function showWelcome() {
@@ -1044,26 +1116,34 @@ function showWelcome() {
   $("resume").hidden = true;
   $("welcome").hidden = false;
   $("to-top").hidden = true;
-  Object.assign(chosen, { level: profile?.level || "", place: profile?.place || "" });
+  Object.assign(chosen, { field: profile?.field || "", level: profile?.level || "", place: profile?.place || "" });
   drawPlaces();
   document.querySelectorAll(".level").forEach(b => b.setAttribute("aria-pressed", b.dataset.level === chosen.level));
-  $("start").disabled = !(chosen.level && chosen.place);
+  welcomeReady();
   window.scrollTo(0, 0);
 }
 $("levels").addEventListener("click", e => {
   const b = e.target.closest(".level"); if (!b) return;
   chosen.level = b.dataset.level;
   document.querySelectorAll(".level").forEach(x => x.setAttribute("aria-pressed", x === b));
-  $("start").disabled = !(chosen.level && chosen.place);
+  welcomeReady();
+});
+$("fields").addEventListener("click", e => {
+  const b = e.target.closest("[data-field]"); if (!b) return;
+  chosen.field = b.dataset.field;
+  document.querySelectorAll("[data-field]").forEach(x => x.setAttribute("aria-pressed", x === b));
+  welcomeReady();
 });
 $("places").addEventListener("click", e => {
-  const b = e.target.closest(".place"); if (!b) return;
+  const b = e.target.closest("[data-place]"); if (!b) return;
   chosen.place = b.dataset.place;
-  document.querySelectorAll(".place").forEach(x => x.setAttribute("aria-pressed", x === b));
-  $("start").disabled = !(chosen.level && chosen.place);
+  document.querySelectorAll("[data-place]").forEach(x => x.setAttribute("aria-pressed", x === b));
+  welcomeReady();
 });
-$("start").addEventListener("click", () => { profile = { ...chosen }; store.set("radar.profile", profile); view.sort = ""; showApp(); });
-$("skip").addEventListener("click", () => { profile = { skipped: true }; store.set("radar.profile", profile); view.sort = ""; showApp(); });
+// Coming from the welcome or résumé screen, the list starts at the top.
+const openList = () => { showApp(); window.scrollTo(0, 0); };
+$("start").addEventListener("click", () => { profile = { ...chosen }; store.set("radar.profile", profile); view.sort = ""; openList(); });
+$("skip").addEventListener("click", () => { profile = { skipped: true }; store.set("radar.profile", profile); view.sort = ""; openList(); });
 
 // ------------------------------------------------------------------ app
 function showApp() {
@@ -1117,6 +1197,7 @@ const FILTER_TESTS = {
   pay: i => !!i.pay,
 };
 function passes(i, skip) {
+  if (skip !== "field" && hiddenByField(i)) return false;
   for (const key of Object.keys(FILTER_TESTS)) if (key !== skip && view[key] && !FILTER_TESTS[key](i)) return false;
   return true;
 }
@@ -1126,8 +1207,9 @@ const newest = (a, b) => (b.added + b.posted).localeCompare(a.added + a.posted);
 const matchScore = i => i._match ? i._match.score : 0;
 const SORTS = {
   // Long shots (e.g. PhD-only roles for an undergrad) go last even when the skills match.
-  match: (a, b) => (a._fit.level === 2) - (b._fit.level === 2) || matchScore(b) - matchScore(a) || a._fit.level - b._fit.level || deadlineRank(a) - deadlineRank(b),
-  fit: (a, b) => a._fit.level - b._fit.level || matchScore(b) - matchScore(a) || deadlineRank(a) - deadlineRank(b) || newest(a, b),
+  match: (a, b) => (a._fit.level === 2) - (b._fit.level === 2) || matchScore(b) - matchScore(a) || a._fit.level - b._fit.level || a._fit.fieldRank - b._fit.fieldRank || deadlineRank(a) - deadlineRank(b),
+  // Within each fit level, roles for your own field come first.
+  fit: (a, b) => a._fit.level - b._fit.level || a._fit.fieldRank - b._fit.fieldRank || matchScore(b) - matchScore(a) || deadlineRank(a) - deadlineRank(b) || newest(a, b),
   deadline: (a, b) => deadlineRank(a) - deadlineRank(b) || newest(a, b),
   added: newest,
   org: (a, b) => a.org.localeCompare(b.org) || a.title.localeCompare(b.title),
@@ -1304,6 +1386,7 @@ function activeFilters() {
   for (const [key, kind] of Object.entries(FILTER_KINDS)) if (view[key]) pills.push([key, tv(kind, view[key])]);
   if (view.source) pills.push(["source", view.source]);
   if (view.pay) pills.push(["pay", t("pill.pay")]);
+  if (view.others) pills.push(["others", t("pill.others")]);
   $("active-filters").innerHTML = pills.length
     ? pills.map(([key, text]) => `<button class="pill" data-clear="${key}" aria-label="${esc(t("pill.remove", text))}">${esc(text)}${ICON_X}</button>`).join("") + (pills.length > 1 ? `<button class="linkish" data-reset="1">${t("filters.clear")}</button>` : "")
     : "";
@@ -1324,17 +1407,25 @@ function render() {
   activeFilters();
 
   const list = inTab.filter(i => passes(i)).sort(SORTS[sortKey()]);
+  const hidden = inTab.filter(i => hiddenByField(i) && passes(i, "field")).length;  // other fields, with today's filters
+  const anyOther = view.others && inTab.some(i => i._fit?.otherField);
   $("sort").value = sortKey();
-  $("rows").innerHTML = list.slice(0, view.shown).map(row).join("") || emptyState();
-  $("count").textContent = t("count", fmtN(list.length), fmtDate(DATA.updated, false));
+  $("rows").innerHTML = list.slice(0, view.shown).map(row).join("") || emptyState(hidden);
+  $("count").innerHTML = esc(t("count", fmtN(list.length), fmtDate(DATA.updated, false)))
+    + (hidden ? ` · <button class="linkish" data-others="1">${esc(t("others.show", fmtN(hidden)))}</button>` : "")
+    + (anyOther ? ` · <button class="linkish" data-others="">${esc(t("others.hide"))}</button>` : "");
+  $("others-row").hidden = !(hidden || view.others);
+  $("show-others").checked = !!view.others;
+  $("others-label").textContent = t("others.toggle", fmtN(hidden || inTab.filter(i => i._fit?.otherField && passes(i, "field")).length));
   $("more").hidden = list.length <= view.shown;
   $("more").textContent = t("more", Math.min(PAGE_SIZE, list.length - view.shown));
   writeHash();
 }
-function emptyState() {
+function emptyState(hidden = 0) {
   const filtersOn = !!document.querySelector("[data-clear]");
   const text = !filtersOn && ["saved", "applied", "hidden"].includes(view.tab) ? t(`empty.${view.tab}`) : t("empty.none");
-  return `<div class="empty">${esc(text)}${filtersOn ? ` <button class="linkish" data-reset="1">${t("empty.clear")}</button>` : ""}</div>`;
+  return `<div class="empty">${esc(text)}${filtersOn ? ` <button class="linkish" data-reset="1">${t("empty.clear")}</button>` : ""}`
+    + (hidden ? `<br>${esc(t("empty.others", fmtN(hidden)))} <button class="linkish" data-others="1">${esc(t("others.toggle", fmtN(hidden)))}</button>` : "") + `</div>`;
 }
 const rerender = () => { view.shown = PAGE_SIZE; render(); };
 
@@ -1387,6 +1478,8 @@ document.addEventListener("click", e => {
   if (chip) { const f = chip.parentElement.dataset.filter; view[f] = view[f] === chip.dataset.value ? "" : chip.dataset.value; return rerender(); }
   const tab = e.target.closest(".tab");
   if (tab) { view.tab = tab.dataset.tab; return rerender(); }
+  const others = e.target.closest("[data-others]");
+  if (others) { view.others = others.dataset.others; return rerender(); }
   const pill = e.target.closest("[data-clear]");
   if (pill) { view[pill.dataset.clear] = ""; if (pill.dataset.clear === "q") $("search").value = ""; return rerender(); }
   if (e.target.closest("[data-reset]")) return resetFilters();
@@ -1408,7 +1501,7 @@ document.addEventListener("click", e => {
   }
 });
 function resetFilters() {
-  Object.assign(view, { match: "", fit: "", area: "", region: "", season: "", source: "", pay: "", q: "" });
+  Object.assign(view, { others: "", match: "", fit: "", area: "", region: "", season: "", source: "", pay: "", q: "" });
   $("search").value = "";
   rerender();
 }
@@ -1416,6 +1509,7 @@ let searchTimer;
 $("search").addEventListener("input", e => { clearTimeout(searchTimer); searchTimer = setTimeout(() => { view.q = e.target.value.trim(); rerender(); }, 120); });
 $("source").addEventListener("change", e => { view.source = e.target.value; rerender(); });
 $("pay-only").addEventListener("change", e => { view.pay = e.target.checked ? "1" : ""; rerender(); });
+$("show-others").addEventListener("change", e => { view.others = e.target.checked ? "1" : ""; rerender(); });
 $("sort").addEventListener("change", e => { view.sort = e.target.value; rerender(); });
 $("more").addEventListener("click", () => { view.shown += PAGE_SIZE; render(); });
 $("profile-chip").addEventListener("click", showWelcome);
@@ -1439,7 +1533,8 @@ if (window.matchMedia("(max-width: 900px)").matches) $("filters").open = false;
 // ------------------------------------------------------------------ start
 applyLanguage();
 $("search").value = view.q;
-profile ? showApp() : showWelcome();
+// Profiles from before the field question go back to the welcome screen once (answers kept).
+profile && (profile.skipped || profile.field) ? showApp() : showWelcome();
 fetch("data.json", { cache: "no-cache" })
   .then(r => r.json())
   .then(data => {

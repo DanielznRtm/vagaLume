@@ -24,8 +24,10 @@ Every day it updates:
 - `reports/latest.md`: the same list as a Markdown file you can read on
   GitHub. Order: deadlines in the next 14 days, then new items, then watched
   program pages, then everything else that is open, grouped by category.
-- `data/radar.db`: an SQLite database with every posting ever seen and your
-  status for each one.
+- `data/opportunities.jsonl` and `data/page_hashes.jsonl`: the database as
+  text, one posting per line, with every posting ever seen and your status for
+  each one. Each run rebuilds a working SQLite file (`data/radar.db`, not
+  committed) from them and writes them back at the end.
 
 ---
 
@@ -189,11 +191,32 @@ Postings themselves stay as their companies wrote them. All the texts live in
 `STRINGS` at the top of the page's script, one `[English, Português]` pair per
 text, so adding a language means adding a column.
 
-**First visit: your profile.** The page asks two things: what you're studying
-for (Bachelor's, Master's or PhD) and where your university is (Brazil, other
+**First visit: your profile.** The page asks three things: your field of
+study (Engineering, Computing & IT, Math/physics/chemistry, Business &
+economics, Law, Health, Biology & agriculture, Communication & design,
+Education & humanities, Architecture, or Other), what you're studying for
+(Bachelor's, Master's or PhD) and where your university is (Brazil, other
 Latin America, United States, Canada, United Kingdom, Europe, Asia, Middle
 East, Oceania, Africa). You can skip it and see everything unsorted. Change it
 any time with the button at the top right. It is saved in your browser only.
+
+**Field of study.** The bot labels each role with the fields it is aimed at
+(`radar/fields.py`): from the title, or, when the title doesn't say, from the
+course phrases in the description ("cursando Direito", "degree in Computer
+Science"). The site then:
+
+- shows your field and the related ones together (Engineering, Computing and
+  the exact sciences; Health and Biology; Communication, Business and
+  Humanities...), with roles for your own field first;
+- **hides roles clearly meant only for other fields** (a nursing estágio for
+  an engineering student). "Show roles for other fields", next to the number
+  of roles and in the filters, brings them back, marked as long shots with
+  the reason;
+- always shows roles that don't say which field they want, and the roles you
+  saved, applied to or hid.
+
+With "Other" as your field nothing is hidden. Profiles made before this
+question are asked once more (the other answers are kept).
 
 **Fit.** With a profile, every role gets a dot: ● good fit, ◐ check something,
 ○ long shot. Open a row to see the reasons, for example:
@@ -356,7 +379,7 @@ a careers-site address).
    default branch (`main`).
 2. **Allow the workflow to push.** Go to *Settings → Actions → General →
    Workflow permissions* and pick **Read and write permissions**. The workflow
-   commits `data/radar.db` and `reports/`.
+   commits `data/*.jsonl`, `reports/` and the website data.
 3. **Turn on the website:** *Settings → Pages → Deploy from a branch → main,
    /docs*.
 4. The schedule is daily at **09:00 Brasília (12:00 UTC)**. To run it now, open
@@ -435,11 +458,18 @@ are caught per source), **label** with rules (plus Claude if a key is set),
   links here, waits 0.6 s before each request, uses 25 s timeouts, retries
   once (longer pauses after a 429), and does not get around bot protection.
   A full run makes about 380 requests and opens 2 pages in the browser.
-- **Repository size.** `data/radar.db` (2.8 MB), `docs/data.json` (2.5 MB)
-  and `reports/latest.md` are committed every day: the database is the bot's
-  memory (first-seen dates, your statuses, page hashes) and the JSON is the
-  website, so they stay in git on purpose. `.gitignore` keeps everything else
-  out (caches, virtual environments, SQLite's temporary files, editor
-  folders), and `.gitattributes` marks the daily files as generated so GitHub
-  collapses them in diffs. Git stores each daily version, so the repository
-  still grows over time; the database is binary, so it grows the most.
+- **Repository size.** The database (`data/*.jsonl`, about 7 MB of text for
+  17,000 roles), `docs/data.json` and `reports/latest.md` are committed every
+  day: the database is the bot's memory (first-seen dates, your statuses, page
+  hashes) and the JSON is the website, so they stay in git on purpose. To keep
+  the daily growth small:
+  - the database is text, one role per line, sorted, so git stores only the
+    lines that changed and merges cleanly;
+  - each role's "last seen" date is refreshed once a week, not every day (it
+    only decides when a role unseen for 30 days is closed), so on a normal day
+    only new and changed roles touch the file. In a test this kept the
+    repository's growth around 25 KB a day, against about 60 KB with daily
+    dates;
+  - `.gitignore` keeps everything else out (the working `radar.db`, caches,
+    virtual environments, editor folders), and `.gitattributes` marks the
+    daily files as generated so GitHub collapses them in diffs.

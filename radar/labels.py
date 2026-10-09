@@ -14,6 +14,7 @@ import re
 
 from .models import NO_DEADLINE, Opportunity
 from .pay import find_pay
+from .fields import find_fields
 from .skills import find_skills
 from .textutil import find_deadline
 
@@ -327,7 +328,7 @@ def level_for(opp: Opportunity) -> str:
 
 
 def apply_rules(opp: Opportunity) -> Opportunity:
-    """Fill in area, season, regions, warnings, calendar note, deadline, pay and skills."""
+    """Fill in area, season, regions, warnings, calendar note, deadline, pay, skills and fields."""
     level = level_for(opp)
     preset = opp.preset
     opp.regions = list(preset.get("regions") or classify_regions(opp.location, opp.remote))  # type: ignore[arg-type]
@@ -347,6 +348,7 @@ def apply_rules(opp: Opportunity) -> Opportunity:
     if not opp.pay:
         opp.pay = find_pay(opp.description)
     opp.skills = find_skills(f"{opp.title}\n{opp.description}")
+    opp.fields = find_fields(opp.title, opp.description)
     opp.labeled_by = "rules"
     return opp
 

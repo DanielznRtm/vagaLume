@@ -141,3 +141,44 @@ def test_report_stays_short_with_many_roles():
     assert "… and 140 more on the [website]" in markdown  # 200 new roles in one area, 60 listed
     assert "Intern 399" not in markdown  # "everything else" is a table of counts
     assert "| other | 400 | 400 |" in markdown  # area, region (unknown) and total
+
+
+def test_database_round_trips_through_text(tmp_path):
+    conn = db.connect(tmp_path / "a.db")
+    db.upsert(conn, make(title="Estágio em Dados", url="https://e.com/b", pay="R$2,000/mo"), "2026-10-01")
+    db.upsert(conn, make(title="Research Intern", url="https://e.com/a"), "2026-10-02")
+    db.set_status(conn, make(url="https://e.com/a").id, "applied")
+    db.page_hash_changed(conn, "https://p.org/", "abc", "2026-10-02")
+    conn.commit()
+    db.save_text(conn, tmp_path)
+    lines = (tmp_path / "opportunities.jsonl").read_text().splitlines()
+    assert len(lines) == 2 and lines == sorted(lines, key=lambda line: json.loads(line)["id"])  # one sorted line per role
+
+    rebuilt = db.open_state(tmp_path / "b.db", tmp_path)
+    before = sorted(map(tuple, conn.execute("SELECT * FROM opportunities").fetchall()))
+    after = sorted(map(tuple, rebuilt.execute("SELECT * FROM opportunities").fetchall()))
+    assert before == after  # nothing lost: statuses, dates, pay, labels
+    assert rebuilt.execute("SELECT hash FROM page_hashes").fetchone()[0] == "abc"
+    db.save_text(rebuilt, tmp_path / "again")
+    assert (tmp_path / "again" / "opportunities.jsonl").read_text() == (tmp_path / "opportunities.jsonl").read_text()
+
+
+def test_first_run_after_the_switch_reads_the_old_database(tmp_path):
+    old = db.connect(tmp_path / "radar.db")
+    db.upsert(old, make(), "2026-10-01")
+    old.commit()
+    old.close()
+    conn = db.open_state(tmp_path / "radar.db", tmp_path)  # no .jsonl files yet
+    assert len(db.load_all(conn)) == 1
+
+
+def test_last_seen_is_refreshed_weekly():
+    conn = db.connect(":memory:")
+    db.upsert(conn, make(), "2026-10-01")
+    last_seen = lambda: conn.execute("SELECT last_seen FROM opportunities").fetchone()[0]
+    db.upsert(conn, make(), "2026-10-05")
+    assert last_seen() == "2026-10-01"  # seen again 4 days later: unchanged
+    db.upsert(conn, make(), "2026-10-08")
+    assert last_seen() == "2026-10-08"  # 7 days later: refreshed
+    db.close_stale(conn, "2026-11-06")  # 29 days after the refresh: still open
+    assert db.load_all(conn)[0].is_open

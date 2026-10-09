@@ -31,6 +31,7 @@ def item_record(opp: StoredOpportunity) -> dict[str, object]:
         "deadline": opp.deadline if opp.deadline[:1].isdigit() else "",
         "pay": opp.pay,
         "skills": opp.skills,
+        "fields": opp.fields,
         "posted": opp.posted_date,
         "added": opp.first_seen,
         "source": opp.source,

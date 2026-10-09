@@ -28,7 +28,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/demo.gif" alt="vagaLume in action: pick your level and country, filter by area, search, open a role and save it" width="92%">
+  <img src="assets/demo.gif" alt="vagaLume in action: pick your field, level and country, filter, search, open a role, peek at other fields and match your résumé" width="92%">
 </p>
 
 ---
@@ -42,14 +42,13 @@ little light that finds the openings for you.
 
 | | |
 |---|---|
-| 🇧🇷 **All of Brazil** | Every estágio on Gupy, CIEE, Super Estágios, Sólides and IEL, the Cia de Talentos programs, FAPESP research grants, and the internships of multinationals in Brazil (Santander, P&G, Citi, Bosch, Syngenta…). **Over 11,000 roles in Brazil**, two in three with the stipend shown. |
+| 🌎 **All of Brazil, and the world** | In Brazil: every estágio on Gupy, CIEE, Super Estágios, Sólides and IEL, the Cia de Talentos programs, FAPESP research grants and the internships of multinationals (Santander, P&G, Citi, Bosch, Syngenta…), **over 11,000 roles**, most with the stipend shown. Abroad: **over 5,000 roles** in the US and Canada, Europe, Asia and remote, from big tech, AI labs, trading firms and research programs. |
 | 🔭 **21 sources, one list** | Plus Greenhouse, Lever and Ashby boards of 160+ companies, the SimplifyJobs lists, Google, Amazon, Microsoft, NVIDIA, Meta, D. E. Shaw, DRW and 42 research and summer-program pages. About **17,000 open roles** on a normal day. |
-| 🎯 **Sorted by fit, never filtered for you** | Tell it whether you're doing a Bachelor's, Master's or PhD and where you study. Every role gets a dot (good fit, check something, long shot) and the reason, like *"needs US work authorization"* or *"aimed at PhD students"*. Nothing is ever hidden unless you hide it. |
+| 🎯 **Your field, in the right order** | Tell it your field of study, whether you're doing a Bachelor's, Master's or PhD, and where you study. Roles for other fields are hidden (one click shows them), and every role gets a dot (good fit, check something, long shot) with the reason, like *"needs US work authorization"* or *"aimed at PhD students"*. |
 | 📄 **Match your résumé** | Paste a ready-made prompt and your résumé into the AI chat you already use (ChatGPT, Gemini, Claude…), paste its answer back, and every role shows how well it matches: *"you have 6 of the 10 skills it mentions"*. No AI runs inside vagaLume and your résumé never leaves your hands. |
 | 💸 **Pay, when it's stated** | `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`: read from job boards and descriptions in English and Portuguese. |
 | 📅 **Fits your calendar?** | A tiny January–December strip on every role shows whether it falls in your breaks or clashes with your semester. |
 | ⏰ **Deadlines up front** | Closing-soon roles and brand-new ones each get their own tab. |
-| 🌐 **English and Português** | The site opens in Portuguese for Brazilian browsers, and an **EN \| PT** switch at the top changes it any time, including the résumé prompt. |
 | ☆ **Your shortlist** | Save, mark as applied, or hide. Filters live in the link, so you can bookmark *"ML roles in Europe"* or send it to a friend. |
 
 <details>
@@ -78,7 +77,7 @@ Works on phones too, in light and dark mode. **[Open it →](https://pedrocamarg
 ```mermaid
 flowchart LR
     A["21 sources<br/>Gupy, CIEE, Super Estágios, Sólides, IEL,<br/>job boards, GitHub lists,<br/>career sites, program pages"] --> B["Labels<br/>area · season · region<br/>pay · skills · warnings"]
-    B --> C[("SQLite<br/>data/radar.db")]
+    B --> C[("Database<br/>data/*.jsonl (text)")]
     R["Your résumé<br/>summarized by your own AI chat"] -.-> D
     C --> D["Website<br/>docs/ on GitHub Pages"]
     C --> E["Daily digest<br/>Telegram / email<br/>(optional)"]

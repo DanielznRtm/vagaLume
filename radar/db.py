@@ -1,4 +1,4 @@
-"""SQLite storage (data/radar.db).
+"""SQLite storage (data/radar.db, rebuilt from data/*.jsonl on every run).
 
 Two tables:
   opportunities  one row per posting, keyed by the URL hash (so no duplicates)
@@ -12,6 +12,7 @@ with `python -m radar status <id> applied`.
 
 from __future__ import annotations
 
+import json
 import sqlite3
 from dataclasses import dataclass
 from datetime import date, timedelta
@@ -20,6 +21,7 @@ from pathlib import Path
 from .models import Opportunity
 
 STATUSES = ("new", "seen", "applied", "ignored")
+LAST_SEEN_REFRESH_DAYS = 7  # see upsert()
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS opportunities (
@@ -36,6 +38,7 @@ CREATE TABLE IF NOT EXISTS opportunities (
     deadline      TEXT,
     pay           TEXT,           -- e.g. "$54–60/hr"; empty when not stated
     skills        TEXT,           -- comma-separated, e.g. "Python,PyTorch" (radar/skills.py)
+    fields        TEXT,           -- fields of study, comma-separated, e.g. "engenharia" (radar/fields.py)
     area          TEXT,
     season        TEXT,
     regions       TEXT,           -- comma-separated, e.g. "Brazil,remote"
@@ -64,13 +67,66 @@ def connect(path: str | Path) -> sqlite3.Connection:
     return conn
 
 
+# --- the database as text -----------------------------------------------------
+# The SQLite file is rebuilt from two text files at the start of every run and
+# written back at the end. Only the text files are committed: one role per
+# line, sorted, so git stores just the lines that changed each day (a binary
+# database would be stored whole every day).
+TEXT_FILES = {"opportunities": ("opportunities.jsonl", "id"), "page_hashes": ("page_hashes.jsonl", "url")}
+
+
+def save_text(conn: sqlite3.Connection, text_dir: str | Path) -> None:
+    """Write every table to data/<table>.jsonl, one row per line, sorted by its key."""
+    out = Path(text_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    for table, (name, key) in TEXT_FILES.items():
+        columns = [row["name"] for row in conn.execute(f"PRAGMA table_info({table})")]
+        rows = conn.execute(f"SELECT {', '.join(columns)} FROM {table} ORDER BY {key}").fetchall()
+        lines = [json.dumps(dict(zip(columns, row)), ensure_ascii=False, separators=(",", ":")) for row in rows]
+        (out / name).write_text("".join(line + "\n" for line in lines), encoding="utf-8")
+
+
+def load_text(conn: sqlite3.Connection, text_dir: str | Path) -> int:
+    """Fill the (empty) tables from data/<table>.jsonl. Returns how many roles were read."""
+    loaded = 0
+    for table, (name, _key) in TEXT_FILES.items():
+        path = Path(text_dir) / name
+        if not path.exists():
+            continue
+        columns = {row["name"] for row in conn.execute(f"PRAGMA table_info({table})")}
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            row = {k: v for k, v in json.loads(line).items() if k in columns}
+            marks = ", ".join(f":{k}" for k in row)
+            conn.execute(f"INSERT OR REPLACE INTO {table} ({', '.join(row)}) VALUES ({marks})", row)
+            loaded += table == "opportunities"
+    conn.commit()
+    return loaded
+
+
+def open_state(db_path: str | Path, text_dir: str | Path) -> sqlite3.Connection:
+    """The database for a run: rebuilt from the text files when they exist.
+
+    Without them (the first run after switching to text) it opens the old
+    data/radar.db as before, and the end of the run writes the text files.
+    """
+    if (Path(text_dir) / TEXT_FILES["opportunities"][0]).exists():
+        Path(db_path).unlink(missing_ok=True)
+        conn = connect(db_path)
+        load_text(conn, text_dir)
+        return conn
+    return connect(db_path)
+
+
 def _add_missing_columns(conn: sqlite3.Connection) -> None:
     """Databases made by an older version lack newer columns; add them."""
     existing = {row["name"] for row in conn.execute("PRAGMA table_info(opportunities)")}
     if "pay" not in existing:
         conn.execute("ALTER TABLE opportunities ADD COLUMN pay TEXT")
-    if "skills" not in existing:
-        conn.execute("ALTER TABLE opportunities ADD COLUMN skills TEXT")
+    for column in ("skills", "fields"):
+        if column not in existing:
+            conn.execute(f"ALTER TABLE opportunities ADD COLUMN {column} TEXT")
 
 
 def _join(items: list[str]) -> str:
@@ -94,13 +150,15 @@ def upsert(conn: sqlite3.Connection, opp: Opportunity, today: str) -> bool:
     """Insert a new posting or refresh an existing one. Returns True if new.
 
     For existing rows we refresh the facts (title, deadline, labels...) but
-    never touch first_seen or your status.
+    never touch first_seen or your status. last_seen is refreshed once a week
+    at most: it only decides when a role unseen for 30 days is closed, and not
+    rewriting it every day keeps the daily change to data/*.jsonl small.
     """
-    row = conn.execute("SELECT labeled_by FROM opportunities WHERE id=?", (opp.id,)).fetchone()
+    row = conn.execute("SELECT labeled_by, last_seen FROM opportunities WHERE id=?", (opp.id,)).fetchone()
     values = {
         "id": opp.id, "title": opp.title, "org": opp.org, "source": opp.source,
         "location": opp.location, "remote": int(opp.remote), "url": opp.url,
-        "posted_date": opp.posted_date, "deadline": opp.deadline, "pay": opp.pay, "skills": _join(opp.skills),
+        "posted_date": opp.posted_date, "deadline": opp.deadline, "pay": opp.pay, "skills": _join(opp.skills), "fields": _join(opp.fields),
         "area": opp.area,
         "season": opp.season, "regions": _join(opp.regions), "warnings": _join(opp.warnings),
         "calendar_note": opp.calendar_note, "note": opp.note, "labeled_by": opp.labeled_by,
@@ -122,6 +180,8 @@ def upsert(conn: sqlite3.Connection, opp: Opportunity, today: str) -> bool:
             values.pop("deadline")
     if not opp.note:
         values.pop("note")  # keep the old note (e.g. "page changed on ...")
+    if row["last_seen"] and (date.fromisoformat(today) - date.fromisoformat(row["last_seen"])).days < LAST_SEEN_REFRESH_DAYS:
+        values.pop("last_seen")
 
     assignments = ", ".join(f"{name}=:{name}" for name in values if name != "id")
     conn.execute(f"UPDATE opportunities SET {assignments} WHERE id=:id", values)
@@ -169,6 +229,7 @@ class StoredOpportunity:
     deadline: str
     pay: str
     skills: list[str]
+    fields: list[str]
     area: str
     season: str
     regions: list[str]
@@ -188,7 +249,7 @@ def load_all(conn: sqlite3.Connection) -> list[StoredOpportunity]:
             location=r["location"] or "", remote=bool(r["remote"]), url=r["url"],
             posted_date=r["posted_date"] or "", first_seen=r["first_seen"],
             last_seen=r["last_seen"], deadline=r["deadline"] or "check page", pay=r["pay"] or "",
-            skills=_split(r["skills"]), area=r["area"] or "other", season=r["season"] or "unknown",
+            skills=_split(r["skills"]), fields=_split(r["fields"]), area=r["area"] or "other", season=r["season"] or "unknown",
             regions=_split(r["regions"]), warnings=_split(r["warnings"]),
             calendar_note=r["calendar_note"] or "", note=r["note"] or "",
             labeled_by=r["labeled_by"] or "rules", is_open=bool(r["is_open"]), status=r["status"],
