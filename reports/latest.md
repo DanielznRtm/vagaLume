@@ -1,6 +1,6 @@
-# vagaLume — 2026-10-11
+# vagaLume — 2026-10-12
 
-**16898** open · **13** new this run · **653** deadlines in the next 14 days · labels by keyword rules
+**16740** open · **64** new this run · **661** deadlines in the next 14 days · labels by keyword rules
 
 Nothing is filtered out: labels and warnings are hints, you decide. UNESP semesters: Mar–Jul and Aug–Dec. Searchable web version: the GitHub Pages site (see the README). Set your status in `config/status.yaml` using the `id`.
 
@@ -10,64 +10,30 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 
 | Source | Status | Items | Checked | Time | Problems |
 |---|---|---|---|---|---|
-| greenhouse | ✅ ok | 819 | 101 | 72s |  |
-| lever | ✅ ok | 107 | 13 | 15s |  |
+| greenhouse | ✅ ok | 819 | 101 | 73s |  |
+| lever | ✅ ok | 107 | 13 | 13s |  |
 | ashby | ✅ ok | 97 | 49 | 33s |  |
-| github_lists | ✅ ok | 3803 | 4 | 3s |  |
-| gupy | ✅ ok | 2612 | 27 | 19s |  |
-| programs | ⚠️ partial | 41 | 42 | 116s | Embraer Programa de Estágio: HTTPSConnectionPool(host='embraer.com', port=443): Read timed out. (read timeout=25) |
-| google | ✅ ok | 90 | 6 | 5s |  |
-| amazon | ✅ ok | 439 | 15 | 17s |  |
+| github_lists | ✅ ok | 3746 | 4 | 3s |  |
+| gupy | ✅ ok | 2582 | 26 | 18s |  |
+| programs | ⚠️ partial | 41 | 42 | 112s | Embraer Programa de Estágio: HTTPSConnectionPool(host='embraer.com', port=443): Read timed out. (read timeout=25) |
+| google | ✅ ok | 88 | 6 | 5s |  |
+| amazon | ✅ ok | 436 | 15 | 18s |  |
 | nvidia | ✅ ok | 40 | 2 | 3s |  |
-| microsoft | ✅ ok | 77 | 11 | 9s |  |
+| microsoft | ✅ ok | 75 | 11 | 9s |  |
 | deshaw | ✅ ok | 14 | 1 | 1s |  |
-| drw | ✅ ok | 27 | 1 | 1s |  |
-| meta | ✅ ok | 31 | 1 | 6s |  |
-| ciee | ✅ ok | 2316 | 3 | 16s |  |
-| solides | ✅ ok | 954 | 50 | 50s |  |
-| superestagios | ✅ ok | 4646 | 1 | 4s |  |
-| iel | ✅ ok | 818 | 3 | 16s |  |
+| drw | ✅ ok | 26 | 1 | 1s |  |
+| meta | ✅ ok | 32 | 1 | 6s |  |
+| ciee | ✅ ok | 2286 | 3 | 16s |  |
+| solides | ✅ ok | 939 | 50 | 49s |  |
+| superestagios | ✅ ok | 4643 | 1 | 4s |  |
+| iel | ✅ ok | 801 | 3 | 14s |  |
 | ciadetalentos | ✅ ok | 10 | 1 | 1s |  |
 | fapesp | ✅ ok | 25 | 1 | 2s |  |
-| smartrecruiters | ✅ ok | 92 | 7 | 7s |  |
-| workday | ✅ ok | 68 | 38 | 62s |  |
+| smartrecruiters | ✅ ok | 91 | 7 | 7s |  |
+| workday | ✅ ok | 66 | 38 | 62s |  |
 
-## ⏰ Deadlines in the next 14 days (653)
+## ⏰ Deadlines in the next 14 days (661)
 
-- [SENAI - Bolsista / Especialista Visitante (EV)](https://findes.gupy.io/job/eyJqb2JJZCI6MTI2MzgwNjQsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **FINDES** · 📍 Vitória, Espírito Santo, Brazil (on-site) · unknown · Brazil · ⏳ 2026-10-11 · 💰 R$3,600/mo · 📅 dates unknown · `99920afce343205e`
-- [SENAI - Bolsista / Pesquisa, Desenvolvimento e Inovação (PD&I)](https://findes.gupy.io/job/eyJqb2JJZCI6MTI2MzgwNzQsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **FINDES** · 📍 Vitória, Espírito Santo, Brazil (on-site) · unknown · Brazil · ⏳ 2026-10-11 · 💰 R$4,200/mo · 📅 dates unknown · `a0274a294eba444d`
-- [SPE-753-26 - ESTAGIÁRIO(A) EM FISIOTERAPIA - SESC TUPINAMBÁS / BELO HORIZONTE](https://sescmg.gupy.io/job/eyJqb2JJZCI6MTI2MjE2NDksInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Sesc em Minas Gerais** · 📍 Belo Horizonte, Minas Gerais, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `86ee91e90aefcc9d`
-- [Estágio Planejamento Financeiro](https://grupomoura.gupy.io/job/eyJqb2JJZCI6MTE4NTg1ODQsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Grupo Moura** · 📍 Jaboatão dos Guararapes, Pernambuco, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `cf44d1857480e2ea`
-- [0720 - Estagiário - Sapopema / PR](https://sicredi.gupy.io/job/eyJqb2JJZCI6MTI2NjQxNDcsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Sicredi** · 📍 Sapopema, Paraná, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `54b2701e0f841e4c`
-- [Estagiário(a) - Central de Operações](https://ciee.gupy.io/job/eyJqb2JJZCI6MTI2MDgwOTQsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **CIEE - Centro de Integração Empresa-Escola** · 📍 Brazil (remote) · year-round · Brazil/remote · ⏳ 2026-10-11 · 📅 during semester · `96eac9d42b9dba7b`
-- [Practicante Profesional de Gestión Social - PMO / Corporativo Lima](https://practicasnexa.gupy.io/job/eyJqb2JJZCI6MTI2MzgzODcsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Programa de Prácticas Nexa - Perú** · 📍 Surco, Brazil (on-site) · unknown · Brazil · ⏳ 2026-10-11 · ❔ · 📅 dates unknown · `04d7d7d1cf9a7135`
-- [Estágio em Marketing - Afirmativo para profissionais pretos e pardos](https://dsbr.gupy.io/job/eyJqb2JJZCI6MTI2MjkzNTksInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Daiichi Sankyo Brasil Farmacêutica** · 📍 São Paulo, São Paulo, Brazil (hybrid) · year-round · Brazil · ⏳ 2026-10-11 · 💰 R$2,614/mo · 📅 during semester · `9bd8c2d658f0642a`
-- [Practicante Profesional de Higiene Ocupacional / El Porvenir](https://practicasnexa.gupy.io/job/eyJqb2JJZCI6MTI2MzY2NzAsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Programa de Prácticas Nexa - Perú** · 📍 Yanacancha, Brazil (on-site) · unknown · Brazil · ⏳ 2026-10-11 · ❔ · 📅 dates unknown · `8d24dcbfba738f24`
-- [Estágio em Agência / Campo Grande/MS](https://estagiomercantil.gupy.io/job/eyJqb2JJZCI6MTI2MDE1NTEsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **#QueroSerMercantil** · 📍 Campo Grande, Mato Grosso do Sul, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 💰 R$2,472/mo · 📅 during semester · `36b3e96db9dbe3d0`
-- [Estágio Superior Não Obrigatório (Suprimentos)](https://estagiosauroracoop.gupy.io/job/eyJqb2JJZCI6MTI1ODc0MTcsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Estágio Aurora** · 📍 Guarulhos, São Paulo, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `fe4a7761b737fe85`
-- [Estágio de Férias Usiminas / 2027](https://programasdeentradausiminas.gupy.io/job/eyJqb2JJZCI6MTI1MTYxNjgsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Programas de Entrada Usiminas** · 📍 Ipatinga, Minas Gerais, Brazil (on-site) · Dec–Feb · Brazil · ⏳ 2026-10-11 · 📅 fits Dec–Feb break · `f5b572b819e124ea`
-- [Programa Acelera Techne 2026 (Ergon)](https://techne.gupy.io/job/eyJqb2JJZCI6MTI0OTczODgsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Techne** · 📍 Brazil (remote) · unknown · Brazil/remote · ⏳ 2026-10-11 · ❔ · 📅 dates unknown · `923d8441d107310c`
-- [Programa Acelera Techne 2026 (eSocial)](https://techne.gupy.io/job/eyJqb2JJZCI6MTI0NDk2NzcsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Techne** · 📍 Brazil (remote) · unknown · Brazil/remote · ⏳ 2026-10-11 · 📆 ❔ · 📅 dates unknown · `d4bd88ec42004c3f`
-- [Estagiário(a) Marketing](https://fey.gupy.io/job/eyJqb2JJZCI6MTI0NjcwNjQsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **FEY** · 📍 Indaial, Santa Catarina, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `15bd550825a647c4`
-- [Estágio Administrativo – Concessionária](https://gruposinosserra.gupy.io/job/eyJqb2JJZCI6MTI0MzQxMDcsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Grupo Sinosserra** · 📍 Montenegro, Rio Grande do Sul, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `83c3e6b56df7fc43`
-- [Estágio Administrativo – Concessionária](https://gruposinosserra.gupy.io/job/eyJqb2JJZCI6MTI0MzQxNTYsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Grupo Sinosserra** · 📍 São Leopoldo, Rio Grande do Sul, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `a8b489a79a7a1cad`
-- [Estágio Administrativo – Concessionária](https://gruposinosserra.gupy.io/job/eyJqb2JJZCI6MTI0MzQwNjgsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Grupo Sinosserra** · 📍 Canoas, Rio Grande do Sul, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `c6ba9de1209a68a4`
-- [Assistente Técnico Trainee - Oficina Ortopédica - Osasco](https://aacd.gupy.io/job/eyJqb2JJZCI6MTIwNjEzNDEsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Vagas AACD** · 📍 Osasco, São Paulo, Brazil (on-site) · unknown · Brazil · ⏳ 2026-10-11 · ❔ · 📅 dates unknown · `bfb1e52dbf7f088a`
-- [Pessoa Estagiária de Sistemas](https://atlanticnickel.gupy.io/job/eyJqb2JJZCI6MTIwNjEzMTYsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Atlantic Nickel** · 📍 Belo Horizonte, Minas Gerais, Brazil (hybrid) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `39a06a81b9b6d696`
-- [BR - Estagiário Nível Superior da Asseguração da Qualidade](https://brasal.gupy.io/job/eyJqb2JJZCI6MTIwNjI1NDAsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Brasal** · 📍 Taguatinga, Distrito Federal, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `54a73c1e204e223d`
-- [Estágio em Ciência de Dados](https://vagas-mrveco.gupy.io/job/eyJqb2JJZCI6MTIwNTU0ODMsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Venha construir o futuro com a gente!** · 📍 Belo Horizonte, Minas Gerais, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `f36931284d5a421d`
-- [Estagiário (a) de Engenharia Civil - Vibra Parque Cidade Universitária](https://gruponortis.gupy.io/job/eyJqb2JJZCI6MTIwNjUxOTksInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Grupo Nortis** · 📍 São Paulo, São Paulo, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `d2248a98c03f2d32`
-- [Programa de Estágio Smarthis / 2026](https://smarthis.gupy.io/job/eyJqb2JJZCI6MTIwNjE4NTcsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Smarthis** · 📍 Brazil (remote) · year-round · Brazil/remote · ⏳ 2026-10-11 · 📅 during semester · `ef695a9ff13bb3f3`
-- [Estagiário(a) de Automação/Tecnologia](https://tsaengenharia.gupy.io/job/eyJqb2JJZCI6MTIwNTkyNjAsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **TSA Tecnologia de Sistemas de Automação SA** · 📍 Belo Horizonte, Minas Gerais, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `51ad2fae30f888b8`
-- [Estagiários (Pedagógicos) de Matemática / Fundamental 2 ou Ensino Médio](https://escolavillare.gupy.io/job/eyJqb2JJZCI6MTIwNjE2NDEsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Escola Villare** · 📍 São Caetano do Sul, São Paulo, Brazil (on-site) · unknown · Brazil · ⏳ 2026-10-11 · 📅 dates unknown · `4beb71f86e87e506`
-- [Estágio Administrativo (Fiscal)](https://guabi.gupy.io/job/eyJqb2JJZCI6MTIwNTQ1MzQsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Guabi Nutrição e Saúde Animal** · 📍 Além Paraíba, Minas Gerais, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `e04a94130188ea83`
-- [Estágio Administrativo Financeiro / Teresina - PI](https://redemoura.gupy.io/job/eyJqb2JJZCI6MTIwNTQ3MzIsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Baterias Moura** · 📍 Teresina, Piauí, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `7db84fc67f2dfad0`
-- [ESTÁGIO EM SUPRIMENTOS](https://inpasabrasil.gupy.io/job/eyJqb2JJZCI6MTIwNTg5MzIsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Inpasa Brasil** · 📍 São Paulo, São Paulo, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 💰 R$1,900/mo · 📅 during semester · `5220d6574bdd8c2a`
-- [Estágio LINCE](https://facens.gupy.io/job/eyJqb2JJZCI6MTIwNTg0MDMsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **UniFacens** · 📍 Sorocaba, São Paulo, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `8109c4772a488ecf`
-- [Estágio Pedagogia Ed. Infantil  - Colégio Arnaldo Funcionários](https://redeverbita.gupy.io/job/eyJqb2JJZCI6MTIwNTgzNjYsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Rede Verbita de Educação** · 📍 Belo Horizonte, Minas Gerais, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `b3b1a778d9f91e1b`
-- [PROGRAMA SEMEAR (PROGRAMA DE ESTÁGIO) - Engenharia Química ou Engenharia Bioquímica / RIO GRANDE/RS](https://timacagro.gupy.io/job/eyJqb2JJZCI6MTE1NTI5NTUsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **TIMAC Agro Brasil** · 📍 Rio Grande, Rio Grande do Sul, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `708ebf99a0ff1915`
-- [Estagiário(a) / Governança de TI](https://gruposeb.gupy.io/job/eyJqb2JJZCI6MTE0ODIyOTYsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Grupo SEB** · 📍 Ribeirão Preto, São Paulo, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `d3580e68dac44082`
-- [Estágio Engenharia - Castertech Schroeder/SC (Turnos 1 e 2)](https://randoncorp.gupy.io/job/eyJqb2JJZCI6MTEzNTcyNzcsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Randoncorp** · 📍 Schroeder, Santa Catarina, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-11 · 📅 during semester · `83baa1f35e232a14`
 - [Estágio em Qualidade de Software (QA)](https://ici.gupy.io/job/eyJqb2JJZCI6MTI2OTU2NzMsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **ICI – Instituto das Cidades Inteligentes** · 📍 Curitiba, Paraná, Brazil (hybrid) · year-round · Brazil · ⏳ 2026-10-12 · 📅 during semester · `d687f328f970795f`
 - [Estágio / Contabilidade](https://estagiomercantil.gupy.io/job/eyJqb2JJZCI6MTI2OTExNDYsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **#QueroSerMercantil** · 📍 Belo Horizonte, Minas Gerais, Brazil (hybrid) · year-round · Brazil · ⏳ 2026-10-12 · 💰 R$2,472/mo · 📅 during semester · `ffe3c4b3dbf25bc4`
 - [ESTAGIÁRIO DE SEGURANÇA DO TRABALHO](https://casadiconti.gupy.io/job/eyJqb2JJZCI6MTI2ODMyNjgsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **CASA DI CONTI** · 📍 Cândido Mota, São Paulo, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-12 · 📅 during semester · `9ac6ca225f4b67ba`
@@ -80,7 +46,6 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Estágio em Qualidade Operacional](https://programasmichelinconnectedfleet.gupy.io/job/eyJqb2JJZCI6MTI2NzIxMjUsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **MICHELIN Connected Fleet - Programas de desenvolvimento** · 📍 Barueri, São Paulo, Brazil (hybrid) · year-round · Brazil · ⏳ 2026-10-12 · 📅 during semester · `c86c7f4b7613e420`
 - [Practicante Pre-Profesional de Relación con Inversionistas / Corporativo Lima](https://practicasnexa.gupy.io/job/eyJqb2JJZCI6MTI2NzExOTQsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Programa de Prácticas Nexa - Perú** · 📍 Surco, Brazil (hybrid) · unknown · Brazil · ⏳ 2026-10-12 · ❔ · 📅 dates unknown · `7974d8f78a685b48`
 - [Monitor (Estágio) - Anos Finais - Escola Notre Dame Menino Jesus](https://redenotredameeducacao.gupy.io/job/eyJqb2JJZCI6MTI2MzIzMzYsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Rede de Educação Notre Dame** · 📍 Passo Fundo, Rio Grande do Sul, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-12 · 📅 during semester · `a8a4a9c1e91ffd8f`
-- [Data Science Intern (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8241738?t=gh_src=&gh_jid=8241738) — **Robinhood** · 📍 Menlo Park, CA · May–Aug · US/Canada · ⏳ 2026-10-12 · 🛂 📆 · 📅 clashes with semester · `5cb7bf4a2987b1f1`
 - [Estágio em Marketing do Produto - Frasle Mobility Site Caxias do Sul](https://randoncorp.gupy.io/job/eyJqb2JJZCI6MTI2MjE3OTMsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Randoncorp** · 📍 Caxias do Sul, Rio Grande do Sul, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-12 · 📅 during semester · `fee85e3b999fe1ac`
 - [Estágio Superior Não Obrigatório - CONTROLE DE QUALIDADE](https://estagiosauroracoop.gupy.io/job/eyJqb2JJZCI6MTI2MzE4MjMsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Estágio Aurora** · 📍 Erechim, Rio Grande do Sul, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-12 · 📅 during semester · `19eee81e955310dd`
 - [Assistente de Turma (Estágio)  - Educação Infantil - Escola Notre Dame Menino Jesus](https://redenotredameeducacao.gupy.io/job/eyJqb2JJZCI6MTI1Njc5NTcsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Rede de Educação Notre Dame** · 📍 Passo Fundo, Rio Grande do Sul, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-12 · 📅 during semester · `efcc25028e35c2b2`
@@ -100,7 +65,6 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Estagiário(a)  Consultoria Técnica Plugbank](https://grupotecnospeed.gupy.io/job/eyJqb2JJZCI6MTI0ODAzODIsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Grupo TecnoSpeed** · 📍 Brazil (remote) · year-round · Brazil/remote · ⏳ 2026-10-12 · 📅 during semester · `5c260720b204adbb`
 - [Dexis / Programa de Estágio - Maringá/PR](https://sicredi.gupy.io/job/eyJqb2JJZCI6MTIzOTY0NzEsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Sicredi** · 📍 Maringá, Paraná, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-12 · 📅 during semester · `bc6b24d696c9f5a3`
 - [Estágio - Santarém/PA](https://redemoura.gupy.io/job/eyJqb2JJZCI6MTIzOTg2MDAsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Baterias Moura** · 📍 Santarém, Pará, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-12 · 📅 during semester · `da68b3c9ab34204d`
-- [ESTAGIARIO - Microsoft 365 e Azure](https://stefanini.gupy.io/job/eyJqb2JJZCI6MTIzOTY1OTMsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Stefanini Group** · 📍 São Paulo, São Paulo, Brazil (hybrid) · year-round · Brazil · ⏳ 2026-10-12 · 📅 during semester · `19d2508d54fd83cb`
 - [Estágio em Administração](https://timeplayers.gupy.io/job/eyJqb2JJZCI6MTI0MTI5NjYsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Timenow - Time Players** · 📍 Vitória, Espírito Santo, Brazil (hybrid) · year-round · Brazil · ⏳ 2026-10-12 · 📅 during semester · `af6a474f6e089afe`
 - [ESTÁGIO ENTRETENIMENTO](https://redegazeta.gupy.io/job/eyJqb2JJZCI6MTIzMzgyNDIsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Rede Gazeta** · 📍 Vitória, Espírito Santo, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-12 · 📅 during semester · `10452965cc0dc2ee`
 - [Estágio em Gestão de Desenvolvimento Android](https://institutoeldorado.gupy.io/job/eyJqb2JJZCI6MTIwNzY0ODksInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Instituto de Pesquisas ELDORADO** · 📍 Campinas, São Paulo, Brazil (hybrid) · year-round · Brazil · ⏳ 2026-10-12 · 📅 during semester · `e8c05b0cd535024d`
@@ -132,6 +96,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Estágio Jurídico - Escritório Alves de Andrade Sociedade de Advogados](https://nubevagasefetivas.gupy.io/job/eyJqb2JJZCI6MTI2NzYyNzgsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Nube - Vagas** · 📍 São Paulo, São Paulo, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-13 · 📅 during semester · `dbe56026aaff7fc0`
 - [Estágio Controladoria](https://panamerican.gupy.io/job/eyJqb2JJZCI6MTI2NjgyMjksInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Pan American Silver Brasil** · 📍 Salvador, Bahia, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-13 · 📅 during semester · `095609559533a60a`
 - [Estágio / Comunicação Social – Publicidade e Propaganda](https://estagiocepel.gupy.io/job/eyJqb2JJZCI6MTI2Njk4NTgsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Programa de Estágio do CEPEL** · 📍 Rio de Janeiro, Rio de Janeiro, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-13 · 💰 R$1,320/mo · 📆 · 📅 during semester · `0276373e91958fbb`
+- [Practicante Profesional de Gestión Social - PMO / Corporativo Lima](https://practicasnexa.gupy.io/job/eyJqb2JJZCI6MTI2MzgzODcsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Programa de Prácticas Nexa - Perú** · 📍 Surco, Brazil (on-site) · unknown · Brazil · ⏳ 2026-10-13 · ❔ · 📅 dates unknown · `04d7d7d1cf9a7135`
 - [Estagiário de Agência l Juazeiro/BA](https://estagiomercantil.gupy.io/job/eyJqb2JJZCI6MTI2MzQ5NTUsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **#QueroSerMercantil** · 📍 Juazeiro, Bahia, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-13 · 💰 R$2,472/mo · 📅 during semester · `cbe3d517ecaea931`
 - [Estagiário(a) de CRM](https://yousestag.gupy.io/job/eyJqb2JJZCI6MTI2MzAzMDMsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Youse Seguros / Programa de Estágio 2026** · 📍 São Paulo, São Paulo, Brazil (hybrid) · year-round · Brazil · ⏳ 2026-10-13 · 📆 · 📅 during semester · `ef3bef89a64b05f9`
 - [Estágio em Engenharia de Qualidade](https://mideacarrier.gupy.io/job/eyJqb2JJZCI6MTI2MzI0MzIsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Midea Carrier** · 📍 Canoas, Rio Grande do Sul, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-13 · 💰 R$1,500/mo · 📅 during semester · `2de62d9535fb0b95`
@@ -184,37 +149,128 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [0710/ PR - Estágio Agência de Diamante do Oeste/PR](https://sicredi.gupy.io/job/eyJqb2JJZCI6MTI2NDg1MTgsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Sicredi** · 📍 Diamante D'oeste, Paraná, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-14 · 📅 during semester · `6b5821435581c109`
 - [Estagiário de Engenharia](https://prodalsaude.gupy.io/job/eyJqb2JJZCI6MTI2Mzk1OTYsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Prodal Saude S/A** · 📍 Salvador, Bahia, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-14 · 📅 during semester · `4a4f2297833aa037`
 - [Estagiário(a) de Projetos](https://txtbuild.gupy.io/job/eyJqb2JJZCI6MTI2NDk0NzksInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **TXT Build** · 📍 Salvador, Bahia, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-14 · 📅 during semester · `03789a1113b436d3`
-- _… and 503 more on the [website](https://pedrocamargolince.github.io/vagaLume/)._
+- [Estagiário(a) de Produção Industrial](https://pifpafalimentosestagio.gupy.io/job/eyJqb2JJZCI6MTI2MzQwOTMsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Pif Paf Alimentos Estágio** · 📍 Canoinhas, Santa Catarina, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-14 · 📅 during semester · `ef6a3bc78bbe1175`
+- [Estágio em Pré-Vendas / Comercial (100% Remoto)](https://estante-magica.gupy.io/job/eyJqb2JJZCI6MTI2MjU4MDYsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Estante Mágica** · 📍 Brazil (remote) · year-round · Brazil/remote · ⏳ 2026-10-14 · 💰 R$1,000–1,200/mo · 📅 during semester · `c85eacce99dafd90`
+- [SESI - Estágio em Administração – Sede / Eventos](https://findes.gupy.io/job/eyJqb2JJZCI6MTI1MzA3NTgsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **FINDES** · 📍 Vitória, Espírito Santo, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-14 · 📅 during semester · `7b5611dbf23db47f`
+- [Estágiaria / Estagiário em Suprimentos - Serviços Logísticos](https://votorantimcimentostalentos.gupy.io/job/eyJqb2JJZCI6MTI1MTU4NzIsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Votorantim Cimentos - Jovens Talentos** · 📍 Curitiba, Paraná, Brazil (hybrid) · year-round · Brazil · ⏳ 2026-10-14 · 📅 during semester · `0ce38f4fe3cb8fce`
+- [Pessoa Estagiária em Projetos e Obras](https://hospitaluniversitariocajuru.gupy.io/job/eyJqb2JJZCI6MTI1MzM0NDEsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Hospital Universitário Cajuru** · 📍 Curitiba, Paraná, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-14 · 📅 during semester · `730fd0b0ea11596e`
+- [Security Risk Management Intern (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8207970?t=gh_src=&gh_jid=8207970) — **Robinhood** · 📍 Menlo Park, CA · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 📆 · 📅 clashes with semester · `9ecc1f0d892a537c`
+- [Estágio em  Administração, Ciência de Dados, Economia, Engenharia de Produção, Turismo ou Hotelaria - ACCOR BRASIL](https://viadeacesso.gupy.io/job/eyJqb2JJZCI6MTI0OTg0NzQsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Via de Acesso** · 📍 São Paulo, São Paulo, Brazil (hybrid) · year-round · Brazil · ⏳ 2026-10-14 · 📅 during semester · `827653d1a1def594`
+- [Finance and Strategy Intern (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8198142?t=gh_src=&gh_jid=8198142) — **Robinhood** · 📍 Menlo Park, CA · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 📆 · 📅 clashes with semester · `6859c004dbb85495`
+- [Associate Product Manager (New Grad)](https://boards.greenhouse.io/robinhood/jobs/8199973?t=gh_src=&gh_jid=8199973) — **Robinhood** · 📍 New York, NY · unknown · US/Canada · ⏳ 2026-10-14 · 💰 $130K/yr · 🛂 📆 🆕grad · 📅 dates unknown · `fafd473926382e5c`
+- [Brokerage Operations Intern (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8198198?t=gh_src=&gh_jid=8198198) — **Robinhood** · 📍 Chicago, IL · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 📆 · 📅 clashes with semester · `783090848dff0dd0`
+- [Brokerage Risk Analyst Intern (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8198223?t=gh_src=&gh_jid=8198223) — **Robinhood** · 📍 Chicago, IL · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 📆 · 📅 clashes with semester · `8181d85b7a943aa2`
+- [Business Analyst Intern (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8123238?t=gh_src=&gh_jid=8123238) — **Robinhood** · 📍 Washington, DC · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 📆 · 📅 clashes with semester · `3d4cc4ebe2172343`
+- [Crypto Accounting Intern (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8198153?t=gh_src=&gh_jid=8198153) — **Robinhood** · 📍 New York, NY · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 📆 · 📅 clashes with semester · `af1c109b0533c58d`
+- [Crypto Operations Intern (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8193484?t=gh_src=&gh_jid=8193484) — **Robinhood** · 📍 New York, NY · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 📆 · 📅 clashes with semester · `0b4e8244c5bd7c98`
+- [Crypto Partnership Intern (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8193710?t=gh_src=&gh_jid=8193710) — **Robinhood** · 📍 New York, NY · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 📆 · 📅 clashes with semester · `238f9f3c7645cbc1`
+- [ESTAGIO EM ENFERMAGEM - SOROCABA/SP](https://validcarreiras-jovenstalentos.gupy.io/job/eyJqb2JJZCI6MTI0ODIzNzIsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Valid** · 📍 Sorocaba, São Paulo, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-14 · 📅 during semester · `50c1dfcbe18c9b61`
+- [Estagiário -Atração & Seleção/DHO- Unidade Concórdia](https://fhsfa.gupy.io/job/eyJqb2JJZCI6MTI0NjU2NjYsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Hospital São Francisco** · 📍 Belo Horizonte, Minas Gerais, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-14 · 💰 R$1,000/mo · 📅 during semester · `bb3da0684f8044b8`
+- [Estagiário(a) - Aprendizagem](https://ciee.gupy.io/job/eyJqb2JJZCI6MTI0NTU1MDEsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **CIEE - Centro de Integração Empresa-Escola** · 📍 Avaré, São Paulo, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-14 · 📅 during semester · `1bace6e6a24172ed`
+- [ESTAGIÁRIO(A) DE FINANÇAS](https://carreiragrob.gupy.io/job/eyJqb2JJZCI6MTI0ODIxMTUsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **B. GROB do Brasil S.A.** · 📍 São Bernardo do Campo, São Paulo, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-14 · 📅 during semester · `a75ee45c409d5aaa`
+- [Fraud Operations Intern (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8198241?t=gh_src=&gh_jid=8198241) — **Robinhood** · 📍 Denver, CO · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 📆 · 📅 clashes with semester · `cd80681b6c5ca668`
+- [Futures & Prediction Market Operations Intern (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8187309?t=gh_src=&gh_jid=8187309) — **Robinhood** · 📍 Chicago, IL · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 📆 · 📅 clashes with semester · `65d5514965b8da3d`
+- [Growth Marketing Intern (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8192367?t=gh_src=&gh_jid=8192367) — **Robinhood** · 📍 Menlo Park, CA · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 📆 · 📅 clashes with semester · `c0335bb79af3dbe2`
+- [Investment Analyst MBA Intern, Robinhood Ventures (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8198187?t=gh_src=&gh_jid=8198187) — **Robinhood** · 📍 Menlo Park, CA · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 · 📅 clashes with semester · `d3b85b6e31ae3527`
+- [People Partner Intern (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8197614?t=gh_src=&gh_jid=8197614) — **Robinhood** · 📍 New York, NY · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 · 📅 clashes with semester · `e86fc0fa5f6fbe28`
+- [PeopleX Insights & Analytics Intern (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8198255?t=gh_src=&gh_jid=8198255) — **Robinhood** · 📍 Menlo Park, CA · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 📆 · 📅 clashes with semester · `7f308352e88c6477`
+- [Software Developer Intern, Backend (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8142930?t=gh_src=&gh_jid=8142930) — **Robinhood** · 📍 Toronto, Canada · May–Aug · US/Canada · ⏳ 2026-10-14 · 💰 CA$40/hr · 🛂 📆 · 📅 clashes with semester · `94cd2983e9b38e99`
+- [Software Developer Intern, iOS (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8199729?t=gh_src=&gh_jid=8199729) — **Robinhood** · 📍 Toronto, Canada · May–Aug · US/Canada · ⏳ 2026-10-14 · 💰 CA$40/hr · 🛂 📆 · 📅 clashes with semester · `74d1c99b0ef967c8`
+- [Software Developer Intern, Web (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8199744?t=gh_src=&gh_jid=8199744) — **Robinhood** · 📍 Toronto, Canada · May–Aug · US/Canada · ⏳ 2026-10-14 · 💰 CA$40/hr · 🛂 📆 · 📅 clashes with semester · `d06bca964280a986`
+- [Software Developer Intern/Co-op, Backend (Winter 2027)](https://boards.greenhouse.io/robinhood/jobs/8194428?t=gh_src=&gh_jid=8194428) — **Robinhood** · 📍 Toronto, Canada · year-round · US/Canada · ⏳ 2026-10-14 · 💰 CA$40/hr · 🛂 📆 · 📅 during semester · `2d5d2ffa531e769d`
+- [Software Engineering Intern, Android (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8142961?t=gh_src=&gh_jid=8142961) — **Robinhood** · 📍 Menlo Park, CA; New York, NY · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 📆 · 📅 clashes with semester · `b512dab0e99411fb`
+- [Software Engineering Intern, Backend (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8123225?t=gh_src=&gh_jid=8123225) — **Robinhood** · 📍 Bellevue, WA; Menlo Park, CA; New York, NY · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 📆 · 📅 clashes with semester · `467335d75303302a`
+- [Software Engineering Intern, iOS (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8142959?t=gh_src=&gh_jid=8142959) — **Robinhood** · 📍 Menlo Park, CA; New York, NY · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 📆 · 📅 clashes with semester · `567c1b006052f9fb`
+- [Software Engineering Intern, Web (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8142963?t=gh_src=&gh_jid=8142963) — **Robinhood** · 📍 Menlo Park, CA; New York, NY · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 📆 · 📅 clashes with semester · `f2094ce830aafa7b`
+- [Special Projects Intern (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8198262?t=gh_src=&gh_jid=8198262) — **Robinhood** · 📍 Menlo Park, CA · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 📆 · 📅 clashes with semester · `6175a1f156316a5a`
+- [Vendor Management Intern (Summer 2027)](https://boards.greenhouse.io/robinhood/jobs/8198097?t=gh_src=&gh_jid=8198097) — **Robinhood** · 📍 New York, NY · May–Aug · US/Canada · ⏳ 2026-10-14 · 🛂 📆 · 📅 clashes with semester · `3f17bcba72476ad9`
+- _… and 511 more on the [website](https://pedrocamargolince.github.io/vagaLume/)._
 
-## 🆕 New this run (13 more, besides any above)
+## 🆕 New this run (63 more, besides any above)
 
-### research (1)
+### ML (8)
 
-- [Security Research Intern](https://apply.careers.microsoft.com/careers/job/1970393556768751) — **Microsoft** · 📍 Multiple Locations, Multiple Locations, Israel · unknown · Asia/ME · 📅 dates unknown · **NEW** · `6711ef1bc020d94b`
+- [AI Business Solutions Intern](https://jobs.smartrecruiters.com/BoschGroup/744000154992819) — **Bosch Home Comfort** · 📍 Coventry, UK · May–Aug · Europe · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `b572d9b8b2569dcc`
+- [AI Research Engineer, New PhD Graduate](https://careers.duolingo.com/jobs/8881612002?gh_jid=8881612002) — **Duolingo** · 📍 New York, NY; Pittsburgh, PA · unknown · US/Canada · 💰 $138K–186K/yr · 🛂 🎓 ❔ · 📅 dates unknown · **NEW** · `01dab90e4c706420`
+- [Deep Learning Performance Intern - 2027](https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/China-Shanghai/Deep-Learning-Performance-Intern---2027_JR2027348) — **NVIDIA** · 📍 China, Shanghai · unknown · Asia/ME · 📅 dates unknown · **NEW** · `65c57e20c7afcce2`
+- [Deep Learning Performance Intern - 2027](https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/China-Shanghai/Deep-Learning-Performance-Intern---2027_JR2026880) — **NVIDIA** · 📍 China, Shanghai · unknown · Asia/ME · 📅 dates unknown · **NEW** · `d0be23b7c2874cca`
+- [MLOps Physical AI Data Intern - 2027](https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/China-Shanghai/MLOps-Physical-AI-Data-Intern---2027_JR2026544) — **NVIDIA** · 📍 China, Shanghai · unknown · Asia/ME · 📅 dates unknown · **NEW** · `01e2b24b8f9cf3af`
+- [Software Engineering Intern, AI Agent Test Development - 2027](https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/China-Shanghai/Software-Engineering-Intern--AI-Agent-Test-Development---2027_JR2027477) — **NVIDIA** · 📍 China, Shanghai · unknown · Asia/ME · 📅 dates unknown · **NEW** · `9d3692477f000239`
+- [Software Engineering Intern, AI CI/CD Infrastructure – 2027](https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/China-Shanghai/Software-Engineering-Intern--AI-CI-CD-Infrastructure---2027_JR2026869) — **NVIDIA** · 📍 China, Shanghai · unknown · Asia/ME · 📅 dates unknown · **NEW** · `65a8abba445697e2`
+- [Early Career, Inside Sales Representative (2027)](https://boards.greenhouse.io/figma/jobs/6174190004?gh_jid=6174190004) — **Figma** · 📍 San Francisco, CA • New York, NY · unknown · US/Canada · 💰 $26.96/hr · 🛂 🆕grad · 📅 dates unknown · **NEW** · `70de82785f182ca0`
+
+### research (5)
+
+- [People Analytics Intern, PhD, Summer 2027](https://www.google.com/about/careers/applications/jobs/results/81809776362562246) — **Google** · 📍 Mountain View, CA, USA / Atlanta, GA, USA / Chicago, IL, USA / New York, NY, USA · May–Aug · US/Canada · ⏳ 2027-02-26 · 💰 $99K–132K/yr · 🛂 🎓 · 📅 clashes with semester · **NEW** · `3d784b21cbb5839f`
+- [Accelerated Computing Research Intern](https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/Sweden-Remote/Accelerated-Computing-Research-Intern_JR2027378) — **NVIDIA** · 📍 2 Locations · unknown · unknown · 📅 dates unknown · **NEW** · `b87c5ec2dc8e6e7f`
+- [Data Research Fellowship](https://boards.greenhouse.io/point72/jobs/8883820002?gh_jid=8883820002) — **Point72** · 📍 New York, NY · year-round · US/Canada · 💰 $112K/yr · 🛂 · 📅 during semester · **NEW** · `26d5501c410c1aa7`
+- [Estágio em Turismo, Hotelaria, Administração](https://www.superestagios.com.br/index/vagasEstagioDestaque.php?i=MzIzMDU3QEAzODQ2Nw==) — **Empresa confidencial** · 📍 Maceió, AL, Brazil (on-site) · year-round · Brazil · 💰 R$800/mo · 📅 during semester · **NEW** · `b8ec7b08d7ce210f`
+- [Research Scientist Intern, Robotics - Meta Reality Labs Research (PhD)](https://www.metacareers.com/jobs/2586686598441521/) — **Meta** · 📍 Redmond, WA · unknown · US/Canada · 🛂 🎓 · 📅 dates unknown · **NEW** · `1306090e46d72418`
+
+### SWE (27)
+
+- [Estágio Técnico Agrícola – Fazenda Perpétua / Alto Parnaíba/MA](https://slcagricola.gupy.io/job/eyJqb2JJZCI6MTI3MTE5NjcsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **SLC Agrícola** · 📍 Alto Parnaíba, Maranhão, Brazil (on-site) · year-round · Brazil · ⏳ 2026-10-30 · 📅 during semester · **NEW** · `4ad50bac9a19dc74`
+- [Product Deployment Engineer BS/MS, Intern - 2027 (English)](https://www.google.com/about/careers/applications/jobs/results/118991686201156294) — **Google** · 📍 Hamburg, Germany / Madrid, Spain / Amsterdam, Netherlands · May–Aug · Europe · ⏳ 2026-11-20 · 🛂 📆 · 📅 clashes with semester · **NEW** · `8c5e072c49a72fb6`
+- [Product Deployment Engineer BS/MS, Intern - 2027 (English)](https://www.google.com/about/careers/applications/jobs/results/112940936274551494) — **Google** · 📍 London, UK · May–Aug · Europe · ⏳ 2026-11-20 · 🛂 📆 · 📅 clashes with semester · **NEW** · `684cf9ab023d63d0`
+- [Estagiário de Manutenção](https://valgroup.gupy.io/job/eyJqb2JJZCI6MTI3MTIzMjksInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Vagas Valgroup** · 📍 Manaus, Amazonas, Brazil (on-site) · year-round · Brazil · ⏳ 2026-12-10 · 📅 during semester · **NEW** · `0c09b1ebea9c6d84`
+- [Estagiário Engenharia Ambiental](https://valgroup.gupy.io/job/eyJqb2JJZCI6MTI3MTIzMjIsInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **Vagas Valgroup** · 📍 Manaus, Amazonas, Brazil (on-site) · year-round · Brazil · ⏳ 2026-12-10 · 📅 during semester · **NEW** · `c4bcaf7f7b977866`
+- [Cloud Network Engineering Internship Oportunities](https://apply.careers.microsoft.com/careers/job/1970393557037856) — **Microsoft** · 📍 Redmond, Washington, United States · unknown · US/Canada · 🛂 · 📅 dates unknown · **NEW** · `5479c3495e2eb90c`
+- [Consulting Software Engineer Intern](https://jobs.smartrecruiters.com/CapTechConsulting/744000155019115) — **CapTech Consulting** · 📍 Richmond, VA · May–Aug · US/Canada · 🛂 · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `3e991ab8e941edc4`
+- [Deployment Engineering Intern](https://job-boards.greenhouse.io/figureai/jobs/4721113006) — **Figure AI** · 📍 San Jose, CA · year-round · US/Canada · 💰 $35–40/hr · 🛂 · 📅 during semester · **NEW** · `89f8cc3e879892bf`
+- [Early Career C++ Software Engineer](https://wolve.pinpointhq.com/en/postings/4b0e86a1-db36-4490-9a98-17782ffcc648?ats=pinpointhq) — **Wolverine Trading** · 📍 Chicago, IL · year-round · US/Canada · 🛂 🆕grad · 📅 during semester · **NEW** · _from SimplifyJobs New Grad_ · `90cdb26ca3aba43b`
+- [Energy Engineering Intern (Winter 2027)](https://apply.workable.com/resource-innovations/j/4CAAA40639/apply) — **Resource Innovations** · 📍 Toronto, ON, Canada · year-round · US/Canada · 🛂 · 📅 during semester · **NEW** · _from SimplifyJobs Off-Season 2027_ · `43dec446e68985ce`
+- [Engineering Intern](https://lseg.wd3.myworkdayjobs.com/Graduate_Careers/job/Nottingham-United-Kingdom/Engineering-Summer-Internship-Programme_R0124221) — **LSEG** · 📍 Nottingham, UK · May–Aug · Europe · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `69b68b1b1324c131`
+- [Forward Deployed Engineer Intern](https://www.google.com/about/careers/applications/jobs/results/75665705386549958) — **Google** · 📍 NYC / Sunnyvale, CA · May–Aug · US/Canada · 🛂 · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `eb17419226392d35`
+- [Graduate Software Engineer (DV Commodities)](https://job-boards.greenhouse.io/dvtrading/jobs/4742955005) — **DV Trading** · 📍 London · unknown · Europe · ❔ · 📅 dates unknown · **NEW** · `895ff58aecef7e46`
+- [Placement Technologist Intern](https://kainos.wd3.myworkdayjobs.com/kainos/job/Derry-Londonderry/Placement-Technologist--L-Derry----June-2027-Start-Date_JR_18557-1) — **Kainos** · 📍 Londonderry, UK · May–Aug · Europe · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `5499b8360ae75ba6`
+- [Software Engineer Intern - Zurich (2026)](https://jobs.ashbyhq.com/snowflake/26a0ae52-97a6-4a46-9216-3c382570d89b) — **Snowflake** · 📍 CH-Zurich-Observe, Switzerland · unknown · Europe · 📅 dates unknown · **NEW** · `3d8b998175104e99`
+- [Software Engineer Internship Opportunities](https://apply.careers.microsoft.com/careers/job/1970393557038773) — **Microsoft** · 📍 Dublin, Dublin, Ireland · unknown · Europe · 📅 dates unknown · **NEW** · `332cb85a3b80011b`
+- [Software Engineering Intern, DGX Cloud Test Development - 2027](https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/China-Shanghai/Software-Engineering-Intern--DGX-Cloud-Test-Development---2027_JR2027479) — **NVIDIA** · 📍 China, Shanghai · unknown · Asia/ME · 📅 dates unknown · **NEW** · `77ea4a95aed6231e`
+- [Software Engineering Intern, DGX Cloud Test Development - 2027](https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/China-Shanghai/Software-Engineering-Intern--DGX-Cloud-Test-Development---2027_JR2027480-1) — **NVIDIA** · 📍 China, Shanghai · unknown · Asia/ME · 📅 dates unknown · **NEW** · `58095ba37e776143`
+- [System Software Engineering Intern, GPU and SOC - Summer 2027](https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/Taiwan-Taipei/System-Software-Engineering-Intern--GPU-and-SOC---Summer-2027_JR2026406) — **NVIDIA** · 📍 Taiwan, Taipei · May–Aug · Asia/ME · 📅 clashes with semester · **NEW** · `652ba042052500c4`
+- [Technologist Intern](https://kainos.wd3.myworkdayjobs.com/kainos/job/Belfast/Placement-Technologist--Belfast----June-2027-Start-Date_JR_18556) — **Kainos** · 📍 Belfast, UK · May–Aug · Europe · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `62204f3a787f9cc2`
+- [Technologist Intern](https://kainos.wd3.myworkdayjobs.com/kainos/job/Birmingham/Placement-Technologist--Birmingham----July-2027-Start-Date_JR_18558) — **Kainos** · 📍 Birmingham, UK · May–Aug · Europe · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `d8939d8757ff4631`
+- [Technology Intern](https://apply.workable.com/capula-investment-management-ltd/j/96EBCF5617/apply) — **Capula** · 📍 London, UK · May–Aug · Europe · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `2c29d66ffc1dcbbe`
+- [Test Development Software Engineering Intern - 2027](https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/China-Shanghai/Test-Development-Software-Engineering-Intern---2027_JR2027347) — **NVIDIA** · 📍 China, Shanghai · unknown · Asia/ME · 📅 dates unknown · **NEW** · `9151df7e31f2d170`
+- [Test Development Software Engineering Intern - 2027](https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/China-Shanghai/Test-Development-Software-Engineering-Intern---2027_JR2027472) — **NVIDIA** · 📍 China, Shanghai · unknown · Asia/ME · 📅 dates unknown · **NEW** · `0014c92757b93954`
+- [Software Engineer New Grad - DL Kernel Libraries](https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Software-Engineer--DL-Kernel-Libraries---New-College-Grad-2027_JR2027337) — **NVIDIA** · 📍 Santa Clara, CA · year-round · US/Canada · 🛂 🆕grad · 📅 during semester · **NEW** · _from SimplifyJobs New Grad_ · `a9b192447f2126bb`
+- [Software Development Engineer, Amazon University Talent Acquisition](https://www.amazon.jobs/en/jobs/10573798/software-development-engineer-amazon-university-talent-acquisition) — **Servicios Comerciales Amazon Mexico S. de R.L. de C.V. - D44** · 📍 Mexico City, Mexico City, MEX · unknown · LatAm · ❔ · 📅 dates unknown · **NEW** · `72e1311933afe318`
+- [Software Engineering Intern (2027)](https://databricks.com/company/careers/open-positions/job?gh_jid=6865687002) — **Databricks** · 📍 Bellevue, Washington; Mountain View, California; San Francisco, California; Vanc · May–Aug · US/Canada · 💰 $40–60/hr · 🛂 📆 · 📅 clashes with semester · **NEW** · `869396a65ed5d82f`
 
 ### data (4)
 
-- [Data Science & Autonomous Systems Intern - Data Science & Autonomous Systems - Critical Infrastructure Protection](https://careers.jhuapl.edu/jobs/60432?icims=1) — **Johns Hopkins Applied Physics Laboratory** · 📍 Laurel, MD · May–Aug · US/Canada · 🛂 · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `f21f11280b49ae91`
-- [Summer Analyst Intern](https://higher.gs.com/roles/171550?type=students) — **Goldman Sachs** · 📍 NYC · May–Aug · US/Canada · 🛂 · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `2578c04692bc50be`
-- [Summer Analyst Intern - Engineering](https://higher.gs.com/roles/170644?type=students) — **Goldman Sachs** · 📍 London, UK · May–Aug · Europe · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `abe57b0cb12ad183`
-- [Summer Analyst Intern - Engineering](https://higher.gs.com/roles/177808?type=students) — **Goldman Sachs** · 📍 Seattle, WA · May–Aug · US/Canada · 🛂 · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `9e92370e4552feb4`
+- [Data Analysis/Data Engineering Intern](https://jobs.smartrecruiters.com/CapTechConsulting/744000155023169) — **CapTech Consulting** · 📍 Richmond, VA · May–Aug · US/Canada · 🛂 · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `6527806d4d5f2250`
+- [Data Center Engineer Intern - Summer 2027](https://job-boards.greenhouse.io/dvtrading/jobs/4742962005) — **DV Trading** · 📍 Chicago · May–Aug · US/Canada · 💰 $40/hr · 🛂 📆 · 📅 clashes with semester · **NEW** · `f047610bc7e0d93d`
+- [Estágio em Farmácia](https://www.superestagios.com.br/index/vagasEstagioDestaque.php?i=MzI1NDI1QEAxOTYxNg==) — **Empresa confidencial** · 📍 Vitória, ES, Brazil (on-site) · year-round · Brazil · 💰 R$900/mo · 📅 during semester · **NEW** · `d7f0c62539286677`
+- [Data Scientist Apprentice - Level 6 Data Scientist (Fall 2027)](https://thales.wd3.myworkdayjobs.com/en-US/Careers/job/Crawley/XMLNAME-2027-Data-Science-Apprentice_R0337752) — **Thales** · 📍 Crawley, UK · year-round · Europe · 📅 during semester · **NEW** · _from SimplifyJobs Off-Season 2027_ · `c872f2fc02902909`
 
-### quant (6)
+### quant (2)
 
-- [Quantitative Strategist Associate Intern - The Core Quantitative Strats](https://higher.gs.com/roles/175427?type=students) — **Goldman Sachs** · 📍 London, UK · May–Aug · Europe · 🎓 · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `f5c973e86d2faa12`
-- [Quantitative Strategist Intern - Asset and Wealth Management - Quantitative Strats](https://higher.gs.com/roles/175421?type=students) — **Goldman Sachs** · 📍 London, UK · May–Aug · Europe · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `188a364461704ca4`
-- [Quantitative Strategist Intern - Asset and Wealth Management - Quantitative Strats](https://higher.gs.com/roles/171549?type=students) — **Goldman Sachs** · 📍 Salt Lake City, UT · May–Aug · US/Canada · 🛂 · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `7262b31ec1ce6c8f`
-- [Quantitative Strategist Intern - Investment Banking](https://higher.gs.com/roles/175428?type=students) — **Goldman Sachs** · 📍 London, UK · May–Aug · Europe · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `2c2acdec3937e92f`
-- [Quantitative Strats Analyst Intern - Americas - Investment Banking](https://higher.gs.com/roles/171548?type=students) — **Goldman Sachs** · 📍 Dallas, TX · May–Aug · US/Canada · 🛂 · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `6545f6c921f5c1e0`
-- [Summer Analyst Intern - The Core Quantitative Strats](https://higher.gs.com/roles/175426?type=students) — **Goldman Sachs** · 📍 London, UK · May–Aug · Europe · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `f5a8e400ab704d2f`
+- [Mako Summer Internship – Trading](https://www.mako.com/opportunities/job-listing/8883121002?gh_jid=8883121002) — **Mako Trading** · 📍 London · May–Aug · Europe · 📆 · 📅 clashes with semester · **NEW** · `cd922fadfe46dfbe`
+- [Venture Capital Intern (Part-time, Fall/Winter)](https://www.tower-research.com/open-positions/?gh_jid=7368106) — **Tower Research Capital** · 📍 New York · year-round · US/Canada · 💰 $500–1,000/mo · 🛂 · 📅 during semester · **NEW** · `2d3533d2c3c0c001`
 
-### hardware (1)
+### hardware (2)
 
-- [Test Solutions Engineering Intern - BS - Post-Silicon Hardware Validation](https://marvell.wd1.myworkdayjobs.com/MarvellCareers/job/Burlington-VT/Test-Solutions-Engineering-Intern--BS---Summer-2027_2603835) — **Marvell** · 📍 Burlington, VT · May–Aug · US/Canada · 🛂 · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `a21bd4fb03d3a852`
+- [Robotics Software Intern, Humanoid Robotics - 2027](https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/China-Shanghai/Robotics-Software-Intern--Humanoid-Robotics---2027_JR2026758) — **NVIDIA** · 📍 China, Shanghai · unknown · Asia/ME · 📅 dates unknown · **NEW** · `fdf5b41be2579949`
+- [FPGA Electrical Engineer Intern - Civil & Commercial Space Division](https://spacedynamicslaboratory.applytojob.com/apply/SznZA6uzbW/CVS-FPGA-Electrical-Engineer-Intern) — **Space Dynamics Laboratory** · 📍 North Logan, UT · May–Aug · US/Canada · 🛂 · 📅 clashes with semester · **NEW** · _from SimplifyJobs Summer 2027_ · `5d3f61d214484f5e`
 
-### other (1)
+### other (15)
 
-- [Estágio em Odontologia](https://www.superestagios.com.br/index/vagasEstagioDestaque.php?i=MzI1ODczQEAzODM0OQ==) — **Empresa confidencial** · 📍 Jundiaí, SP, Brazil (on-site) · year-round · Brazil · 💰 R$1,200/mo · 📅 during semester · **NEW** · `d4fb6a669d558336`
+- [Business Program Manager MBA Intern, 2027](https://www.google.com/about/careers/applications/jobs/results/109231596359295686) — **Google** · 📍 London, UK · May–Aug · Europe · ⏳ 2026-11-20 · 🛂 📆 · 📅 clashes with semester · **NEW** · `60b7fc9e51c9472b`
+- [Media Account Specialist BS/MS Intern, 2027](https://www.google.com/about/careers/applications/jobs/results/99661447151133382) — **Google** · 📍 Dublin, Ireland · May–Aug · Europe · ⏳ 2026-11-20 · 🛂 📆 · 📅 clashes with semester · **NEW** · `a1d69ecd57f52778`
+- [Media Account Specialist BS/MS Intern, 2027 (English, Hebrew)](https://www.google.com/about/careers/applications/jobs/results/78951046130344646) — **Google** · 📍 Dublin, Ireland · May–Aug · Europe · ⏳ 2026-11-20 · 🛂 📆 · 📅 clashes with semester · **NEW** · `f00e457378d63529`
+- [Media Account Specialist BS/MS Intern, 2027 (German, French, Spanish)](https://www.google.com/about/careers/applications/jobs/results/132324639077475014) — **Google** · 📍 Warsaw, Poland · May–Aug · Europe · ⏳ 2026-11-20 · 🛂 📆 · 📅 clashes with semester · **NEW** · `4fa83971d2a4f40d`
+- [Estagio Almoxarifado](https://deliciasdotrigo.gupy.io/job/eyJqb2JJZCI6MTI2NDU3NjksInNvdXJjZSI6Imd1cHlfcG9ydGFsIn0=) — **DELICIAS DO TRIGO** · 📍 Campo Belo, Minas Gerais, Brazil (on-site) · year-round · Brazil · ⏳ 2026-11-29 · 📅 during semester · **NEW** · `ea7f4e683296d3ca`
+- [2027 WHS Intern](https://www.amazon.jobs/en/jobs/10575772/2027-whs-intern) — **Q-Tech Egypt for E-Commerce LLC** · 📍 Cairo, EGY · unknown · unknown · 📆 · 📅 dates unknown · **NEW** · `5d87279dfebe6613`
+- [Business Development Management Intern - 2027](https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/China-Beijing/Business-Development-Management-Intern---2027_JR2026580) — **NVIDIA** · 📍 China, Beijing · unknown · Asia/ME · 📅 dates unknown · **NEW** · `5e99b4dcad0c4a65`
+- [Corporate Human Resources Partner Intern (6 Months) - 2027](https://www.amazon.jobs/en/jobs/10575672/corporate-human-resources-partner-intern-6-months-2027) — **Amazon Europe Core Sarl** · 📍 Luxembourg, LUX · unknown · Europe · 📆 · 📅 dates unknown · **NEW** · `1812f8be8c1b9015`
+- [CPU Compiler Intern - 2027](https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/India-Pune/CPU-Compiler-Intern---2027_JR2027260-1) — **NVIDIA** · 📍 2 Locations · unknown · unknown · 📅 dates unknown · **NEW** · `a7de09b363915ca8`
+- [Estágio em Administrativa](https://portal.ciee.org.br/quero-uma-vaga/?codigoVaga=6256675) — **GABRIELA MIRANDA - SAUDE E ESTETICA AVANCADA** · 📍 Brasília, DF, Brazil · year-round · Brazil · 💰 R$800/mo · 📅 during semester · **NEW** · `32263cbca7572c21`
+- [Estágio em Administração, Administração - Ead](https://www.superestagios.com.br/index/vagasEstagioDestaque.php?i=MzE2OTU2QEAzODgxNQ==) — **Empresa confidencial** · 📍 Maricá, RJ, Brazil (on-site) · year-round · Brazil · 💰 R$1,600/mo · 📅 during semester · **NEW** · `209802941cc5c818`
+- [Estágio em Administração, Administração de Empresas](https://www.superestagios.com.br/index/vagasEstagioDestaque.php?i=MzE3NzM1QEAyMTE4Mw==) — **Empresa confidencial** · 📍 Niterói, RJ, Brazil (on-site) · year-round · Brazil · 💰 R$800/mo · 📅 during semester · **NEW** · `64e55c905e9911dd`
+- [Estágio em Design](https://portal.ciee.org.br/quero-uma-vaga/?codigoVaga=6264983) — **CLUBE 45 LTDA** · 📍 Sorocaba, SP, Brazil · year-round · Brazil · 💰 R$1,200/mo · 📅 during semester · **NEW** · `648b2f46054ed31c`
+- [MBA Intern, Summer 2027](https://www.google.com/about/careers/applications/jobs/results/121103710599160518) — **Google** · 📍 Mountain View, CA, USA / Atlanta, GA, USA / Austin, TX, USA / Boulder, CO, USA / · May–Aug · US/Canada · 💰 $96K–125K/yr · 🛂 📆 · 📅 clashes with semester · **NEW** · `efdb6b4f3bf7d312`
+- [General Marketing Manager Intern (12m) - 2027](https://www.amazon.jobs/en/jobs/10572992/general-marketing-manager-intern-12m-2027) — **Amazon Digital Germany GmbH** · 📍 Munich, Bavaria, DEU · year-round · Europe · 📆 · 📅 during semester · **NEW** · `d555d5183c1358d9`
 
 ## 📄 Watched program pages (42)
 
@@ -223,11 +279,11 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [CBPF PIBIC/PIBIT (iniciação científica)](https://www.gov.br/cbpf/pt-br/formacao-cientifica/educacao-cientifica/pibic-e-pibit) — **CBPF (Rio de Janeiro)** · year-round · Brazil · 📅 during semester · _page unchanged since 2026-10-09 · IC calls at CBPF, with a few grants for students from outside Rio_ · `c018d704640d7d89`
 - [CNPEM Programa Bolsas de Verão (PBV)](https://pages.cnpem.br/bolsasdeverao/) — **CNPEM (LNLS/Sirius, LNBio, LNBR, LNNano)** · Dec–Feb · Brazil/LatAm · 📅 fits Dec–Feb break · _page unchanged since 2026-10-09 · undergrads in exact sciences, engineering and biology; Jan–Feb in Campinas with travel and housing paid; applications Aug–early Sep_ · `9c839fef3d22b3e0`
 - [CNPEM Programa Unificado de Estágios (PUE)](https://pages.cnpem.br/pue/) — **CNPEM** · year-round · Brazil · 💰 R$1,230–1,870/mo · 📅 during semester · _page unchanged since 2026-10-09 · paid research internship in Campinas (30 h/week, up to 2 years); applications in August, starts February_ · `e44c000041deed69`
-- [Companhia de Estágios, programas abertos](https://www.ciadeestagios.com.br/vagas-de-estagio/) — **Companhia de Estágios** · year-round · Brazil · 📅 during semester · _page unchanged since 2026-10-10 · estágio programs of big companies (e.g. Boeing, Stellantis, Danone, Pirelli); each lists its deadline_ · `087a1cced6d9ec15`
+- [Companhia de Estágios, programas abertos](https://www.ciadeestagios.com.br/vagas-de-estagio/) — **Companhia de Estágios** · year-round · Brazil · 📅 during semester · _page changed on 2026-10-12 · estágio programs of big companies (e.g. Boeing, Stellantis, Danone, Pirelli); each lists its deadline_ · `087a1cced6d9ec15`
 - [Embraer Programa de Estágio](https://embraer.com/corporate-careers/estagio/pt/) — **Embraer** · year-round · Brazil · 📅 during semester · _page unchanged since 2026-10-09 · applications usually Sep–Oct, start in February_ · `af34d5ad0444046c`
 - [Escola São Paulo de Ciência Avançada (ESPCA)](http://espca.fapesp.br/proximas/) — **FAPESP** · unknown · Brazil · 🎓 · 📅 dates unknown · _page unchanged since 2026-10-09 · 1–2 week schools with travel support for selected students, mostly grad students; topics change every year_ · `0a284407ca9798da`
 - [ICMC-USP Programa de Verão](https://verao.icmc.usp.br/) — **ICMC-USP (São Carlos)** · Dec–Feb · Brazil · 📅 fits Dec–Feb break · _page unchanged since 2026-10-09 · January–February courses; free; for final-year undergrads and grad students_ · `29caed4d32f6b461`
-- [ICTP-SAIFR schools](https://www.ictp-saifr.org/) — **ICTP-SAIFR / IFT-UNESP (São Paulo)** · year-round · Brazil/LatAm · 🎓 · 📅 during semester · _page changed on 2026-10-11 · schools in São Paulo, mostly for MSc/PhD students, some admit advanced undergrads (past topics: data science and ML, quantum computing)_ · `543fee1722d183b1`
+- [ICTP-SAIFR schools](https://www.ictp-saifr.org/) — **ICTP-SAIFR / IFT-UNESP (São Paulo)** · year-round · Brazil/LatAm · 🎓 · 📅 during semester · _page changed on 2026-10-12 · schools in São Paulo, mostly for MSc/PhD students, some admit advanced undergrads (past topics: data science and ML, quantum computing)_ · `543fee1722d183b1`
 - [IME-USP Programa de Verão](https://www.ime.usp.br/verao/index.php) — **IME-USP** · Dec–Feb · Brazil · 📅 fits Dec–Feb break · _page unchanged since 2026-10-09 · short courses in mathematics, statistics and computer science in Jan–Feb; registration from about November_ · `a25481d0b537d43f`
 - [INPE Curso de Introdução à Astronomia e Astrofísica (CIAA)](https://www.gov.br/inpe/pt-br/eventos/ciaa) — **INPE (São José dos Campos)** · unknown · Brazil · 📅 dates unknown · _page unchanged since 2026-10-09 · yearly course open to undergrads and teachers_ · `6340e7c990f2b8b5`
 - [Itaú programas de carreira (estágio, estágio de férias, trainee)](https://carreiras.itau.com.br/programas) — **Itaú Unibanco** · Dec–Feb · Brazil · 🎓 · 📅 fits Dec–Feb break · _page unchanged since 2026-10-09 · shows whether each program is open_ · `dc2a6e5a9679414f`
@@ -235,7 +291,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Raízen programas de talentos (estágio, trainee)](https://www.raizen.com.br/programas-de-talentos) — **Raízen** · year-round · Brazil · 📅 during semester · _page unchanged since 2026-10-10_ · `ce9488c053c3a5ed`
 - [Suzano Programa de Estágio](https://www.suzano.com.br/trabalhe-conosco/estagio) — **Suzano** · year-round · Brazil · 📅 during semester · _page unchanged since 2026-10-09 · applications usually Sep–Oct, start in Jan–Feb_ · `23d3e84eaa29c62e`
 - [Tropical Probabilistic AI School](https://tropical.probabilistic.ai/) — **ProbAI / FGV EMAp (Rio de Janeiro)** · Dec–Feb · Brazil/LatAm · 🛂 · 📅 fits Dec–Feb break · _page unchanged since 2026-10-09 · the page still shows the 2024 edition, so a change probably means a new one_ · `48a614200938a1e3`
-- [Meta university programs](https://www.metacareers.com/careerprograms/students) — **Meta** · year-round · unknown · 🎓 · 📅 during semester · _page changed on 2026-10-11_ · `cc650f682d0ad702`
+- [Meta university programs](https://www.metacareers.com/careerprograms/students) — **Meta** · year-round · unknown · 🎓 · 📅 during semester · _page changed on 2026-10-12_ · `cc650f682d0ad702`
 - [Amazon internships for students](https://www.amazon.jobs/content/en/career-programs/university/internships-for-students) — **Amazon** · unknown · unknown · 📅 dates unknown · _page unchanged since 2026-10-05_ · `76707db0b82d4971`
 - [Anthropic Fellows Program](https://alignment.anthropic.com/2025/anthropic-fellows-program-2026/) — **Anthropic** · unknown · US/Canada/Europe · 🛂 · 📅 dates unknown · _page unchanged since 2026-10-05 · check the alignment blog for the newest cohort post_ · `546068986a6a1b90`
 - [EEML (Eastern European ML Summer School)](https://www.eeml.eu/) — **EEML** · Jul · Europe · 📅 fits July break · _page unchanged since 2026-10-05_ · `a95af1939071e203`
@@ -251,7 +307,7 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [Khipu (Latin American Meeting in AI)](https://khipu.ai/) — **Khipu** · year-round · LatAm · 🛂 · 📅 during semester · _page unchanged since 2026-10-05_ · `a972e723fe273817`
 - [LatinX in AI](https://www.latinxinai.org/) — **LatinX in AI** · unknown · remote · 📅 dates unknown · _page unchanged since 2026-10-05 · workshops at NeurIPS/ICML/CVPR, mentoring and travel grants_ · `e769fa4f1ed78088`
 - [MATS (ML Alignment & Theory Scholars)](https://www.matsprogram.org/) — **MATS** · year-round · US/Canada/Europe · 🛂 · 📅 during semester · _page unchanged since 2026-10-05_ · `13c0c75d9fd1b30d`
-- [Microsoft students & graduates](https://careers.microsoft.com/v2/global/en/students) — **Microsoft** · unknown · unknown · 🎓 · 📅 dates unknown · _page changed on 2026-10-11_ · `a7a835e09bfa5567`
+- [Microsoft students & graduates](https://careers.microsoft.com/v2/global/en/students) — **Microsoft** · unknown · unknown · 🎓 · 📅 dates unknown · _page changed on 2026-10-12_ · `a7a835e09bfa5567`
 - [Mitacs Globalink Research Internship](https://www.mitacs.ca/our-programs/globalink-research-internship-students/) — **Mitacs (Canada)** · May–Aug · US/Canada · 🛂 · 📅 clashes with semester · _page unchanged since 2026-10-08 · Brazil is a partner country; 12 weeks in May–Oct; applications open mid-year_ · `8bf039670e27b8fc`
 - [MLSS (Machine Learning Summer Schools)](http://mlss.cc/) — **MLSS** · May–Aug · unknown · 📅 clashes with semester · _page unchanged since 2026-10-05 · several schools a year in different countries_ · `05e2e9473ecb47ba`
 - [NVIDIA university recruiting](https://www.nvidia.com/en-us/about-nvidia/careers/university-recruiting/) — **NVIDIA** · year-round · unknown · 📅 during semester · _page unchanged since 2026-10-06_ · `2b027129de638006`
@@ -259,18 +315,18 @@ Warnings: 🛂 US work auth? · 🎓 PhD-level? · 📆 grad-year limit? · ❔ 
 - [OxML (Oxford Machine Learning Summer School)](https://www.oxfordml.school/) — **AI for Global Goals / Oxford** · Jul · Europe · 📅 fits July break · _page unchanged since 2026-10-05_ · `6c48ce6cc265748b`
 - [SIG interns & co-ops](https://sig.com/careers/interns-co-ops/) — **Susquehanna (SIG)** · year-round · unknown · 📅 during semester · _page unchanged since 2026-10-05_ · `2037809846d4d6c5`
 - [Summer@EPFL](https://summer.epfl.ch) — **EPFL** · May–Aug · Europe · 💰 CHF 1,800/mo · 📅 clashes with semester · _page unchanged since 2026-10-05 · deadline usually around Nov 30–Dec 1_ · `8eb85fbf548b2e22`
-- [Two Sigma careers (students)](https://www.twosigma.com/careers/students/) — **Two Sigma** · May–Aug · unknown · 📅 clashes with semester · _page unchanged since 2026-10-05_ · `d5b57e6cebc1df6f`
+- [Two Sigma careers (students)](https://www.twosigma.com/careers/students/) — **Two Sigma** · May–Aug · unknown · 📅 clashes with semester · _page changed on 2026-10-12_ · `d5b57e6cebc1df6f`
 
-## 📋 Everything else that is open (16190)
+## 📋 Everything else that is open (15974)
 
 Too many to list here: search and filter them on the [website](https://pedrocamargolince.github.io/vagaLume/). By area and region:
 
 | Area | Brazil | LatAm | US/Canada | Europe | Asia/ME | remote | unknown | Total |
 |---|---|---|---|---|---|---|---|---|
-| ML | 101 | 0 | 640 | 91 | 12 | 44 | 8 | 844 |
-| research | 204 | 1 | 167 | 19 | 11 | 7 | 2 | 400 |
-| SWE | 2071 | 18 | 1728 | 203 | 67 | 67 | 21 | 4079 |
-| data | 627 | 4 | 696 | 104 | 31 | 27 | 7 | 1438 |
-| quant | 109 | 0 | 204 | 77 | 49 | 3 | 1 | 420 |
-| hardware | 908 | 2 | 634 | 32 | 9 | 8 | 4 | 1579 |
-| other | 6972 | 16 | 201 | 236 | 28 | 37 | 8 | 7430 |
+| ML | 101 | 0 | 635 | 90 | 9 | 44 | 6 | 833 |
+| research | 193 | 1 | 163 | 19 | 12 | 7 | 1 | 385 |
+| SWE | 2044 | 18 | 1686 | 199 | 66 | 67 | 18 | 4002 |
+| data | 618 | 4 | 681 | 105 | 30 | 25 | 5 | 1412 |
+| quant | 109 | 0 | 205 | 81 | 48 | 3 | 1 | 425 |
+| hardware | 895 | 2 | 622 | 29 | 9 | 8 | 3 | 1550 |
+| other | 6916 | 16 | 198 | 232 | 28 | 37 | 8 | 7367 |
