@@ -22,6 +22,8 @@ import sqlite3
 from datetime import date
 from typing import Any
 
+import requests
+
 from ..browser import render
 from ..db import page_hash_changed
 from ..http import get_text
@@ -62,10 +64,29 @@ def _visible_text(fragment: str) -> str:
 
 def page_text(program: dict[str, Any]) -> str:
     """Visible text of a program page. `render: true` in programs.yaml means
-    the page is built by JavaScript, so we open it in a headless browser."""
+    the page is built by JavaScript, so we open it in a headless browser.
+
+    Some sites behind Cloudflare (Embraer's, for one) never answer plain
+    requests from GitHub's servers but do answer a real browser, so when the
+    plain request times out or is refused we try once more in the browser.
+    """
     if program.get("render"):
         return render(program["url"]).text
-    return main_text(get_text(program["url"]))
+    try:
+        return main_text(get_text(program["url"]))
+    except (requests.Timeout, requests.ConnectionError) as error:
+        reason = error
+    except requests.HTTPError as error:
+        if error.response is None or error.response.status_code not in (403, 429):
+            raise
+        reason = error
+    log.info("Program page %s: plain request failed (%s), trying the browser", program.get("name"), reason)
+    try:
+        # The same text extraction as a plain request, so the page hash doesn't
+        # change (and raise a false "page changed") just because we used the browser.
+        return main_text(render(program["url"]).html)
+    except Exception as browser_error:  # noqa: BLE001
+        raise RuntimeError(f"{reason}; the browser failed too: {browser_error}") from browser_error
 
 
 def content_hash(text: str) -> str:

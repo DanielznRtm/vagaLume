@@ -33,6 +33,7 @@ ResponseFilter = Callable[[str, str], bool]
 @dataclass
 class RenderedPage:
     text: str  # what a person would see on the page
+    html: str = ""  # the page's HTML after JavaScript ran
     captured: list[Any] = field(default_factory=list)  # JSON bodies of the kept responses
 
 
@@ -75,6 +76,7 @@ def render(url: str, keep: ResponseFilter | None = None) -> RenderedPage:
                 pass
             page.wait_for_timeout(SETTLE_MS)
             page_result.text = page.inner_text("body")
+            page_result.html = page.content()
         finally:
             browser.close()
     return page_result

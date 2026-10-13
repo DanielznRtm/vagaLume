@@ -74,14 +74,7 @@ Works on phones too, in light and dark mode. **[Open it →](https://pedrocamarg
 
 ## How it works
 
-```mermaid
-flowchart LR
-    A["21 sources<br/>Gupy, CIEE, Super Estágios, Sólides, IEL,<br/>job boards, GitHub lists,<br/>career sites, program pages"] --> B["Labels<br/>area · season · region<br/>pay · skills · warnings"]
-    B --> C[("Database<br/>data/*.jsonl (text)")]
-    R["Your résumé<br/>summarized by your own AI chat"] -.-> D
-    C --> D["Website<br/>docs/ on GitHub Pages"]
-    C --> E["Daily digest<br/>Telegram / email<br/>(optional)"]
-```
+<p align="center"><img src="assets/how-it-works.png" alt="How it works: every day, in a GitHub Action, 21 sources go through the labels (area, season, region, pay, skills, warnings) into the text database (data/*.jsonl); from there come the website on GitHub Pages, which also reads your résumé summarized by your own AI chat, and the optional daily digest by Telegram or email" width="620"></p>
 
 Every morning at 09:00 (Brasília) a GitHub Action runs the Python bot, reads
 every source politely (it identifies itself and waits between requests), labels
