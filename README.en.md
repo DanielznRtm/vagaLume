@@ -24,7 +24,7 @@
 
 <p align="center">
   <b>Every internship, research program, fellowship and summer school for students,<br>
-  collected every morning and sorted by how well it fits <i>you</i>.</b>
+  collected once a day and sorted by how well it fits <i>you</i>.</b>
 </p>
 
 <p align="center">
@@ -76,7 +76,7 @@ Works on phones too, in light and dark mode. **[Open it →](https://pedrocamarg
 
 <p align="center"><img src="assets/how-it-works.png" alt="How it works: every day, in a GitHub Action, 21 sources go through the labels (area, season, region, pay, skills, warnings) into the text database (data/*.jsonl); from there come the website on GitHub Pages, which also reads your résumé summarized by your own AI chat, and the optional daily digest by Telegram or email" width="620"></p>
 
-Every morning at 09:00 (Brasília) a GitHub Action runs the Python bot, reads
+Once a day, a GitHub Action runs the Python bot, reads
 every source politely (it identifies itself and waits between requests), labels
 each posting with keyword rules, optionally asks Claude for sharper labels, and
 publishes the result. One failing source never breaks the run, and the site's

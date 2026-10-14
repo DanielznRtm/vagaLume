@@ -390,7 +390,8 @@ a careers-site address).
    commits `data/*.jsonl`, `reports/` and the website data.
 3. **Turn on the website:** *Settings → Pages → Deploy from a branch → main,
    /docs*.
-4. The schedule is daily at **09:00 Brasília (12:00 UTC)**. To run it now, open
+4. It runs **once a day**. The schedule asks for 09:00 Brasília (12:00 UTC),
+   but GitHub often starts scheduled runs a few hours late. To run it now, open
    *Actions → vagaLume → Run workflow*.
 
 ### Secrets (all optional)
