@@ -85,3 +85,37 @@ def test_http_gives_up_on_404(monkeypatch):
     monkeypatch.setattr(http.time, "sleep", lambda s: None)
     with pytest.raises(requests.HTTPError):
         http._request("GET", "https://example.com")
+
+
+def test_program_page_falls_back_to_the_browser_when_plain_request_hangs(monkeypatch):
+    def hang(url):
+        raise requests.Timeout("Read timed out. (read timeout=25)")
+
+    monkeypatch.setattr(programs, "get_text", hang)
+    html = "<html><nav>Menu</nav><main><h1>Programa de Estágio</h1><p>Inscrições até 31/10</p></main></html>"
+    monkeypatch.setattr(programs, "render", lambda url: RenderedPage(text="Menu Programa de Estágio", html=html))
+    # Read the same way as a plain request would read it, so its hash stays the same.
+    assert programs.page_text({"name": "Embraer", "url": "https://embraer.com/x"}) == programs.main_text(html)
+
+
+def test_program_page_reports_both_failures(monkeypatch):
+    def refuse(url):
+        raise requests.HTTPError("403 Forbidden", response=type("R", (), {"status_code": 403})())
+
+    def broken(url):
+        raise RuntimeError("Playwright is not installed")
+
+    monkeypatch.setattr(programs, "get_text", refuse)
+    monkeypatch.setattr(programs, "render", broken)
+    with pytest.raises(RuntimeError, match="403 Forbidden; the browser failed too: Playwright is not installed"):
+        programs.page_text({"name": "X", "url": "https://x"})
+
+
+def test_program_page_does_not_retry_a_missing_page(monkeypatch):
+    def missing(url):
+        raise requests.HTTPError("404 Not Found", response=type("R", (), {"status_code": 404})())
+
+    monkeypatch.setattr(programs, "get_text", missing)
+    monkeypatch.setattr(programs, "render", lambda url: pytest.fail("should not open the browser for a 404"))
+    with pytest.raises(requests.HTTPError):
+        programs.page_text({"name": "X", "url": "https://x"})

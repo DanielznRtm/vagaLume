@@ -24,7 +24,7 @@
 
 <p align="center">
   <b>Todo estágio, programa de pesquisa, fellowship e escola de verão para estudantes,<br>
-  coletados toda manhã e ordenados pelo quanto combinam com <i>você</i>.</b>
+  coletados uma vez por dia e ordenados pelo quanto combinam com <i>você</i>.</b>
 </p>
 
 <p align="center">
@@ -90,16 +90,9 @@ seu currículo.
 
 ## Como funciona
 
-```mermaid
-flowchart LR
-    A["21 fontes<br/>Gupy, CIEE, Super Estágios, Sólides, IEL,<br/>plataformas de vagas, listas do GitHub,<br/>sites de carreira, páginas de programas"] --> B["Rótulos<br/>área · época · região<br/>remuneração · habilidades · alertas"]
-    B --> C[("Banco de dados<br/>data/*.jsonl (texto)")]
-    R["O seu currículo<br/>resumido pela sua própria IA"] -.-> D
-    C --> D["Site<br/>docs/ no GitHub Pages"]
-    C --> E["Resumo diário<br/>Telegram / e-mail<br/>(opcional)"]
-```
+<p align="center"><img src="assets/how-it-works-pt.png" alt="Como funciona: todo dia, numa GitHub Action, 21 fontes passam pelos rótulos (área, época, região, remuneração, habilidades, alertas) e vão para o banco de dados em texto (data/*.jsonl); dele saem o site no GitHub Pages, que também lê o seu currículo resumido pela sua IA, e o resumo diário opcional por Telegram ou e-mail" width="620"></p>
 
-Toda manhã, às 09:00 (Brasília), uma GitHub Action roda o bot em Python, lê
+Uma vez por dia, uma GitHub Action roda o bot em Python, lê
 cada fonte com educação (ele se identifica e espera entre os pedidos), rotula
 cada vaga com regras de palavras-chave, opcionalmente pede ao Claude rótulos
 mais precisos, e publica o resultado. Uma fonte com problema nunca derruba a

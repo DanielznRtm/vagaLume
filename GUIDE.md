@@ -72,7 +72,10 @@ D. E. Shaw, DRW). The bot reads those directly with plain HTTP, which is fast an
 Only Meta answers plain requests with an empty page, so `meta.py` opens it
 in a headless Chromium (`radar/browser.py`) and reads the job list the page
 fetches for itself. Program pages that are built by JavaScript can use the
-same browser: add `render: true` in `programs.yaml`.
+same browser: add `render: true` in `programs.yaml`. A plain page that
+times out or answers 403/429 is also tried once in the browser: some sites
+behind Cloudflare (Embraer's) don't answer plain requests from GitHub's
+servers but do answer a real browser.
 
 ### Limits you should know about
 
@@ -387,7 +390,8 @@ a careers-site address).
    commits `data/*.jsonl`, `reports/` and the website data.
 3. **Turn on the website:** *Settings → Pages → Deploy from a branch → main,
    /docs*.
-4. The schedule is daily at **09:00 Brasília (12:00 UTC)**. To run it now, open
+4. It runs **once a day**. The schedule asks for 09:00 Brasília (12:00 UTC),
+   but GitHub often starts scheduled runs a few hours late. To run it now, open
    *Actions → vagaLume → Run workflow*.
 
 ### Secrets (all optional)
