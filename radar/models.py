@@ -76,6 +76,8 @@ class Opportunity:
     labeled_by: str = "rules"
     skills: list[str] = field(default_factory=list)  # e.g. ["Python", "PyTorch"]; see radar/skills.py
     fields: list[str] = field(default_factory=list)  # fields of study, e.g. ["engenharia"]; see radar/fields.py
+    levels: list[str] = field(default_factory=list)  # study levels it's for, e.g. ["masters", "phd"]; see radar/levels.py
+    states: list[str] = field(default_factory=list)  # Brazilian states (UFs), e.g. ["SP"]; see radar/places.py
 
     # --- filled in by radar.db ---------------------------------------------
     first_seen: str = ""

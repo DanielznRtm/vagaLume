@@ -32,6 +32,8 @@ ITEM_URL = "https://fapesp.br/oportunidades/x/{id}/"  # redirects to the posting
 # Grant types (from the form on fapesp.br/oportunidades/publique/) -> how we label them.
 STUDENT_TYPES = {11: "Iniciação Científica", 4: "TT-I", 5: "TT-II"}
 GRAD_TYPES = {3: "Mestrado", 2: "Doutorado", 12: "Doutorado Direto"}
+# Who each grant is for (TT-I/TT-II training grants are open to undergrads and technical students).
+TYPE_LEVELS = {11: ["undergrad"], 3: ["masters"], 2: ["phd"], 12: ["phd"]}
 
 _ITEM = re.compile(r'<li class="box_col aberta ([^"]*?) pt">(.*?)</li>', re.S)
 
@@ -78,7 +80,11 @@ def parse(page: str) -> list[Opportunity]:
                 deadline=f"{deadline.group(3)}-{deadline.group(2)}-{deadline.group(1)}" if deadline else NO_DEADLINE,
                 description=_clean(summary.group(1)) if summary else "",
                 hints=["student"],
-                preset={"area": "research", **({"warnings": ["PhD-level?"]} if kind in (2, 12) else {})},
+                preset={
+                    "area": "research",
+                    **({"warnings": ["PhD-level?"]} if kind in (2, 12) else {}),
+                    **({"levels": TYPE_LEVELS[kind]} if kind in TYPE_LEVELS else {}),
+                },
             )
         )
     return items
