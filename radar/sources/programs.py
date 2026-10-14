@@ -97,7 +97,7 @@ def content_hash(text: str) -> str:
 def build_opportunity(program: dict[str, Any], text: str, changed: bool, last_changed: str) -> Opportunity:
     """One Opportunity per watched page, with the labels you set in programs.yaml."""
     note = f"page changed on {last_changed}" if changed else f"page unchanged since {last_changed}"
-    preset = {key: program[key] for key in ("area", "season", "regions", "warnings") if program.get(key)}
+    preset = {key: program[key] for key in ("area", "season", "regions", "warnings", "levels") if program.get(key)}
     return Opportunity(
         title=program["name"],
         org=program.get("org", ""),

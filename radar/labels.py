@@ -15,6 +15,8 @@ import re
 from .models import NO_DEADLINE, Opportunity
 from .pay import find_pay
 from .fields import find_fields
+from .levels import LEVELS, find_levels
+from .places import brazil_states
 from .skills import find_skills
 from .textutil import find_deadline
 
@@ -328,7 +330,7 @@ def level_for(opp: Opportunity) -> str:
 
 
 def apply_rules(opp: Opportunity) -> Opportunity:
-    """Fill in area, season, regions, warnings, calendar note, deadline, pay, skills and fields."""
+    """Fill in area, season, regions, warnings, calendar note, deadline, pay, skills, fields, levels and states."""
     level = level_for(opp)
     preset = opp.preset
     opp.regions = list(preset.get("regions") or classify_regions(opp.location, opp.remote))  # type: ignore[arg-type]
@@ -349,6 +351,9 @@ def apply_rules(opp: Opportunity) -> Opportunity:
         opp.pay = find_pay(opp.description)
     opp.skills = find_skills(f"{opp.title}\n{opp.description}")
     opp.fields = find_fields(opp.title, opp.description)
+    preset_levels = [level for level in LEVELS if level in (preset.get("levels") or [])]  # type: ignore[operator]
+    opp.levels = preset_levels or find_levels(opp.title, opp.description)
+    opp.states = brazil_states(opp.location) if "Brazil" in opp.regions else []
     opp.labeled_by = "rules"
     return opp
 

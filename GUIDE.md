@@ -194,17 +194,21 @@ Postings themselves stay as their companies wrote them. All the texts live in
 `STRINGS` at the top of the page's script, one `[English, Português]` pair per
 text, so adding a language means adding a column.
 
-**First visit: your profile.** The page asks three things: your field of
+**First visit: your profile.** The page asks four things: your field of
 study (Engineering, Computing & IT, Math/physics/chemistry, Business &
 economics, Law, Health, Biology & agriculture, Communication & design,
 Education & humanities, Architecture, or Other), what you're studying for
 (Bachelor's, Master's or PhD) and where your university is (Brazil, other
 Latin America, United States, Canada, United Kingdom, Europe, Asia, Middle
-East, Oceania, Africa). Each question takes one or more answers: an
-Engineering + Computing student, or someone studying in Brazil with an
-exchange in Europe, picks both, and a role counts as yours if it suits any of
-them. You can skip it and see everything unsorted. Change it
-any time with the button at the top right. It is saved in your browser only.
+East, Oceania, Africa), and where you would work: in your state (pick the
+state you live in), anywhere in Brazil, Latin America, the US and Canada,
+Europe, Asia and the Middle East, or anywhere. Each question takes one or more
+answers: an Engineering + Computing student, or someone studying in Brazil
+with an exchange in Europe, picks both, and a role counts as yours if it suits
+any of them. You can skip it and see everything unsorted. **Change your
+answers any time** with the profile button at the top right (the one with the
+pencil): it opens the same questions with your answers filled in. It is saved
+in your browser only.
 
 **Field of study.** The bot labels each role with the fields it is aimed at
 (`radar/fields.py`): from the title, or, when the title doesn't say, from the
@@ -215,14 +219,33 @@ Science"). The site then:
   the exact sciences; Health and Biology; Communication, Business and
   Humanities...), with roles for your own field first;
 - **hides roles clearly meant only for other fields** (a nursing estágio for
-  an engineering student). "Show roles for other fields", next to the number
-  of roles and in the filters, brings them back, marked as long shots with
-  the reason;
-- always shows roles that don't say which field they want, and the roles you
-  saved, applied to or hid.
+  an engineering student);
+- always shows roles that don't say which field they want.
 
 With "Other" as your field nothing is hidden. Profiles made before this
 question are asked once more (the other answers are kept).
+
+**Level.** The bot also labels the levels a role is for (`radar/levels.py`):
+from the title ("PhD Intern", "BS/MS", "Bolsa de Mestrado", "Estágio |
+Pós-graduação") or, when the title doesn't say, from the description's
+enrollment sentences ("currently pursuing a Bachelor's or Master's degree",
+"cursando graduação em Direito"). A role only for other levels is hidden: a
+PhD internship for an undergrad, an undergrad-only estágio for a master's
+student. Roles that don't say, or that are open to all three levels, are
+shown to everyone. Pick more than one level if more than one fits you.
+
+**Where you'd work.** Roles outside the places you picked are hidden. Remote
+roles always show, and so do roles whose place we can't tell. For "in my
+state", the bot reads the Brazilian state from each location
+(`radar/places.py`: "Recife - PE", "Vitória, Espírito Santo"); a Brazilian role
+without a clear state stays visible. "Anywhere" turns this off. Profiles made
+before this question keep seeing every place.
+
+**Hidden roles come back with one click.** "Show roles outside your profile",
+next to the number of roles and in the filters, shows everything again; those
+roles are marked as long shots with the reason ("For another level: PhD",
+"Outside where you'd work: DF"). The roles you saved, applied to or hid always
+show in their own tabs.
 
 **Fit.** With a profile, every role gets a dot: ● good fit, ◐ check something,
 ○ long shot. Open a row to see the reasons, for example:
