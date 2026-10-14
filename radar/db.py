@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS opportunities (
     fields        TEXT,           -- fields of study, comma-separated, e.g. "engenharia" (radar/fields.py)
     levels        TEXT,           -- study levels, comma-separated, e.g. "masters,phd" (radar/levels.py)
     states        TEXT,           -- Brazilian states, comma-separated, e.g. "SP,RJ" (radar/places.py)
+    workplaces    TEXT,           -- remote / hybrid / on-site, comma-separated (radar/workplace.py)
     area          TEXT,
     season        TEXT,
     regions       TEXT,           -- comma-separated, e.g. "Brazil,remote"
@@ -126,7 +127,7 @@ def _add_missing_columns(conn: sqlite3.Connection) -> None:
     existing = {row["name"] for row in conn.execute("PRAGMA table_info(opportunities)")}
     if "pay" not in existing:
         conn.execute("ALTER TABLE opportunities ADD COLUMN pay TEXT")
-    for column in ("skills", "fields", "levels", "states"):
+    for column in ("skills", "fields", "levels", "states", "workplaces"):
         if column not in existing:
             conn.execute(f"ALTER TABLE opportunities ADD COLUMN {column} TEXT")
 
@@ -161,7 +162,7 @@ def upsert(conn: sqlite3.Connection, opp: Opportunity, today: str) -> bool:
         "id": opp.id, "title": opp.title, "org": opp.org, "source": opp.source,
         "location": opp.location, "remote": int(opp.remote), "url": opp.url,
         "posted_date": opp.posted_date, "deadline": opp.deadline, "pay": opp.pay, "skills": _join(opp.skills), "fields": _join(opp.fields),
-        "levels": _join(opp.levels), "states": _join(opp.states),
+        "levels": _join(opp.levels), "states": _join(opp.states), "workplaces": _join(opp.workplaces),
         "area": opp.area,
         "season": opp.season, "regions": _join(opp.regions), "warnings": _join(opp.warnings),
         "calendar_note": opp.calendar_note, "note": opp.note, "labeled_by": opp.labeled_by,
@@ -235,6 +236,7 @@ class StoredOpportunity:
     fields: list[str]
     levels: list[str]
     states: list[str]
+    workplaces: list[str]
     area: str
     season: str
     regions: list[str]
@@ -255,7 +257,7 @@ def load_all(conn: sqlite3.Connection) -> list[StoredOpportunity]:
             posted_date=r["posted_date"] or "", first_seen=r["first_seen"],
             last_seen=r["last_seen"], deadline=r["deadline"] or "check page", pay=r["pay"] or "",
             skills=_split(r["skills"]), fields=_split(r["fields"]),
-            levels=_split(r["levels"]), states=_split(r["states"]), area=r["area"] or "other", season=r["season"] or "unknown",
+            levels=_split(r["levels"]), states=_split(r["states"]), workplaces=_split(r["workplaces"]), area=r["area"] or "other", season=r["season"] or "unknown",
             regions=_split(r["regions"]), warnings=_split(r["warnings"]),
             calendar_note=r["calendar_note"] or "", note=r["note"] or "",
             labeled_by=r["labeled_by"] or "rules", is_open=bool(r["is_open"]), status=r["status"],

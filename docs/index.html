@@ -468,7 +468,9 @@
         </div>
         <div class="fgroup"><h3 data-t="filters.area"></h3><div class="chips" data-filter="area"></div></div>
         <div class="fgroup"><h3 data-t="filters.where"></h3><div class="chips" data-filter="region"></div></div>
+        <div class="fgroup"><h3 data-t="filters.workplace"></h3><div class="chips" data-filter="workplace"></div></div>
         <div class="fgroup"><h3 data-t="filters.when"></h3><div class="chips" data-filter="season"></div></div>
+        <div class="fgroup"><h3 data-t="filters.currency"></h3><div class="chips" data-filter="currency"></div></div>
         <details class="more-filters" id="more-filters">
           <summary data-t="filters.more"></summary>
           <div class="fgroup">
@@ -580,7 +582,11 @@ const STRINGS = {
 
   "filters": ["Filters", "Filtros"], "filters.on": [n => `Filters (${n} on)`, n => `Filtros (${n} ativos)`],
   "filters.foryou": ["For you", "Para você"], "filters.area": ["Area", "Área"], "filters.where": ["Where", "Onde"],
-  "filters.when": ["When", "Quando"], "filters.more": ["More filters", "Mais filtros"], "filters.pay": ["Pay", "Remuneração"],
+  "filters.when": ["When", "Quando"],
+  "filters.workplace": ["Work mode", "Modalidade"], "filters.currency": ["Pay currency", "Moeda da remuneração"],
+  "workplace.remote": ["Remote", "Remoto"], "workplace.hybrid": ["Hybrid", "Híbrido"], "workplace.on-site": ["On-site", "Presencial"],
+  "currency.BRL": ["R$ (real)", "R$ (real)"], "currency.USD": ["US$ (dollar)", "US$ (dólar)"], "currency.EUR": ["€ (euro)", "€ (euro)"],
+  "currency.GBP": ["£ (pound)", "£ (libra)"], "currency.CAD": ["CA$ (Canadian dollar)", "CA$ (dólar canadense)"], "currency.other": ["Other", "Outras"], "filters.more": ["More filters", "Mais filtros"], "filters.pay": ["Pay", "Remuneração"],
   "filters.payOnly": ["Only roles that state pay", "Só vagas com remuneração informada"], "filters.source": ["Source", "Fonte"],
   "filters.allSources": ["All sources", "Todas as fontes"], "filters.clear": ["Clear all", "Limpar tudo"],
   "chip.fit.good": ["Good fit", "Combina bem"], "chip.fit.check": ["No long shots", "Sem improváveis"],
@@ -735,6 +741,13 @@ const PLACES = [  // where you study -> the radar's region label
   ["oceania", "Asia/ME"], ["africa", ""],
 ];
 const REGION_ORDER = ["Brazil", "LatAm", "US/Canada", "Europe", "Asia/ME", "remote"];
+// Remote / hybrid / on-site (radar/workplace.py). Data from before that label only knew "remote".
+const WORKPLACE_ORDER = ["remote", "hybrid", "on-site"];
+const workplacesOf = i => i.workplaces || (i.regions.includes("remote") ? ["remote"] : []);
+// The pay's currency, from how radar/pay.py writes it: "R$1,357/mo", "$54–60/hr", "CA$25/hr", "€1,800/mo".
+const CURRENCY_ORDER = ["BRL", "USD", "EUR", "GBP", "CAD", "other"];
+const currencyOf = i => !i.pay ? "" : /^R\$/.test(i.pay) ? "BRL" : /^CA\$/.test(i.pay) ? "CAD" : /^\$/.test(i.pay) ? "USD"
+  : /^€/.test(i.pay) ? "EUR" : /^£/.test(i.pay) ? "GBP" : "other";
 // Brazilian states for "Moro em" (radar/places.py labels each Brazilian role with its UFs).
 const UFS = [["AC", "Acre"], ["AL", "Alagoas"], ["AP", "Amapá"], ["AM", "Amazonas"], ["BA", "Bahia"], ["CE", "Ceará"],
   ["DF", "Distrito Federal"], ["ES", "Espírito Santo"], ["GO", "Goiás"], ["MA", "Maranhão"], ["MT", "Mato Grosso"],
@@ -763,7 +776,7 @@ let profile = normalizeProfile(store.get("radar.profile", null));
 let marks = store.get("radar.marks", {});         // id -> "applied" | "hidden" | "none"
 let saved = new Set(store.get("radar.saved", []));
 let resume = store.get("radar.resume", null);    // summary of your résumé, see "résumé match" below
-const DEFAULT_VIEW = { tab: "all", others: "", match: "", fit: "", area: "", region: "", season: "", source: "", pay: "", q: "", sort: "" };
+const DEFAULT_VIEW = { tab: "all", others: "", match: "", fit: "", area: "", region: "", workplace: "", season: "", currency: "", source: "", pay: "", q: "", sort: "" };
 const view = { ...DEFAULT_VIEW, shown: PAGE_SIZE, open: new Set() };
 readHash();
 
@@ -1282,7 +1295,7 @@ const tabTest = () => (TABS.find(tb => tb[0] === view.tab) || TABS[0])[1];
 // Área, Onde and Quando take several values, kept comma-separated in the view
 // (#area=ML,SWE): a role passes if it matches any of them. Fit and résumé match
 // are steps (good ⊂ no long shots), so they take one value.
-const MULTI = new Set(["area", "region", "season"]);
+const MULTI = new Set(["area", "region", "workplace", "season", "currency"]);
 const picked = key => view[key] ? view[key].split(",") : [];
 const isPicked = (key, value) => MULTI.has(key) ? picked(key).includes(value) : view[key] === value;
 function togglePick(key, value) {
@@ -1297,6 +1310,8 @@ const FILTER_TESTS = {
   fit: i => view.fit === "good" ? i._fit.level === 0 : i._fit.level === 0 || i._fit.level === 1,
   area: i => picked("area").includes(i.area),
   region: i => picked("region").some(r => i.regions.includes(r)),
+  workplace: i => picked("workplace").some(w => workplacesOf(i).includes(w)),
+  currency: i => picked("currency").includes(currencyOf(i)),
   season: i => picked("season").some(v => v === "breaks" ? fitsBreaks(i.season) : i.season === v),
   source: i => i.source === view.source,
   pay: i => !!i.pay,
@@ -1472,7 +1487,11 @@ function buildFilters(inTab) {
   const areaPool = base("area");
   chipGroup("area", countBy(areaPool, i => [i.area], AREA_ORDER).map(v => [v, tv("area", v), areaPool.filter(i => i.area === v).length]));
   const regionPool = base("region");
-  chipGroup("region", countBy(regionPool, i => i.regions.filter(r => r !== "unknown"), REGION_ORDER).map(v => [v, tv("region", v), regionPool.filter(i => i.regions.includes(v)).length]));
+  chipGroup("region", countBy(regionPool, i => i.regions.filter(r => r !== "unknown" && (r !== "remote" || isPicked("region", r))), REGION_ORDER).map(v => [v, tv("region", v), regionPool.filter(i => i.regions.includes(v)).length]));
+  const workPool = base("workplace");
+  chipGroup("workplace", countBy(workPool, workplacesOf, WORKPLACE_ORDER).map(v => [v, tv("workplace", v), workPool.filter(i => workplacesOf(i).includes(v)).length]));
+  const currencyPool = base("currency");
+  chipGroup("currency", countBy(currencyPool, i => i.pay ? [currencyOf(i)] : [], CURRENCY_ORDER).map(v => [v, tv("currency", v), currencyPool.filter(i => currencyOf(i) === v).length]));
   const seasonPool = base("season");
   const seasons = countBy(seasonPool, i => [i.season], SEASON_ORDER.slice(1)).filter(v => v !== "unknown" || isPicked("season", "unknown"));
   chipGroup("season", [["breaks", t("season.breaks"), seasonPool.filter(i => fitsBreaks(i.season)).length],
@@ -1484,7 +1503,7 @@ function buildFilters(inTab) {
   $("pay-only").checked = !!view.pay;
   if (view.pay || view.source) $("more-filters").open = true;
 }
-const FILTER_KINDS = { match: "chip.match", fit: "chip.fit", area: "area", region: "region", season: "season" };
+const FILTER_KINDS = { match: "chip.match", fit: "chip.fit", area: "area", region: "region", workplace: "workplace", season: "season", currency: "currency" };
 function activeFilters() {
   const pills = [];
   if (view.q) pills.push(["q", t("pill.search", view.q)]);
@@ -1615,7 +1634,7 @@ document.addEventListener("click", e => {
   }
 });
 function resetFilters() {
-  Object.assign(view, { others: "", match: "", fit: "", area: "", region: "", season: "", source: "", pay: "", q: "" });
+  Object.assign(view, { others: "", match: "", fit: "", area: "", region: "", workplace: "", season: "", currency: "", source: "", pay: "", q: "" });
   $("search").value = "";
   rerender();
 }

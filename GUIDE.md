@@ -234,6 +234,12 @@ PhD internship for an undergrad, an undergrad-only estágio for a master's
 student. Roles that don't say, or that are open to all three levels, are
 shown to everyone. Pick more than one level if more than one fits you.
 
+**Remote, hybrid or on-site** (`radar/workplace.py`) comes from the job
+board's own field, but a clear sentence in the description wins: plenty of
+estágios are marked remote while the text says "Modelo de trabalho: Híbrido, 4
+dias presenciais". Those count as hybrid (and stop passing as remote), and
+their location shows "(hybrid)".
+
 **Where you'd work.** Roles outside the places you picked are hidden. Remote
 roles always show, and so do roles whose place we can't tell. For "in my
 state", the bot reads the Brazilian state from each location
@@ -320,11 +326,12 @@ found. Below, the buttons: open the posting, mark as applied, save, hide.
   Applied and Hidden once you have marked something. Only New, Closing soon
   and the lists you build show a count.
 - **Filters:** *For you* (good fit, no long shots, and with a résumé: strong
-  match, good match or better), Area, Where and When (including a **Fits my
-  breaks** shortcut). Under **More filters**: only roles that state pay, and
+  match, good match or better), Area, Where, **Work mode** (remote, hybrid,
+  on-site), When (including a **Fits my breaks** shortcut) and **Pay
+  currency** (R$, US$, €, £, CA$, other). Under **More filters**: only roles that state pay, and
   the source. The small number on each chip is how many roles you'd see after
-  clicking it, given the other filters you already picked. Area, Where and
-  When take several chips at once and add up (ML **or** Data, Brazil **or**
+  clicking it, given the other filters you already picked. Area, Where, Work
+  mode, When and Pay currency take several chips at once and add up (ML **or** Data, Brazil **or**
   Remote); the *For you* ones take one. Click a selected chip again to turn it
   off.
 - **Active filters** show as pills above the list, one per chip. Click a

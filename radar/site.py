@@ -34,6 +34,7 @@ def item_record(opp: StoredOpportunity) -> dict[str, object]:
         "fields": opp.fields,
         "levels": opp.levels,
         "states": opp.states,
+        "workplaces": opp.workplaces,
         "posted": opp.posted_date,
         "added": opp.first_seen,
         "source": opp.source,
