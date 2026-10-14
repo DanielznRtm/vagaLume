@@ -17,6 +17,7 @@ from .pay import find_pay
 from .fields import find_fields
 from .levels import LEVELS, find_levels
 from .places import brazil_states
+from .workplace import find_workplaces
 from .skills import find_skills
 from .textutil import find_deadline
 
@@ -330,10 +331,16 @@ def level_for(opp: Opportunity) -> str:
 
 
 def apply_rules(opp: Opportunity) -> Opportunity:
-    """Fill in area, season, regions, warnings, calendar note, deadline, pay, skills, fields, levels and states."""
+    """Fill in area, season, regions, workplaces, warnings, calendar note, deadline, pay, skills, fields, levels and states."""
     level = level_for(opp)
     preset = opp.preset
     opp.regions = list(preset.get("regions") or classify_regions(opp.location, opp.remote))  # type: ignore[arg-type]
+    opp.workplaces = find_workplaces(opp.location, opp.remote, opp.description)
+    if "remote" in opp.regions and opp.workplaces and "remote" not in opp.workplaces and not preset.get("regions"):
+        # Marked remote, but the description says hybrid or on-site: it is not a remote role.
+        opp.regions = [r for r in opp.regions if r != "remote"] or ["unknown"]
+        # ...and the "(remote)" our sources add to the location says so too.
+        opp.location = re.sub(r"\((?:remote|hybrid|on-site)\)$", f"({opp.workplaces[0]})", opp.location)
     opp.area = str(preset.get("area") or classify_area(opp.title, opp.description))
     # Sources can suggest an area ("area:quant") used when the rules find nothing.
     suggested = [hint.split(":", 1)[1] for hint in opp.hints if hint.startswith("area:")]
