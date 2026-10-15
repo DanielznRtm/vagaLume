@@ -160,6 +160,17 @@
   .subscribe .options { display: grid; gap: 8px; }
   .subscribe .btn { justify-content: flex-start; }
   .subscribe .feeds { font-size: .85rem; color: var(--muted); }
+  .picks-panel { margin-bottom: 14px; }
+  .picks-card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 18px 20px; display: grid; gap: 12px; }
+  .picks-card h3 { margin: 0; font-size: 1.1rem; }
+  .picks-card p { margin: 0; color: var(--muted); }
+  .picks-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .picks-head span { color: var(--muted); font-size: .9rem; }
+  .picks-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .picks-row > span { font-size: .85rem; color: var(--muted); min-width: 92px; }
+  .picks-telegram { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding-top: 4px; border-top: 1px solid var(--line); }
+  .picks-telegram .btn { background: var(--accent); color: #fff; border-color: var(--accent); margin-top: 10px; }
+  .picks-telegram .fineprint { font-size: .82rem; color: var(--muted); margin-top: 10px; }
 
   .layout { display: grid; grid-template-columns: 216px minmax(0, 1fr); gap: 34px; align-items: start; }
 
@@ -514,6 +525,7 @@
         <button class="legend-btn" id="legend-btn" aria-expanded="false" aria-controls="legend"><span class="q" aria-hidden="true">?</span><span data-t="legend.button"></span></button>
         <div class="legend" id="legend" hidden></div>
       </div>
+      <div class="picks-panel" id="picks-panel" hidden></div>
       <div class="list" id="list">
         <div class="cols" id="cols" aria-hidden="true"></div>
         <div id="rows"><div class="loading"><span class="lume" aria-hidden="true"></span><span data-t="loading"></span></div></div>
@@ -591,6 +603,23 @@ const STRINGS = {
   "top.profileNone": ["Set your profile", "Definir perfil"], "top.github": ["Star vagaLume on GitHub", "Dê uma estrela no GitHub"],
   "top.toTop": ["Back to top", "Voltar ao topo"],
   "sub.button": ["Daily updates", "Receber todo dia"],
+  "sub.bot": ["Your own highlights on Telegram", "Seus destaques no Telegram"],
+  "picks.title": ["Your highlights today", "Seus destaques de hoje"],
+  "picks.lead": ["The best new roles of the day for you: your profile, the areas below and how well each one matches your résumé.",
+    "As melhores vagas novas do dia para você: o seu perfil, as áreas abaixo e o quanto cada uma combina com o seu currículo."],
+  "picks.needResume": ["Highlights pick the best new roles of the day by how well they match your résumé. Compare your résumé once and they show up here.",
+    "Os destaques escolhem as melhores vagas novas do dia pelo quanto combinam com o seu currículo. Compare o seu currículo uma vez e eles aparecem aqui."],
+  "picks.resumeBtn": ["Compare my résumé", "Comparar currículo"],
+  "picks.count": ["How many", "Quantas"], "picks.areas": ["Areas", "Áreas"],
+  "picks.allAreas": ["none picked = every area", "nenhuma marcada = todas"],
+  "picks.profile": [p => `Level, field and where: from your profile (${p}).`, p => `Nível, área de estudo e onde: do seu perfil (${p}).`],
+  "picks.edit": ["Change", "Alterar"],
+  "picks.telegram": ["Get these every day on Telegram", "Receber estes todo dia no Telegram"],
+  "picks.telegramNote": ["Opens the vagaLume bot with these choices. It confirms within 30 minutes; send /stop to cancel.",
+    "Abre o bot do vagaLume com estas escolhas. Ele confirma em até 30 minutos; envie /parar para cancelar."],
+  "picks.none": ["No new role today matches these choices. Try more areas, or more places in your profile.",
+    "Nenhuma vaga nova de hoje combina com estas escolhas. Tente mais áreas, ou mais lugares no seu perfil."],
+  "picks.line": [n => `${n} highlights · the filters on the side don't apply here`, n => `${n} destaques · os filtros ao lado não valem aqui`],
   "sub.title": ["Get the new roles every day", "Receba as vagas novas todo dia"],
   "sub.lead": ["One short digest a day: new roles in Brazil and remote first, highlights abroad and what closes soon. vagaLume doesn't keep your name or e-mail.",
     "Um resumo curto por dia: vagas novas no Brasil e remotas primeiro, destaques no exterior e o que fecha em breve. O vagaLume não guarda seu nome nem seu e-mail."],
@@ -619,7 +648,7 @@ const STRINGS = {
   "pill.remove": [x => `Remove filter ${x}`, x => `Remover filtro ${x}`],
 
   "search.placeholder": ["Search role, company or city", "Buscar vaga, empresa ou cidade"], "search.kbd": ["Press / to search", "Aperte / para buscar"],
-  "tab.all": ["All", "Todas"], "tab.new": ["New", "Novas"], "tab.soon": ["Closing soon", "Fecham em breve"], "tab.saved": ["Saved", "Salvas"],
+  "tab.picks": ["Today's highlights", "Destaques de hoje"], "tab.all": ["All", "Todas"], "tab.new": ["New", "Novas"], "tab.soon": ["Closing soon", "Fecham em breve"], "tab.saved": ["Saved", "Salvas"],
   "tab.programs": ["Programs & schools", "Programas e escolas"], "tab.applied": ["Applied", "Candidatadas"], "tab.hidden": ["Hidden", "Ocultas"],
   "sort.label": ["Sort", "Ordenar"], "sort.match": ["Best résumé match", "Melhor match"], "sort.fit": ["Best fit", "Mais compatíveis"],
   "sort.deadline": ["Deadline", "Prazo"], "sort.added": ["Newest", "Mais novas"], "sort.org": ["Company A–Z", "Empresa A–Z"],
@@ -824,6 +853,11 @@ const profileName = () => hasProfile()
 // Your field and its neighbours count as yours; a role only for other fields
 // is hidden until you ask to see it. Roles that don't say stay visible.
 const FIELDS = ["engenharia", "computacao", "exatas", "negocios", "direito", "saude", "biologicas", "comunicacao", "humanas", "arquitetura", "outra"];
+// <picks> ---------------------------------------------------------- today's highlights
+// The few best new roles for you today: the "Destaques de hoje" tab shows them and
+// the Telegram bot sends the same ones (radar/picks.py has the same rule in Python,
+// and tests/test_picks.py runs both on the same data). This block uses nothing
+// from the rest of the page, so the test can run it on its own.
 const FIELD_RELATED = {
   engenharia: ["computacao", "exatas", "arquitetura"],
   computacao: ["engenharia", "exatas"],
@@ -836,6 +870,79 @@ const FIELD_RELATED = {
   humanas: ["comunicacao"],
   arquitetura: ["engenharia", "comunicacao"],
 };
+// Programming languages usually come as alternatives ("Java, Python, C++ or Go"): knowing one counts as one hit.
+const LANGUAGES = new Set(["Python", "C++", "C", "C#", "Java", "JavaScript", "TypeScript", "Go", "Rust", "Kotlin", "Swift", "Scala", "OCaml", "Haskell", "R", "MATLAB"]);
+// The order of these lists fixes the bits of the code in the Telegram link: only ever add to their END.
+const PICK = {
+  levels: ["undergrad", "masters", "phd"],
+  fields: ["engenharia", "computacao", "exatas", "negocios", "direito", "saude", "biologicas", "comunicacao", "humanas", "arquitetura", "outra"],
+  ufs: ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"],
+  work: ["state", "Brazil", "LatAm", "US/Canada", "Europe", "Asia/ME", "any"],
+  areas: ["ML", "research", "SWE", "data", "quant", "hardware", "other"],
+  counts: [3, 5, 10],
+};
+// prefs: {count, levels, fields, home, work, areas, skills, lang}
+function pickFits(item, prefs) {
+  const levels = item.levels || [];
+  if (levels.length && prefs.levels.length && !levels.some(l => prefs.levels.includes(l))) return false;
+  const mine = prefs.fields.filter(f => f !== "outra"), fields = item.fields || [];
+  if (mine.length && !prefs.fields.includes("outra") && fields.length) {
+    const ok = new Set([...mine, ...mine.flatMap(f => FIELD_RELATED[f] || [])]);
+    if (!fields.some(f => ok.has(f))) return false;
+  }
+  const warnings = item.warnings || [];
+  if (warnings.includes("new-grad role (after graduation)")) return false;
+  const regions = item.regions || [], where = regions.filter(r => r !== "remote" && r !== "unknown");
+  if (!prefs.work.includes("any")) {
+    const states = item.states || [];
+    const inMyState = prefs.work.includes("state") && prefs.home && where.includes("Brazil") && (!states.length || states.includes(prefs.home));
+    const remoteOk = regions.includes("remote") && (!warnings.includes("US work auth?") || prefs.work.includes("US/Canada"));
+    if (!(inMyState || where.some(r => prefs.work.includes(r)) || remoteOk)) return false;
+  }
+  if (prefs.areas.length && !prefs.areas.includes(item.area)) return false;
+  return true;
+}
+function pickSkillScore(item, skills) {
+  const asks = item.skills || [], mine = new Set(skills.map(s => s.toLowerCase()));
+  const have = asks.filter(s => mine.has(s.toLowerCase()));
+  const langs = asks.filter(s => LANGUAGES.has(s));
+  const needed = asks.length - langs.length + (langs.length ? 1 : 0);
+  const got = have.filter(s => !LANGUAGES.has(s)).length + (have.some(s => LANGUAGES.has(s)) ? 1 : 0);
+  return needed ? Math.round(100 * Math.min(1, got / Math.max(3, Math.ceil(needed * 0.6)))) : 0;
+}
+function pickFieldRank(item, prefs) {  // 0 your field, 1 a related one, 2 doesn't say
+  const mine = prefs.fields.filter(f => f !== "outra"), fields = item.fields || [];
+  if (!mine.length || !fields.length) return 2;
+  if (fields.some(f => mine.includes(f))) return 0;
+  return fields.some(f => mine.some(m => (FIELD_RELATED[m] || []).includes(f))) ? 1 : 2;
+}
+function pickToday(items, prefs, todayIso) {
+  const today = Date.parse(todayIso + "T00:00:00Z");
+  const days = i => { if (!/^\d/.test(i.deadline || "")) return 10000; const d = Math.round((Date.parse(i.deadline.slice(0, 10) + "T00:00:00Z") - today) / 86400000); return d >= 0 ? d : 10000; };
+  const key = i => [-pickSkillScore(i, prefs.skills), pickFieldRank(i, prefs), i.pay ? 0 : 1, days(i), i.title.toLowerCase(), i.id];
+  const cmp = (a, b) => { const x = key(a), y = key(b); for (let k = 0; k < x.length; k++) if (x[k] !== y[k]) return x[k] < y[k] ? -1 : 1; return 0; };
+  const candidates = items.filter(i => i.added === todayIso && i.source !== "programs" && pickFits(i, prefs)).sort(cmp);
+  const chosen = [], orgs = new Set();
+  for (const i of candidates) {  // one per company first...
+    if (!orgs.has(i.org)) { chosen.push(i); orgs.add(i.org); }
+    if (chosen.length === prefs.count) return chosen;
+  }
+  const picked = new Set(chosen.map(i => i.id));  // ...then fill up if there weren't enough companies
+  chosen.push(...candidates.filter(i => !picked.has(i.id)).slice(0, prefs.count - chosen.length));
+  return chosen.sort((a, b) => candidates.indexOf(a) - candidates.indexOf(b));
+}
+// The short code in the Telegram link (radar/picks.py decode_prefs reads it).
+function encodePrefs(prefs, skillNames) {
+  const bits = (names, universe) => universe.reduce((n, name, i) => names.includes(name) ? n | (1 << i) : n, 0);
+  const fieldBits = bits(prefs.fields, PICK.fields);
+  const bytes = [1, Math.max(0, PICK.counts.indexOf(prefs.count)), bits(prefs.levels, PICK.levels) | (prefs.lang === "en" ? 128 : 0),
+    fieldBits & 255, fieldBits >> 8, PICK.ufs.indexOf(prefs.home) + 1, bits(prefs.work, PICK.work), bits(prefs.areas, PICK.areas)];
+  const mine = new Set(prefs.skills.map(s => s.toLowerCase()));
+  const skillBytes = new Array(Math.max(1, Math.ceil(skillNames.length / 8))).fill(0);
+  skillNames.forEach((name, i) => { if (mine.has(name.toLowerCase())) skillBytes[i >> 3] |= 1 << (i & 7); });
+  return btoa(String.fromCharCode(...bytes, ...skillBytes)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+// </picks>
 const fieldNames = fields => fields.map(f => t(`field.short.${f}`)).join(", ");
 // A field written in the résumé summary ("Control and Automation Engineering") -> one of FIELDS.
 const FIELD_FROM_TEXT = [
@@ -1103,7 +1210,6 @@ function parseResume(text) {
 }
 
 // {score 0-100, level: 0 strong | 1 good | 2 some | 3 low, have, missing, area, role} or null without a résumé.
-const LANGUAGES = new Set(["Python", "C++", "C", "C#", "Java", "JavaScript", "TypeScript", "Go", "Rust", "Kotlin", "Swift", "Scala", "OCaml", "Haskell", "R", "MATLAB"]);
 function computeMatch(item) {
   if (!resume) return null;
   const asks = item.skills || [];
@@ -1279,8 +1385,8 @@ function showApp() {
   $("profile-chip").title = hasProfile() ? t("top.profileEdit") : "";
   $("resume-text").innerHTML = resume ? `${esc(t("top.resumeDone"))} <span class="done">✓</span>` : esc(t("top.resume"));
   $("foryou-group").hidden = !hasProfile() && !resume;
-  // "Daily updates" appears once there is a Telegram channel or an e-mail sign-up (config/digest.yaml).
-  $("subscribe-btn").hidden = !(DATA?.subscribe?.telegram || DATA?.subscribe?.email);
+  // "Daily updates" appears once there is a bot, a Telegram channel or an e-mail sign-up (config/digest.yaml).
+  $("subscribe-btn").hidden = !(DATA?.subscribe?.bot || DATA?.subscribe?.telegram || DATA?.subscribe?.email);
   if (!resume && view.match) view.match = "";
   if (!hasProfile() && view.fit) view.fit = "";
   drawSortOptions();
@@ -1303,6 +1409,7 @@ function drawColumns() {
 
 // [key, test, how to show its count]. Applied and Hidden only appear once they have something in them.
 const TABS = [
+  ["picks", () => false],  // drawn by drawPicks()
   ["all", i => mark(i) !== "hidden"],
   ["new", i => isNew(i) && mark(i) !== "hidden", "count"],
   ["soon", i => isSoon(i) && mark(i) !== "hidden", "hot"],
@@ -1551,6 +1658,11 @@ function render() {
     return `<button class="tab" role="tab" data-tab="${key}" aria-selected="${view.tab === key}">${t(`tab.${key}`)}${n ? `<small class="${count === "hot" ? "hot" : ""}">${fmtN(n)}</small>` : ""}</button>`;
   }).join("");
 
+  const picksMode = view.tab === "picks";
+  $("picks-panel").hidden = !picksMode;
+  $("sort").parentElement.hidden = picksMode;
+  if (picksMode) return drawPicks();
+
   const inTab = DATA.items.filter(tabTest());
   buildFilters(inTab);
   activeFilters();
@@ -1570,6 +1682,54 @@ function render() {
   $("more").textContent = t("more", Math.min(PAGE_SIZE, list.length - view.shown));
   writeHash();
 }
+// ------------------------------------------------------------------ today's highlights
+// Your choices for the highlights (and the Telegram bot): how many, and which areas ([] = all).
+let digest = store.get("radar.digest", { count: 5, areas: [] });
+function myPrefs() {
+  const p = hasProfile() ? profile : null;
+  return {
+    count: digest.count, areas: digest.areas, lang: LANG,
+    levels: p?.levels || [], fields: p?.fields || [], home: /^[A-Z]{2}$/.test(p?.home || "") ? p.home : "",
+    work: p?.work?.length ? p.work : ["any"],
+    skills: (DATA.skillNames || []).filter(name => mySkills.has(name.toLowerCase())),
+  };
+}
+function drawPicks() {
+  $("more").hidden = true;
+  $("others-row").hidden = true;
+  $("active-filters").innerHTML = "";
+  $("filters-summary").textContent = t("filters");
+  if (!resume) {
+    $("picks-panel").innerHTML = `<div class="picks-card"><h3>${esc(t("picks.title"))}</h3><p>${esc(t("picks.needResume"))}</p>
+      <div><button class="btn" id="picks-resume">${esc(t("picks.resumeBtn"))}</button></div></div>`;
+    $("rows").innerHTML = "";
+    $("count").textContent = "";
+    return writeHash();
+  }
+  const prefs = myPrefs();
+  const list = pickToday(DATA.items, prefs, DATA.updated);
+  const bot = DATA.subscribe?.bot;
+  $("picks-panel").innerHTML = `<div class="picks-card">
+    <div class="picks-head"><h3>${esc(t("picks.title"))}</h3><span>${esc(fmtDate(DATA.updated, false))}</span></div>
+    <p>${esc(t("picks.lead"))}</p>
+    <div class="picks-row"><span>${esc(t("picks.count"))}</span><div class="chips">${PICK.counts.map(n =>
+      `<button class="chip" data-pick-count="${n}" aria-pressed="${prefs.count === n}">${n}</button>`).join("")}</div></div>
+    <div class="picks-row"><span>${esc(t("picks.areas"))}</span><div class="chips">${AREA_ORDER.map(a =>
+      `<button class="chip" data-pick-area="${a}" aria-pressed="${digest.areas.includes(a)}">${esc(tv("area", a))}</button>`).join("")}</div></div>
+    <p class="fineprint">${esc(t("picks.profile", profileName()))} <button class="linkish" id="picks-profile">${esc(t("picks.edit"))}</button></p>
+    ${bot ? `<div class="picks-telegram"><a class="btn" href="${esc(bot)}?start=${encodePrefs(prefs, DATA.skillNames || [])}" target="_blank" rel="noopener">✈️ ${esc(t("picks.telegram"))}</a>
+      <span class="fineprint">${esc(t("picks.telegramNote"))}</span></div>` : ""}
+  </div>`;
+  $("rows").innerHTML = list.map(row).join("") || `<div class="empty">${esc(t("picks.none"))}</div>`;
+  $("count").textContent = t("picks.line", list.length);
+  writeHash();
+}
+function setDigest(change) {
+  digest = { ...digest, ...change };
+  store.set("radar.digest", digest);
+  render();
+}
+
 function emptyState(hidden = 0) {
   const filtersOn = !!document.querySelector("[data-clear]");
   const text = !filtersOn && ["saved", "applied", "hidden"].includes(view.tab) ? t(`empty.${view.tab}`) : t("empty.none");
@@ -1591,6 +1751,7 @@ function drawSubscribe() {
   const links = DATA?.subscribe || { feed: "feed.xml", feedBrasil: "feed-brasil.xml" };
   const button = (href, text) => `<a class="btn" href="${esc(href)}" target="_blank" rel="noopener">${text}</a>`;
   $("subscribe").innerHTML = `<h3>${t("sub.title")}</h3><p>${t("sub.lead")}</p>
+    ${links.bot ? `<div class="options"><button class="btn" data-go-picks="1">✈️ ${t("sub.bot")}</button></div>` : ""}
     ${links.telegram || links.email ? `<div class="options">${links.telegram ? button(links.telegram, "✈️ " + t("sub.telegram")) : ""}${links.email ? button(links.email, "✉️ " + t("sub.email")) : ""}</div>` : ""}
     <div class="feeds">${t("sub.feeds")} <a href="${esc(links.feedBrasil || "feed-brasil.xml")}">${t("sub.feedBr")}</a> · <a href="${esc(links.feed || "feed.xml")}">${t("sub.feedAll")}</a></div>`;
 }
@@ -1638,6 +1799,13 @@ document.addEventListener("click", e => {
   if (!$("legend").hidden && !e.target.closest("#legend")) toggleLegend(false);
   if (e.target.closest("#subscribe-btn")) return toggleSubscribe($("subscribe").hidden);
   if (!$("subscribe").hidden && !e.target.closest("#subscribe")) toggleSubscribe(false);
+  const pickCount = e.target.closest("[data-pick-count]");
+  if (pickCount) return setDigest({ count: Number(pickCount.dataset.pickCount) });
+  const pickArea = e.target.closest("[data-pick-area]");
+  if (pickArea) return setDigest({ areas: toggleIn(digest.areas, pickArea.dataset.pickArea) });
+  if (e.target.closest("#picks-resume")) return showResume();
+  if (e.target.closest("#picks-profile")) return showWelcome();
+  if (e.target.closest("[data-go-picks]")) { toggleSubscribe(false); view.tab = "picks"; return rerender(); }
   const chip = e.target.closest(".chip");
   if (chip) { togglePick(chip.parentElement.dataset.filter, chip.dataset.value); return rerender(); }
   const tab = e.target.closest(".tab");

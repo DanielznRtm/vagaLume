@@ -17,7 +17,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any, Callable
 
-from . import db, digest, labels, llm, notify, report, site
+from . import db, digest, labels, llm, notify, report, site, telegram_bot
 from .config import ROOT, load_config
 from .models import Opportunity
 from .sources import (
@@ -155,6 +155,8 @@ def run(
     if send:
         notify.notify(data)  # your private digest (TELEGRAM_CHAT_ID / EMAIL_TO)
         digest.post(everything, today, digest_settings)  # the public channel, if configured
+        # each subscriber's own highlights, the same the site shows (radar/picks.py)
+        telegram_bot.send_daily([site.item_record(o) for o in everything if o.is_open], today)
     return data
 
 

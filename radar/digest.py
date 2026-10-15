@@ -280,7 +280,9 @@ def write_feeds(opportunities: list[StoredOpportunity], today_iso: str, settings
 def subscribe_links(settings: dict[str, Any]) -> dict[str, str]:
     """What the website's "daily updates" panel offers."""
     channel = str(settings.get("telegram_channel") or "")
+    bot = str(settings.get("telegram_bot") or "").lstrip("@")
     return {
+        "bot": f"https://t.me/{bot}" if bot else "",
         "telegram": f"https://t.me/{channel.lstrip('@')}" if channel.startswith("@") else "",
         "email": str(settings.get("email_signup_url") or ""),
         "feed": "feed.xml",
