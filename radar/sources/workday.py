@@ -114,13 +114,18 @@ def student_facets(data: dict[str, Any]) -> dict[str, list[str]]:
     return found
 
 
+# Vocational training for school leavers, not university students (like jovem aprendiz): left out
+# even when the site files it under its apprentice job type.
+VOCATIONAL = re.compile(r"\bausbildung|\bazubi\b|jovem aprendiz", re.I)
+
+
 def parse(data: dict[str, Any], site: dict[str, Any], from_student_facet: bool, today: date | None = None,
           brazil: bool = True) -> list[Opportunity]:
     today = today or date.today()
     items: list[Opportunity] = []
     for job in data.get("jobPostings") or []:
         title = str(job.get("title", "")).strip()
-        if not (from_student_facet or is_student_candidate(title)):
+        if not (from_student_facet or is_student_candidate(title)) or VOCATIONAL.search(title):
             continue
         place = str(job.get("locationsText") or "")
         if brazil:

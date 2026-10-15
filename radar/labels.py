@@ -325,10 +325,11 @@ W_UNSURE = "unsure if student role"
 W_NEW_GRAD = "new-grad role (after graduation)"
 
 # Only the US asks for these.
-US_AUTH_TEXT = [r"u\.?s\.? citizen\w*", r"security clearance", r"green card", r"itar", r"export control"]
+US_AUTH_TEXT = [r"u\.?s\.? citizen\w*", r"security clearance", r"green card", r"itar"]
 # Any country can ask for these ("must hold valid work authorization ... for their specific work
 # location" on a Google role in Europe): they only count for roles in the US/Canada, remote or unknown.
-WORK_AUTH_TEXT = [r"work authori[sz]ation", r"authori[sz]ed to work", r"visa sponsorship", r"sponsorship", r"permanent resident"]
+WORK_AUTH_TEXT = [r"work authori[sz]ation", r"authori[sz]ed to work", r"visa sponsorship", r"sponsorship", r"permanent resident",
+                  r"export control"]  # Europe has export control too (German aerospace roles mention it)
 PHD_TITLE = [r"ph\.?d", r"doctoral", r"doutorado", r"ms/phd", r"m\.s\./ph\.d", r"🎓"]
 PHD_TEXT = [
     r"pursuing a ph\.?d", r"ph\.?d\.? (?:student|candidate|program)", r"enrolled in a ph\.?d",
