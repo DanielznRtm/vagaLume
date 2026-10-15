@@ -45,7 +45,7 @@ Numbers from the run on 2026-10-09, after removing duplicates:
 | Ashby boards (49 companies) | `ashby.py` | public JSON API | 98 |
 | GitHub lists (SimplifyJobs Summer 2027, Off-Season, New Grad; vanshb03 Summer 2027) | `github_lists.py` | parses README tables (HTML and Markdown) | 3,898 |
 | Gupy (estágio, estágio de férias and trainee in Brazil) | `gupy.py` | the portal's JSON search API, filtered by job type, 100 per page | 2,665 |
-| Program pages (76 pages, 23 of them Brazilian) | `programs.py` | page-change watcher | 76 |
+| Program pages (76 pages, 24 of them Brazilian) | `programs.py` | page-change watcher | 76 |
 | Google Careers | `google.py` | reads the job data embedded in the results page | 90 |
 | Amazon Jobs | `amazon.py` | JSON endpoint behind amazon.jobs search | 431 |
 | NVIDIA (Workday) | `nvidia.py` | Workday JSON endpoint, "Intern" filter | 40 |
