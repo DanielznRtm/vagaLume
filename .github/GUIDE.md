@@ -253,7 +253,9 @@ answers any time** with the profile button at the top right (the one with the
 pencil): it opens the same questions with your answers filled in. It is saved
 in your browser only.
 
-**Field of study.** The bot labels each role with the fields it is aimed at
+**Areas you're looking for.** The welcome screen asks "Você procura vagas em
+quais áreas?": not only your course, so an engineering student can pick
+Business too. The bot labels each role with the fields it is aimed at
 (`radar/fields.py`): from the title, or, when the title doesn't say, from the
 course phrases in the description ("cursando Direito", "degree in Computer
 Science"). The site then:

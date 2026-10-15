@@ -86,7 +86,12 @@ def test_spring_framework_is_not_a_season():
         ("Berlin, DE", ["Europe"]),
         ("Remote in USA", ["US/Canada", "remote"]),
         ("London / New York, NY", ["US/Canada", "Europe"]),
-        ("Cape Town, ZAF", ["unknown"]),
+        ("Cape Town, ZAF", ["Asia/ME"]),  # Africa is shown with Asia and the Middle East
+        ("Belfort", ["Europe"]),  # Workday sites abroad often give just the city
+        ("Bursa, , Turkey", ["Europe"]),
+        ("Managua", ["LatAm"]),
+        ("Makati", ["Asia/ME"]),
+        ("Lebanon, PA", ["US/Canada"]),  # a US town, not the country
         ("Singapore", ["Asia/ME"]),
         ("Ciudad de México, MEX", ["LatAm"]),
         ("Porto Alegre, RS", ["Brazil"]),  # not Porto, Portugal
