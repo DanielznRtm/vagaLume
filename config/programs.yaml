@@ -13,6 +13,10 @@
 #   warnings list of extra warnings, quoted because of the "?": ["PhD-level?"]
 #   notes    a reminder shown in the report
 #   student  false if it might not be a student program (adds "unsure")
+#   applications  when applications usually open, from past years: "Nov–Jan",
+#            "Feb, Aug" (two rounds), "Mar". The site shows it and puts the
+#            programs whose applications open soonest first.
+#   levels   list: undergrad | masters | phd, when only some can apply
 #   render   true if the page is built by JavaScript: it is then opened in a
 #            headless browser (slower, needs Playwright)
 #
@@ -26,6 +30,7 @@ programs:
   - name: ISTA ISTernship (summer research internship)
     org: Institute of Science and Technology Austria
     url: https://phd.ista.ac.at/isternship/
+    applications: "Dec–Feb"
     area: research
     season: May–Aug
     regions: [Europe]
@@ -56,6 +61,7 @@ programs:
   - name: Summer@EPFL
     org: EPFL
     url: https://summer.epfl.ch
+    applications: "Oct–Nov"
     area: research
     season: May–Aug
     regions: [Europe]
@@ -64,6 +70,7 @@ programs:
   - name: ETH Student Summer Research Fellowship (SSRF)
     org: ETH Zurich, D-INFK
     url: https://inf.ethz.ch/studies/summer-research-fellowship.html
+    applications: "Nov–Dec"
     area: research
     season: May–Aug
     regions: [Europe]
@@ -73,6 +80,7 @@ programs:
   - name: Mitacs Globalink Research Internship
     org: Mitacs (Canada)
     url: https://www.mitacs.ca/our-programs/globalink-research-internship-students/
+    applications: "Jun–Sep"
     area: research
     season: May–Aug
     regions: [US/Canada]
@@ -216,6 +224,7 @@ programs:
   - name: CNPEM Programa Bolsas de Verão (PBV)
     org: CNPEM (LNLS/Sirius, LNBio, LNBR, LNNano)
     url: https://pages.cnpem.br/bolsasdeverao/
+    applications: "Aug–Sep"
     area: research
     season: Dec–Feb
     regions: [Brazil, LatAm]
@@ -224,6 +233,7 @@ programs:
   - name: CNPEM Programa Unificado de Estágios (PUE)
     org: CNPEM
     url: https://pages.cnpem.br/pue/
+    applications: "Aug"
     area: research
     season: year-round
     regions: [Brazil]
@@ -240,6 +250,7 @@ programs:
   - name: IME-USP Programa de Verão
     org: IME-USP
     url: https://www.ime.usp.br/verao/index.php
+    applications: "Nov–Dec"
     area: research
     season: Dec–Feb
     regions: [Brazil]
@@ -248,6 +259,7 @@ programs:
   - name: LNCC Programa de Verão (incl. Escola Supercomputador Santos Dumont)
     org: LNCC/MCTI (Petrópolis)
     url: https://verao.lncc.br/
+    applications: "Nov–Dec"
     area: research
     season: Dec–Feb
     regions: [Brazil]
@@ -265,6 +277,7 @@ programs:
   - name: Perimeter-SAIFR-IFT Journeys into Theoretical Physics
     org: ICTP-SAIFR / Perimeter Institute
     url: https://journeys.ictp-saifr.org/
+    applications: "Mar–Apr"
     area: research
     season: Jul
     regions: [Brazil, LatAm]
@@ -305,6 +318,7 @@ programs:
   - name: Embraer Programa de Estágio
     org: Embraer
     url: https://embraer.com/corporate-careers/estagio/pt/
+    applications: "Sep–Oct"
     area: hardware
     regions: [Brazil]
     notes: "applications usually Sep–Oct, start in February"
@@ -318,6 +332,7 @@ programs:
   - name: Suzano Programa de Estágio
     org: Suzano
     url: https://www.suzano.com.br/trabalhe-conosco/estagio
+    applications: "Sep–Oct"
     regions: [Brazil]
     notes: "applications usually Sep–Oct, start in Jan–Feb"
 
@@ -336,3 +351,325 @@ programs:
     url: https://www.ciadeestagios.com.br/vagas-de-estagio/
     regions: [Brazil]
     notes: "estágio programs of big companies (e.g. Boeing, Stellantis, Danone, Pirelli); each lists its deadline"
+
+  # --- Summer research abroad open to students from Brazil (checked 2026-10-15) ---
+  - name: CERN Summer Student Programme
+    org: CERN
+    url: https://careers.cern/programmes/summer-studentship/
+    applications: "Nov–Jan"
+    area: research
+    season: May–Aug
+    regions: [Europe]
+    notes: "Bachelor's/Master's (not PhD) in physics, engineering, CS or maths with 6+ semesters, all nationalities (Brazil is an associate member state); 8–13 weeks, 94 CHF/day + travel"
+
+  - name: CERN openlab Summer Student Programme
+    org: CERN openlab
+    url: https://openlab.cern/cern-openlab-summer-student-programme/
+    applications: "Nov–Jan"
+    area: SWE
+    season: May–Aug
+    regions: [Europe]
+    notes: "BSc/MSc in CS, maths, engineering or physics with 3+ years of study, all nationalities; 9 weeks Jun–Aug, 93 CHF/day + travel"
+
+  - name: DESY Summer Student Programme
+    org: DESY (Hamburg / Zeuthen)
+    url: https://summerstudents.desy.de/
+    applications: "Dec–Jan"
+    area: research
+    season: May–Aug
+    regions: [Europe]
+    notes: "physics/computing students with 3+ years, finishing a BSc or in an MSc, international OK; ~7.5 weeks Jul–Sep, free hostel + 28.50 EUR/day, travel partly paid"
+
+  - name: Aalto Science Institute International Summer Research Programme
+    org: Aalto University (Finland)
+    url: https://www.aalto.fi/en/aalto-university-science-institute-asci/aalto-university-science-institute-international-summer-research-programme
+    applications: "Jan"
+    area: research
+    season: May–Aug
+    regions: [Europe]
+    notes: "projects posted mid-December; bachelor's/master's students worldwide; 12 weeks Jun–Aug, 2000+ EUR/month + travel bonus"
+
+  - name: ESO Summer Research Programme
+    org: European Southern Observatory (Garching)
+    url: https://www.eso.org/summerresearch
+    applications: "Dec–Jan"
+    area: research
+    season: May–Aug
+    regions: [Europe]
+    notes: "STEM students not yet in a PhD with 2+ years done, any country (priority to ESO member states and Chile); 6 weeks Jun–Jul, travel + housing + stipend"
+
+  - name: MPIA Summer Internship
+    org: Max Planck Institute for Astronomy (Heidelberg)
+    url: https://www.mpia.de/en/careers/internships/summer
+    applications: "Dec–Jan"
+    area: research
+    season: May–Aug
+    regions: [Europe]
+    notes: "Bachelor's (4+ semesters, still enrolled) and Master's students, 2+ places for developing countries; up to 3 months, ~1000 EUR/month + travel"
+
+  - name: Vienna BioCenter Summer School
+    org: Vienna BioCenter (IMP, IMBA, GMI, Max Perutz Labs, CeMM)
+    url: https://training.vbc.ac.at/summer-school/
+    applications: "Nov–Jan"
+    area: research
+    season: May–Aug
+    regions: [Europe]
+    notes: "life-science undergrads (and MSc students not graduating before July), all nationalities; 9 weeks, 1400 EUR + free housing"
+
+  - name: MPIIB International Summer Internship (MPIIB-ISI)
+    org: Max Planck Institute for Infection Biology (Berlin)
+    url: https://www.mpiib-berlin.mpg.de/mpiib-isi
+    applications: "Oct–Nov"
+    area: research
+    regions: [Europe]
+    notes: "BSc (4+ semesters)/MSc in biology, medicine or related, focus on students from low- and middle-income countries; Aug–Oct, 1,400 EUR/month + travel + housing"
+
+  - name: JSC Guest Student Programme on Scientific Computing
+    org: Forschungszentrum Jülich, Jülich Supercomputing Centre
+    url: https://www.fz-juelich.de/en/jsc/education/master-students/guest-student-programme
+    applications: "Jan–Apr"
+    area: research
+    regions: [Europe]
+    levels: [masters]
+    notes: "science/engineering/CS/maths students with a first degree but no master's yet, recommendation letter needed; 10 weeks Aug–Oct (HPC)"
+
+  - name: EMBL Lautenschläger Summer School
+    org: EMBL (Heidelberg)
+    url: https://www.embl.org/about/info/undergraduates/embl-lautenschlager-summer-school/
+    applications: "Mar–Apr"
+    area: research
+    regions: [Europe]
+    notes: "undergrads from outside biology (physics, engineering, CS); 2 weeks, 20 places, 200 EUR fee with waivers and travel grants"
+
+  - name: Heidelberg Laureate Forum (young researchers)
+    org: Heidelberg Laureate Forum Foundation
+    url: https://www.heidelberg-laureate-forum.org/young-researchers/faq/
+    applications: "Nov–Feb"
+    area: research
+    regions: [Europe]
+    notes: "maths/CS students from bachelor's level up to postdocs, worldwide; one week in September with Turing/Fields/Abel laureates; travel grants"
+
+  - name: Caltech SURF (Summer Undergraduate Research Fellowships)
+    org: Caltech
+    url: https://sfp.caltech.edu/undergraduate-research/programs/surf
+    applications: "Jan–Feb"
+    area: research
+    season: May–Aug
+    regions: [US/Canada]
+    notes: "due Mar 1; visiting international undergrads eligible (on campus, not JPL) once they find a Caltech mentor and write a proposal; 10 weeks, $8,110 (2026)"
+
+  - name: Santa Fe Institute Undergraduate Complexity Research (UCR)
+    org: Santa Fe Institute
+    url: https://www.santafe.edu/engage/learn/programs/undergraduate-complexity-research
+    applications: "Nov–Jan"
+    area: research
+    season: May–Aug
+    regions: [US/Canada]
+    notes: "undergrads in sciences/maths, international students enrolled outside the US eligible; 10 weeks, $7,000 + housing, meals, travel"
+
+  - name: Purdue SURF (Summer Undergraduate Research Fellowships)
+    org: Purdue University, College of Engineering
+    url: https://engineering.purdue.edu/Engr/Research/EURO/students/about-SURF
+    applications: "Nov–Dec"
+    area: research
+    season: May–Aug
+    regions: [US/Canada]
+    notes: "undergrads at international institutions eligible, international deadline Dec 15; 10 weeks Jun–Jul, paid (check costs for non-US students)"
+
+  - name: Fields Undergraduate Summer Research Program (FUSRP)
+    org: Fields Institute (Toronto)
+    url: https://www.fields.utoronto.ca/generalinfo/Fields-Undergraduate-Summer-Research-Program
+    applications: "Dec–Jan"
+    area: research
+    season: May–Aug
+    regions: [US/Canada]
+    notes: "maths undergrads from around the world; 9 weeks (2027: May 31–Jul 30), most travel and on-site costs covered"
+
+  - name: UTokyo Research Internship Program (UTRIP)
+    org: University of Tokyo, School of Science
+    url: https://www.s.u-tokyo.ac.jp/en/utrip/
+    applications: "Nov–Jan"
+    area: research
+    season: May–Aug
+    regions: [Asia/ME]
+    notes: "non-Japanese undergrads (2nd year+) in natural sciences; ~6 weeks Jun–Aug, airfare, daily allowance and housing"
+
+  - name: KAIST KAI-X Summer Research Internship
+    org: KAIST Advanced Institute for Science-X
+    url: https://kai-x.kaist.ac.kr/experience-announcements
+    applications: "Jan–Feb"
+    area: research
+    season: May–Aug
+    regions: [Asia/ME]
+    notes: "overseas 3rd/4th-year undergrads and MSc students in physics, chemistry, maths, biology, brain science; 7 weeks Jul–Aug, airfare + dorm + living support"
+
+  - name: NUS Computing Summer Research Internship
+    org: National University of Singapore, School of Computing
+    url: https://www.comp.nus.edu.sg/programmes/pg/events/res-internship/
+    applications: "Dec–Jan"
+    area: research
+    season: May–Aug
+    regions: [Asia/ME]
+    notes: "undergrads/MSc/recent grads, priority to underrepresented countries; 10 weeks from May, SGD 5,000 total, housing not provided"
+
+  - name: NIG Summer Internship (NIG-INTERN)
+    org: National Institute of Genetics (Japan)
+    url: https://www.nig.ac.jp/en/students/nig-intern/
+    applications: "Dec–Jan"
+    area: research
+    season: May–Aug
+    regions: [Asia/ME]
+    notes: "life-science undergrads in their prefinal year, international; ~6 weeks Jun–Jul; airfare up to 200k JPY paid, guest house (~70k JPY) paid by the intern"
+
+  # --- AI / ML programs and schools ------------------------------------------
+  - name: Neuromatch Academy (summer courses)
+    org: Neuromatch
+    url: https://neuromatch.io/courses/
+    applications: "Feb–Mar"
+    area: ML
+    season: Jul
+    regions: [remote]
+    notes: "online 2–3 week courses in July (computational neuroscience, deep learning, NeuroAI, climate) in global time zones; undergrads OK"
+
+  - name: Cohere Labs Scholars Program
+    org: Cohere Labs
+    url: https://cohere.com/research/scholars-program
+    area: ML
+    season: year-round
+    regions: [remote]
+    notes: "remote, full-time, paid ML research with mentors; expected to reopen in fall 2026"
+
+  - name: SPAR (Supervised Program for Alignment Research)
+    org: SPAR
+    url: https://sparai.org/
+    applications: "Dec"
+    area: ML
+    season: year-round
+    regions: [remote]
+    notes: "part-time remote AI safety/policy research with mentors; several rounds a year; undergrads to mid-career"
+
+  - name: ARENA (AI safety ML engineering bootcamp)
+    org: ARENA (London)
+    url: https://www.arena.education/
+    area: ML
+    season: year-round
+    regions: [Europe]
+    student: false
+    notes: "several ~5-week cohorts a year in London; travel, visa, housing and meals covered; not only for students"
+
+  - name: ProbAI (Probabilistic AI School)
+    org: ProbAI Collective
+    url: https://probabilistic.ai/
+    area: ML
+    season: May–Aug
+    regions: [Europe]
+    notes: "one-week school each summer (2026: Vilnius, Aug 3–7); students and professionals; the same group runs Tropical ProbAI in Rio"
+
+  - name: PAISS (PRAIRIE/MIAI AI Summer School)
+    org: Inria / PRAIRIE (Grenoble)
+    url: https://paiss.inria.fr/
+    area: ML
+    regions: [Europe]
+    warnings: ["PhD-level?"]
+    notes: "one week in early September; the page still shows 2025, so a change probably means a new edition"
+
+  # --- Open source, paid and remote --------------------------------------------
+  - name: Google Summer of Code (timeline)
+    org: Google
+    url: https://developers.google.com/open-source/gsoc/timeline
+    applications: "Mar–Apr"
+    area: SWE
+    season: May–Aug
+    regions: [remote]
+    notes: "open-source contributors 18+ worldwide, students and beginners welcome; results May 1; paid stipend"
+
+  - name: Outreachy internships
+    org: Outreachy
+    url: https://www.outreachy.org/
+    applications: "Feb, Aug"
+    area: SWE
+    season: year-round
+    regions: [remote]
+    notes: "two rounds: May–Aug and Dec–Mar cohorts; people facing underrepresentation in tech where they live; remote, 3 months, $7,000"
+
+  - name: MLH Fellowship
+    org: Major League Hacking
+    url: https://fellowship.mlh.com/
+    area: SWE
+    season: year-round
+    regions: [remote]
+    notes: "rolling batches; remote 12-week open-source program with a stipend; 18+ (the Production Engineering track is US/CA/MX only)"
+
+  # --- More in Brazil (checked 2026-10-15) ---------------------------------------
+  - name: Petrobras Programa de Estágio
+    org: Petrobras
+    url: https://petrobras.com.br/quem-somos/estagios
+    applications: "May–Jun"
+    regions: [Brazil]
+    notes: "public call via CIEE (2026: May 21–Jun 3); undergrads at any Brazilian institution; ~150 places in 12 states, R$1,825/month"
+
+  - name: Vale Programa de Estágio
+    org: Vale
+    url: https://vale.com/pt/estagio
+    regions: [Brazil]
+    notes: "undergrads, no age limit; 1 year (renewable), 6 h/day in MG, ES, MA, PA, RJ; the page gives no dates, so a change probably means a new call"
+
+  - name: Embrapa Agricultura Digital, estágios e bolsas PIBIC/PIBITI
+    org: Embrapa Agricultura Digital (Campinas)
+    url: https://www.embrapa.br/agricultura-digital/estagios-e-bolsas
+    area: research
+    season: year-round
+    regions: [Brazil]
+    notes: "internships and yearly PIBIC/PIBITI calls in CS, AI, bioinformatics, geotech; other Embrapa units at embrapa.br/estagios"
+
+  - name: Escola de Verão PPGMAT/UFPB
+    org: UFPB (João Pessoa)
+    url: https://www.mat.ufpb.br/verao
+    area: research
+    season: Dec–Feb
+    regions: [Brazil]
+    notes: "maths summer school Jan–Mar since 1995"
+
+  - name: Serrapilheira Formação em Ecologia Quantitativa
+    org: Instituto Serrapilheira / ICTP-SAIFR
+    url: https://serrapilheira.org/programa-de-formacao-em-ecologia-quantitativa/
+    applications: "Aug–Sep"
+    area: research
+    season: Dec–Feb
+    regions: [Brazil]
+    levels: [masters]
+    notes: "people who finished undergrad or are in/after a master's at Brazilian institutions, any field; summer course Jan–Mar + field course in July, costs paid"
+
+  - name: Líderes Estudar (bolsas) e Prep Program
+    org: Fundação Estudar
+    url: https://www.estudar.org.br/lideres/
+    applications: "Jan–Apr"
+    regions: [Brazil]
+    notes: "Brazilians at top universities in Brazil or abroad; scholarship up to 90% of costs + network; the Prep Program helps with applying abroad"
+
+  - name: Gerdau Programa de Estágio G.Start
+    org: Gerdau
+    url: https://estagiogerdau.com.br/
+    applications: "Aug–Sep"
+    regions: [Brazil]
+    notes: "2026 edition: applications until Sep 13; they go to Selpe's portal (login), so we watch this page"
+
+  - name: Braskem Programa de Estágio
+    org: Braskem
+    url: https://braskem.academiadouniversitario.com.br/
+    applications: "Sep–Oct"
+    regions: [Brazil]
+    notes: "2027 edition: 120 places in 10 cities, R$2,200–2,800; applications until about Oct 30, starts in March; run by Academia do Universitário"
+
+  - name: Volkswagen Programa de Estágio
+    org: Volkswagen do Brasil
+    url: https://vagas.academiadouniversitario.com.br/programas/programa-de-estagio-volkswagen-2027-1
+    regions: [Brazil]
+    notes: "2027.1 edition, engineering and business areas; the URL has the edition in it, so check for a new one each year"
+
+  - name: ArcelorMittal Brasil Programa de Estágio
+    org: ArcelorMittal
+    url: https://brasil.arcelormittal.com/estagio2027
+    applications: "Sep–Oct"
+    regions: [Brazil]
+    notes: "técnico and graduação in 12 states (each state's posting is also listed); results in December, starts in February; the URL has the year in it"

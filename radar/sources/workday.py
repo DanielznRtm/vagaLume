@@ -10,7 +10,9 @@ For each site in config/companies.yaml (section `workday_brazil`) we:
   1. ask for one job just to read the site's filters ("facets");
   2. pick the country filter that has Brazil (Workday uses the same id for
      Brazil on every site) and, when the site has one, the "job type"
-     filter values for interns / apprentices / trainees;
+     filter values for interns / apprentices / trainees. Some sites (GE
+     Vernova, Toyota, J&J) have no country filter, only cities: then we pick
+     the cities that are Brazilian (radar/places.py);
   3. page through those jobs, 20 at a time.
 Sites without a job-type filter are searched for Brazil only, and we keep the
 titles that look like student roles.
@@ -26,6 +28,7 @@ from typing import Any, Iterator
 from ..http import post_json
 from ..labels import is_student_candidate
 from ..models import Opportunity
+from ..places import ALSO_ABROAD, city_state
 from . import SourceResult
 from .nvidia import _posted
 
@@ -67,9 +70,27 @@ def choose_facets(data: dict[str, Any]) -> tuple[dict[str, list[str]], bool]:
         if "subtype" in parameter.lower() and STUDENT_TYPE.search(str(value.get("descriptor") or "")):
             student_ids.setdefault(parameter, []).append(str(value["id"]))
     if not applied:
-        raise ValueError("this site has no Brazil filter")
+        cities = brazilian_cities(data)
+        if not cities:
+            raise ValueError("this site has no Brazil filter")
+        applied["locations"] = cities
     applied.update(student_ids)
     return applied, bool(student_ids)
+
+
+def _is_brazilian(place: str) -> bool:
+    """ "São José dos Campos, São Paulo, Brazil", "Sao Paulo", "Taubate" yes; "Buenos Aires", "Abidjan" no."""
+    if re.search(r"bra[sz]il", place, re.I):
+        return True
+    if "," in place:
+        return False  # "Irvine, California, United States": full names say their country ("PA", "SC" are US states too)
+    return bool(city_state(place)) and place.strip().lower() not in ALSO_ABROAD
+
+
+def brazilian_cities(data: dict[str, Any]) -> list[str]:
+    """Ids of the Brazilian cities in a site's "locations" filter (for sites without a country filter)."""
+    return [str(value["id"]) for parameter, value in _facet_values(data.get("facets") or [])
+            if parameter == "locations" and _is_brazilian(str(value.get("descriptor") or ""))]
 
 
 def parse(data: dict[str, Any], site: dict[str, Any], from_student_facet: bool, today: date | None = None) -> list[Opportunity]:

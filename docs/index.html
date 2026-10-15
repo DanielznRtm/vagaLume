@@ -249,6 +249,8 @@
   .tag.applied { color: var(--good); }
   .tag.match { color: var(--good); }
   .tag.program { color: var(--muted); font-weight: 500; }
+  .tag.apply-open { color: var(--good); }
+  .tag.apply-soon { color: var(--check); }
   .where { min-width: 0; font-size: .9rem; }
   .where .first { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .where .more { color: var(--faint); font-size: .8rem; }
@@ -687,6 +689,7 @@ const STRINGS = {
   "tab.programs": ["Programs & schools", "Programas e escolas"], "tab.applied": ["Applied", "Candidatadas"], "tab.hidden": ["Hidden", "Ocultas"],
   "sort.label": ["Sort", "Ordenar"], "sort.match": ["Best résumé match", "Melhor match"], "sort.fit": ["Best fit", "Mais compatíveis"],
   "sort.deadline": ["Deadline", "Prazo"], "sort.added": ["Newest", "Mais novas"], "sort.org": ["Company A–Z", "Empresa A–Z"],
+  "sort.apply": ["Applications opening soonest", "Inscrições mais próximas"],
   "count": [(n, d) => `${n} ${n === "1" ? "role" : "roles"} · updated ${d}`, (n, d) => `${n} ${n === "1" ? "vaga" : "vagas"} · atualizado em ${d}`],
   "more": [n => `Show ${n} more`, n => `Mostrar mais ${n}`], "loading": ["Loading opportunities…", "Carregando oportunidades…"],
   "loadError": ["Could not load today's data. Check your connection and reload the page.", "Não foi possível carregar os dados de hoje. Verifique a conexão e recarregue a página."],
@@ -697,6 +700,10 @@ const STRINGS = {
   "legend.sem": ["Grey: months in class", "Cinza: meses de aula"], "legend.match": ["Matches your résumé well", "Combina bem com o seu currículo"],
   "col.role": ["Role", "Vaga"], "col.where": ["Where", "Onde"], "col.pay": ["Pay", "Remuneração"], "col.when": ["When", "Quando"], "col.deadline": ["Deadline", "Prazo"],
 
+  "tag.applyOpen": ["Applications usually open now", "Inscrições costumam estar abertas"],
+  "tag.applySoon": [m => `Usually opens in ${m}`, m => `Costuma abrir em ${m}`],
+  "d.apply": ["Applications", "Inscrições"],
+  "d.applyNote": ["usually, from past years: check the page", "costumam ser assim, pelos anos anteriores: confira na página"],
   "tag.new": ["New", "Nova"], "tag.applied": ["Applied", "Candidatada"], "tag.program": ["Program", "Programa"],
   "fit.none": ["Set your profile to see fit", "Defina o seu perfil para ver a compatibilidade"],
   "fit.0": ["Good fit", "Combina bem"], "fit.1": ["Check", "Verificar"], "fit.2": ["Long shot", "Improvável"],
@@ -874,6 +881,18 @@ const daysLeft = iso => iso ? Math.round((new Date(iso) - today) / 86400000) : n
 const fmtDate = (iso, year = true) => iso ? new Date(iso + "T00:00").toLocaleDateString(LOCALE(), year ? { day: "numeric", month: "short", year: "numeric" } : { day: "numeric", month: "short" }) : "";
 const hasProfile = () => !!profile?.levels?.length;
 const isNew = i => i.added === DATA.updated && i.source !== "programs";
+// Programs: the months applications usually open (config/programs.yaml, "applications").
+function applyText(i) {  // [11, 12, 1, 5] -> "nov–jan, mai"
+  const groups = [];
+  (i.apply || []).forEach((m, k) => k && m === i.apply[k - 1] % 12 + 1 ? groups[groups.length - 1].push(m) : groups.push([m]));
+  return groups.map(g => g.length > 1 ? `${monthName(g[0])}–${monthName(g[g.length - 1])}` : monthName(g[0])).join(", ");
+}
+// 0 = applications usually open this month, n = they usually open in n months, 99 = we don't know.
+function applyIn(i) {
+  if (!i.apply?.length) return 99;
+  const now = today.getUTCMonth() + 1;
+  return Math.min(...i.apply.map(m => (m - now + 12) % 12));
+}
 const isSoon = i => { const d = daysLeft(i.deadline); return d !== null && d >= 0 && d <= SOON_DAYS; };
 const locations = i => i.location.split(" / ").map(s => s.trim()).filter(Boolean);
 const regionNames = i => i.regions.filter(r => r !== "unknown").map(r => tv("region", r));
@@ -1436,9 +1455,13 @@ function showApp() {
   DATA.items.forEach(i => { i._fit = computeFit(i); i._match = computeMatch(i); });
   render();
 }
-const sortKey = () => (view.sort === "match" && !resume ? "" : view.sort) || (resume ? "match" : hasProfile() ? "fit" : "deadline");
+// Programs & schools: by default, the ones whose applications open soonest come first.
+const sortKey = () => {
+  const picked = (view.sort === "match" && !resume) || (view.sort === "apply" && view.tab !== "programs") ? "" : view.sort;
+  return picked || (view.tab === "programs" ? "apply" : resume ? "match" : hasProfile() ? "fit" : "deadline");
+};
 function drawSortOptions() {
-  const options = [["match", resume], ["fit", hasProfile()], ["deadline", true], ["added", true], ["org", true]];
+  const options = [["apply", view.tab === "programs"], ["match", resume], ["fit", hasProfile()], ["deadline", true], ["added", true], ["org", true]];
   $("sort").innerHTML = options.filter(o => o[1]).map(([k]) => `<option value="${k}">${t(`sort.${k}`)}</option>`).join("");
   $("sort").value = sortKey();
 }
@@ -1501,6 +1524,7 @@ const SORTS = {
   deadline: (a, b) => deadlineRank(a) - deadlineRank(b) || newest(a, b),
   added: newest,
   org: (a, b) => a.org.localeCompare(b.org) || a.title.localeCompare(b.title),
+  apply: (a, b) => applyIn(a) - applyIn(b) || a._fit.level - b._fit.level || a.title.localeCompare(b.title),
 };
 
 // ------------------------------------------------------------------ rendering helpers
@@ -1565,7 +1589,12 @@ function row(i) {
   if (m === "applied") tags.push(`<span class="tag applied">${t("tag.applied")}</span>`);
   if (i._match && i._match.level === 0) tags.push(`<span class="tag match">${t("match.0")}</span>`);
   if (isNew(i)) tags.push(`<span class="tag new">${t("tag.new")}</span>`);
-  if (i.source === "programs") tags.push(`<span class="tag program">${t("tag.program")}</span>`);
+  if (i.source === "programs") {
+    const when = applyIn(i);
+    if (when === 0) tags.push(`<span class="tag apply-open">${t("tag.applyOpen")}</span>`);
+    else if (when <= 2) tags.push(`<span class="tag apply-soon">${t("tag.applySoon", monthName(i.apply.find(m => (m - today.getUTCMonth() - 1 + 12) % 12 === when)))}</span>`);
+    else tags.push(`<span class="tag program">${t("tag.program")}</span>`);
+  }
   // Under the company: only what might get in the way.
   const problems = fit.reasons.filter(r => r[0] > 0);
   const why = problems.length && !open ? `<div class="why c${problems[0][0]}">${esc(problems[0][1])}${problems.length > 1 ? " · …" : ""}</div>` : "";
@@ -1611,6 +1640,7 @@ function details(i) {
   const facts = [
     [t("d.where"), locs.length ? esc(locs.join(" · ")) : esc(regionNames(i).join(", ")) || ns],
     [t("d.when"), i.season === "unknown" ? ns : `${esc(seasonText(i.season))}${monthStrip(i.season)}`],
+    ...(i.apply?.length ? [[t("d.apply"), `${esc(applyText(i))} <span class="muted">· ${t("d.applyNote")}</span>`]] : []),
     [t("d.deadline"), i.deadline ? esc(fmtDate(i.deadline)) : `<span class="none">${t("d.deadlineNone")}</span>`],
     [t("d.pay"), i.pay ? `<span class="mono">${esc(i.pay)}</span>${i.pay_text ? ` <span class="muted">· ${t("d.payText")}</span>` : ""}` : ns],
     [t("d.labels"), labels],
@@ -1748,7 +1778,7 @@ function render() {
   const hiddenItems = inTab.filter(i => hiddenForYou(i) && passes(i, "hidden"));  // outside your profile, with today's filters
   const hidden = hiddenItems.length;
   const anyOther = view.others && inTab.some(i => i._fit?.hidden);
-  $("sort").value = sortKey();
+  drawSortOptions();  // "Applications opening soonest" only exists in Programs & schools
   $("rows").innerHTML = list.slice(0, view.shown).map(row).join("") || emptyState(hidden);
   $("count").innerHTML = esc(t("count", fmtN(list.length), fmtDate(DATA.updated, false)))
     + (hidden ? ` · <button class="linkish" data-others="1">${esc(t("others.show", fmtN(hidden), hiddenWhy(hiddenItems)))}</button>` : "")

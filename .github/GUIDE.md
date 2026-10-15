@@ -44,8 +44,8 @@ Numbers from the run on 2026-10-09, after removing duplicates:
 | Lever boards (13 companies) | `lever.py` | public JSON API | 107 |
 | Ashby boards (49 companies) | `ashby.py` | public JSON API | 98 |
 | GitHub lists (SimplifyJobs Summer 2027, Off-Season, New Grad; vanshb03 Summer 2027) | `github_lists.py` | parses README tables (HTML and Markdown) | 3,898 |
-| Gupy (estágio, estágio de férias and trainee in Brazil) | `gupy.py` | the portal's JSON search API, filtered by job type, 100 per page | 2,665 |
-| Program pages (42 pages, 17 of them Brazilian) | `programs.py` | page-change watcher | 42 |
+| Gupy (estágio, estágio de férias and trainee in Brazil) | `gupy.py` | the portal's JSON search API, filtered by job type, 100 per page; also "estágio"/"estagiário" titles that companies file as talent pools or regular jobs (Itaú's estágio program is one) | 3,226 (Oct 15) |
+| Program pages (76 pages, 24 of them Brazilian) | `programs.py` | page-change watcher | 76 |
 | Google Careers | `google.py` | reads the job data embedded in the results page | 90 |
 | Amazon Jobs | `amazon.py` | JSON endpoint behind amazon.jobs search | 431 |
 | NVIDIA (Workday) | `nvidia.py` | Workday JSON endpoint, "Intern" filter | 40 |
@@ -60,7 +60,11 @@ Numbers from the run on 2026-10-09, after removing duplicates:
 | **Brazil:** Cia de Talentos (open estágio and trainee programs) | `ciadetalentos.py` | the public request the vacancy site makes before login | 10 |
 | **Brazil:** FAPESP Oportunidades (IC, master's and doctoral grants) | `fapesp.py` | parses the static list page | 28 |
 | **Brazil:** SmartRecruiters (Bosch, Syngenta, Louis Dreyfus, Aumovio, Continental, Serasa) | `smartrecruiters.py` | public API, Brazil only | 92 |
-| **Brazil:** Workday (Santander, P&G, Citi, Mondelēz, Accenture, Hitachi and 13 more) | `workday.py` | Workday JSON endpoint with the Brazil and intern/apprentice filters | 70 |
+| **Brazil:** Workday (Santander, P&G, Citi, Mondelēz, Accenture, GE Vernova, Toyota and 19 more) | `workday.py` | Workday JSON endpoint with the Brazil and intern/apprentice filters; sites with only a city filter are searched in their Brazilian cities | 70 + ~40 (Oct 15) |
+| **Brazil:** Eureca (estágio programs of Aché, Serasa Experian, AkzoNobel, Motiva, Ardagh…) | `eureca.py` | the public JSON request its job site makes | 74 (Oct 15) |
+| **Brazil:** Abler (Vale's estágio board) | `abler.py` | public JSON route of each company board | 47 (Oct 15) |
+| **Brazil:** Oracle Recruiting Cloud (ArcelorMittal, PicPay) | `oracle_hcm.py` | public career-site search API | 17 (Oct 15) |
+| **Brazil:** RSS job feeds (Klabin, Nestlé, Siemens, TotalEnergies) | `rss_jobs.py` | SuccessFactors and Avature feeds | 28 (Oct 15) |
 
 Total: **17,038 open items, 11,688 of them in Brazil**, from 21 sources. (Meta, about 15 items, failed in this test run only because of the test machine's browser.)
 
@@ -366,7 +370,13 @@ found. Below, the buttons: open the posting, mark as applied, save, hide, and
   are highlighted.
 - **Tabs:** All · New · Closing soon · Saved · Programs & schools, plus
   Applied and Hidden once you have marked something. Only New, Closing soon
-  and the lists you build show a count.
+  and the lists you build show a count. Searching in a narrow tab says how
+  many more matches "All" has ("mais 39 em Todas · ver").
+- **Programs & schools** starts with the programs whose applications usually
+  open soonest. A program with an `applications` window in `programs.yaml`
+  gets a tag: "Inscrições costumam estar abertas" during the window,
+  "Costuma abrir em nov" in the two months before it. Open the row to see the
+  window. It comes from past years, so the page itself has the last word.
 - **Filters** are in the left column, one folding menu per filter: click a
   title to open its chips (several can be open), and the title shows what you
   picked in it ("Área — ML +1"). On phones the column is the "Filtros" box
@@ -442,6 +452,7 @@ run `python -m radar check-config` to confirm that it returns jobs.
     area: ML              # optional; otherwise guessed from the page
     season: Jul           # optional
     regions: [Europe]     # optional
+    applications: "Jan–Mar"  # optional: when applications usually open ("Feb, Aug" for two rounds)
     notes: "deadline usually in March"
 ```
 

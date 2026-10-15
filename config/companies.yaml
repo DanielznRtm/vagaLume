@@ -136,7 +136,7 @@ greenhouse:
   - {slug: jusbrasil, name: Jusbrasil}
   - {slug: abinbev, name: AB InBev (Ambev, Campinas)}
   - {slug: thoughtworks, name: Thoughtworks}
-  # - {slug: ifood, name: iFood}               # not on these ATSs (uses Gupy; covered by the Gupy source)
+  - {slug: ifoodcarreiras, name: iFood}      # checked 2026-10-15: 55 jobs, 49 in Brazil
   # - {slug: mercadolivre, name: Mercado Livre} # not on these ATSs
   # - {slug: picpay, name: PicPay}              # not on these ATSs (uses Gupy)
   # - {slug: creditas, name: Creditas}          # not on these ATSs
@@ -251,3 +251,30 @@ workday_brazil:
   - {tenant: unilever, wd: 3, site: Unilever_Experienced_Professionals, name: Unilever}
   - {tenant: iberdrola, wd: 3, site: Iberdrola, name: Neoenergia (Iberdrola)}
   - {tenant: 3m, wd: 1, site: Search, name: 3M}
+  # Checked 2026-10-15. The four sites after these have no country filter, only
+  # cities: radar/sources/workday.py then picks the Brazilian ones.
+  - {tenant: mmc, wd: 1, site: MMC, name: Marsh McLennan (Oliver Wyman, Mercer, Marsh)}
+  - {tenant: abb, wd: 3, site: external_career_page, name: ABB}
+  - {tenant: shell, wd: 3, site: ShellCareers, name: Shell}
+  - {tenant: gevernova, wd: 5, site: Vernova_ExternalSite, name: GE Vernova}
+  - {tenant: gehc, wd: 5, site: GEHC_ExternalSite, name: GE HealthCare}
+  - {tenant: jj, wd: 5, site: JJ, name: Johnson & Johnson}
+  - {tenant: toyota, wd: 503, site: TLAC, name: Toyota do Brasil}
+
+# --- More Brazilian estágio boards (checked 2026-10-15) ----------------------
+# Abler boards: https://{subdomain}.abler.com.br (radar/sources/abler.py).
+abler:
+  - {subdomain: estagionavale, name: Vale}  # ~47 estágios in MG, PA, ES, MA, RJ
+
+# Oracle Recruiting Cloud sites (radar/sources/oracle_hcm.py); keyword narrows a big site.
+oracle_hcm:
+  - {host: emfg.fa.em4.oraclecloud.com, site: CX_4001, keyword: estágio, name: ArcelorMittal}  # one program per state
+  - {host: epdm.fa.la1.oraclecloud.com, site: PicPay, name: PicPay}
+
+# Job feeds in RSS (radar/sources/rss_jobs.py): SuccessFactors and Avature career sites.
+# country: where the roles are when the title doesn't say.
+rss_feeds:
+  - {url: "https://carreiras.klabin.com.br/services/rss/job/?locale=pt_BR&keywords=(est%C3%A1gio)", name: Klabin, country: Brazil}
+  - {url: "https://jobdetails.nestle.com/services/rss/job/?locale=pt_BR&keywords=(est%C3%A1gio)", name: Nestlé, country: Brazil}
+  - {url: "https://jobs.siemens.com/en_US/externaljobs/SearchJobs/Brazil/feed/", name: Siemens, country: Brazil}
+  - {url: "https://jobs.totalenergies.com/en_US/careers/SearchJobs/Brazil/feed/", name: TotalEnergies, country: Brazil}

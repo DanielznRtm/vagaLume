@@ -14,9 +14,10 @@ from .db import StoredOpportunity
 from .models import strip_tracking
 from .report import SourceHealth
 from .skills import NAMES as SKILL_NAMES
+from .sources.programs import application_months
 
 
-def item_record(opp: StoredOpportunity) -> dict[str, object]:
+def item_record(opp: StoredOpportunity, apply_months: list[int] | None = None) -> dict[str, object]:
     """Only the fields the page shows, to keep data.json small."""
     record = {
         "id": opp.id,
@@ -41,6 +42,8 @@ def item_record(opp: StoredOpportunity) -> dict[str, object]:
         "note": opp.note if opp.source == "programs" else "",
         "status": opp.status,
     }
+    if apply_months:
+        record["apply"] = apply_months  # programs: the months applications are usually open
     if opp.pay and opp.pay_from in ("text", "claude"):
         record["pay_text"] = 1  # read from the description, not a salary field: the page asks you to check it
     return record
@@ -67,8 +70,14 @@ def write_data(
     labeled_by: str,
     out_dir: str | Path,
     subscribe: dict[str, str] | None = None,
+    programs: list[dict[str, object]] | None = None,
 ) -> Path:
-    """Write docs/data.json with every open opportunity."""
+    """Write docs/data.json with every open opportunity.
+
+    `programs` is config/programs.yaml: its `applications` field (when applications
+    usually open) goes to the page as month numbers.
+    """
+    windows = {str(p["url"]): application_months(str(p.get("applications") or "")) for p in programs or []}
     payload = {
         "updated": today,
         "labeledBy": labeled_by,
@@ -77,7 +86,7 @@ def write_data(
         "sources": [
             {"name": h.name, "status": h.status, "items": h.items, "problems": h.errors[:5]} for h in health
         ],
-        "items": [item_record(o) for o in opportunities if o.is_open],
+        "items": [item_record(o, windows.get(o.url) if o.source == "programs" else None) for o in opportunities if o.is_open],
     }
     path = Path(out_dir) / "data.json"
     path.parent.mkdir(parents=True, exist_ok=True)
