@@ -443,6 +443,41 @@ You can also set the repository **variable** `RADAR_REPORT_URL` to the site
 address (https://pedrocamargolince.github.io/vagaLume/) and the digest
 will link to it.
 
+### Today's highlights and the personal Telegram digest
+
+The **Destaques de hoje** tab on the site shows the 3, 5 or 10 best *new* roles
+of the day for you, once you have compared your résumé. The rule
+(`radar/picks.py`, and the same in the site's JavaScript):
+
+1. only roles first seen today, and only student roles (no "new grad" jobs);
+2. that fit your profile: level, field (yours or a related one), where you'd
+   work (remote roles that need US work authorization only if you picked the
+   US), and the areas you pick in the tab (none = all). Roles whose place
+   can't be told are left out here: highlights should be safe bets;
+3. best résumé match first (the share of the skills the posting mentions that
+   you have), then your own field before related ones, then roles that state
+   the pay, then the closest deadline;
+4. at most one per company.
+
+"Receber estes todo dia no Telegram" opens the vagaLume bot with these
+choices packed in the link. The bot confirms within 30 minutes, and every day
+the run sends each person the same highlights the tab shows them. /parar (or
+blocking the bot) stops it. To turn it on, once:
+
+1. In Telegram, talk to **@BotFather**: `/newbot`, pick a name and a username
+   (e.g. `vagalume_vagas_bot`). It gives you a token.
+2. In the repository, *Settings → Secrets and variables → Actions*, add:
+   - `TELEGRAM_BOT_TOKEN`: that token;
+   - `DIGEST_KEY`: a random key that encrypts the subscriber list. Make one with
+     `python -m radar.telegram_bot keygen` (or ask for one), and keep a copy:
+     without it the list can't be read.
+3. Write the bot's username in `config/digest.yaml` (`telegram_bot:`).
+
+The subscriber list (Telegram chat ids and choices, nothing else) lives in
+`data/subscribers.enc`, encrypted: the public repository shows nothing.
+`.github/workflows/telegram.yml` reads new sign-ups every 30 minutes; it does
+nothing until the two secrets exist.
+
 ### Daily updates for students (public digest)
 
 The secrets above send the digest **to you**. To let students get it too,

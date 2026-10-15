@@ -5,3 +5,4 @@ docs/data.json linguist-generated=true
 docs/stats.json linguist-generated=true
 reports/latest.md linguist-generated=true
 docs/feed*.xml linguist-generated=true
+data/subscribers.enc binary linguist-generated=true

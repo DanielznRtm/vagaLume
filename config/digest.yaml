@@ -3,6 +3,12 @@
 # feeds (docs/feed.xml and docs/feed-brasil.xml) in a feed reader or an
 # RSS-to-email service. vagaLume never stores names or e-mail addresses.
 
+# Your Telegram bot's username, e.g. "vagalume_bot" (the bot whose token is in
+# the TELEGRAM_BOT_TOKEN secret). With it, the site's "Destaques de hoje" tab
+# offers "Receber no Telegram": each student gets their own highlights every
+# day (radar/telegram_bot.py). Also needs the DIGEST_KEY secret. Empty = off.
+telegram_bot: ""
+
 # Public Telegram channel, e.g. "@vagalume_vagas". Create the channel, add
 # your bot (the one whose token is in the TELEGRAM_BOT_TOKEN secret) as an
 # admin, and write the channel's @name here. Empty = no channel post.
