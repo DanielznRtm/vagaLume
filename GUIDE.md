@@ -325,8 +325,10 @@ found. Below, the buttons: open the posting, mark as applied, save, hide.
 - **Tabs:** All · New · Closing soon · Saved · Programs & schools, plus
   Applied and Hidden once you have marked something. Only New, Closing soon
   and the lists you build show a count.
-- **Filters** are a row of buttons above the list; each opens a small panel
-  with its chips, and shows what you picked in it ("Área: ML +1"). They are:
+- **Filters** are in the left column, one folding menu per filter: click a
+  title to open its chips (several can be open), and the title shows what you
+  picked in it ("Área — ML +1"). On phones the column is the "Filtros" box
+  above the list. They are:
   *For you* (good fit, no long shots, and with a résumé: strong
   match, good match or better), Area, Where, **Work mode** (remote, hybrid,
   on-site), When (including a **Fits my breaks** shortcut) and **Pay
