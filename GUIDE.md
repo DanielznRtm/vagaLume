@@ -443,6 +443,27 @@ You can also set the repository **variable** `RADAR_REPORT_URL` to the site
 address (https://pedrocamargolince.github.io/vagaLume/) and the digest
 will link to it.
 
+### Daily updates for students (public digest)
+
+The secrets above send the digest **to you**. To let students get it too,
+without vagaLume keeping anyone's name or e-mail (`radar/digest.py`,
+settings in `config/digest.yaml`):
+
+- **Feeds, always on.** Every run writes `docs/feed-brasil.xml` (new roles in
+  Brazil and remote) and `docs/feed.xml` (all new roles), at most 60 a day each,
+  at most 2 per company. Anyone can follow them in a feed reader.
+- **Telegram channel.** Create a public channel (e.g. `@vagalume_vagas`), add
+  your bot (the `TELEGRAM_BOT_TOKEN` one) to it as an administrator, and write
+  the channel name in `telegram_channel`. Each run then posts a short summary
+  there: new roles in Brazil and remote, highlights abroad, what closes soon.
+- **E-mail.** Make a free "RSS to e-mail" sign-up form for
+  `https://pedrocamargolince.github.io/vagaLume/feed-brasil.xml` (follow.it,
+  MailerLite or Mailchimp RSS campaigns) and paste its address in
+  `email_signup_url`. The service keeps the addresses and sends the e-mails.
+
+The site shows a **Receber todo dia** button as soon as the channel or the
+e-mail form is set.
+
 ---
 
 ## Running it locally

@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="https://pedrocamargolince.github.io/vagaLume/"><img alt="Abrir o app" src="https://img.shields.io/badge/%E2%9C%A8%20Abrir%20o%20app-c9e84a?style=for-the-badge&v=2"></a>
-  <a href="https://github.com/PedroCamargoLINCE/vagaLume"><img alt="Dar uma estrela no GitHub" src="https://img.shields.io/github/stars/PedroCamargoLINCE/vagaLume?style=for-the-badge&logo=github&label=Estrela&labelColor=0f2a23&color=0c6a5b&v=2"></a>
+  <a href="https://github.com/PedroCamargoLINCE/vagaLume"><img alt="Dar uma estrela no GitHub" src="https://img.shields.io/github/stars/PedroCamargoLINCE/vagaLume?style=for-the-badge&logo=github&label=Estrela&labelColor=0f2a23&color=0c6a5b&v=3"></a>
   <a href="GUIDE.md"><img alt="Ler o guia (em inglês)" src="https://img.shields.io/badge/Guia%20completo-GUIDE.md-5cc3ac?style=for-the-badge&labelColor=0f2a23&v=2"></a>
   <a href="https://github.com/PedroCamargoLINCE/vagaLume/fork"><img alt="Rodar a sua cópia" src="https://img.shields.io/badge/Rode%20o%20seu-fa%C3%A7a%20um%20fork-f0b45e?style=for-the-badge&logo=github&labelColor=0f2a23&v=2"></a>
 </p>
@@ -130,14 +130,14 @@ Se o vagaLume te ajudar a encontrar algo, **dê uma estrela no repositório**.
 É o jeito mais fácil de ajudar outros estudantes a encontrá-lo também.
 
 <p align="center">
-  <a href="https://github.com/PedroCamargoLINCE/vagaLume"><img alt="Dar uma estrela no vagaLume" src="https://img.shields.io/github/stars/PedroCamargoLINCE/vagaLume?style=for-the-badge&logo=github&label=Estrela%20no%20vagaLume&labelColor=0f2a23&color=c9e84a&v=2"></a>
+  <a href="https://github.com/PedroCamargoLINCE/vagaLume"><img alt="Dar uma estrela no vagaLume" src="https://img.shields.io/github/stars/PedroCamargoLINCE/vagaLume?style=for-the-badge&logo=github&label=Estrela%20no%20vagaLume&labelColor=0f2a23&color=c9e84a&v=3"></a>
 </p>
 
 <p align="center">
   <a href="https://star-history.com/#PedroCamargoLINCE/vagaLume&Date">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=PedroCamargoLINCE/vagaLume&type=Date&theme=dark">
-      <img alt="Histórico de estrelas" src="https://api.star-history.com/svg?repos=PedroCamargoLINCE/vagaLume&type=Date" width="600">
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=PedroCamargoLINCE/vagaLume&type=Date&theme=dark&v=2">
+      <img alt="Histórico de estrelas" src="https://api.star-history.com/svg?repos=PedroCamargoLINCE/vagaLume&type=Date&v=2" width="600">
     </picture>
   </a>
 </p>

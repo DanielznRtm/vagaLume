@@ -17,7 +17,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any, Callable
 
-from . import db, labels, llm, notify, report, site
+from . import db, digest, labels, llm, notify, report, site
 from .config import ROOT, load_config
 from .models import Opportunity
 from .sources import (
@@ -147,11 +147,14 @@ def run(
     everything = db.load_all(conn)
     data = report.build(everything, health, today, labeled_by)
     report.write_reports(data, reports_dir)
-    site.write_data(everything, health, today, labeled_by, site_dir)
+    digest_settings = config.get("digest") or {}
+    site.write_data(everything, health, today, labeled_by, site_dir, digest.subscribe_links(digest_settings))
+    digest.write_feeds(everything, today, digest_settings, site_dir)
     db.save_text(conn, text_dir)  # the committed copy of the database (see db.save_text)
     conn.close()
     if send:
-        notify.notify(data)
+        notify.notify(data)  # your private digest (TELEGRAM_CHAT_ID / EMAIL_TO)
+        digest.post(everything, today, digest_settings)  # the public channel, if configured
     return data
 
 

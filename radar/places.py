@@ -3,15 +3,20 @@
 The website lets you say where you live and keep only roles in your state
 (remote roles always stay). Locations come in many shapes:
 "Ceilândia, DF, Brazil (on-site)", "Vitória, Espírito Santo, Brazil",
-"Sao Paulo, Sao Paulo, BRA", "São Paulo, Rio de Janeiro e Remoto".
-A role whose state we can't tell ("Brazil (remote)", "2 Locations, Brazil")
-gets no state and is never hidden for it.
+"Sao Paulo, Sao Paulo, BRA", "São Paulo, Rio de Janeiro e Remoto", and
+sometimes just a city ("Goiânia, Brazil", "DIVINOPOLIS, Brazil"): for those we
+look the city up in IBGE's list of municipalities (radar/data/municipios.tsv,
+only names that exist in a single state). A role whose state we can't tell
+("Brazil (remote)", "2 Locations, Brazil") gets no state and is never hidden
+for it.
 """
 
 from __future__ import annotations
 
 import re
 import unicodedata
+from functools import cache
+from pathlib import Path
 
 UFS = {
     "AC": "acre", "AL": "alagoas", "AP": "amapa", "AM": "amazonas", "BA": "bahia", "CE": "ceara",
@@ -26,6 +31,23 @@ _ABBREVIATION = re.compile(r"(?:^|[,/(\-–|])\s*(" + "|".join(UFS) + r")\b(?![a
 # Full names, longest first so "mato grosso do sul" wins over "mato grosso".
 _NAMES = sorted(((name, uf) for uf, name in UFS.items()), key=lambda pair: -len(pair[0]))
 _BRASILIA = re.compile(r"\bbrasilia\b")
+
+
+@cache
+def cities() -> dict[str, str]:
+    """Brazilian city (lower case, no accents) -> its state, for names found in one state only."""
+    path = Path(__file__).parent / "data" / "municipios.tsv"
+    rows = (line.split("\t") for line in path.read_text(encoding="utf-8").splitlines() if line and not line.startswith("#"))
+    return {name: uf for name, uf in rows}
+
+
+# Words that come after a city in company locations: "LOUVEIRA PLANT", "Campinas Office".
+_SUFFIX = re.compile(r"\s+(?:plant|planta|site|office|hub|campus|unidade|fabrica)$")
+
+
+def city_state(name: str) -> str:
+    """The state of a Brazilian city name ("Goiânia" -> "GO"), or "" if unknown or ambiguous."""
+    return cities().get(_SUFFIX.sub("", _plain(name).lower().strip()), "")
 
 
 def _plain(text: str) -> str:
@@ -46,4 +68,14 @@ def brazil_states(location: str) -> list[str]:
                 lower = lower.replace(name, " ")  # "mato grosso do sul" is not also "mato grosso"
         if _BRASILIA.search(lower):
             found.add("DF")
+    if not found and not re.search(r"[,;/(]", plain):
+        # No separators at all: "Sao Paulo Sao Paulo Brazil".
+        lower = plain.lower()
+        found |= {uf for name, uf in _NAMES if re.search(rf"\b{name}\b", lower)}
+    if not found:
+        # Just a city: "Goiânia, Brazil", "LAIC R&D - LOUVEIRA, Brazil".
+        for part in re.split(r"[,;/()|]|\s[-–]\s|\se\s", plain):
+            uf = city_state(part)
+            if uf:
+                found.add(uf)
     return [uf for uf in UFS if uf in found]

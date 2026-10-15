@@ -26,4 +26,5 @@ def load_config() -> dict[str, Any]:
         "programs": (_load("programs.yaml") or {}).get("programs", []),
         "search": _load("search.yaml") or {},
         "status": _load("status.yaml") or {},
+        "digest": _load("digest.yaml") or {},
     }

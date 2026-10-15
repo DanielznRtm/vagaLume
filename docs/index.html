@@ -6,6 +6,8 @@
 <title>vagaLume</title>
 <meta name="description" content="Student internships, research programs, fellowships and schools, collected once a day and sorted by how well they fit you.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23c9e84a' fill-opacity='.35'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23c9e84a'/%3E%3Ccircle cx='16' cy='16' r='3.2' fill='%23fffbe0'/%3E%3C/svg%3E">
+<link rel="alternate" type="application/atom+xml" title="vagaLume: Brasil e remotas" href="feed-brasil.xml">
+<link rel="alternate" type="application/atom+xml" title="vagaLume: all new roles" href="feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
@@ -151,6 +153,13 @@
   .pill-btn svg { color: var(--muted); flex: none; }
   .pill-btn .done { color: var(--good); font-weight: 700; }
   .pill-btn.icon-only { padding: 6px 9px; }
+  .top-actions { position: relative; }
+  .subscribe { position: absolute; right: 0; top: calc(100% + 8px); z-index: 6; width: min(340px, calc(100vw - 32px)); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 8px 24px rgb(0 0 0 / .16); padding: 16px; display: grid; gap: 12px; font-size: .9rem; }
+  .subscribe h3 { margin: 0; font-size: 1rem; }
+  .subscribe p { margin: 0; color: var(--muted); }
+  .subscribe .options { display: grid; gap: 8px; }
+  .subscribe .btn { justify-content: flex-start; }
+  .subscribe .feeds { font-size: .85rem; color: var(--muted); }
 
   .layout { display: grid; grid-template-columns: 216px minmax(0, 1fr); gap: 34px; align-items: start; }
 
@@ -448,6 +457,8 @@
     <span class="brand"><span class="lume" aria-hidden="true"></span><span>vaga<b>Lume</b></span></span>
     <div class="top-actions">
       <div class="lang" role="group" aria-label="Language / Idioma"><button data-lang="en">EN</button><button data-lang="pt">PT</button></div>
+      <button class="pill-btn" id="subscribe-btn" hidden aria-expanded="false" aria-controls="subscribe"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8a4 4 0 0 0-4 4v2.6L2.7 11h10.6L12 8.4V5.8a4 4 0 0 0-4-4zM6.4 13a1.7 1.7 0 0 0 3.2 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/></svg><span class="label" data-t="sub.button"></span></button>
+      <div class="subscribe" id="subscribe" hidden></div>
       <button class="pill-btn" id="resume-chip"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M6.5 8h4M6.5 10.5h4M9 1.8V5h3.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span id="resume-text"></span></button>
       <button class="pill-btn" id="profile-chip"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="5.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.8 14c.6-2.8 2.7-4.2 5.2-4.2s4.6 1.4 5.2 4.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span id="profile-text"></span><svg class="edit" width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M10.8 2.2l3 3L5.6 13.4 2 14l.6-3.6z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></button>
       <a class="pill-btn icon-only" id="github-link" href="https://github.com/PedroCamargoLINCE/vagaLume" target="_blank" rel="noopener">
@@ -579,6 +590,14 @@ const STRINGS = {
   "top.resume": ["Match my résumé", "Comparar currículo"], "top.resumeDone": ["Résumé", "Currículo"],
   "top.profileNone": ["Set your profile", "Definir perfil"], "top.github": ["Star vagaLume on GitHub", "Dê uma estrela no GitHub"],
   "top.toTop": ["Back to top", "Voltar ao topo"],
+  "sub.button": ["Daily updates", "Receber todo dia"],
+  "sub.title": ["Get the new roles every day", "Receba as vagas novas todo dia"],
+  "sub.lead": ["One short digest a day: new roles in Brazil and remote first, highlights abroad and what closes soon. vagaLume doesn't keep your name or e-mail.",
+    "Um resumo curto por dia: vagas novas no Brasil e remotas primeiro, destaques no exterior e o que fecha em breve. O vagaLume não guarda seu nome nem seu e-mail."],
+  "sub.telegram": ["Join the Telegram channel", "Entrar no canal do Telegram"],
+  "sub.email": ["Get it by e-mail", "Receber por e-mail"],
+  "sub.feeds": ["Or follow a feed in any RSS reader:", "Ou siga um feed em qualquer leitor de RSS:"],
+  "sub.feedAll": ["all new roles", "todas as vagas novas"], "sub.feedBr": ["Brazil and remote", "Brasil e remotas"],
 
   "filters": ["Filters", "Filtros"], "filters.on": [n => `Filters (${n} on)`, n => `Filtros (${n} ativos)`],
   "filters.foryou": ["For you", "Para você"], "filters.area": ["Area", "Área"], "filters.where": ["Where", "Onde"],
@@ -1260,6 +1279,8 @@ function showApp() {
   $("profile-chip").title = hasProfile() ? t("top.profileEdit") : "";
   $("resume-text").innerHTML = resume ? `${esc(t("top.resumeDone"))} <span class="done">✓</span>` : esc(t("top.resume"));
   $("foryou-group").hidden = !hasProfile() && !resume;
+  // "Daily updates" appears once there is a Telegram channel or an e-mail sign-up (config/digest.yaml).
+  $("subscribe-btn").hidden = !(DATA?.subscribe?.telegram || DATA?.subscribe?.email);
   if (!resume && view.match) view.match = "";
   if (!hasProfile() && view.fit) view.fit = "";
   drawSortOptions();
@@ -1566,6 +1587,18 @@ function drawLegend() {
        <div><span class="sq" style="background:var(--check)"></span>${t("legend.class")}</div>
        <div><span class="sq" style="background:var(--semester)"></span>${t("legend.sem")}</div>`;
 }
+function drawSubscribe() {
+  const links = DATA?.subscribe || { feed: "feed.xml", feedBrasil: "feed-brasil.xml" };
+  const button = (href, text) => `<a class="btn" href="${esc(href)}" target="_blank" rel="noopener">${text}</a>`;
+  $("subscribe").innerHTML = `<h3>${t("sub.title")}</h3><p>${t("sub.lead")}</p>
+    ${links.telegram || links.email ? `<div class="options">${links.telegram ? button(links.telegram, "✈️ " + t("sub.telegram")) : ""}${links.email ? button(links.email, "✉️ " + t("sub.email")) : ""}</div>` : ""}
+    <div class="feeds">${t("sub.feeds")} <a href="${esc(links.feedBrasil || "feed-brasil.xml")}">${t("sub.feedBr")}</a> · <a href="${esc(links.feed || "feed.xml")}">${t("sub.feedAll")}</a></div>`;
+}
+function toggleSubscribe(show) {
+  if (show) drawSubscribe();
+  $("subscribe").hidden = !show;
+  $("subscribe-btn").setAttribute("aria-expanded", String(show));
+}
 function toggleLegend(show) {
   $("legend").hidden = !show;
   $("legend-btn").setAttribute("aria-expanded", String(show));
@@ -1587,6 +1620,7 @@ function applyLanguage() {
   $("source").setAttribute("aria-label", t("filters.source"));
   $("welcome-count").textContent = DATA ? t("welcome.count", fmtN(DATA.items.length), fmtDate(DATA.updated)) : t("loading");
   drawPlaces();
+  if (!$("subscribe").hidden) drawSubscribe();
 }
 function setLanguage(lang) {
   LANG = lang;
@@ -1602,6 +1636,8 @@ document.addEventListener("click", e => {
   if (langBtn) return setLanguage(langBtn.dataset.lang);
   if (e.target.closest("#legend-btn")) return toggleLegend($("legend").hidden);
   if (!$("legend").hidden && !e.target.closest("#legend")) toggleLegend(false);
+  if (e.target.closest("#subscribe-btn")) return toggleSubscribe($("subscribe").hidden);
+  if (!$("subscribe").hidden && !e.target.closest("#subscribe")) toggleSubscribe(false);
   const chip = e.target.closest(".chip");
   if (chip) { togglePick(chip.parentElement.dataset.filter, chip.dataset.value); return rerender(); }
   const tab = e.target.closest(".tab");
@@ -1653,6 +1689,7 @@ document.addEventListener("keydown", e => {
   if (e.key === "/" && !typing && !$("app").hidden) { e.preventDefault(); $("search").focus(); }
   if (e.key === "Escape") {
     if (!$("legend").hidden) return toggleLegend(false);
+    if (!$("subscribe").hidden) return toggleSubscribe(false);
     if (view.open.size) { view.open.clear(); render(); }
   }
 });

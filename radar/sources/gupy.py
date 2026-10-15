@@ -21,6 +21,7 @@ from urllib.parse import urlencode
 
 from ..http import get_json
 from ..labels import student_level
+from ..places import city_state
 from ..models import NO_DEADLINE, Opportunity
 from ..textutil import html_to_text, iso_date
 from . import SourceResult
@@ -39,6 +40,23 @@ STUDENT_TYPES = {"vacancy_type_internship", "vacancy_type_apprentice", "vacancy_
 MAYBE_TYPES = {"vacancy_type_trainee", "vacancy_type_talent_pool"}
 
 
+# Brazilian municipalities that share their name with a big city abroad.
+_ALSO_ABROAD = {"santiago", "barcelona", "toledo", "florida", "lisboa", "cordoba"}
+
+
+def _location(city: str, state: str) -> str:
+    """Gupy has no country field. Brazilian jobs always have a state; a city
+    without one is abroad (Gupy also hosts companies in Peru and Chile), unless
+    it is a Brazilian city whose state was left out ("Goiânia")."""
+    if state:
+        return f"{city}, {state}, Brazil" if city else f"{state}, Brazil"
+    if not city:
+        return "Brazil"
+    if city_state(city) and city.lower() not in _ALSO_ABROAD:
+        return f"{city}, Brazil"
+    return city
+
+
 def to_opportunity(job: dict[str, Any]) -> Opportunity | None:
     """One Gupy job -> Opportunity, or None when it isn't a student role at all."""
     title = str(job.get("name", "")).strip()
@@ -50,9 +68,9 @@ def to_opportunity(job: dict[str, Any]) -> Opportunity | None:
         hints = ["unsure-student"]
     else:
         return None  # e.g. "Analista Pleno" that matched a search text only
-    place = ", ".join(part for part in (job.get("city"), job.get("state")) if part)
+    city, state = str(job.get("city") or "").strip(), str(job.get("state") or "").strip()
     workplace = str(job.get("workplaceType") or "")
-    location = f"{place}, Brazil" if place else "Brazil"
+    location = _location(city, state)
     return Opportunity(
         title=title,
         org=str(job.get("careerPageName") or "?"),
