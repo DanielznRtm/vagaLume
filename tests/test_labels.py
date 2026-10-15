@@ -130,3 +130,31 @@ def test_iso_date_formats():
     assert iso_date(1786469891368) == "2026-08-11"  # milliseconds
     assert iso_date("September 15, 2026") == "2026-09-15"
     assert iso_date(None) == ""
+
+
+@pytest.mark.parametrize(
+    "title, description, expected",
+    [
+        # Portuguese ads: generic words in the description no longer decide the area.
+        ("Estágio em Administrativa", "Rotinas administrativas, controle de quantidade de materiais e sistemas internos.", "other"),
+        ("Estágio em Vendas", "Desenvolvimento profissional, uso de sistemas e tecnologia.", "other"),
+        ("Estagiário Jurídico", "Apoio em segurança da informação e dados de clientes.", "other"),
+        ("Estágio em Engenharia Civil", "Levantamento de quantitativos de obra.", "other"),  # not quant
+        ("Estagiário Analista Financeiro", "", "other"),  # "analista" alone isn't data for a business role
+        # ...but clear signals still count.
+        ("Estágio em TI", "Desenvolvimento de software em Python e SQL.", "SWE"),
+        ("Estágio", "Atuar com ciência de dados e machine learning.", "ML"),
+        ("Estágio em Engenharia Elétrica", "Projetos de automação industrial com CLP.", "hardware"),
+        ("Estagiário de Dados", "", "data"),
+        # English titles keep working.
+        ("Quantitative Research Intern", "", "quant"),
+        ("Trading Intern - Summer 2027", "", "quant"),
+        ("Research Intern, Inference", "", "research"),
+        ("Machine Learning Intern", "", "ML"),
+        ("Legal Intern - Summer 2027", "Our trading desks and quantitative teams...", "other"),
+    ],
+)
+def test_classify_area_with_fields(title, description, expected):
+    from radar.fields import find_fields
+    from radar.labels import classify_area
+    assert classify_area(title, description, find_fields(title, description)) == expected

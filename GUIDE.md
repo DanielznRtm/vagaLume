@@ -162,7 +162,7 @@ at the top of that file, so you can change them.
 
 | Label | Values |
 |---|---|
-| area | `ML`, `SWE`, `research`, `data`, `quant`, `hardware`, `other` |
+| area | `ML`, `SWE`, `research`, `data`, `quant`, `hardware`, `other`. The title decides. When it says nothing, only clear phrases in the description count ("machine learning", "ciência de dados", "desenvolvimento de software"), not words that are everywhere in Portuguese ads ("sistemas", "tecnologia", "dados", "desenvolvimento profissional"). A role for a non-tech field (law, health, business…) only gets a tech area when its title says so clearly: "Analista Financeiro" is not `data`. |
 | season | `Dec–Feb` (Brazilian summer break), `Jul` (July break), `May–Aug` (northern summer), `year-round`, `unknown` |
 | region | `Brazil`, `LatAm`, `US/Canada`, `Europe`, `Asia/ME` (includes Oceania), `remote`, `unknown`. A posting can have several. |
 | warnings | `US work auth?`, `PhD-level?`, `grad-year limit?`, `unsure if student role`, `new-grad role (after graduation)` |
