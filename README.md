@@ -137,8 +137,8 @@ Se o vagaLume te ajudar a encontrar algo, **dê uma estrela no repositório**.
 <p align="center">
   <a href="https://star-history.com/#PedroCamargoLINCE/vagaLume&Date">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=PedroCamargoLINCE/vagaLume&type=Date&theme=dark&v=2">
-      <img alt="Histórico de estrelas" src="https://api.star-history.com/svg?repos=PedroCamargoLINCE/vagaLume&type=Date&v=2" width="600">
+      <source media="(prefers-color-scheme: dark)" srcset=".github/assets/stars-dark.svg">
+      <img alt="Histórico de estrelas" src=".github/assets/stars-light.svg" width="600">
     </picture>
   </a>
 </p>

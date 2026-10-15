@@ -119,8 +119,8 @@ easiest way to help other students find it too.
 <p align="center">
   <a href="https://star-history.com/#PedroCamargoLINCE/vagaLume&Date">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=PedroCamargoLINCE/vagaLume&type=Date&theme=dark&v=2">
-      <img alt="Star history" src="https://api.star-history.com/svg?repos=PedroCamargoLINCE/vagaLume&type=Date&v=2" width="600">
+      <source media="(prefers-color-scheme: dark)" srcset="assets/stars-dark.svg">
+      <img alt="Star history" src="assets/stars-light.svg" width="600">
     </picture>
   </a>
 </p>
