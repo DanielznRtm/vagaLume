@@ -40,11 +40,16 @@ HEADING_AREAS = [
 ]
 
 _HREF = re.compile(r'href="([^"]+)"')
+# Markdown links, "[Apply](url)" or a badge inside a link "[![Apply](badge.svg)](url)".
+_MD_LINK = re.compile(r"\]\((https?://[^)\s]+)\)")
+_BADGE = re.compile(r"shields\.io|\.(?:svg|png|gif)(?:\?|$)", re.I)
 
 
 def _cell_text(cell: str) -> str:
     """Plain text of a table cell; <br> / <details> lists become ' / '."""
     cell = re.sub(r"<summary>.*?</summary>", "", cell, flags=re.S)
+    cell = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", cell)  # images
+    cell = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", cell).replace("**", "")  # "**[NXP](url)**" -> "NXP"
     text = html_to_text(cell.replace("<br>", "\n").replace("<br/>", "\n"))
     return " / ".join(part.strip() for part in text.splitlines() if part.strip())
 
@@ -128,12 +133,12 @@ def parse(
         if company in ("↳", ""):
             company = last_company
         last_company = company
-        role_raw = cell("role")
-        apply_cell = cell("application", "link")
+        role_raw = cell("role", "title")
+        apply_cell = cell("application", "link", "apply")
         whole_row = " ".join(cells)
         if "🔒" in whole_row:
             continue  # closed
-        links = _HREF.findall(apply_cell)
+        links = _HREF.findall(apply_cell) or [u for u in _MD_LINK.findall(apply_cell) if not _BADGE.search(u)]
         if not links or not company:
             continue
         hints = ["new-grad"] if kind == "new-grad" else ["student"]

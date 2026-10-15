@@ -65,3 +65,22 @@ def test_markdown_pipe_table():
     assert items[0].posted_date == "2026-08-21"  # "Aug 21"
     apply_rules(items[0])
     assert "US work auth?" in items[0].warnings
+
+
+def test_markdown_links_and_badges():
+    """Tech Internships Europe links the company and the role; the Canadian list
+    puts a badge image inside the link."""
+    readme = """| Company | Title | Location | Link | Date Posted |
+| ------- | ---- | -------- | ---- | ----------- |
+| **[ASML](http://www.asml.com/en/careers)** | Data Science internship | Eindhoven, Netherlands | [Apply](https://www.asml.com/job/1) | Oct 4 |
+
+| Company | Role | Location | Apply | Date Posted |
+|--------|------|----------|:-----:|--------------|
+| Electronic Arts | Software Engineer Intern (Summer 2027) | Vancouver, BC | [![Apply](https://img.shields.io/badge/-Apply-blue)](https://jobs.ea.com/2) | Oct 3, 2026 |
+| Shopify | Dev Intern | Ottawa, ON | Closed🔒 | Sep 1, 2026 |
+"""
+    items = github_lists.parse(readme, "test", today=TODAY)
+    assert [(o.org, o.title, o.url, o.posted_date) for o in items] == [
+        ("ASML", "Data Science internship", "https://www.asml.com/job/1", "2026-10-04"),
+        ("Electronic Arts", "Software Engineer Intern (Summer 2027)", "https://jobs.ea.com/2", "2026-10-03"),
+    ]

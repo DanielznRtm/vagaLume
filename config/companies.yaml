@@ -145,6 +145,33 @@ greenhouse:
   # - {slug: totvs, name: TOTVS}                # not on these ATSs
   # - {slug: loggi, name: Loggi}                # not on these ATSs
 
+  # --- Abroad: Europe, Asia, Canada (checked 2026-10-15; student roles today) ---
+  - {slug: mirakl, name: Mirakl}                              # 21: France, UK, Spain
+  - {slug: artefact, name: Artefact}                          # 18: France, Indonesia, China
+  - {slug: traderepublicbank, name: Trade Republic}           # 13: Germany, UK
+  - {slug: quberesearchandtechnologies, name: Qube Research & Technologies}  # 12: UK, France, Hong Kong, Singapore
+  - {slug: isaraerospace, name: Isar Aerospace}               # 10: Germany, Sweden
+  - {slug: shifttechnology, name: Shift Technology}           # 9: France, Singapore, Spain, Brazil, Mexico
+  - {slug: catawiki, name: Catawiki}                          # 7: Netherlands
+  - {slug: psiquantum, name: PsiQuantum}                      # 6: Australia, UK, US
+  - {slug: riverlane, name: Riverlane}                        # 5: UK
+  - {slug: sumup, name: SumUp}                                # 5: Germany, France, Chile, Brazil
+  - {slug: raisin, name: Raisin}                              # 4: Germany
+  - {slug: hellofresh, name: HelloFresh}                      # 4: Germany, France, Netherlands
+  - {slug: helsing, name: Helsing}                            # 3: Germany, France, UK, Spain
+  - {slug: marvelfusion, name: Marvel Fusion}                 # 3: Germany
+  - {slug: bybit, name: Bybit}                                # 11: Hong Kong, Malaysia, UAE
+  - {slug: krafton, name: KRAFTON}                            # 3: South Korea
+  - {slug: worldquant, name: WorldQuant}                      # 3: China, Vietnam
+  - {slug: davinciderivatives, name: Da Vinci Derivatives}    # Netherlands; posts internships seasonally
+  - {slug: rocketlab, name: Rocket Lab}                       # ~90: US, New Zealand, Canada
+  - {slug: epicgames, name: Epic Games}                       # 23: US, UK, Canada, Serbia
+  - {slug: internshiplist2000, name: Geotab}                  # 21: Canada (Geotab's intern board)
+  - {slug: tenstorrentuniversity, name: Tenstorrent (university)}  # 12: US, Canada, Poland
+  - {slug: asteraearlycareer2027, name: Astera Labs (early career)}  # 74: US, Canada
+  - {slug: cabify, name: Cabify}                              # Spain, Colombia
+  - {slug: getyourguide, name: GetYourGuide}                  # Switzerland
+  - {slug: dataiku, name: Dataiku}                            # France
 lever:
   - {slug: palantir, name: Palantir}
   - {slug: spotify, name: Spotify}
@@ -160,6 +187,24 @@ lever:
   - {slug: tractian, name: Tractian}     # empty on 2026-10-09, but a real board
   - {slug: toptal, name: Toptal}
 
+  # --- Abroad (checked 2026-10-15; student roles today) ---
+  - {slug: ninjavan, name: Ninja Van}                         # 21: Malaysia
+  - {slug: aircall, name: Aircall}                            # 11: France, UK, Spain
+  - {slug: ekimetrics, name: Ekimetrics}                      # 8: France, Hong Kong, China, UK
+  - {slug: theodo, name: Theodo}                              # 8: France ("... - Stage Paris")
+  - {slug: eqbank, name: EQ Bank}                             # 23: Canada
+  - {slug: evr, name: Elk Valley Resources}                   # 20: Canada (mining/engineering co-ops)
+  - {slug: pigment, name: Pigment}                            # 3: France
+  - {slug: verkor, name: Verkor}                              # 3: France (batteries)
+  - {slug: xepelin, name: Xepelin}                            # 3: Mexico, Chile
+  - {slug: waabi, name: Waabi}                                # 2: Canada
+  - {slug: brevo, name: Brevo}                                # 2: France, Germany
+  - {slug: blablacar, name: BlaBlaCar}                        # France
+  - {slug: despegar, name: Despegar}                          # Mexico, Brazil
+  # Boards in Lever's EU region:
+  - {slug: quantinuum, name: Quantinuum, eu: true}            # 17: US, UK
+  - {slug: cirrus, name: Cirrus Logic, eu: true}              # 12: US, UK
+  - {slug: mobileye, name: Mobileye, eu: true}                # 2: Israel
 ashby:
   # --- AI labs and AI companies ---
   - {slug: openai, name: OpenAI}
@@ -215,17 +260,45 @@ ashby:
   # --- Brazil ---
   - {slug: nubank, name: Nubank}
 
+  # --- Abroad (checked 2026-10-15; student roles today) ---
+  - {slug: doctolib, name: Doctolib}                          # 37: France, Germany, Italy, Netherlands
+  - {slug: backmarket, name: Back Market}                     # 18: France
+  - {slug: enpal, name: Enpal}                                # 17: Germany, Italy
+  - {slug: voodoo, name: Voodoo}                              # 7: France, Turkey
+  - {slug: alan, name: Alan}                                  # 5: France
+  - {slug: qonto, name: Qonto}                                # 4: France, Germany
+  - {slug: upvest, name: Upvest}                              # 3: Germany
+  - {slug: lightspeedhq, name: Lightspeed}                    # 3: Netherlands
+  - {slug: axelera, name: Axelera AI}                         # 2: Netherlands, Italy (AI chips)
+  - {slug: airwallex, name: Airwallex}                        # 2: Singapore
+  - {slug: pliant, name: Pliant}                              # 2: Germany
+  - {slug: iceye, name: ICEYE}                                # Finland
+  - {slug: wealthsimple, name: Wealthsimple}                  # Canada
 # --- SmartRecruiters (radar/sources/smartrecruiters.py) ----------------------
 # id: the company identifier in jobs.smartrecruiters.com/<id>/...
 # country: two-letter code to keep (default "br"); "" keeps every country.
 # Careful: a wrong id doesn't fail, it just shows 0 jobs.
 smartrecruiters:
-  - {id: BoschGroup, name: Bosch}
+  # country "" = every country (checked 2026-10-15: Bosch ~700 student roles worldwide,
+  # Aumovio ~100, Continental ~50; Germany, Portugal, Romania, Mexico, Asia...).
+  - {id: BoschGroup, name: Bosch, country: ""}
   - {id: SyngentaGroup, name: Syngenta}
   - {id: LouisDreyfusCompany, name: Louis Dreyfus Company}
-  - {id: Aumovio, name: Aumovio (ex-Continental Automotive)}
-  - {id: Continental, name: Continental}
+  - {id: Aumovio, name: Aumovio (ex-Continental Automotive), country: ""}
+  - {id: Continental, name: Continental, country: ""}
   - {id: Experian, name: Serasa Experian}
+  # --- Abroad (checked 2026-10-15; student roles today) ---
+  - {id: DeliveryHero, name: Delivery Hero, country: ""}      # 58: Spain, Italy, Portugal, Hungary, Malaysia, Singapore
+  - {id: Ubisoft2, name: Ubisoft, country: ""}                # 54: France, Romania
+  - {id: AUTO1, name: AUTO1 Group, country: ""}               # 99: Germany
+  - {id: Eurofins, name: Eurofins, country: ""}               # 102: France, Germany, Netherlands, Italy, Vietnam
+  - {id: SGS, name: SGS, country: ""}                         # 86: Malaysia, Colombia, Peru, Mexico, Chile, Canada, Korea
+  - {id: Sixt, name: SIXT, country: ""}                       # 70: Germany, UK, Austria
+  - {id: WesternDigital, name: Western Digital, country: ""}  # 37: Thailand, Malaysia, Philippines, Germany
+  - {id: AveryDennison, name: Avery Dennison, country: ""}    # 25: Netherlands, Luxembourg, Germany, Colombia
+  - {id: NielsenIQ, name: NielsenIQ, country: ""}            # 23: Malaysia, France, Colombia, Mexico, Portugal, Italy
+  - {id: Grab, name: Grab, country: ""}                       # 21: Singapore, Malaysia
+  - {id: CERN, name: CERN, country: ""}                       # Technical / Administrative / Doctoral Studentships
 
 # --- Workday, Brazil only (radar/sources/workday.py) ---------------------------
 # From a career-site address https://<tenant>.wd<wd>.myworkdayjobs.com/<site>.
@@ -251,12 +324,9 @@ workday_brazil:
   - {tenant: unilever, wd: 3, site: Unilever_Experienced_Professionals, name: Unilever}
   - {tenant: iberdrola, wd: 3, site: Iberdrola, name: Neoenergia (Iberdrola)}
   - {tenant: 3m, wd: 1, site: Search, name: 3M}
-  # Checked 2026-10-15. The four sites after these have no country filter, only
+  # Checked 2026-10-15. GE HealthCare, J&J and Toyota have no country filter, only
   # cities: radar/sources/workday.py then picks the Brazilian ones.
   - {tenant: mmc, wd: 1, site: MMC, name: Marsh McLennan (Oliver Wyman, Mercer, Marsh)}
-  - {tenant: abb, wd: 3, site: external_career_page, name: ABB}
-  - {tenant: shell, wd: 3, site: ShellCareers, name: Shell}
-  - {tenant: gevernova, wd: 5, site: Vernova_ExternalSite, name: GE Vernova}
   - {tenant: gehc, wd: 5, site: GEHC_ExternalSite, name: GE HealthCare}
   - {tenant: jj, wd: 5, site: JJ, name: Johnson & Johnson}
   - {tenant: toyota, wd: 503, site: TLAC, name: Toyota do Brasil}
@@ -278,3 +348,50 @@ rss_feeds:
   - {url: "https://jobdetails.nestle.com/services/rss/job/?locale=pt_BR&keywords=(est%C3%A1gio)", name: Nestlé, country: Brazil}
   - {url: "https://jobs.siemens.com/en_US/externaljobs/SearchJobs/Brazil/feed/", name: Siemens, country: Brazil}
   - {url: "https://jobs.totalenergies.com/en_US/careers/SearchJobs/Brazil/feed/", name: TotalEnergies, country: Brazil}
+
+# --- Workday, every country (radar/sources/workday.py) -----------------------
+# Employers with many student roles abroad (and in Brazil). Only their
+# intern / working-student / apprentice / thesis job types are read, country by
+# country. Checked 2026-10-15; student roles today.
+workday_global:
+  - {tenant: ag, wd: 3, site: Airbus, name: Airbus}                          # ~730: France, Germany, Spain, UK, India
+  - {tenant: thales, wd: 3, site: Careers, name: Thales}                     # ~320: France, UK, Spain
+  - {tenant: pwc, wd: 3, site: Global_Campus_Careers, name: PwC (campus)}     # ~290: Singapore, Italy, France, LatAm...
+  - {tenant: visa, wd: 5, site: Visa_Talent_Portal, name: Visa}              # ~200: India, Poland, UK, Argentina, Colombia
+  - {tenant: trumpf, wd: 3, site: TRUMPF_Students, name: TRUMPF}             # ~200: Germany, Mexico, India
+  - {tenant: sanofi, wd: 3, site: SanofiCareers, name: Sanofi}               # ~175: France, Ireland, Hungary, UK
+  - {tenant: abb, wd: 3, site: external_career_page, name: ABB}              # ~175: Sweden, Germany, Poland, China, Brazil...
+  - {tenant: gevernova, wd: 5, site: Vernova_ExternalSite, name: GE Vernova} # ~200: France, US, Canada, Brazil
+  - {tenant: micron, wd: 1, site: External, name: Micron}                    # ~160: Singapore, US, Mexico
+  - {tenant: hpe, wd: 5, site: Jobsathpe, name: HPE}                         # ~140: US, Costa Rica, Singapore, Poland
+  - {tenant: valeo, wd: 3, site: Valeo_Jobs, name: Valeo}                    # ~130: Mexico, France, Spain, Poland
+  - {tenant: ocbc, wd: 102, site: External, name: OCBC}                      # ~130: Singapore, Malaysia
+  - {tenant: geaerospace, wd: 5, site: GE_ExternalSite, name: GE Aerospace}  # ~125: UK, Canada, US, Mexico
+  - {tenant: nxp, wd: 3, site: careers, name: NXP}                           # ~125: France, Netherlands, Romania, Austria
+  - {tenant: globalfoundries, wd: 1, site: External, name: GlobalFoundries}  # ~110: US, Singapore, Germany
+  - {tenant: zeissgroup, wd: 3, site: External, name: ZEISS}                 # ~140: Germany
+  - {tenant: philips, wd: 3, site: jobs-and-careers, name: Philips}          # ~100: Germany, Poland, Netherlands, Brazil
+  - {tenant: marvell, wd: 1, site: MarvellCareers, name: Marvell}            # ~100: Singapore, US, Israel, Argentina
+  - {tenant: roche, wd: 3, site: roche-ext, name: Roche}                     # ~90: Switzerland, Germany, Spain, Asia, LatAm
+  - {tenant: barclays, wd: 3, site: External_Career_Site_Barclays, name: Barclays}  # ~90: UK, Germany, France, Singapore
+  - {tenant: intel, wd: 1, site: External, name: Intel}                      # ~90: US, Poland, Ireland, Malaysia, Germany
+  - {tenant: keppel, wd: 3, site: keppelcareers, name: Keppel}               # ~90: Singapore, Vietnam
+  - {tenant: amat, wd: 1, site: External, name: Applied Materials}           # ~90: Singapore, US, Italy, Israel
+  - {tenant: magna, wd: 3, site: Magna, name: Magna}                         # ~105: US, Germany, Austria, Brazil, Mexico
+  - {tenant: airliquidehr, wd: 3, site: AirLiquideExternalCareer, name: Air Liquide}  # ~75: France, US, Argentina, Spain
+  - {tenant: gsk, wd: 5, site: GSKCareers, name: GSK}                        # ~65: Belgium, Singapore, UK, France
+  - {tenant: redhat, wd: 5, site: jobs, name: Red Hat}                       # ~40: Czechia, US, Singapore
+  - {tenant: db, wd: 3, site: DBWebsite, name: Deutsche Bank}                # ~40: Luxembourg, France, Singapore, Brazil
+  - {tenant: lombardodier, wd: 3, site: Lombard_Odier_Careers, name: Lombard Odier}  # ~30: Switzerland
+  - {tenant: vanderlande, wd: 3, site: careers, name: Vanderlande}           # ~25: Netherlands, Canada
+  - {tenant: rbc, wd: 3, site: RBCEARLYTALENT1, name: RBC (early talent)}    # ~16: Canada
+  - {tenant: murex, wd: 3, site: MurexCareerPage1, name: Murex}              # ~14: France, Chile, Canada
+  - {tenant: amadeus, wd: 502, site: jobs, name: Amadeus}                    # ~12: France
+  - {tenant: shell, wd: 3, site: ShellCareers, name: Shell}                  # ~9: Netherlands, UK, Germany
+  - {tenant: medtronic, wd: 1, site: MedtronicCareers, name: Medtronic}      # ~56: China, India, US, Brazil, Mexico
+  - {tenant: boeing, wd: 1, site: External_Careers, name: Boeing}            # ~52: UK, US
+  - {tenant: covestro, wd: 3, site: cov_external, name: Covestro}            # ~43: US, Germany, China
+  - {tenant: ferrovial, wd: 3, site: Ferrovial_Career_Site, name: Ferrovial} # ~37: Spain, US, Canada
+  - {tenant: astrazeneca, wd: 3, site: Careers, name: AstraZeneca}           # ~20: Sweden, Hungary, France
+  - {tenant: cae, wd: 3, site: career, name: CAE}                            # ~17: Canada
+  - {tenant: maersk, wd: 3, site: Maersk_Careers, name: Maersk}              # ~14: Denmark, Brazil, Asia

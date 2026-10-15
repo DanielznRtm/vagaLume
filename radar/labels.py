@@ -34,7 +34,18 @@ STRONG_STUDENT_WORDS = [
     r"working student", r"werkstudent", r"praktikum",
     r"scholar", r"scholars", r"scholarship", r"bolsa", r"inicia[çc][ãa]o cient[íi]fica",
     r"undergrad", r"undergraduate", r"ugrip", r"isternship",
+    # Europe and Latin America: "Stagiaire Data (F/H)", "Alternance", "Praktikant (m/w/d)", "Becario/a",
+    # "Pasante", "Practicante", "Prácticas", "Tirocinio", "Master Thesis", "Technical Studentship" (CERN),
+    # "12 Month Industrial Placement" (UK).
+    r"stagiaires?", r"stagista", r"alternance", r"alternante?s?", r"apprentie?s?",
+    r"praktikant(?:in|en)?", r"praktyki", r"becari[oa]s?", r"pasantes?", r"pasant[íi]as?", r"practicantes?",
+    r"pr[áa]cticas", r"tirocini[oa]", r"thesis", r"abschlussarbeit", r"masterarbeit", r"bachelorarbeit",
+    r"studentships?", r"industrial placement", r"placement year", r"\d+[- ]months? placement",
 ]
+# "Stage" is a French internship, but also part of a rocket ("Stage Integration Engineer"): it counts
+# only as "Stage - ...", "Stage de/en ...", "Stage 2027", "Stage (6 mois)" or next to H/F, F/H.
+STAGE = re.compile(r"\bstage\b(?=\s*(?:[-–:|(]|de\b|d['’]|en\b|20\d\d|\d+\s*mois|ing[ée]nieur))|\bstage\b.*\b(?:h/f|f/h|mois)\b"
+                   r"|\b(?:h/f|f/h)\b.*\bstage\b", re.I)
 # A title containing one of these *might* be for students -> label "unsure".
 WEAK_STUDENT_WORDS = [
     r"program", r"programme", r"programa", r"school", r"course", r"curso",
@@ -57,7 +68,8 @@ def _any(patterns: list[str], text: str) -> bool:
 
 # If a title has a seniority word, a *clear* student word must also be there.
 SENIOR_WORDS = [r"senior", r"sr\.?", r"staff", r"principal", r"distinguished", r"director", r"head of", r"vp", r"vice president", r"lead"]
-CLEAR_STUDENT_WORDS = [r"intern", r"internship", r"student", r"est[áa]gio", r"estagi[áa]ri[oa]", r"co-?op", r"apprentice", r"summer", r"fellowship"]
+CLEAR_STUDENT_WORDS = [r"intern", r"internship", r"student", r"est[áa]gio", r"estagi[áa]ri[oa]", r"co-?op", r"apprentice", r"summer", r"fellowship",
+                       r"stagiaires?", r"praktikant(?:in)?", r"werkstudent", r"thesis", r"becari[oa]", r"pasantes?", r"practicantes?"]
 
 
 def student_level(title: str) -> str:
@@ -67,7 +79,7 @@ def student_level(title: str) -> str:
         cleaned = re.sub(phrase, " ", cleaned, flags=re.I)
     if _any(SENIOR_WORDS, cleaned) and not _any(CLEAR_STUDENT_WORDS, cleaned):
         return "no"  # e.g. "Senior Manager, Fellows Program" is a staff job
-    if _any(STRONG_STUDENT_WORDS, cleaned):
+    if _any(STRONG_STUDENT_WORDS, cleaned) or STAGE.search(cleaned):
         return "yes"
     if _any(WEAK_STUDENT_WORDS, cleaned):
         return "unsure"
@@ -313,10 +325,11 @@ W_UNSURE = "unsure if student role"
 W_NEW_GRAD = "new-grad role (after graduation)"
 
 # Only the US asks for these.
-US_AUTH_TEXT = [r"u\.?s\.? citizen\w*", r"security clearance", r"green card", r"itar", r"export control"]
+US_AUTH_TEXT = [r"u\.?s\.? citizen\w*", r"security clearance", r"green card", r"itar"]
 # Any country can ask for these ("must hold valid work authorization ... for their specific work
 # location" on a Google role in Europe): they only count for roles in the US/Canada, remote or unknown.
-WORK_AUTH_TEXT = [r"work authori[sz]ation", r"authori[sz]ed to work", r"visa sponsorship", r"sponsorship", r"permanent resident"]
+WORK_AUTH_TEXT = [r"work authori[sz]ation", r"authori[sz]ed to work", r"visa sponsorship", r"sponsorship", r"permanent resident",
+                  r"export control"]  # Europe has export control too (German aerospace roles mention it)
 PHD_TITLE = [r"ph\.?d", r"doctoral", r"doutorado", r"ms/phd", r"m\.s\./ph\.d", r"🎓"]
 PHD_TEXT = [
     r"pursuing a ph\.?d", r"ph\.?d\.? (?:student|candidate|program)", r"enrolled in a ph\.?d",

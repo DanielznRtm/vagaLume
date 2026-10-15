@@ -17,6 +17,7 @@ from .ats import fetch_boards
 
 NAME = "lever"
 URL = "https://api.lever.co/v0/postings/{slug}?mode=json"
+EU_URL = "https://api.eu.lever.co/v0/postings/{slug}?mode=json"
 
 
 def _description(job: dict[str, Any]) -> str:
@@ -72,4 +73,6 @@ def parse(data: list[dict[str, Any]], org: str) -> list[Opportunity]:
 
 def fetch(config: dict[str, Any]) -> SourceResult:
     companies = config.get("companies", {}).get("lever", []) or []
-    return fetch_boards(companies, lambda slug: get_json(URL.format(slug=slug)), parse, NAME)
+    # Boards hosted in Lever's EU region (`eu: true` in companies.yaml) answer on another host.
+    eu = {c["slug"] for c in companies if c.get("eu")}
+    return fetch_boards(companies, lambda slug: get_json((EU_URL if slug in eu else URL).format(slug=slug)), parse, NAME)
