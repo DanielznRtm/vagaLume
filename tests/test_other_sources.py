@@ -45,9 +45,21 @@ def test_gupy_pages_until_a_short_page(monkeypatch):
 
     monkeypatch.setattr(gupy, "get_json", fake_get_json)
     result = gupy.fetch({"search": {}})
-    assert len(pages) == 3 and result.checked == 3
+    # 3 pages of student job types, then 3 pages for each title search in other job types.
+    assert len(pages) == 3 + 3 * len(gupy.TITLE_SEARCHES) and result.checked == len(pages)
     assert "type=vacancy_type_internship%2Cvacancy_type_summer%2Cvacancy_type_trainee" in pages[0]
-    assert len(result.items) == 203
+    assert "vacancy_type_talent_pool" in pages[3] and "jobName=est%C3%A1gio" in pages[3]
+    assert len(result.items) == 203  # the same roles again are not repeated
+
+
+def test_gupy_title_search_keeps_only_student_roles(monkeypatch):
+    """Itaú files its "Programa de Estágio Corporativo" as a talent pool."""
+    job = fixture_json("gupy_api.json")["data"][0]
+    jobs = [dict(job, name="Programa de Estágio Corporativo 2026", type="vacancy_type_talent_pool", jobUrl="https://a/1"),
+            dict(job, name="Coordenador de Vendas", type="vacancy_type_effective", jobUrl="https://a/2")]
+    monkeypatch.setattr(gupy, "get_json", lambda url, **kwargs: {"data": jobs if "jobName" in url else []})
+    titles = [o.title for o in gupy.fetch({"search": {}}).items]
+    assert titles == ["Programa de Estágio Corporativo 2026"]
 
 
 def test_gupy_bad_answer_raises():

@@ -41,6 +41,12 @@ def cities() -> dict[str, str]:
     return {name: uf for name, uf in rows}
 
 
+# Brazilian municipalities named like a big place abroad: a bare "Buenos Aires" or "Malta" in a
+# company's list of cities is almost never the Brazilian one.
+ALSO_ABROAD = {"santiago", "barcelona", "toledo", "florida", "lisboa", "cordoba", "buenos aires", "malta",
+               "valencia", "victoria", "aurora", "martinez", "cambridge", "roma", "paris", "londres", "berlim",
+               "colombia", "peru", "bolivia", "chile", "mexico", "canada", "venezuela", "uruguai", "argentina"}
+
 # Words that come after a city in company locations: "LOUVEIRA PLANT", "Campinas Office".
 _SUFFIX = re.compile(r"\s+(?:plant|planta|site|office|hub|campus|unidade|fabrica)$")
 

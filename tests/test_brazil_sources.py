@@ -133,3 +133,16 @@ def test_workday_picks_brazil_and_student_job_types():
 def test_workday_site_without_brazil_filter_raises():
     with pytest.raises(ValueError):
         workday.choose_facets({"facets": []})
+
+
+def test_workday_falls_back_to_brazilian_cities():
+    """GE Vernova and J&J have only a city filter (sometimes inside a group)."""
+    cities = [("Sao Paulo", "sp"), ("Taubate", "tb"), ("Buenos Aires", "ba"), ("Abidjan", "ab"),
+              ("São José dos Campos, São Paulo, Brazil", "sjc"), ("Erie, PA, United States", "erie")]
+    data = {"facets": [
+        {"facetParameter": "workerSubType", "values": [{"descriptor": "Co-op/Intern (Fixed Term)", "id": "intern"}]},
+        {"facetParameter": "locationMainGroup", "values": [
+            {"facetParameter": "locations", "values": [{"descriptor": d, "id": i} for d, i in cities]}]},
+    ]}
+    applied, student = workday.choose_facets(data)
+    assert applied["locations"] == ["sp", "tb", "sjc"] and applied["workerSubType"] == ["intern"] and student
