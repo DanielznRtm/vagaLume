@@ -167,8 +167,47 @@ at the top of that file, so you can change them.
 | warnings | `US work auth?`, `PhD-level?`, `grad-year limit?`, `unsure if student role`, `new-grad role (after graduation)` |
 | calendar note | whether it fits UNESP's breaks or clashes with the semesters (Mar–Jul, Aug–Dec) |
 | deadline | a date when the source or the text states one, otherwise `check page` |
-| pay | when stated: structured fields from Ashby, Lever and Greenhouse, otherwise read from the description by `radar/pay.py` (it understands formats like `$54 — $60 USD`, `109,395.00 USD Annually` and `Bolsa auxílio: R$1.357,28/mês`). About 700 roles have it today. |
+| pay | when stated: the job board's own salary field (Ashby, Lever, Greenhouse, Sólides, CIEE, Super Estágios), otherwise read from the description by `radar/pay.py` (formats like `$54 — $60 USD`, `109,395.00 USD Annually`, `Bolsa auxílio: R$1.357,28/mês`). See **How pay is read** below. |
 | skills | the skills a posting mentions, from a fixed list of about 80 in `radar/skills.py` (Python, C++, PyTorch, SQL, ROS, PLC, MATLAB, Embedded systems…), in English and Portuguese. Used by the résumé match on the site. Roles from the GitHub lists only have a title, so few skills are found for them. |
+
+### How pay is read
+
+A number in a description is shown as pay only when it is clearly the pay.
+Better to show nothing than a perk as a salary (a Cohere posting once showed
+`$75/hr`: it was a weekly lunch allowance).
+
+- **A clear pay word** in the amount's sentence or in the heading above it:
+  salary, pay, compensation, wage, remuneração, salário, bolsa. Amounts in a
+  list under a pay heading ("Pay Range:", "Remuneração") count too.
+- **Weaker words** (stipend, allowance, monthly, auxílio, 💰…) count only when
+  nothing around the amount is a perk.
+- **Perks are not pay**: an amount next to lunch, meals, housing, transport,
+  internet, gym, VA/VR, health plan… or in a Benefits / Perks / Benefícios
+  section is left out, unless a clear pay word is right next to it. "Next to"
+  means its own item of the list: in "Bolsa: R$ 1.200 + Day off" the day off
+  belongs to the next item, and in "R$ 1.600 (incluindo auxílio-transporte)"
+  the transport is part of the pay.
+- **The period** comes from the words right after the amount (`/hr`, "per
+  month", "/mês"), then from the words before it in the same item ("Weekly
+  stipend of…"), then from the heading. "30 horas semanais" is the workload,
+  not the period, and "Primeiro Ano" is the year of the course. Brazilian
+  amounts are monthly unless they say otherwise. Only when the sentence clearly
+  talks about pay is the period guessed from the size of the number.
+- **Believable amounts only**: `$3/hr` or `$100,000/mo` is a misreading, so it
+  is dropped.
+
+The site marks pay read from the description with a `*` and "read from the
+description, check the posting" in the opened row. Pay from a salary field has
+no mark.
+
+**When it's wrong.** Every opened row has a **Something wrong with this
+role?** link: it opens a GitHub issue already filled in with the role, its
+link and what the site shows. To fix a pay mistake, paste the part of the
+description around the number into `tests/fixtures/pay_cases.yaml` with the
+right answer, then change `radar/pay.py` until `pytest tests/test_pay.py`
+passes. Every case in that file has to keep passing, so a fix for one posting
+can't quietly break another. The file starts with the real mistakes found so
+far.
 
 **Optional Claude labelling.** If the secret `ANTHROPIC_API_KEY` is set, new
 postings are also sent (title, location and description) to Claude Haiku 4.5,
@@ -305,7 +344,7 @@ posting before deciding.
 |---|---|
 | Role | title (links to the posting), company, and at most two small tags: Applied, Strong match, New or Program. Under it, in amber or red, the first thing that might get in the way. |
 | Where | the first location, then "+N more". Open the row for all of them. |
-| Pay | when the posting states it, e.g. `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`, `$94K–125K/yr`; a dash otherwise |
+| Pay | when the posting states it, e.g. `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`, `$94K–125K/yr`; a dash otherwise. A `*` means it was read from the description, not a salary field: check the posting (see [How pay is read](#how-pay-is-read)). |
 | When | for roles with a season, a 12-month strip, January to December. Grey months are UNESP semesters (Mar–Jun, Aug–Nov), or the months you're not free if your résumé summary lists them. The role's months are green when they fall in a break and amber when they clash with classes. Year-round roles just say so; a dash means the posting doesn't say. |
 | Deadline | the date (a dash when none is stated), with the days left in red when it closes within 14 days |
 
@@ -315,7 +354,8 @@ place, the deadline and the pay.
 Click a row to open it. On the left, **for you**: the résumé match with the
 skills you have (✓) and the missing ones, then every fit reason. On the right,
 the **details**: all locations, when, deadline, pay, labels and where it was
-found. Below, the buttons: open the posting, mark as applied, save, hide.
+found. Below, the buttons: open the posting, mark as applied, save, hide, and
+**Something wrong with this role?**, which opens a pre-filled GitHub issue.
 
 **Around the list:**
 

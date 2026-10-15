@@ -18,7 +18,7 @@ from .skills import NAMES as SKILL_NAMES
 
 def item_record(opp: StoredOpportunity) -> dict[str, object]:
     """Only the fields the page shows, to keep data.json small."""
-    return {
+    record = {
         "id": opp.id,
         "title": opp.title,
         "org": opp.org,
@@ -41,6 +41,9 @@ def item_record(opp: StoredOpportunity) -> dict[str, object]:
         "note": opp.note if opp.source == "programs" else "",
         "status": opp.status,
     }
+    if opp.pay and opp.pay_from in ("text", "claude"):
+        record["pay_text"] = 1  # read from the description, not a salary field: the page asks you to check it
+    return record
 
 
 def stats(opportunities: list[StoredOpportunity], health: list[SourceHealth], today: str) -> dict[str, object]:

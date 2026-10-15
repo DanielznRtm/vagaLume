@@ -405,8 +405,11 @@ def apply_rules(opp: Opportunity) -> Opportunity:
     opp.calendar_note = calendar_note(opp.season)
     if opp.deadline == NO_DEADLINE or not opp.deadline:
         opp.deadline = find_deadline(opp.description) or NO_DEADLINE
-    if not opp.pay:
+    if opp.pay:
+        opp.pay_from = opp.pay_from or "field"
+    else:
         opp.pay = find_pay(opp.description)
+        opp.pay_from = "text" if opp.pay else ""
     opp.skills = find_skills(f"{opp.title}\n{opp.description}")
     preset_levels = [level for level in LEVELS if level in (preset.get("levels") or [])]  # type: ignore[operator]
     opp.levels = preset_levels or find_levels(opp.title, opp.description)

@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS opportunities (
     last_seen     TEXT NOT NULL,
     deadline      TEXT,
     pay           TEXT,           -- e.g. "$54–60/hr"; empty when not stated
+    pay_from      TEXT,           -- where the pay came from: field (the job board's) / text (the description) / claude
     skills        TEXT,           -- comma-separated, e.g. "Python,PyTorch" (radar/skills.py)
     fields        TEXT,           -- fields of study, comma-separated, e.g. "engenharia" (radar/fields.py)
     levels        TEXT,           -- study levels, comma-separated, e.g. "masters,phd" (radar/levels.py)
@@ -127,7 +128,7 @@ def _add_missing_columns(conn: sqlite3.Connection) -> None:
     existing = {row["name"] for row in conn.execute("PRAGMA table_info(opportunities)")}
     if "pay" not in existing:
         conn.execute("ALTER TABLE opportunities ADD COLUMN pay TEXT")
-    for column in ("skills", "fields", "levels", "states", "workplaces"):
+    for column in ("pay_from", "skills", "fields", "levels", "states", "workplaces"):
         if column not in existing:
             conn.execute(f"ALTER TABLE opportunities ADD COLUMN {column} TEXT")
 
@@ -157,11 +158,11 @@ def upsert(conn: sqlite3.Connection, opp: Opportunity, today: str) -> bool:
     at most: it only decides when a role unseen for 30 days is closed, and not
     rewriting it every day keeps the daily change to data/*.jsonl small.
     """
-    row = conn.execute("SELECT labeled_by, last_seen FROM opportunities WHERE id=?", (opp.id,)).fetchone()
+    row = conn.execute("SELECT labeled_by, last_seen, pay_from FROM opportunities WHERE id=?", (opp.id,)).fetchone()
     values = {
         "id": opp.id, "title": opp.title, "org": opp.org, "source": opp.source,
         "location": opp.location, "remote": int(opp.remote), "url": opp.url,
-        "posted_date": opp.posted_date, "deadline": opp.deadline, "pay": opp.pay, "skills": _join(opp.skills), "fields": _join(opp.fields),
+        "posted_date": opp.posted_date, "deadline": opp.deadline, "pay": opp.pay, "pay_from": opp.pay_from, "skills": _join(opp.skills), "fields": _join(opp.fields),
         "levels": _join(opp.levels), "states": _join(opp.states), "workplaces": _join(opp.workplaces),
         "area": opp.area,
         "season": opp.season, "regions": _join(opp.regions), "warnings": _join(opp.warnings),
@@ -178,8 +179,9 @@ def upsert(conn: sqlite3.Connection, opp: Opportunity, today: str) -> bool:
     if opp.labeled_by == "rules" and row["labeled_by"] == "claude":
         for name in ("area", "season", "regions", "warnings", "calendar_note", "labeled_by"):
             values.pop(name)
-        if not opp.pay:
+        if not opp.pay and row["pay_from"] == "claude":
             values.pop("pay")  # keep the pay Claude found
+            values.pop("pay_from")
         if opp.deadline == "check page":
             values.pop("deadline")
     if not opp.note:
@@ -232,6 +234,7 @@ class StoredOpportunity:
     last_seen: str
     deadline: str
     pay: str
+    pay_from: str
     skills: list[str]
     fields: list[str]
     levels: list[str]
@@ -255,7 +258,7 @@ def load_all(conn: sqlite3.Connection) -> list[StoredOpportunity]:
             id=r["id"], title=r["title"], org=r["org"], source=r["source"],
             location=r["location"] or "", remote=bool(r["remote"]), url=r["url"],
             posted_date=r["posted_date"] or "", first_seen=r["first_seen"],
-            last_seen=r["last_seen"], deadline=r["deadline"] or "check page", pay=r["pay"] or "",
+            last_seen=r["last_seen"], deadline=r["deadline"] or "check page", pay=r["pay"] or "", pay_from=r["pay_from"] or "",
             skills=_split(r["skills"]), fields=_split(r["fields"]),
             levels=_split(r["levels"]), states=_split(r["states"]), workplaces=_split(r["workplaces"]), area=r["area"] or "other", season=r["season"] or "unknown",
             regions=_split(r["regions"]), warnings=_split(r["warnings"]),
