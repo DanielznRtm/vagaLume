@@ -1,0 +1,21 @@
+# The public daily digest (radar/digest.py). Students subscribe without
+# giving vagaLume anything: they join the Telegram channel, or follow the
+# feeds (docs/feed.xml and docs/feed-brasil.xml) in a feed reader or an
+# RSS-to-email service. vagaLume never stores names or e-mail addresses.
+
+# Public Telegram channel, e.g. "@vagalume_vagas". Create the channel, add
+# your bot (the one whose token is in the TELEGRAM_BOT_TOKEN secret) as an
+# admin, and write the channel's @name here. Empty = no channel post.
+telegram_channel: ""
+
+# Optional e-mail sign-up page from an RSS-to-email service that sends
+# docs/feed-brasil.xml (or feed.xml) every day, e.g. a follow.it,
+# MailerLite or Mailchimp "RSS campaign" form. Empty = the site doesn't
+# offer e-mail. The service keeps the addresses, not vagaLume.
+email_signup_url: ""
+
+# Language of the channel post and the feed titles: pt or en.
+language: pt
+
+# How many roles the channel post lists at most.
+max_roles: 12

@@ -51,7 +51,7 @@ jobs:
           # The database is kept as text (data/*.jsonl); the binary radar.db is a
           # local working copy. The first run after the switch removes it from git.
           git rm --cached --quiet --ignore-unmatch data/radar.db
-          git add data/opportunities.jsonl data/page_hashes.jsonl reports/ docs/data.json docs/stats.json
+          git add data/opportunities.jsonl data/page_hashes.jsonl reports/ docs/data.json docs/stats.json docs/feed.xml docs/feed-brasil.xml
           if git diff --cached --quiet; then
             echo "Nothing changed."
             exit 0

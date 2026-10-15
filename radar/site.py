@@ -63,12 +63,14 @@ def write_data(
     today: str,
     labeled_by: str,
     out_dir: str | Path,
+    subscribe: dict[str, str] | None = None,
 ) -> Path:
     """Write docs/data.json with every open opportunity."""
     payload = {
         "updated": today,
         "labeledBy": labeled_by,
         "skillNames": SKILL_NAMES,  # the résumé prompt on the site lists these
+        "subscribe": subscribe or {},  # the "daily updates" panel (radar/digest.py)
         "sources": [
             {"name": h.name, "status": h.status, "items": h.items, "problems": h.errors[:5]} for h in health
         ],

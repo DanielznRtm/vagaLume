@@ -77,7 +77,14 @@ def test_title_wins_over_the_description():
         ("Ji-Paraná, Rondônia, Brazil (on-site)", ["RO"]),
         ("Paraíba do Sul, RJ, Brazil", ["RJ"]),
         ("Pará de Minas, MG", ["MG"]),
+        # Only a city: looked up in IBGE's list of municipalities.
+        ("Goiânia, Brazil (on-site)", ["GO"]),
+        ("LAIC R&D - LOUVEIRA, Brazil", ["SP"]),
+        ("LOUVEIRA PLANT, Brazil", ["SP"]),
+        ("DIVINOPOLIS, Brazil", ["MG"]),
+        ("Sao Paulo Sao Paulo Brazil", ["SP"]),
         # Can't tell:
+        ("Evergreen, Brazil", []),
         ("Brazil (remote)", []),
         ("2 Locations, Brazil", []),
         ("", []),
@@ -99,3 +106,35 @@ def test_a_source_can_preset_levels():
     opp = apply_rules(Opportunity(title="Bolsa em Química", org="FAPESP", source="fapesp", url="https://f/1",
                                   location="Campinas, SP, Brazil", preset={"levels": ["masters"]}))
     assert opp.levels == ["masters"]
+
+
+@pytest.mark.parametrize(
+    "location, expected",
+    [
+        ("Nova Lima, Minas Gerais, Brazil (on-site)", ["Brazil"]),  # not Lima, Peru
+        ("Abreu E Lima, Pernambuco, Brazil", ["Brazil"]),
+        ("Santiago, Rio Grande do Sul, Brazil", ["Brazil"]),  # not Santiago, Chile
+        ("Santiago, Region Santiago Metropolitan, CHL", ["LatAm"]),
+        ("Surco", ["LatAm"]),
+        ("São Paulo / Mexico City, Mexico", ["Brazil", "LatAm"]),
+    ],
+)
+def test_brazilian_places_are_not_also_latin_america(location, expected):
+    from radar.labels import classify_regions
+    assert classify_regions(location) == expected
+
+
+@pytest.mark.parametrize(
+    "city, state, expected",
+    [
+        ("Recife", "Pernambuco", "Recife, Pernambuco, Brazil"),
+        ("Goiânia", "", "Goiânia, Brazil"),  # Brazilian city, state left out
+        ("Chincha", "", "Chincha"),  # Gupy also hosts companies in Peru and Chile
+        ("Las Condes", "", "Las Condes"),
+        ("Santiago", "", "Santiago"),  # also a city in RS, but on its own it's Chile's
+        ("", "", "Brazil"),
+    ],
+)
+def test_gupy_locations_abroad_are_not_brazil(city, state, expected):
+    from radar.sources.gupy import _location
+    assert _location(city, state) == expected

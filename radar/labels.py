@@ -171,7 +171,9 @@ BRAZIL_STATE_CODES = r",\s*(SP|RJ|MG|RS|BA|PE|CE|DF|GO|ES|AM|PB|RN|PI|SE|TO|RO|R
 LATAM = [
     r"MEX", r"ARG", r"CHL", r"COL", r"PER", r"URY", r"CRI",  # ISO country codes (checked case-sensitively below)
     r"mexico", r"m[ée]xico", r"guadalajara", r"monterrey", r"argentina", r"buenos aires", r"chile",
-    r"santiago", r"colombia", r"bogot[áa]", r"medell[íi]n", r"peru", r"lima", r"uruguay", r"montevideo",
+    r"santiago", r"colombia", r"bogot[áa]", r"medell[íi]n", r"per[uú]", r"(?<!nova )(?<!abreu e )lima(?! duarte)", r"uruguay", r"montevideo",
+    # districts Gupy sends without a country (Peru, Chile)
+    r"surco", r"chincha", r"lurigancho", r"miraflores", r"callao", r"arequipa", r"las condes", r"providencia",
     r"costa rica", r"latam", r"latin america", r"am[ée]rica latina",
 ]
 US_CANADA = [
@@ -232,6 +234,10 @@ def _mentions(patterns: list[str], text: str) -> bool:
     return False
 
 
+_LATAM_COUNTRIES = (r"\b(?:m[eé]xico|argentina|chile|colombia|per[uú]|uruguay|paraguay|bolivia|ecuador|venezuela"
+                    r"|costa rica|panam[aá]|guatemala|MEX|CHL|ARG|COL|PER|CRI)\b")
+
+
 def classify_regions(location: str, remote: bool = False) -> list[str]:
     """Return every region that the location string mentions."""
     regions: list[str] = []
@@ -245,6 +251,10 @@ def classify_regions(location: str, remote: bool = False) -> list[str]:
     for name, words, codes in checks:
         if _mentions(words, location) or (codes is not None and re.search(codes, location)):
             regions.append(name)
+    # "Santiago, Rio Grande do Sul, Brazil" is not Chile: a Brazilian place is only also
+    # Latin America when another country is named ("São Paulo / Mexico City").
+    if "Brazil" in regions and "LatAm" in regions and not re.search(_LATAM_COUNTRIES, location, re.I):
+        regions.remove("LatAm")
     # "Boise, ID" -> US, but "Berlin, DE" was already recognised as Europe.
     if not regions and re.search(US_AMBIGUOUS_CODES, location):
         regions.append("US/Canada")

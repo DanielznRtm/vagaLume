@@ -119,3 +119,13 @@ def test_program_page_does_not_retry_a_missing_page(monkeypatch):
     monkeypatch.setattr(programs, "render", lambda url: pytest.fail("should not open the browser for a 404"))
     with pytest.raises(requests.HTTPError):
         programs.page_text({"name": "X", "url": "https://x"})
+
+
+def test_program_page_falls_back_to_the_browser_on_a_server_error(monkeypatch):
+    def bad_gateway(url):
+        raise requests.HTTPError("502 from https://embraer.com/x", response=type("R", (), {"status_code": 502})())
+
+    html = "<main><h1>Programa de Estágio</h1></main>"
+    monkeypatch.setattr(programs, "get_text", bad_gateway)
+    monkeypatch.setattr(programs, "render", lambda url: RenderedPage(text="", html=html))
+    assert programs.page_text({"name": "Embraer", "url": "https://embraer.com/x"}) == programs.main_text(html)

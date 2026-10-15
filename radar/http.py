@@ -46,10 +46,10 @@ def _request(method: str, url: str, **kwargs: Any) -> requests.Response:
             continue
         if response.status_code == 429 and slow_down_waits:
             waits.insert(0, slow_down_waits.pop(0))  # wait longer, then try again
-            last_error = requests.HTTPError(f"429 Too Many Requests from {url}")
+            last_error = requests.HTTPError(f"429 Too Many Requests from {url}", response=response)
             continue
         if response.status_code >= 500:
-            last_error = requests.HTTPError(f"{response.status_code} from {url}")
+            last_error = requests.HTTPError(f"{response.status_code} from {url}", response=response)
             continue
         response.raise_for_status()  # other 4xx: no point retrying
         return response

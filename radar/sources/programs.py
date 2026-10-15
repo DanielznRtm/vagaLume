@@ -66,9 +66,9 @@ def page_text(program: dict[str, Any]) -> str:
     """Visible text of a program page. `render: true` in programs.yaml means
     the page is built by JavaScript, so we open it in a headless browser.
 
-    Some sites behind Cloudflare (Embraer's, for one) never answer plain
-    requests from GitHub's servers but do answer a real browser, so when the
-    plain request times out or is refused we try once more in the browser.
+    Some sites behind Cloudflare (Embraer's, for one) don't answer plain
+    requests from GitHub's servers (no answer at all, or a 403/429/5xx) but do
+    answer a real browser, so then we try once more in the browser.
     """
     if program.get("render"):
         return render(program["url"]).text
@@ -77,8 +77,9 @@ def page_text(program: dict[str, Any]) -> str:
     except (requests.Timeout, requests.ConnectionError) as error:
         reason = error
     except requests.HTTPError as error:
-        if error.response is None or error.response.status_code not in (403, 429):
-            raise
+        status = error.response.status_code if error.response is not None else 0
+        if status not in (403, 429) and status < 500:
+            raise  # e.g. 404: the page is gone, a browser won't help
         reason = error
     log.info("Program page %s: plain request failed (%s), trying the browser", program.get("name"), reason)
     try:
