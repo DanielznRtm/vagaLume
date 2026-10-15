@@ -27,9 +27,12 @@ def env(monkeypatch, tmp_path):
 
 def test_the_list_is_encrypted(env):
     path, _ = env
-    bot.save({"offset": 7, "subscribers": {"42": {"prefs": PREFS.to_dict(), "since": TODAY}}}, path)
-    assert b"42" not in path.read_bytes() and b"undergrad" not in path.read_bytes()
-    assert bot.load(path)["subscribers"]["42"]["prefs"]["home"] == "SP"
+    chat_id = "987654321012"
+    bot.save({"offset": 7, "subscribers": {chat_id: {"prefs": PREFS.to_dict(), "since": TODAY}}}, path)
+    # Encrypted text is random-looking, so check for things that can't show up by chance.
+    stored = path.read_bytes()
+    assert chat_id.encode() not in stored and b"subscribers" not in stored and b"undergrad" not in stored
+    assert bot.load(path)["subscribers"][chat_id]["prefs"]["home"] == "SP"
 
 
 def test_start_with_a_code_subscribes_and_explains():
