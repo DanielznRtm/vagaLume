@@ -673,7 +673,11 @@ const STRINGS = {
   "pill.search": [q => `Search: “${q}”`, q => `Busca: “${q}”`], "pill.pay": ["States pay", "Com remuneração"],
   "pill.others": ["Showing roles outside your profile", "Mostrando vagas fora do seu perfil"],
   "others.toggle": [n => `Show roles outside your profile (${n})`, n => `Mostrar vagas fora do seu perfil (${n})`],
-  "others.show": [n => `${n} outside your profile hidden · show`, n => `${n} fora do seu perfil escondidas · mostrar`],
+  "others.show": [(n, why) => `${n} outside your profile hidden${why ? ` (${why})` : ""} · show`, (n, why) => `${n} fora do seu perfil escondidas${why ? ` (${why})` : ""} · mostrar`],
+  // Why they are hidden, so "2 roles" for a search doesn't look like everything there is.
+  "others.place": [n => n ? `${n} elsewhere` : "elsewhere", n => n ? `${n} em outros lugares` : "em outros lugares"],
+  "others.level": [n => n ? `${n} for another level` : "for another level", n => n ? `${n} de outro nível` : "de outro nível"],
+  "others.field": [n => n ? `${n} for another field` : "for another field", n => n ? `${n} de outra área de estudo` : "de outra área de estudo"],
   "others.hide": ["hide them again", "esconder de novo"],
   "empty.others": [n => `${n} roles outside your profile (other fields, levels or places) are hidden.`, n => `${n} vagas fora do seu perfil (outras áreas, níveis ou lugares) estão escondidas.`],
   "pill.remove": [x => `Remove filter ${x}`, x => `Remover filtro ${x}`],
@@ -1111,7 +1115,8 @@ function computeFit(item) {
     }
   }
   reasons.sort((a, b) => b[0] - a[0]);
-  return { level: reasons.reduce((m, r) => Math.max(m, r[0]), 0), reasons, fieldRank, otherField, hidden: otherField || otherLevel || otherPlace };
+  return { level: reasons.reduce((m, r) => Math.max(m, r[0]), 0), reasons, fieldRank, otherField, hidden: otherField || otherLevel || otherPlace,
+    why: otherPlace ? "place" : otherLevel ? "level" : otherField ? "field" : "" };
 }
 const FIT_CLASS = ["good", "check", "long"];
 
@@ -1740,12 +1745,13 @@ function render() {
   activeFilters();
 
   const list = inTab.filter(i => passes(i)).sort(SORTS[sortKey()]);
-  const hidden = inTab.filter(i => hiddenForYou(i) && passes(i, "hidden")).length;  // outside your profile, with today's filters
+  const hiddenItems = inTab.filter(i => hiddenForYou(i) && passes(i, "hidden"));  // outside your profile, with today's filters
+  const hidden = hiddenItems.length;
   const anyOther = view.others && inTab.some(i => i._fit?.hidden);
   $("sort").value = sortKey();
   $("rows").innerHTML = list.slice(0, view.shown).map(row).join("") || emptyState(hidden);
   $("count").innerHTML = esc(t("count", fmtN(list.length), fmtDate(DATA.updated, false)))
-    + (hidden ? ` · <button class="linkish" data-others="1">${esc(t("others.show", fmtN(hidden)))}</button>` : "")
+    + (hidden ? ` · <button class="linkish" data-others="1">${esc(t("others.show", fmtN(hidden), hiddenWhy(hiddenItems)))}</button>` : "")
     + (anyOther ? ` · <button class="linkish" data-others="">${esc(t("others.hide"))}</button>` : "");
   $("others-row").hidden = !(hidden || view.others);
   $("show-others").checked = !!view.others;
@@ -1800,6 +1806,13 @@ function setDigest(change) {
   render();
 }
 
+// "72 em outros lugares, 6 de outro nível"; just "em outros lugares" when that's the only reason.
+function hiddenWhy(items) {
+  const counts = {};
+  items.forEach(i => counts[i._fit.why] = (counts[i._fit.why] || 0) + 1);
+  const reasons = ["place", "level", "field"].filter(r => counts[r]);
+  return reasons.map(r => t(`others.${r}`, reasons.length > 1 ? fmtN(counts[r]) : 0)).join(", ");
+}
 function emptyState(hidden = 0) {
   const filtersOn = !!document.querySelector("[data-clear]");
   const text = !filtersOn && ["saved", "applied", "hidden"].includes(view.tab) ? t(`empty.${view.tab}`) : t("empty.none");
