@@ -260,3 +260,21 @@ workday_brazil:
   - {tenant: gehc, wd: 5, site: GEHC_ExternalSite, name: GE HealthCare}
   - {tenant: jj, wd: 5, site: JJ, name: Johnson & Johnson}
   - {tenant: toyota, wd: 503, site: TLAC, name: Toyota do Brasil}
+
+# --- More Brazilian estágio boards (checked 2026-10-15) ----------------------
+# Abler boards: https://{subdomain}.abler.com.br (radar/sources/abler.py).
+abler:
+  - {subdomain: estagionavale, name: Vale}  # ~47 estágios in MG, PA, ES, MA, RJ
+
+# Oracle Recruiting Cloud sites (radar/sources/oracle_hcm.py); keyword narrows a big site.
+oracle_hcm:
+  - {host: emfg.fa.em4.oraclecloud.com, site: CX_4001, keyword: estágio, name: ArcelorMittal}  # one program per state
+  - {host: epdm.fa.la1.oraclecloud.com, site: PicPay, name: PicPay}
+
+# Job feeds in RSS (radar/sources/rss_jobs.py): SuccessFactors and Avature career sites.
+# country: where the roles are when the title doesn't say.
+rss_feeds:
+  - {url: "https://carreiras.klabin.com.br/services/rss/job/?locale=pt_BR&keywords=(est%C3%A1gio)", name: Klabin, country: Brazil}
+  - {url: "https://jobdetails.nestle.com/services/rss/job/?locale=pt_BR&keywords=(est%C3%A1gio)", name: Nestlé, country: Brazil}
+  - {url: "https://jobs.siemens.com/en_US/externaljobs/SearchJobs/Brazil/feed/", name: Siemens, country: Brazil}
+  - {url: "https://jobs.totalenergies.com/en_US/careers/SearchJobs/Brazil/feed/", name: TotalEnergies, country: Brazil}

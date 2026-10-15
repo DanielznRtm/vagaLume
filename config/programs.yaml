@@ -646,3 +646,30 @@ programs:
     applications: "Jan–Apr"
     regions: [Brazil]
     notes: "Brazilians at top universities in Brazil or abroad; scholarship up to 90% of costs + network; the Prep Program helps with applying abroad"
+
+  - name: Gerdau Programa de Estágio G.Start
+    org: Gerdau
+    url: https://estagiogerdau.com.br/
+    applications: "Aug–Sep"
+    regions: [Brazil]
+    notes: "2026 edition: applications until Sep 13; they go to Selpe's portal (login), so we watch this page"
+
+  - name: Braskem Programa de Estágio
+    org: Braskem
+    url: https://braskem.academiadouniversitario.com.br/
+    applications: "Sep–Oct"
+    regions: [Brazil]
+    notes: "2027 edition: 120 places in 10 cities, R$2,200–2,800; applications until about Oct 30, starts in March; run by Academia do Universitário"
+
+  - name: Volkswagen Programa de Estágio
+    org: Volkswagen do Brasil
+    url: https://vagas.academiadouniversitario.com.br/programas/programa-de-estagio-volkswagen-2027-1
+    regions: [Brazil]
+    notes: "2027.1 edition, engineering and business areas; the URL has the edition in it, so check for a new one each year"
+
+  - name: ArcelorMittal Brasil Programa de Estágio
+    org: ArcelorMittal
+    url: https://brasil.arcelormittal.com/estagio2027
+    applications: "Sep–Oct"
+    regions: [Brazil]
+    notes: "técnico and graduação in 12 states (each state's posting is also listed); results in December, starts in February; the URL has the year in it"

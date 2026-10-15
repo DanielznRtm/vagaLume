@@ -21,8 +21,9 @@ from . import db, digest, labels, llm, notify, report, site, telegram_bot
 from .config import ROOT, load_config
 from .models import Opportunity
 from .sources import (
-    SourceResult, amazon, ashby, ciadetalentos, ciee, fapesp, github_lists, google, greenhouse, gupy, iel, lever, meta,
-    microsoft, nextjs_sites, nvidia, programs, smartrecruiters, solides, superestagios, workday,
+    SourceResult, abler, amazon, ashby, ciadetalentos, ciee, eureca, fapesp, github_lists, google, greenhouse, gupy, iel,
+    lever, meta, microsoft, nextjs_sites, nvidia, oracle_hcm, programs, rss_jobs, smartrecruiters, solides,
+    superestagios, workday,
 )
 
 log = logging.getLogger("radar")
@@ -55,6 +56,10 @@ SOURCES: dict[str, Callable[[dict[str, Any], sqlite3.Connection, str], SourceRes
     "fapesp": lambda cfg, conn, today: fapesp.fetch(cfg),
     "smartrecruiters": lambda cfg, conn, today: smartrecruiters.fetch(cfg),
     "workday": lambda cfg, conn, today: workday.fetch(cfg),
+    "eureca": lambda cfg, conn, today: eureca.fetch(cfg),
+    "abler": lambda cfg, conn, today: abler.fetch(cfg),
+    "oracle_hcm": lambda cfg, conn, today: oracle_hcm.fetch(cfg),
+    "rss_jobs": lambda cfg, conn, today: rss_jobs.fetch(cfg),
 }
 
 
