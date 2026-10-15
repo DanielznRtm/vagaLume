@@ -53,6 +53,9 @@ class Opportunity:
     posted_date: str = ""  # ISO date "YYYY-MM-DD" when known
     deadline: str = NO_DEADLINE  # ISO date, or "check page"
     pay: str = ""  # short label such as "$54–60/hr" or "R$1,800/mo"; "" = not stated
+    # Where the pay came from: "field" (the job board's own salary field, set by the source),
+    # "text" (read from the description by radar/pay.py) or "claude". The site asks you to check "text" ones.
+    pay_from: str = ""
     # Free text used only while labelling; it is NOT stored in the database
     # (that keeps the database small enough to commit every day).
     description: str = ""

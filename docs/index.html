@@ -301,6 +301,9 @@
   .detail-actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; }
   .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; font-weight: 500; text-decoration: none; color: var(--ink); }
   .btn.primary-link { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+  .btn.report { margin-left: auto; border-color: transparent; background: none; color: var(--muted); font-weight: 400; font-size: .85rem; }
+  .btn.report:hover { color: var(--ink); text-decoration: underline; }
+  .pay-text { color: var(--muted); }
   .btn[aria-pressed="true"] { border-color: var(--good); color: var(--good); background: var(--good-soft); }
 
   .more-btn { display: block; margin: 16px auto 0; padding: 9px 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); cursor: pointer; }
@@ -709,6 +712,10 @@ const STRINGS = {
   "d.foundVia": [(d, s, p) => `${d} via ${s}${p ? ` · posted ${p}` : ""}`, (d, s, p) => `${d} via ${s}${p ? ` · publicada em ${p}` : ""}`],
   "d.open": ["Open the posting ↗", "Abrir a vaga ↗"], "d.applied": ["✓ Applied", "✓ Candidatada"], "d.markApplied": ["Mark as applied", "Marcar como candidatada"],
   "d.saved": ["★ Saved", "★ Salva"], "d.save": ["☆ Save", "☆ Salvar"],
+  "d.payText": ["read from the description, check the posting", "lida do texto, confirme na vaga"],
+  "d.report": ["Something wrong with this role?", "Algo errado nesta vaga?"],
+  "r.body": [(i, shown) => `**Role:** ${i.title} — ${i.org}\n**Link:** ${i.url}\n**id:** ${i.id}\n\n**What vagaLume shows:**\n${shown}\n\n**What is wrong?** (the right value, and where in the posting it says so)\n\n`,
+             (i, shown) => `**Vaga:** ${i.title} — ${i.org}\n**Link:** ${i.url}\n**id:** ${i.id}\n\n**O que o vagaLume mostra:**\n${shown}\n\n**O que está errado?** (o valor certo, e onde na vaga isso aparece)\n\n`],
   "m.have": [(h, n) => `You have ${h} of the ${n} skills it mentions`, (h, n) => `Você tem ${h} das ${n} habilidades que ela cita`],
   "m.haveNone": [n => `None of the ${n} skills it mentions are in your résumé`, n => `Nenhuma das ${n} habilidades citadas está no seu currículo`],
   "m.area": [a => `In one of your areas (${a})`, a => `Numa das suas áreas (${a})`], "m.role": [r => `Title matches “${r}”`, r => `O título bate com “${r}”`],
@@ -1535,7 +1542,7 @@ function metaLine(i) {
   if (where) parts.push(where);
   const info = deadlineInfo(i);
   if (info && info.cls !== "past") parts.push(`<span class="${info.cls}">${esc(info.text)}${info.sub ? ` (${esc(info.sub)})` : ""}</span>`);
-  if (i.pay) parts.push(`<span class="mono">${esc(i.pay)}</span>`);
+  if (i.pay) parts.push(`<span class="mono">${esc(i.pay)}</span>${i.pay_text ? `<span class="pay-text">*</span>` : ""}`);
   return parts.length ? `<div class="meta-line">${parts.join(" · ")}</div>` : "";
 }
 const ICON_STAR = filled => `<svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 4 4.4.5-3.3 3 .9 4.3L8 11.2l-3.9 2.2.9-4.3-3.3-3 4.4-.5z" fill="${filled ? "currentColor" : "none"}" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>`;
@@ -1563,7 +1570,7 @@ function row(i) {
       <div class="role"><a href="${esc(i.url)}" target="_blank" rel="noopener">${highlight(i.title)}</a>
         <div class="org"><span>${highlight(i.org)}</span>${tags.slice(0, 2).join("")}</div>${why}${metaLine(i)}</div>
       ${whereCell(i)}
-      <div class="pay ${i.pay ? "" : "none"}" title="${esc(i.pay || t("d.notStated"))}">${esc(i.pay || "—")}</div>
+      <div class="pay ${i.pay ? "" : "none"}" title="${esc(i.pay ? i.pay + (i.pay_text ? ` (${t("d.payText")})` : "") : t("d.notStated"))}">${esc(i.pay || "—")}${i.pay_text ? `<span class="pay-text">*</span>` : ""}</div>
       ${whenCell(i.season)}
       ${deadlineCell(i)}
       <div class="actions">
@@ -1600,7 +1607,7 @@ function details(i) {
     [t("d.where"), locs.length ? esc(locs.join(" · ")) : esc(regionNames(i).join(", ")) || ns],
     [t("d.when"), i.season === "unknown" ? ns : `${esc(seasonText(i.season))}${monthStrip(i.season)}`],
     [t("d.deadline"), i.deadline ? esc(fmtDate(i.deadline)) : `<span class="none">${t("d.deadlineNone")}</span>`],
-    [t("d.pay"), i.pay ? `<span class="mono">${esc(i.pay)}</span>` : ns],
+    [t("d.pay"), i.pay ? `<span class="mono">${esc(i.pay)}</span>${i.pay_text ? ` <span class="muted">· ${t("d.payText")}</span>` : ""}` : ns],
     [t("d.labels"), labels],
     [t("d.found"), esc(t("d.foundVia", fmtDate(i.added), i.source, i.posted ? fmtDate(i.posted) : "")) + (i.note ? `<br><span class="muted">${esc(i.note)}</span>` : "")],
   ];
@@ -1612,8 +1619,24 @@ function details(i) {
       <button class="btn" data-act="applied" aria-pressed="${m === "applied"}">${t(m === "applied" ? "d.applied" : "d.markApplied")}</button>
       <button class="btn" data-act="save">${t(saved.has(i.id) ? "d.saved" : "d.save")}</button>
       <button class="btn" data-act="hide">${t(m === "hidden" ? "unhide" : "hide")}</button>
+      <a class="btn report" href="${esc(reportUrl(i))}" target="_blank" rel="noopener">${t("d.report")}</a>
     </div>
   </div>`;
+}
+// A pre-filled GitHub issue with what the page shows for this role, so a wrong label
+// (pay, place, deadline...) can be fixed and added to the tests (tests/fixtures/pay_cases.yaml).
+function reportUrl(i) {
+  const locs = locations(i);
+  const shown = [
+    [t("d.pay"), i.pay ? i.pay + (i.pay_text ? ` (${t("d.payText")})` : "") : t("d.notStated")],
+    [t("d.where"), locs.length ? locs.join(" · ") : regionNames(i).join(", ") || t("d.notStated")],
+    [t("d.when"), i.season === "unknown" ? t("d.notStated") : seasonText(i.season)],
+    [t("d.deadline"), i.deadline ? fmtDate(i.deadline) : t("d.notStated")],
+    [t("d.labels"), [tv("area", i.area), ...i.warnings.map(w => tv("warn", w))].join(" · ")],
+  ].map(([k, v]) => `- ${k}: ${v}`).join("\n");
+  const title = `${i.title} — ${i.org}`.slice(0, 120);
+  const query = new URLSearchParams({ title: `[${LANG === "en" ? "wrong info" : "info errada"}] ${title}`, body: t("r.body", i, shown) });
+  return `https://github.com/PedroCamargoLINCE/vagaLume/issues/new?${query}`;
 }
 
 function chipGroup(name, values) {

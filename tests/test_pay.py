@@ -1,6 +1,9 @@
 """Pay extraction. The phrasings are copied from real postings."""
 
+from pathlib import Path
+
 import pytest
+import yaml
 
 from radar import db
 from radar.pay import find_pay, from_range, parse_number
@@ -68,3 +71,32 @@ def test_old_database_gets_pay_column(tmp_path):
 def test_weekly_hours_are_not_the_pay_period():
     assert find_pay("Bolsa-auxílio de R$ 1.870,00, 30 horas semanais, por até 2 anos.") == "R$1,870/mo"
     assert find_pay("Stipend: $2,500 per month, 40 hours per week.") == "$2,500/mo"
+
+
+def _cases():
+    path = Path(__file__).parent / "fixtures" / "pay_cases.yaml"
+    return [pytest.param(case["text"], case["pay"], id=f"case{i + 1}") for i, case in enumerate(yaml.safe_load(path.read_text()))]
+
+
+@pytest.mark.parametrize("text, expected", _cases())
+def test_real_cases(text, expected):
+    """tests/fixtures/pay_cases.yaml: every reported mistake stays fixed."""
+    assert find_pay(text) == expected
+
+
+def test_the_site_marks_pay_read_from_the_text(tmp_path):
+    """Pay from a salary field is shown as is; pay read from the description gets a "check the posting" mark."""
+    from radar.labels import apply_rules
+    from radar.models import Opportunity
+    from radar.site import item_record
+
+    field = apply_rules(Opportunity(title="Estágio", org="A", source="solides", url="https://a/1", pay="R$1,500/mo"))
+    text = apply_rules(Opportunity(title="Estágio", org="B", source="gupy", url="https://b/2", description="Bolsa auxílio: R$ 1.800,00"))
+    assert (field.pay, field.pay_from) == ("R$1,500/mo", "field")
+    assert (text.pay, text.pay_from) == ("R$1,800/mo", "text")
+    conn = db.connect(tmp_path / "radar.db")
+    for opp in (field, text):
+        db.upsert(conn, opp, "2026-10-15")
+    records = {r.org: item_record(r) for r in db.load_all(conn)}
+    assert "pay_text" not in records["A"]
+    assert records["B"]["pay_text"] == 1

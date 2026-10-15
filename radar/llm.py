@@ -121,6 +121,7 @@ def _merge(opp: Opportunity, answer: dict[str, object]) -> None:
         opp.deadline = deadline
     if not opp.pay and answer.get("pay"):
         opp.pay = str(answer["pay"])[:40]
+        opp.pay_from = "claude"
     opp.calendar_note = calendar_note(opp.season)
     opp.labeled_by = "claude"
 

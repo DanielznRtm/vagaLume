@@ -1,0 +1,93 @@
+# Real pieces of postings and the pay vagaLume should show for them ("" = none).
+#
+# Each case is a mistake that was reported or found, or a phrasing that must keep
+# working. When you find a new one (someone opens an "Algo errado nesta vaga?"
+# issue, say), paste the part of the description around the number here with the
+# right answer, then fix radar/pay.py until tests/test_pay.py passes again.
+# Every case must keep passing, so a fix for one posting can't break another.
+
+# --- perks are not the pay ------------------------------------------------------
+- text: |
+    FULL-TIME EMPLOYEES AT COHERE ENJOY THESE PERKS:
+     - A weekly lunch stipend of $75/£75 or equivalent in your local currency for lunch.
+  pay: ""
+  why: "a lunch stipend under a perks heading (reported: the site showed $75/hr)"
+- text: "Compensation and Benefits\n - $10K housing bonus if you live within 0.5 miles of our office\n - $1.5K monthly stipend for meals/rideshare\n - Health, dental and vision"
+  pay: ""
+  why: "housing bonus and a meals stipend"
+- text: "Benefícios: Café da Manhã na Empresa;Vale Alimentação R$ 205,00 Mensal; Ajuda de Custo R$ 200,00 Mensal; PetLove."
+  pay: ""
+- text: "Aux. VT, Aux. VA de R$ 300,00/mensal, seguro de vida e recesso remunerado"
+  pay: ""
+  why: "VA (vale-alimentação)"
+- text: "Horário de Trabalho: 6 horas diárias;Oferecemos salário + VA R$ 500,00 + Plano de Saúde + refeitório na empresa."
+  pay: ""
+- text: "A partir do 1º período\nAuxílio Mobilidade; R$ 50,00\nAuxílio Home Office: R$ 221,00"
+  pay: ""
+- text: "Incentivo à cursos e certificações no valor de R$100,00 por mês — porque aqui a evolução é constante"
+  pay: ""
+- text: "A partir do 1º período\n✔ Auxílio internet de R$ 80,00 por mês;\n✔ Recesso remunerado;"
+  pay: ""
+- text: "Seguro de Vida + Recesso remunerado + bônus assiduidade de R$100,00."
+  pay: ""
+- text: "Benefícios:🥗 Vale refeição/alimentação (R$60,00 por dia útil);💻 Ajuda de custo mensal para o teletrabalho de R$105,00;💰 Premiação por atingimento de metas"
+  pay: ""
+
+# --- the pay next to perks -------------------------------------------------------
+- text: "Bolsa Auxílio: R$ 1.200,00 + Cursos/Treinamentos + Day off dia do Aniversário"
+  pay: "R$1,200/mo"
+  why: "the perks come after a \"+\", in the next item"
+- text: "Informações adicionais💰 Bolsa de Estágio (R$1.000,00)🏠 Auxílio Home Office"
+  pay: "R$1,000/mo"
+- text: "Vaga: Estágio de Engenharia Civil\nBolsa Auxílio: R$ 1.600,00\nBenefícios: Refeição no local, Day off, Total pass e VT."
+  pay: "R$1,600/mo"
+- text: "Remuneração\nR$ 1.600,00 (incluindo auxílio-transporte).\nBenefícios\nSeguro de vida."
+  pay: "R$1,600/mo"
+  why: "the transport allowance is included in the pay"
+- text: "Informações adicionaisBOLSA: R$ 1500,00AUXÍLIO TRANSPORTE"
+  pay: "R$1,500/mo"
+  why: "Gupy runs lines together"
+- text: "Benefícios:\nBolsa auxilio de R$ 200,00\nTelemedicina Medquo"
+  pay: "R$200/mo"
+- text: "Weekly base salary of $5,800 in addition to company-paid housing, meals, and other perks."
+  pay: "$5,800/wk"
+- text: "Bolsa auxílio inicial de R$ 1.200,00, com evolução progressiva ao longo do programa, podendo chegar a R$ 2.000,00 ao final do estágio• Vale Refeição ou Alimentação (R$ 22,00 por dia trabalhado)"
+  pay: "R$1,200–2,000/mo"
+
+# --- the period --------------------------------------------------------------------
+- text: "Weekly stipend of 3,850 USD / 2,310 GBP / 4,300 CAD + benefits (these vary by country)"
+  pay: "$3,850/wk"
+- text: "This internship will be part-time, 20 hours per week. Anticipated weekly base salary range $500-$1000."
+  pay: "$500–1,000/wk"
+- text: "🎓Bolsa de nível superior: R$1.870,00 para 30 horas semanais;🛠️Bolsa de nível técnico: R$1.230,00 para 30 horas semanais;"
+  pay: "R$1,230–1,870/mo"
+  why: '"30 horas semanais" is the workload, not the pay period'
+- text: "Valores da Bolsa Auxílio por hora a depender do ano do curso superior: 3º ano R$ 13,18 por hora | 4º ano R$ 14,65 por horaBenefícios: Plano de Saúde"
+  pay: "R$13.18–14.65/hr"
+- text: "Ano Escolar | Remuneração\nPrimeiro Ano | R$ 1.681,00Segundo Ano | R$ 1.855,00Terceiro Ano | R$ 2.038,00Quarto Ano | R$ 2.240,00Quinto Ano | R$ 2.465,00Principais Benefícios"
+  pay: "R$1,681–2,465/mo"
+  why: '"Primeiro Ano" is the year of the course, not "per year"'
+- text: "O QUE OFERECEMOS\nBolsa R$ 900,00 (a partir do 2º ano o valor muda para R$ 1.300,00)\nMeia passagem"
+  pay: "R$900–1,300/mo"
+- text: "Bolsa auxílio:\nR$1000 + VT\nCarga horária: 30h horas semanais - 6h diárias"
+  pay: "R$1,000/mo"
+- text: "📍London\n💰 £42,500 pro rata\nTechnology"
+  pay: "£42K/yr"
+- text: "Propulsion Engineer/Level I: $100,000.00 - $115,000.00/per year\nYour actual level and base salary will be determined"
+  pay: "$100K–115K/yr"
+- text: "Stipend: $2,500 per month, 40 hours per week."
+  pay: "$2,500/mo"
+
+# --- lists under a pay heading -----------------------------------------------------
+- text: "COMPENSATION AND BENEFITS:\nPay Range:\nSilicon Engineering Intern/Freshman/Sophomore: $30.00/hour\nSilicon Engineering Intern/Junior/Senior: $34.00/hour\nSilicon Engineering Intern/Completed Bachelor's: $36.00/hour\nSilicon Engineering Intern/Completed Master's: $38.00/hour\nSilicon Engineering Intern/Completed PhD: $40.00/hour\n"
+  pay: "$30–40/hr"
+
+# --- not pay at all ------------------------------------------------------------------
+- text: "We're growing quickly and recently raised our $1.5B Series F."
+  pay: ""
+- text: "Planos a partir de R$ 29,90 por mês para toda a família."
+  pay: ""
+  why: "a price, with no pay word"
+- text: "Students will receive $100,000–$167,000 USD for the four-month fellowship"
+  pay: ""
+  why: "a total for the whole program, not per month (we don't guess)"
