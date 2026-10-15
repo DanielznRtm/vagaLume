@@ -16,12 +16,18 @@ For each site in config/companies.yaml (section `workday_brazil`) we:
   3. page through those jobs, 20 at a time.
 Sites without a job-type filter are searched for Brazil only, and we keep the
 titles that look like student roles.
+
+Section `workday_global` lists employers with many internships abroad
+(Airbus, Thales, ZEISS, NXP...): there we skip the country filter and use
+only the job-type filter (named workerSubType, Worker_Type, Contract_Type...
+depending on the site), or, when a site has none, title searches.
 """
 
 from __future__ import annotations
 
 import logging
 import re
+from concurrent.futures import ThreadPoolExecutor
 from datetime import date
 from typing import Any, Iterator
 
@@ -38,7 +44,13 @@ NAME = "workday"
 BRAZIL_ID = "1a29bb1357b240ab99a2fa755cc87c0e"  # Workday's id for Brazil, the same on every site
 PAGE_SIZE = 20  # Workday refuses bigger pages
 MAX_PAGES = 15
-STUDENT_TYPE = re.compile(r"intern|estagi|apprentic|aprendiz|trainee|student|co-?op|praktik", re.I)
+MAX_PAGES_GLOBAL = 40  # Airbus has ~600 student jobs
+STUDENT_TYPE = re.compile(r"intern|estagi|apprenti|aprendiz|trainee|student|co-?op|praktik|stagi|\bstage\b|alternan"
+                          r"|thesis|placement|becari|practicante|pasant", re.I)
+# The job-type filter's name differs between sites.
+TYPE_FACET = re.compile(r"subtype|worker_?type|employee_?type|contract_?type|job_?type|time_?type_?student", re.I)
+# Title searches for global sites without a job-type filter.
+GLOBAL_SEARCHES = ["intern", "student", "stage", "praktikum", "thesis", "trainee"]
 
 
 def base_url(site: dict[str, Any]) -> str:
@@ -67,7 +79,7 @@ def choose_facets(data: dict[str, Any]) -> tuple[dict[str, list[str]], bool]:
     for parameter, value in _facet_values(data.get("facets") or []):
         if value.get("id") == BRAZIL_ID and parameter not in applied:
             applied[parameter] = [BRAZIL_ID]
-        if "subtype" in parameter.lower() and STUDENT_TYPE.search(str(value.get("descriptor") or "")):
+        if TYPE_FACET.search(parameter) and STUDENT_TYPE.search(str(value.get("descriptor") or "")):
             student_ids.setdefault(parameter, []).append(str(value["id"]))
     if not applied:
         cities = brazilian_cities(data)
@@ -93,7 +105,17 @@ def brazilian_cities(data: dict[str, Any]) -> list[str]:
             if parameter == "locations" and _is_brazilian(str(value.get("descriptor") or ""))]
 
 
-def parse(data: dict[str, Any], site: dict[str, Any], from_student_facet: bool, today: date | None = None) -> list[Opportunity]:
+def student_facets(data: dict[str, Any]) -> dict[str, list[str]]:
+    """The job-type filter values for students (global sites)."""
+    found: dict[str, list[str]] = {}
+    for parameter, value in _facet_values(data.get("facets") or []):
+        if TYPE_FACET.search(parameter) and STUDENT_TYPE.search(str(value.get("descriptor") or "")):
+            found.setdefault(parameter, []).append(str(value["id"]))
+    return found
+
+
+def parse(data: dict[str, Any], site: dict[str, Any], from_student_facet: bool, today: date | None = None,
+          brazil: bool = True) -> list[Opportunity]:
     today = today or date.today()
     items: list[Opportunity] = []
     for job in data.get("jobPostings") or []:
@@ -101,8 +123,11 @@ def parse(data: dict[str, Any], site: dict[str, Any], from_student_facet: bool, 
         if not (from_student_facet or is_student_candidate(title)):
             continue
         place = str(job.get("locationsText") or "")
-        # The Brazil filter guarantees a Brazilian location; "2 Locations" doesn't say which.
-        location = place if re.search(r"bra[sz]il", place, re.I) else f"{place}, Brazil" if place else "Brazil"
+        if brazil:
+            # The Brazil filter guarantees a Brazilian location; "2 Locations" doesn't say which.
+            location = place if re.search(r"bra[sz]il", place, re.I) else f"{place}, Brazil" if place else "Brazil"
+        else:
+            location = place
         items.append(
             Opportunity(
                 title=title,
@@ -125,24 +150,91 @@ def fetch_site(site: dict[str, Any]) -> tuple[list[Opportunity], int]:
     applied, student_facet = choose_facets(first)
     items: list[Opportunity] = []
     requests_made = 1
+    total = 0
     for page in range(MAX_PAGES):
         data = post_json(url, {"appliedFacets": applied, "limit": PAGE_SIZE, "offset": page * PAGE_SIZE, "searchText": ""})
         requests_made += 1
         items.extend(parse(data, site, student_facet))
-        if (page + 1) * PAGE_SIZE >= int(data.get("total") or 0):
+        total = total or int(data.get("total") or 0)  # Workday sends the total on the first page only
+        if (page + 1) * PAGE_SIZE >= total or not data.get("jobPostings"):
             break
     return items, requests_made
 
 
+def _pages(url: str, applied: dict[str, list[str]], search: str, site: dict[str, Any], student_facet: bool,
+           country: str = "") -> tuple[list[Opportunity], int]:
+    items: list[Opportunity] = []
+    total = 0
+    for page in range(MAX_PAGES_GLOBAL):
+        data = post_json(url, {"appliedFacets": applied, "limit": PAGE_SIZE, "offset": page * PAGE_SIZE, "searchText": search})
+        for opp in parse(data, site, student_facet, brazil=False):
+            # "Toulouse Area" alone doesn't say the country; the country filter we used does.
+            if country and country.lower() not in opp.location.lower():
+                opp.location = f"{opp.location}, {country}" if opp.location else country
+            items.append(opp)
+        total = total or int(data.get("total") or 0)  # Workday sends the total on the first page only
+        if (page + 1) * PAGE_SIZE >= total or not data.get("jobPostings"):
+            return items, page + 1
+    return items, MAX_PAGES_GLOBAL
+
+
+def _countries(data: dict[str, Any]) -> tuple[str, list[tuple[str, str]]]:
+    """The site's country filter: (its name, [(id, country)]) for countries with jobs."""
+    for parameter, value in _facet_values(data.get("facets") or []):
+        if "country" in parameter.lower():
+            values = [(str(v["id"]), str(v.get("descriptor") or "")) for p, v in _facet_values(data.get("facets") or [])
+                      if p == parameter and v.get("count", 1)]
+            return parameter, values
+    return "", []
+
+
+def fetch_site_global(site: dict[str, Any]) -> tuple[list[Opportunity], int]:
+    """Student roles of one Workday site in every country, and how many requests it took."""
+    url = api_url(site)
+    first = post_json(url, {"appliedFacets": {}, "limit": 1, "offset": 0, "searchText": ""})
+    facets = student_facets(first)
+    if facets:
+        # Ask for the student roles once, to learn in which countries they are, then country by country.
+        probe = post_json(url, {"appliedFacets": facets, "limit": 1, "offset": 0, "searchText": ""})
+        parameter, countries = _countries(probe)
+        if not parameter:
+            items, made = _pages(url, facets, "", site, True)
+            return items, made + 2
+        items, made = [], 2
+        for country_id, country in countries:
+            found, pages = _pages(url, {**facets, parameter: [country_id]}, "", site, True, country)
+            items += found
+            made += pages
+        return items, made
+    items, made, seen = [], 1, set()
+    for search in GLOBAL_SEARCHES:
+        found, pages = _pages(url, {}, search, site, False)
+        made += pages
+        items += [o for o in found if o.url not in seen and not seen.add(o.url)]
+    return items, made
+
+
 def fetch(config: dict[str, Any]) -> SourceResult:
+    """Every site, 8 at a time (each site is a different company's server, asked one request at a time)."""
     result = SourceResult()
-    for site in config.get("companies", {}).get("workday_brazil") or []:
+    sites = [(s, fetch_site) for s in config.get("companies", {}).get("workday_brazil") or []]
+    sites += [(s, fetch_site_global) for s in config.get("companies", {}).get("workday_global") or []]
+
+    def run(job: tuple[dict[str, Any], Any]) -> tuple[dict[str, Any], Any]:
+        site, fetch_one = job
         try:
-            items, requests_made = fetch_site(site)
-            result.items.extend(items)
-            result.checked += requests_made
+            return site, fetch_one(site)
         except Exception as error:  # noqa: BLE001
-            result.checked += 1
-            log.warning("Workday %s failed: %s", site.get("tenant"), error)
-            result.errors.append(f"{site.get('name') or site.get('tenant')}: {error}")
+            return site, error
+
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        for site, outcome in pool.map(run, sites):  # map keeps the config order
+            if isinstance(outcome, Exception):
+                result.checked += 1
+                log.warning("Workday %s failed: %s", site.get("tenant"), outcome)
+                result.errors.append(f"{site.get('name') or site.get('tenant')}: {outcome}")
+            else:
+                items, requests_made = outcome
+                result.items.extend(items)
+                result.checked += requests_made
     return result

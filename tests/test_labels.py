@@ -23,6 +23,20 @@ from radar.textutil import find_deadline, iso_date
         ("Member of Technical Staff (New Grad)", "unsure"),
         ("Staff Software Engineer", "no"),
         ("Accounting Coordinator", "no"),
+        # Europe and Latin America (Airbus, Thales, ZEISS, CERN...)
+        ("STAGE 2027 - Acoustic Testing : Développement", "yes"),
+        ("Stagiaire Data Scientist (F/H)", "yes"),
+        ("Ingénieur Data H/F - Stage", "yes"),
+        ("Alternance - Chargé de projet", "yes"),
+        ("Praktikant Software (m/w/d)", "yes"),
+        ("Masterarbeit Batteriemodellierung (m/w/d)", "yes"),
+        ("Becario/a de Ingeniería", "yes"),
+        ("Practicante de TI", "yes"),
+        ("Technical Studentship 2027-1", "yes"),
+        ("12 Month Industrial Placement - Engineering", "yes"),
+        ("Stage Integration Engineer", "no"),  # a rocket stage, not a French internship
+        ("Principal Stage Fluids Engineer", "no"),
+        ("Stage Manager", "no"),
     ],
 )
 def test_student_level(title, level):

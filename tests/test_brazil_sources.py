@@ -198,3 +198,31 @@ def test_rss_jobs_reads_the_place_in_successfactors_titles():
     assert [(o.title, o.location) for o in items] == [
         ("Estagiário de Vendas | Itajaí/SC", "Itajaí, SC, Brazil"), ("Estágio em Engenharia", "Araras, Brazil")]
     assert items[0].posted_date == "2026-10-15"
+
+
+def test_workday_global_goes_country_by_country(monkeypatch):
+    """Airbus-like site: the job-type filter is called Worker_Type, places are "Toulouse Area",
+    and Workday sends the total on the first page only."""
+    facets = [{"facetParameter": "Worker_Type", "values": [{"descriptor": "Trainee / Student", "id": "stu"},
+                                                            {"descriptor": "Regular", "id": "reg"}]},
+              {"facetParameter": "Location_Country", "values": [{"descriptor": "France", "id": "fr", "count": 25},
+                                                                 {"descriptor": "Germany", "id": "de", "count": 1}]}]
+    calls = []
+
+    def fake_post(url, payload):
+        calls.append(payload)
+        applied, offset = payload["appliedFacets"], payload["offset"]
+        if payload["limit"] == 1:
+            return {"facets": facets, "total": 26}
+        country = applied["Location_Country"][0]
+        count = 25 if country == "fr" else 1
+        jobs = [{"title": f"STAGE 2027 - Job {country}{offset + n}", "externalPath": f"/job/{country}{offset + n}",
+                 "locationsText": "Toulouse Area" if country == "fr" else "Munich, Germany", "postedOn": "Posted Today"}
+                for n in range(min(20, count - offset))]
+        return {"jobPostings": jobs, "total": count if offset == 0 else 0}
+
+    monkeypatch.setattr(workday, "post_json", fake_post)
+    items, requests_made = workday.fetch_site_global({"tenant": "ag", "wd": 3, "site": "Airbus", "name": "Airbus"})
+    assert len(items) == 26 and requests_made == len(calls) == 2 + 2 + 1
+    assert items[0].location == "Toulouse Area, France" and items[-1].location == "Munich, Germany"
+    assert all(c["appliedFacets"].get("Worker_Type") == ["stu"] for c in calls[1:])

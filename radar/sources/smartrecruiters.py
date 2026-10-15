@@ -6,7 +6,8 @@ Aumovio...) use SmartRecruiters, which has a public, documented API:
   GET https://api.smartrecruiters.com/v1/companies/{id}/postings?country=br&limit=100&offset=N
 
 Companies are listed in config/companies.yaml (section `smartrecruiters`);
-each can set `country` (default "br", Brazil). We keep student-level titles
+each can set `country` (default "br", Brazil; "" = every country, for
+employers with many internships abroad such as Bosch, ~5,000 jobs). We keep student-level titles
 (estágio, intern, trainee, aprendiz...) and postings typed as internships.
 Note: an unknown company id also answers 200 with zero jobs.
 """
@@ -30,6 +31,7 @@ API_URL = "https://api.smartrecruiters.com/v1/companies/{company}/postings?"
 JOB_URL = "https://jobs.smartrecruiters.com/{company}/{job_id}"
 PAGE_SIZE = 100  # the API's maximum
 MAX_PAGES = 10
+MAX_PAGES_WORLDWIDE = 80  # Bosch has ~5,000 jobs worldwide
 
 
 def parse(data: dict[str, Any], company: dict[str, Any]) -> list[Opportunity]:
@@ -60,11 +62,12 @@ def fetch(config: dict[str, Any]) -> SourceResult:
     result = SourceResult()
     for company in config.get("companies", {}).get("smartrecruiters") or []:
         try:
-            for page in range(MAX_PAGES):
+            country = company.get("country", "br")
+            for page in range(MAX_PAGES if country else MAX_PAGES_WORLDWIDE):
                 result.checked += 1
                 params = {"limit": PAGE_SIZE, "offset": page * PAGE_SIZE}
-                if company.get("country", "br"):
-                    params["country"] = company.get("country", "br")
+                if country:
+                    params["country"] = country
                 data = get_json(API_URL.format(company=quote(str(company["id"]))) + urlencode(params))
                 result.items.extend(parse(data, company))
                 if (page + 1) * PAGE_SIZE >= int(data.get("totalFound") or 0):
