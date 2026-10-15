@@ -15,7 +15,7 @@ concurrency:
 jobs:
   radar:
     runs-on: ubuntu-latest
-    timeout-minutes: 45      # ~25 min on 2026-10-15 with the sources abroad; room to spare
+    timeout-minutes: 45      # the sources abroad (added 2026-10-15) take about 8 more minutes
     steps:
       - uses: actions/checkout@v4
 
