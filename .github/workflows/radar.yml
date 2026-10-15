@@ -46,6 +46,22 @@ jobs:
           RADAR_REPORT_URL: ${{ vars.RADAR_REPORT_URL }}
         run: python -m radar
 
+      - name: Update the star chart in the README
+        # GitHub keeps its own copy of outside images in a README for a day or more, so a chart
+        # loaded straight from star-history.com looks stuck. A file in the repo is shown as committed.
+        # If star-history is down, the old chart stays.
+        continue-on-error: true
+        run: |
+          for theme in light dark; do
+            out=".github/assets/stars-${theme}.svg"
+            url="https://api.star-history.com/svg?repos=pedrocamargolince/vagalume&type=Date&theme=${theme}&t=$(date -u +%Y%m%d)"
+            if curl -fsSL --retry 3 --max-time 60 "$url" -o /tmp/stars.svg && head -c 5 /tmp/stars.svg | grep -q "<svg"; then
+              mv /tmp/stars.svg "$out"
+            else
+              echo "::warning::star-history.com didn't answer; keeping the old $out"
+            fi
+          done
+
       - name: Commit database, report and website data
         run: |
           git config user.name "github-actions[bot]"
@@ -53,7 +69,7 @@ jobs:
           # The database is kept as text (data/*.jsonl); the binary radar.db is a
           # local working copy. The first run after the switch removes it from git.
           git rm --cached --quiet --ignore-unmatch data/radar.db
-          git add data/opportunities.jsonl data/page_hashes.jsonl docs/data.json docs/stats.json docs/feed.xml docs/feed-brasil.xml
+          git add data/opportunities.jsonl data/page_hashes.jsonl docs/data.json docs/stats.json docs/feed.xml docs/feed-brasil.xml .github/assets/stars-*.svg
           if git diff --cached --quiet; then
             echo "Nothing changed."
             exit 0
