@@ -325,7 +325,9 @@ found. Below, the buttons: open the posting, mark as applied, save, hide.
 - **Tabs:** All · New · Closing soon · Saved · Programs & schools, plus
   Applied and Hidden once you have marked something. Only New, Closing soon
   and the lists you build show a count.
-- **Filters:** *For you* (good fit, no long shots, and with a résumé: strong
+- **Filters** are a row of buttons above the list; each opens a small panel
+  with its chips, and shows what you picked in it ("Área: ML +1"). They are:
+  *For you* (good fit, no long shots, and with a résumé: strong
   match, good match or better), Area, Where, **Work mode** (remote, hybrid,
   on-site), When (including a **Fits my breaks** shortcut) and **Pay
   currency** (R$, US$, €, £, CA$, other). Under **More filters**: only roles that state pay, and
@@ -334,8 +336,7 @@ found. Below, the buttons: open the posting, mark as applied, save, hide.
   mode, When and Pay currency take several chips at once and add up (ML **or** Data, Brazil **or**
   Remote); the *For you* ones take one. Click a selected chip again to turn it
   off.
-- **Active filters** show as pills above the list, one per chip. Click a
-  pill's × to remove it, or "Clear all".
+- **Clear all** at the end of the row turns every filter off.
 - **How to read** (next to the number of roles) explains the dots and the
   month strip.
 - **Sort:** best résumé match (with a résumé), best fit (with a profile), deadline, newest, or company.
@@ -343,7 +344,8 @@ found. Below, the buttons: open the posting, mark as applied, save, hide.
   Hidden; it appears when you point at a row (on phones, it's inside the
   opened row). Inside an opened row you can also **Mark as applied**. All of this
   is saved in your browser, and clicking again undoes it.
-- The list loads more rows by itself as you scroll.
+- The list shows 60 roles; **Show more** adds 60 more. It never loads by
+  itself, so the bottom of the page (sources and links) stays reachable.
 - **Your filters live in the address bar** (for example
   `…/vagaLume/#area=ML,data&region=Europe`), so you can bookmark a view or send it
   to a friend.

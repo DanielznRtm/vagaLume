@@ -172,14 +172,21 @@
   .picks-telegram .btn { background: var(--accent); color: #fff; border-color: var(--accent); margin-top: 10px; }
   .picks-telegram .fineprint { font-size: .82rem; color: var(--muted); margin-top: 10px; }
 
-  .layout { display: grid; grid-template-columns: 216px minmax(0, 1fr); gap: 34px; align-items: start; }
+  .layout { display: block; }
 
   /* filters */
-  .filters { position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow: auto; scrollbar-width: thin; }
-  .filters > summary { display: none; }
-  .filters-body { display: grid; gap: 22px; padding-bottom: 8px; }
-  .fgroup { display: grid; gap: 8px; }
-  .fgroup h3 { margin: 0; font-size: .82rem; color: var(--muted); font-weight: 600; }
+  /* One button per filter; its chips open in a small panel. */
+  .filterbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fdrop { position: relative; }
+  .fbtn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); cursor: pointer; font-size: .88rem; color: var(--ink); white-space: nowrap; }
+  .fbtn:hover { border-color: var(--muted); }
+  .fbtn .fval { color: var(--accent); font-weight: 600; max-width: 160px; overflow: hidden; text-overflow: ellipsis; }
+  .fbtn .fval:empty { display: none; }
+  .fbtn .chev { color: var(--muted); transition: transform .15s; }
+  .fbtn[aria-expanded="true"] .chev { transform: rotate(180deg); }
+  .fdrop.active .fbtn { border-color: var(--accent); background: var(--accent-soft); }
+  .fpanel { position: absolute; left: 0; top: calc(100% + 6px); z-index: 7; width: max-content; max-width: min(380px, calc(100vw - 32px)); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 8px 24px rgb(0 0 0 / .14); padding: 12px; display: grid; gap: 10px; }
+  .fsel { display: grid; gap: 6px; font-size: .85rem; color: var(--muted); }
   .chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .chips:empty { display: none; }
   .chip { padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); cursor: pointer; font-size: .86rem; white-space: nowrap; }
@@ -188,12 +195,6 @@
   .chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--surface); }
   .chip[aria-pressed="true"] small { color: inherit; opacity: .7; }
   .chip.zero { opacity: .4; }
-  .more-filters > summary { cursor: pointer; font-size: .86rem; color: var(--muted); list-style: none; }
-  .more-filters > summary::-webkit-details-marker { display: none; }
-  .more-filters > summary::before { content: "+ "; }
-  .more-filters[open] > summary::before { content: "− "; }
-  .more-filters[open] > summary { margin-bottom: 12px; }
-  .more-filters .fgroup + .fgroup { margin-top: 16px; }
   .check-row { display: flex; align-items: center; gap: 8px; font-size: .9rem; cursor: pointer; }
   select { padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); width: 100%; }
 
@@ -213,8 +214,6 @@
   .sort select { width: auto; color: var(--ink); border-color: transparent; background: none; padding-inline: 4px; cursor: pointer; font-weight: 500; }
   .sort select:hover { border-color: var(--line); }
 
-  .active-filters { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-  .active-filters:empty { display: none; }
   .pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 6px 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--ink); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); font-size: .85rem; cursor: pointer; }
   .pill svg { color: var(--accent); }
   .count-line { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; align-items: center; margin: 10px 2px 8px; font-size: .85rem; color: var(--muted); position: relative; }
@@ -318,11 +317,9 @@
 
   /* ---------- small screens ---------- */
   @media (max-width: 900px) {
-    .layout { grid-template-columns: minmax(0, 1fr); gap: 14px; }
     main { min-width: 0; }
-    .filters { position: static; max-height: none; overflow: visible; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 14px; }
-    .filters > summary { display: list-item; cursor: pointer; font-weight: 600; }
-    .filters[open] > summary { margin-bottom: 14px; }
+    /* On phones the open panel spans the screen width (placed by openDrop). */
+    .fpanel.sheet { position: fixed; left: 16px; right: 16px; width: auto; max-width: none; overflow: auto; }
     .cols { display: none; }
     /* One quiet line under the title instead of four columns. */
     .row-main { grid-template-columns: 14px minmax(0, 1fr) auto; column-gap: 12px; }
@@ -350,7 +347,8 @@
     .tab { padding: 12px 12px 13px; }
     .check-row { min-height: 40px; }
     .check-row input { width: 20px; height: 20px; }
-    .filters > summary, footer summary, .more-filters > summary { padding-block: 8px; }
+    footer summary { padding-block: 8px; }
+    .fbtn { min-height: 40px; }
     .linkish, .legend-btn { padding-block: 8px; }
     select, .pill-btn, .pill { min-height: 42px; }
     .lang button { min-height: 36px; padding-inline: 12px; }
@@ -479,34 +477,6 @@
   </header>
 
   <div class="layout">
-    <details class="filters" id="filters" open>
-      <summary id="filters-summary"></summary>
-      <div class="filters-body">
-        <div class="fgroup" id="foryou-group">
-          <h3 data-t="filters.foryou"></h3>
-          <div class="chips" data-filter="match"></div>
-          <div class="chips" data-filter="fit"></div>
-          <label class="check-row" id="others-row" hidden><input type="checkbox" id="show-others"> <span id="others-label"></span></label>
-        </div>
-        <div class="fgroup"><h3 data-t="filters.area"></h3><div class="chips" data-filter="area"></div></div>
-        <div class="fgroup"><h3 data-t="filters.where"></h3><div class="chips" data-filter="region"></div></div>
-        <div class="fgroup"><h3 data-t="filters.workplace"></h3><div class="chips" data-filter="workplace"></div></div>
-        <div class="fgroup"><h3 data-t="filters.when"></h3><div class="chips" data-filter="season"></div></div>
-        <div class="fgroup"><h3 data-t="filters.currency"></h3><div class="chips" data-filter="currency"></div></div>
-        <details class="more-filters" id="more-filters">
-          <summary data-t="filters.more"></summary>
-          <div class="fgroup">
-            <h3 data-t="filters.pay"></h3>
-            <label class="check-row"><input type="checkbox" id="pay-only"> <span data-t="filters.payOnly"></span></label>
-          </div>
-          <div class="fgroup">
-            <h3 data-t="filters.source"></h3>
-            <select id="source"></select>
-          </div>
-        </details>
-      </div>
-    </details>
-
     <main>
       <div class="toolbar">
         <div class="search">
@@ -518,7 +488,54 @@
           <div class="tabs" role="tablist" id="tabs"></div>
           <label class="sort"><span data-t="sort.label"></span> <select id="sort"></select></label>
         </div>
-        <div class="active-filters" id="active-filters"></div>
+        <div class="filterbar" id="filterbar">
+          <div class="fdrop" data-drop="foryou" id="foryou-group">
+            <button class="fbtn" aria-expanded="false" aria-haspopup="true"><span data-t="filters.foryou"></span><span class="fval"></span><svg class="chev" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="fpanel" hidden>
+              <div class="chips" data-filter="match"></div>
+              <div class="chips" data-filter="fit"></div>
+              <label class="check-row" id="others-row" hidden><input type="checkbox" id="show-others"> <span id="others-label"></span></label>
+            </div>
+          </div>
+          <div class="fdrop" data-drop="area">
+            <button class="fbtn" aria-expanded="false" aria-haspopup="true"><span data-t="filters.area"></span><span class="fval"></span><svg class="chev" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="fpanel" hidden>
+              <div class="chips" data-filter="area"></div>
+            </div>
+          </div>
+          <div class="fdrop" data-drop="region">
+            <button class="fbtn" aria-expanded="false" aria-haspopup="true"><span data-t="filters.where"></span><span class="fval"></span><svg class="chev" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="fpanel" hidden>
+              <div class="chips" data-filter="region"></div>
+            </div>
+          </div>
+          <div class="fdrop" data-drop="workplace">
+            <button class="fbtn" aria-expanded="false" aria-haspopup="true"><span data-t="filters.workplace"></span><span class="fval"></span><svg class="chev" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="fpanel" hidden>
+              <div class="chips" data-filter="workplace"></div>
+            </div>
+          </div>
+          <div class="fdrop" data-drop="season">
+            <button class="fbtn" aria-expanded="false" aria-haspopup="true"><span data-t="filters.when"></span><span class="fval"></span><svg class="chev" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="fpanel" hidden>
+              <div class="chips" data-filter="season"></div>
+            </div>
+          </div>
+          <div class="fdrop" data-drop="currency">
+            <button class="fbtn" aria-expanded="false" aria-haspopup="true"><span data-t="filters.currency"></span><span class="fval"></span><svg class="chev" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="fpanel" hidden>
+              <div class="chips" data-filter="currency"></div>
+            </div>
+          </div>
+          <div class="fdrop" data-drop="more" id="more-filters">
+            <button class="fbtn" aria-expanded="false" aria-haspopup="true"><span data-t="filters.more"></span><span class="fval"></span><svg class="chev" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="fpanel" hidden>
+              <label class="check-row"><input type="checkbox" id="pay-only"> <span data-t="filters.payOnly"></span></label>
+              <label class="fsel"><span data-t="filters.source"></span><select id="source"></select></label>
+            </div>
+          </div>
+          <button class="linkish" id="filters-clear" data-reset="1" data-t="filters.clear" hidden></button>
+        </div>
       </div>
       <div class="count-line">
         <span id="count"></span>
@@ -1629,7 +1646,6 @@ function buildFilters(inTab) {
   $("source").innerHTML = `<option value="">${t("filters.allSources")}</option>` + sources.map(s => `<option value="${esc(s)}">${esc(s)} (${fmtN(sourcePool.filter(i => i.source === s).length)})</option>`).join("");
   $("source").value = view.source;
   $("pay-only").checked = !!view.pay;
-  if (view.pay || view.source) $("more-filters").open = true;
 }
 const FILTER_KINDS = { match: "chip.match", fit: "chip.fit", area: "area", region: "region", workplace: "workplace", season: "season", currency: "currency" };
 function activeFilters() {
@@ -1643,11 +1659,40 @@ function activeFilters() {
   if (view.source) pills.push(["source", view.source]);
   if (view.pay) pills.push(["pay", t("pill.pay")]);
   if (view.others) pills.push(["others", t("pill.others")]);
-  $("active-filters").innerHTML = pills.length
-    ? pills.map(([key, text]) => `<button class="pill" data-clear="${key}" aria-label="${esc(t("pill.remove", text))}">${esc(text)}${ICON_X}</button>`).join("") + (pills.length > 1 ? `<button class="linkish" data-reset="1">${t("filters.clear")}</button>` : "")
-    : "";
-  $("filters-summary").textContent = pills.length ? t("filters.on", pills.length) : t("filters");
+  // Each filter button shows what is picked in it: "Área: ML +1".
+  const name = (kind, v) => kind === "season" && v === "breaks" ? t("season.breaks") : tv(kind, v);
+  const shown = {
+    foryou: view.match ? [tv("chip.match", view.match)] : view.fit ? [tv("chip.fit", view.fit)] : view.others ? [t("pill.others")] : [],
+    more: [view.pay ? t("pill.pay") : "", view.source].filter(Boolean),
+  };
+  for (const key of ["area", "region", "workplace", "season", "currency"]) shown[key] = picked(key).map(v => name(FILTER_KINDS[key], v));
+  document.querySelectorAll(".fdrop").forEach(drop => {
+    const values = shown[drop.dataset.drop] || [];
+    drop.classList.toggle("active", values.length > 0);
+    drop.querySelector(".fval").textContent = values.length ? (values.length > 1 ? `${values[0]} +${values.length - 1}` : values[0]) : "";
+  });
+  $("filters-clear").hidden = !pills.filter(([key]) => key !== "q").length;
 }
+
+// ------------------------------------------------------------------ filter dropdowns
+function openDrop(drop) {
+  document.querySelectorAll(".fdrop").forEach(d => {
+    const open = d === drop;
+    d.querySelector(".fpanel").hidden = !open;
+    d.querySelector(".fbtn").setAttribute("aria-expanded", String(open));
+  });
+  if (!drop) return;
+  // Phones: a full-width panel right under the button.
+  const panel = drop.querySelector(".fpanel");
+  const sheet = innerWidth <= 600;
+  panel.classList.toggle("sheet", sheet);
+  if (sheet) {
+    const top = drop.querySelector(".fbtn").getBoundingClientRect().bottom + 6;
+    panel.style.top = `${top}px`;
+    panel.style.maxHeight = `${innerHeight - top - 16}px`;
+  } else panel.style.top = panel.style.maxHeight = "";
+}
+const closeDrops = () => openDrop(null);
 
 function render() {
   if (!DATA) return;
@@ -1660,6 +1705,7 @@ function render() {
 
   const picksMode = view.tab === "picks";
   $("picks-panel").hidden = !picksMode;
+  $("filterbar").hidden = picksMode;
   $("sort").parentElement.hidden = picksMode;
   if (picksMode) return drawPicks();
 
@@ -1697,8 +1743,6 @@ function myPrefs() {
 function drawPicks() {
   $("more").hidden = true;
   $("others-row").hidden = true;
-  $("active-filters").innerHTML = "";
-  $("filters-summary").textContent = t("filters");
   if (!resume) {
     $("picks-panel").innerHTML = `<div class="picks-card"><h3>${esc(t("picks.title"))}</h3><p>${esc(t("picks.needResume"))}</p>
       <div><button class="btn" id="picks-resume">${esc(t("picks.resumeBtn"))}</button></div></div>`;
@@ -1799,6 +1843,9 @@ document.addEventListener("click", e => {
   if (!$("legend").hidden && !e.target.closest("#legend")) toggleLegend(false);
   if (e.target.closest("#subscribe-btn")) return toggleSubscribe($("subscribe").hidden);
   if (!$("subscribe").hidden && !e.target.closest("#subscribe")) toggleSubscribe(false);
+  const fbtn = e.target.closest(".fbtn");
+  if (fbtn) { const drop = fbtn.closest(".fdrop"); return openDrop(drop.querySelector(".fpanel").hidden ? drop : null); }
+  if (!e.target.closest(".fpanel")) closeDrops();
   const pickCount = e.target.closest("[data-pick-count]");
   if (pickCount) return setDigest({ count: Number(pickCount.dataset.pickCount) });
   const pickArea = e.target.closest("[data-pick-area]");
@@ -1858,15 +1905,12 @@ document.addEventListener("keydown", e => {
   if (e.key === "Escape") {
     if (!$("legend").hidden) return toggleLegend(false);
     if (!$("subscribe").hidden) return toggleSubscribe(false);
+    if (document.querySelector(".fbtn[aria-expanded='true']")) return closeDrops();
     if (view.open.size) { view.open.clear(); render(); }
   }
 });
 window.addEventListener("hashchange", () => { readHash(); $("search").value = view.q; rerender(); });
-// Load the next page by itself when "Show more" scrolls into view.
-if ("IntersectionObserver" in window) {
-  new IntersectionObserver(entries => { if (entries[0].isIntersecting && !$("more").hidden) $("more").click(); }, { rootMargin: "400px" }).observe($("more"));
-}
-if (window.matchMedia("(max-width: 900px)").matches) $("filters").open = false;
+// The list grows only when you click "Show more", so the bottom of the page stays reachable.
 
 // ------------------------------------------------------------------ start
 applyLanguage();
