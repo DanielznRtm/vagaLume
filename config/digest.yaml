@@ -7,7 +7,7 @@
 # the TELEGRAM_BOT_TOKEN secret). With it, the site's "Destaques de hoje" tab
 # offers "Receber no Telegram": each student gets their own highlights every
 # day (radar/telegram_bot.py). Also needs the DIGEST_KEY secret. Empty = off.
-telegram_bot: ""
+telegram_bot: "vagaLume_vagas_bot"
 
 # Public Telegram channel, e.g. "@vagalume_vagas". Create the channel, add
 # your bot (the one whose token is in the TELEGRAM_BOT_TOKEN secret) as an
