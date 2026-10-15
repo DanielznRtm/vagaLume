@@ -80,7 +80,8 @@ def student_level(title: str) -> str:
 # Checked in this order; the first match wins. Quant first because
 # "Quantitative Researcher" should be quant, not research.
 AREA_RULES: list[tuple[str, list[str]]] = [
-    ("quant", [r"quant\w*", r"trading", r"trader", r"market making", r"algorithmic trading"]),
+    # Not "quant\w*": that is also "quantidade" and "quantitativo" in Portuguese.
+    ("quant", [r"quants?", r"quantitative", r"trading", r"trader", r"market making", r"algorithmic trading"]),
     ("ML", [
         r"machine learning", r"ml", r"ai", r"a\.i\.", r"artificial intelligence", r"deep learning",
         r"llms?", r"nlp", r"natural language", r"computer vision", r"reinforcement learning",
@@ -112,12 +113,51 @@ AREA_RULES: list[tuple[str, list[str]]] = [
 ]
 
 
-def classify_area(title: str, description: str = "") -> str:
-    """Pick one area. The title decides; the description is only a fallback."""
-    for text in (title, description[:600]):
-        for area, words in AREA_RULES:
-            if _any(words, text):
+# Words that also mean something outside tech, above all in Portuguese job ads:
+# "Analista Financeiro", "Segurança do Trabalho", "Tecnologia em Radiologia",
+# "Engenharia de Produção", "desenvolvimento profissional". In a title they only
+# count when the role is not clearly for a non-tech field.
+GENERIC_AREA_WORDS = [
+    r"data", r"dados", r"analytics", r"analyst", r"analista", r"bi", r"statistic\w*", r"estat[íi]stica",
+    r"pesquisa", r"pesquisador\w*", r"scientist", r"engineer\w*", r"desenvolvimento",
+    r"security", r"seguran[çc]a", r"tecnologia", r"sistemas", r"platform", r"web", r"mobile", r"produ[çc][ãa]o",
+    r"automa[çc][ãa]o", r"automation", r"manufacturing", r"mec[âa]nic\w*", r"el[ée]tric\w*", r"ai",
+]
+# In the description (when the title says nothing), only clear signals count.
+DESCRIPTION_AREA_RULES: list[tuple[str, list[str]]] = [
+    ("quant", [r"quantitative (?:research|trading|finance|analyst|developer)", r"algorithmic trading", r"market making"]),
+    ("ML", [r"machine learning", r"deep learning", r"intelig[êe]ncia artificial", r"aprendizado de m[áa]quina",
+            r"computer vision", r"vis[ãa]o computacional", r"nlp", r"llms?", r"pytorch", r"tensorflow"]),
+    ("data", [r"data scien\w*", r"ci[êe]ncia de dados", r"cientista de dados", r"an[áa]lise de dados", r"data analy\w*",
+              r"engenharia de dados", r"data engineer\w*", r"power bi", r"business intelligence"]),
+    ("research", [r"inicia[çc][ãa]o cient[íi]fica", r"research (?:intern|assistant|project|lab)", r"pesquisa cient[íi]fica"]),
+    ("hardware", [r"sistemas embarcados", r"embedded (?:systems?|software)", r"firmware", r"fpga", r"vlsi",
+                  r"automa[çc][ãa]o industrial", r"rob[óo]tica", r"robotics", r"plc", r"clp"]),
+    ("SWE", [r"desenvolvimento de (?:software|sistemas|aplica[çc][õo]es)", r"software engineer\w*", r"desenvolvedor\w*",
+             r"programa[çc][ãa]o", r"front[- ]?end", r"back[- ]?end", r"full[- ]?stack", r"devops", r"engenharia de software"]),
+]
+TECH_FIELDS = {"engenharia", "computacao", "exatas"}
+
+
+def classify_area(title: str, description: str = "", fields: list[str] | None = None) -> str:
+    """Pick one area. The title decides; the description is only a fallback.
+
+    `fields` (radar/fields.py) keeps Portuguese ads honest: a role for law,
+    health, business... only gets a tech area when its title says so clearly.
+    """
+    non_tech = bool(fields) and not set(fields) & TECH_FIELDS
+    for area, words in AREA_RULES:
+        for word in words:
+            if _any([word], title):
+                if non_tech and word in GENERIC_AREA_WORDS:
+                    break  # "Analista Financeiro": this word doesn't make it a tech role
                 return area
+    if non_tech:
+        return "other"
+    text = description[:1500]
+    for area, words in DESCRIPTION_AREA_RULES:
+        if _any(words, text):
+            return area
     return "other"
 
 
@@ -351,7 +391,8 @@ def apply_rules(opp: Opportunity) -> Opportunity:
         opp.regions = [r for r in opp.regions if r != "remote"] or ["unknown"]
         # ...and the "(remote)" our sources add to the location says so too.
         opp.location = re.sub(r"\((?:remote|hybrid|on-site)\)$", f"({opp.workplaces[0]})", opp.location)
-    opp.area = str(preset.get("area") or classify_area(opp.title, opp.description))
+    opp.fields = find_fields(opp.title, opp.description)
+    opp.area = str(preset.get("area") or classify_area(opp.title, opp.description, opp.fields))
     # Sources can suggest an area ("area:quant") used when the rules find nothing.
     suggested = [hint.split(":", 1)[1] for hint in opp.hints if hint.startswith("area:")]
     if opp.area == "other" and suggested:
@@ -367,7 +408,6 @@ def apply_rules(opp: Opportunity) -> Opportunity:
     if not opp.pay:
         opp.pay = find_pay(opp.description)
     opp.skills = find_skills(f"{opp.title}\n{opp.description}")
-    opp.fields = find_fields(opp.title, opp.description)
     preset_levels = [level for level in LEVELS if level in (preset.get("levels") or [])]  # type: ignore[operator]
     opp.levels = preset_levels or find_levels(opp.title, opp.description)
     opp.states = brazil_states(opp.location) if "Brazil" in opp.regions else []
