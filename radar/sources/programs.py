@@ -90,6 +90,29 @@ def page_text(program: dict[str, Any]) -> str:
         raise RuntimeError(f"{reason}; the browser failed too: {browser_error}") from browser_error
 
 
+MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
+
+
+def application_months(window: str) -> list[int]:
+    """The `applications` field of programs.yaml as months, in order.
+
+    "Nov–Jan" -> [11, 12, 1]; "Feb, Aug" (two rounds) -> [2, 8]; "Mar" -> [3]; "" -> [].
+    """
+    months: list[int] = []
+    for part in re.split(r"[,;/]| and ", window.lower()):
+        ends = [MONTHS.index(m[:3]) + 1 for m in re.findall(r"[a-z]{3,}", part) if m[:3] in MONTHS]
+        if not ends:
+            continue
+        month, last = ends[0], ends[-1]
+        while True:
+            if month not in months:
+                months.append(month)
+            if month == last:
+                break
+            month = month % 12 + 1
+    return months
+
+
 def content_hash(text: str) -> str:
     normalized = re.sub(r"\s+", " ", text).strip().lower()
     return hashlib.sha256(normalized.encode("utf-8")).hexdigest()

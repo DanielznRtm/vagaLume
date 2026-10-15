@@ -145,7 +145,7 @@ def run(
     everything = db.load_all(conn)
     data = report.build(everything, health, today, labeled_by)
     digest_settings = config.get("digest") or {}
-    site.write_data(everything, health, today, labeled_by, site_dir, digest.subscribe_links(digest_settings))
+    site.write_data(everything, health, today, labeled_by, site_dir, digest.subscribe_links(digest_settings), config.get("programs"))
     digest.write_feeds(everything, today, digest_settings, site_dir)
     db.save_text(conn, text_dir)  # the committed copy of the database (see db.save_text)
     conn.close()

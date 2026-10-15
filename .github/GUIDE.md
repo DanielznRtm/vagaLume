@@ -45,7 +45,7 @@ Numbers from the run on 2026-10-09, after removing duplicates:
 | Ashby boards (49 companies) | `ashby.py` | public JSON API | 98 |
 | GitHub lists (SimplifyJobs Summer 2027, Off-Season, New Grad; vanshb03 Summer 2027) | `github_lists.py` | parses README tables (HTML and Markdown) | 3,898 |
 | Gupy (estágio, estágio de férias and trainee in Brazil) | `gupy.py` | the portal's JSON search API, filtered by job type, 100 per page | 2,665 |
-| Program pages (42 pages, 17 of them Brazilian) | `programs.py` | page-change watcher | 42 |
+| Program pages (76 pages, 23 of them Brazilian) | `programs.py` | page-change watcher | 76 |
 | Google Careers | `google.py` | reads the job data embedded in the results page | 90 |
 | Amazon Jobs | `amazon.py` | JSON endpoint behind amazon.jobs search | 431 |
 | NVIDIA (Workday) | `nvidia.py` | Workday JSON endpoint, "Intern" filter | 40 |
@@ -366,7 +366,13 @@ found. Below, the buttons: open the posting, mark as applied, save, hide, and
   are highlighted.
 - **Tabs:** All · New · Closing soon · Saved · Programs & schools, plus
   Applied and Hidden once you have marked something. Only New, Closing soon
-  and the lists you build show a count.
+  and the lists you build show a count. Searching in a narrow tab says how
+  many more matches "All" has ("mais 39 em Todas · ver").
+- **Programs & schools** starts with the programs whose applications usually
+  open soonest. A program with an `applications` window in `programs.yaml`
+  gets a tag: "Inscrições costumam estar abertas" during the window,
+  "Costuma abrir em nov" in the two months before it. Open the row to see the
+  window. It comes from past years, so the page itself has the last word.
 - **Filters** are in the left column, one folding menu per filter: click a
   title to open its chips (several can be open), and the title shows what you
   picked in it ("Área — ML +1"). On phones the column is the "Filtros" box
@@ -442,6 +448,7 @@ run `python -m radar check-config` to confirm that it returns jobs.
     area: ML              # optional; otherwise guessed from the page
     season: Jul           # optional
     regions: [Europe]     # optional
+    applications: "Jan–Mar"  # optional: when applications usually open ("Feb, Aug" for two rounds)
     notes: "deadline usually in March"
 ```
 

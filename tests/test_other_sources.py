@@ -124,3 +124,33 @@ def test_program_opportunity_uses_presets():
     assert opp.deadline == "2026-12-15"
     assert opp.note.startswith("page changed on 2026-10-05")
     assert "grad-year limit?" in opp.warnings  # "expect to graduate in 2028 or later"
+
+
+@pytest.mark.parametrize(
+    "window, months",
+    [("Nov–Jan", [11, 12, 1]), ("Feb, Aug", [2, 8]), ("Mar", [3]), ("Dec-Feb", [12, 1, 2]), ("", [])],
+)
+def test_program_application_months(window, months):
+    assert programs.application_months(window) == months
+
+
+def test_every_program_application_window_is_readable():
+    """A typo in config/programs.yaml ("Novmber") would silently drop the window."""
+    from radar.config import load_config
+
+    for program in load_config()["programs"]:
+        if program.get("applications"):
+            assert programs.application_months(program["applications"]), program["name"]
+
+
+def test_the_site_gets_the_application_months(tmp_path):
+    from radar.site import write_data
+
+    program = {"name": "CERN Summer Student Programme", "url": "https://careers.cern/x", "applications": "Nov–Jan"}
+    opp = apply_rules(programs.build_opportunity(program, "x" * 300, changed=False, last_changed="2026-10-15"))
+    conn = db.connect(tmp_path / "radar.db")
+    db.upsert(conn, opp, "2026-10-15")
+    path = write_data(db.load_all(conn), [], "2026-10-15", "rules", tmp_path, programs=[program])
+    import json
+
+    assert json.loads(path.read_text())["items"][0]["apply"] == [11, 12, 1]
