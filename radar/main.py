@@ -29,7 +29,6 @@ log = logging.getLogger("radar")
 
 DATA_DIR = ROOT / "data"
 DB_PATH = DATA_DIR / "radar.db"  # working copy, rebuilt from the text files below (not committed)
-REPORTS_DIR = ROOT / "reports"
 SITE_DIR = ROOT / "docs"  # served by GitHub Pages
 
 # name -> function(config, conn, today) -> SourceResult
@@ -100,7 +99,6 @@ def apply_status_file(conn: sqlite3.Connection, statuses: dict[str, str]) -> Non
 def run(
     only: list[str] | None = None,
     db_path: Path = DB_PATH,
-    reports_dir: Path = REPORTS_DIR,
     site_dir: Path = SITE_DIR,
     send: bool = True,
     text_dir: Path | None = None,
@@ -146,7 +144,6 @@ def run(
     # 4. Reports, website data and notifications.
     everything = db.load_all(conn)
     data = report.build(everything, health, today, labeled_by)
-    report.write_reports(data, reports_dir)
     digest_settings = config.get("digest") or {}
     site.write_data(everything, health, today, labeled_by, site_dir, digest.subscribe_links(digest_settings))
     digest.write_feeds(everything, today, digest_settings, site_dir)
@@ -213,7 +210,7 @@ def main(argv: list[str] | None = None) -> int:
         if unknown:
             parser.error(f"unknown source(s): {', '.join(sorted(unknown))}; choose from {', '.join(SOURCES)}")
     data = run(only=only, send=not options.no_notify)
-    print(f"\nDone: {data.total_open} open, {data.new_total} new. Website data in {SITE_DIR}/, report in {REPORTS_DIR}/")
+    print(f"\nDone: {data.total_open} open, {data.new_total} new. Website data in {SITE_DIR}/")
     return 0
 
 

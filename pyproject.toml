@@ -1,0 +1,36 @@
+[project]
+name = "vagalume"
+version = "1.0.21"
+description = "Every internship, research program, fellowship and summer school for students, collected once a day and sorted by how well it fits you."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.31",
+    "PyYAML>=6.0",
+    "cryptography>=42",  # encrypts the Telegram subscriber list (radar/telegram_bot.py)
+    "playwright>=1.56",  # headless browser, only for sites that need JavaScript (Meta, some program pages)
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.urls]
+Website = "https://pedrocamargolince.github.io/vagaLume/"
+Source = "https://github.com/PedroCamargoLINCE/vagaLume"
+
+# Install with `pip install .` (or `pip install ".[dev]"` to run the tests).
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["radar*"]
+
+[tool.setuptools.package-data]
+radar = ["data/*.tsv"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

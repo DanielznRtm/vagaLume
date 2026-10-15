@@ -4,7 +4,7 @@
   </a>
 </p>
 
-<p align="center"><a href="README.md"><img alt="Leia em português" src="https://img.shields.io/badge/%F0%9F%8C%90%20Leia%20em-Portugu%C3%AAs-5cc3ac?style=for-the-badge&labelColor=0f2a23"></a></p>
+<p align="center"><a href="../README.md"><img alt="Leia em português" src="https://img.shields.io/badge/%F0%9F%8C%90%20Leia%20em-Portugu%C3%AAs-5cc3ac?style=for-the-badge&labelColor=0f2a23"></a></p>
 
 <p align="center">
   <a href="https://pedrocamargolince.github.io/vagaLume/"><img alt="Open the app" src="https://img.shields.io/badge/%E2%9C%A8%20Open%20the%20app-c9e84a?style=for-the-badge&v=2"></a>
@@ -89,13 +89,13 @@ Sources table shows which ones worked.
 2. In your fork, go to **Settings → Actions → General** and choose **Read and write permissions**.
 3. Go to **Settings → Pages → Deploy from a branch → `main` / `/docs`**.
 4. Open **Actions → vagaLume → Run workflow**. A few minutes later your site is at `https://<your-username>.github.io/vagaLume/`.
-5. Make it yours: add companies to [`config/companies.yaml`](config/companies.yaml), programs to [`config/programs.yaml`](config/programs.yaml), and searches to [`config/search.yaml`](config/search.yaml).
+5. Make it yours: add companies to [`config/companies.yaml`](../config/companies.yaml), programs to [`config/programs.yaml`](../config/programs.yaml), and searches to [`config/search.yaml`](../config/search.yaml).
 
 Optional: Telegram or email digests and Claude labelling. Setting up the secrets is covered in the [guide](GUIDE.md#secrets-all-optional).
 
 ```bash
 # or run it on your computer
-pip install -r requirements.txt
+pip install .
 python -m playwright install chromium
 python -m radar          # collect everything (about 8 minutes)
 python -m http.server -d docs   # then open http://localhost:8000
@@ -125,4 +125,5 @@ easiest way to help other students find it too.
   </a>
 </p>
 
-<p align="center"><sub>Made in Brazil by a UNESP engineering student · MIT license · no LinkedIn scraping, no sites that block bots</sub></p>
+<p align="center"><sub>Made in Brazil by a UNESP engineering student · <a href="../LICENSE">Apache 2.0 license</a> · no LinkedIn scraping, no sites that block bots</sub></p>
+<p align="center"><sub>Credits: IBGE's list of municipalities via <a href="https://github.com/kelvins/municipios-brasileiros">kelvins/municipios-brasileiros</a> (MIT) · Bricolage Grotesque and Schibsted Grotesk fonts in the banner (SIL Open Font License 1.1)</sub></p>

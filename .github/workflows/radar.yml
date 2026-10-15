@@ -6,7 +6,7 @@ on:
   workflow_dispatch:       # "Run workflow" button on the Actions tab
 
 permissions:
-  contents: write          # needed to commit data/*.jsonl, reports/ and docs/data.json
+  contents: write          # needed to commit data/*.jsonl and the website data
 
 concurrency:
   group: radar             # never run two copies at once (they would both edit the database)
@@ -23,10 +23,11 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
+          cache-dependency-path: pyproject.toml
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          pip install .
           python -m playwright install --with-deps chromium  # headless browser for Meta
 
       - name: Run the radar
@@ -52,7 +53,7 @@ jobs:
           # The database is kept as text (data/*.jsonl); the binary radar.db is a
           # local working copy. The first run after the switch removes it from git.
           git rm --cached --quiet --ignore-unmatch data/radar.db
-          git add data/opportunities.jsonl data/page_hashes.jsonl reports/ docs/data.json docs/stats.json docs/feed.xml docs/feed-brasil.xml
+          git add data/opportunities.jsonl data/page_hashes.jsonl docs/data.json docs/stats.json docs/feed.xml docs/feed-brasil.xml
           if git diff --cached --quiet; then
             echo "Nothing changed."
             exit 0

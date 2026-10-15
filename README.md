@@ -1,15 +1,15 @@
 <p align="center">
   <a href="https://pedrocamargolince.github.io/vagaLume/">
-    <img src="assets/banner-pt.svg" alt="vagaLume: uma luzinha em cada vaga para estudantes" width="100%">
+    <img src=".github/assets/banner-pt.svg" alt="vagaLume: uma luzinha em cada vaga para estudantes" width="100%">
   </a>
 </p>
 
-<p align="center"><a href="README.en.md"><img alt="Read this in English" src="https://img.shields.io/badge/%F0%9F%8C%90%20Read%20in-English-5cc3ac?style=for-the-badge&labelColor=0f2a23"></a></p>
+<p align="center"><a href=".github/README.en.md"><img alt="Read this in English" src="https://img.shields.io/badge/%F0%9F%8C%90%20Read%20in-English-5cc3ac?style=for-the-badge&labelColor=0f2a23"></a></p>
 
 <p align="center">
   <a href="https://pedrocamargolince.github.io/vagaLume/"><img alt="Abrir o app" src="https://img.shields.io/badge/%E2%9C%A8%20Abrir%20o%20app-c9e84a?style=for-the-badge&v=2"></a>
   <a href="https://github.com/PedroCamargoLINCE/vagaLume"><img alt="Dar uma estrela no GitHub" src="https://img.shields.io/github/stars/PedroCamargoLINCE/vagaLume?style=for-the-badge&logo=github&label=Estrela&labelColor=0f2a23&color=0c6a5b&v=3"></a>
-  <a href="GUIDE.md"><img alt="Ler o guia (em inglês)" src="https://img.shields.io/badge/Guia%20completo-GUIDE.md-5cc3ac?style=for-the-badge&labelColor=0f2a23&v=2"></a>
+  <a href=".github/GUIDE.md"><img alt="Ler o guia (em inglês)" src="https://img.shields.io/badge/Guia%20completo-GUIDE.md-5cc3ac?style=for-the-badge&labelColor=0f2a23&v=2"></a>
   <a href="https://github.com/PedroCamargoLINCE/vagaLume/fork"><img alt="Rodar a sua cópia" src="https://img.shields.io/badge/Rode%20o%20seu-fa%C3%A7a%20um%20fork-f0b45e?style=for-the-badge&logo=github&labelColor=0f2a23&v=2"></a>
 </p>
 
@@ -28,7 +28,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/demo-pt.gif" alt="vagaLume em uso: escolha a sua área, nível e país, filtre, busque, abra uma vaga, veja as vagas de outras áreas e compare o seu currículo" width="92%">
+  <img src=".github/assets/demo-pt.gif" alt="vagaLume em uso: escolha a sua área, nível e país, filtre, busque, abra uma vaga, veja as vagas de outras áreas e compare o seu currículo" width="92%">
 </p>
 
 ---
@@ -66,7 +66,7 @@ no GitHub, a Gupy e o site de cada escola de verão, toda semana. Um *vagalume*
 
 ## Veja
 
-<img alt="A lista do vagaLume no modo escuro: filtros à esquerda; cada vaga mostra o match com o currículo, a compatibilidade, o local, a remuneração, uma tirinha dos meses e o prazo" src="assets/screenshot-dark-pt.png">
+<img alt="A lista do vagaLume no modo escuro: filtros à esquerda; cada vaga mostra o match com o currículo, a compatibilidade, o local, a remuneração, uma tirinha dos meses e o prazo" src=".github/assets/screenshot-dark-pt.png">
 
 Funciona no celular também, no modo claro e no escuro. **[Abrir →](https://pedrocamargolince.github.io/vagaLume/)**
 
@@ -84,14 +84,14 @@ precisa: países onde você já pode trabalhar deixam de gerar alerta de visto,
 vagas de recém-formado passam a valer se você se forma em até um ano, e os
 meses livres do seu calendário substituem o calendário da UNESP.
 
-<img alt="Uma vaga aberta: quais das suas habilidades ela cita (✓), quais faltam, e por que combina" src="assets/screenshot-match-pt.png">
+<img alt="Uma vaga aberta: quais das suas habilidades ela cita (✓), quais faltam, e por que combina" src=".github/assets/screenshot-match-pt.png">
 
 Tudo fica salvo só no seu navegador. O vagaLume não tem servidor e nunca vê o
 seu currículo.
 
 ## Como funciona
 
-<p align="center"><img src="assets/how-it-works-pt.png" alt="Como funciona: todo dia, numa GitHub Action, 21 fontes passam pelos rótulos (área, época, região, remuneração, habilidades, alertas) e vão para o banco de dados em texto (data/*.jsonl); dele saem o site no GitHub Pages, que também lê o seu currículo resumido pela sua IA, e o resumo diário opcional por Telegram ou e-mail" width="620"></p>
+<p align="center"><img src=".github/assets/how-it-works-pt.png" alt="Como funciona: todo dia, numa GitHub Action, 21 fontes passam pelos rótulos (área, época, região, remuneração, habilidades, alertas) e vão para o banco de dados em texto (data/*.jsonl); dele saem o site no GitHub Pages, que também lê o seu currículo resumido pela sua IA, e o resumo diário opcional por Telegram ou e-mail" width="620"></p>
 
 Uma vez por dia, uma GitHub Action roda o bot em Python, lê
 cada fonte com educação (ele se identifica e espera entre os pedidos), rotula
@@ -108,11 +108,11 @@ execução, e a tabela de fontes no site mostra quais funcionaram.
 5. Deixe do seu jeito: adicione empresas em [`config/companies.yaml`](config/companies.yaml), programas em [`config/programs.yaml`](config/programs.yaml) e buscas em [`config/search.yaml`](config/search.yaml).
 
 Opcional: resumos por Telegram ou e-mail e rótulos feitos pelo Claude. Como
-configurar os segredos está no [guia](GUIDE.md#secrets-all-optional) (em inglês).
+configurar os segredos está no [guia](.github/GUIDE.md#secrets-all-optional) (em inglês).
 
 ```bash
 # ou rode no seu computador
-pip install -r requirements.txt
+pip install .
 python -m playwright install chromium
 python -m radar          # coleta tudo (uns 8 minutos)
 python -m http.server -d docs   # depois abra http://localhost:8000
@@ -120,7 +120,7 @@ python -m http.server -d docs   # depois abra http://localhost:8000
 
 ## Saiba mais
 
-O **[guia completo](GUIDE.md)** (em inglês) explica cada fonte e os seus
+O **[guia completo](.github/GUIDE.md)** (em inglês) explica cada fonte e os seus
 limites, o que significa cada rótulo e alerta, como a remuneração e as
 habilidades são detectadas, como adicionar uma empresa ou um programa, a
 organização do código (escrito para iniciantes conseguirem ler) e os testes.
@@ -143,4 +143,5 @@ Se o vagaLume te ajudar a encontrar algo, **dê uma estrela no repositório**.
   </a>
 </p>
 
-<p align="center"><sub>Feito no Brasil por um estudante de engenharia da UNESP · licença MIT · sem raspagem do LinkedIn, sem sites que bloqueiam bots</sub></p>
+<p align="center"><sub>Feito no Brasil por um estudante de engenharia da UNESP · licença <a href="LICENSE">Apache 2.0</a> · sem raspagem do LinkedIn, sem sites que bloqueiam bots</sub></p>
+<p align="center"><sub>Créditos: lista de municípios do IBGE via <a href="https://github.com/kelvins/municipios-brasileiros">kelvins/municipios-brasileiros</a> (MIT) · fontes Bricolage Grotesque e Schibsted Grotesk no banner (SIL Open Font License 1.1)</sub></p>
