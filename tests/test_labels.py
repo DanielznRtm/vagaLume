@@ -97,6 +97,25 @@ def test_warnings_and_calendar():
     assert "clashes" in opp.calendar_note or "overlaps" in opp.calendar_note
 
 
+@pytest.mark.parametrize(
+    "location, description, us_auth",
+    [
+        # Google, Student Researcher in Europe: "work authorization" here is the local one.
+        ("Zürich, Switzerland / London, UK", "Individuals applying for this position must hold valid work authorization "
+         "or meet local immigration eligibility requirements for their specific work location.", False),
+        ("São Paulo, Brazil", "Não oferecemos visa sponsorship.", False),
+        ("New York, NY", "", True),  # a US role always gets it
+        ("Remote", "Candidates must be authorized to work without sponsorship.", True),  # remote: probably the US
+        ("", "Must be authorized to work.", True),  # place unknown
+        ("London, UK", "This role requires U.S. citizenship and security clearance.", True),  # US-only wording
+    ],
+)
+def test_us_work_authorization_warning(location, description, us_auth):
+    opp = apply_rules(Opportunity(title="Software Engineering Intern", org="X", source="test", url="https://e.com/1",
+                                  location=location, description=description))
+    assert ("US work auth?" in opp.warnings) == us_auth
+
+
 def test_unsure_roles_are_labelled_not_dropped():
     opp = apply_rules(Opportunity(title="Applied AI Rotational Program", org="X", source="t", url="https://e.com/2"))
     assert "unsure if student role" in opp.warnings

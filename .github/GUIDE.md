@@ -164,7 +164,7 @@ at the top of that file, so you can change them.
 | area | `ML`, `SWE`, `research`, `data`, `quant`, `hardware`, `other`. The title decides. When it says nothing, only clear phrases in the description count ("machine learning", "ciência de dados", "desenvolvimento de software"), not words that are everywhere in Portuguese ads ("sistemas", "tecnologia", "dados", "desenvolvimento profissional"). A role for a non-tech field (law, health, business…) only gets a tech area when its title says so clearly: "Analista Financeiro" is not `data`. |
 | season | `Dec–Feb` (Brazilian summer break), `Jul` (July break), `May–Aug` (northern summer), `year-round`, `unknown` |
 | region | `Brazil`, `LatAm`, `US/Canada`, `Europe`, `Asia/ME` (includes Oceania), `remote`, `unknown`. A posting can have several. |
-| warnings | `US work auth?`, `PhD-level?`, `grad-year limit?`, `unsure if student role`, `new-grad role (after graduation)` |
+| warnings | `US work auth?`, `PhD-level?`, `grad-year limit?`, `unsure if student role`, `new-grad role (after graduation)`. `US work auth?` is for roles in the US/Canada, wording only the US uses (US citizen, green card, security clearance, ITAR), or "work authorization"/"sponsorship" on a remote role or one whose place is unknown. A role in Europe that asks for local work authorization doesn't get it. |
 | calendar note | whether it fits UNESP's breaks or clashes with the semesters (Mar–Jul, Aug–Dec) |
 | deadline | a date when the source or the text states one, otherwise `check page` |
 | pay | when stated: the job board's own salary field (Ashby, Lever, Greenhouse, Sólides, CIEE, Super Estágios), otherwise read from the description by `radar/pay.py` (formats like `$54 — $60 USD`, `109,395.00 USD Annually`, `Bolsa auxílio: R$1.357,28/mês`). See **How pay is read** below. |
@@ -286,7 +286,10 @@ without a clear state stays visible. "Anywhere" turns this off. Profiles made
 before this question keep seeing every place.
 
 **Hidden roles come back with one click.** "Show roles outside your profile",
-next to the number of roles and in the filters, shows everything again; those
+next to the number of roles and in the filters, shows everything again. The
+note next to the number says why they're hidden ("78 hidden outside your
+profile (elsewhere)", "39 hidden (33 for another level, 6 for another field)"),
+so a search that finds few roles doesn't look like all there is. Those
 roles are marked as long shots with the reason ("For another level: PhD",
 "Outside where you'd work: DF"). The roles you saved, applied to or hid always
 show in their own tabs.
