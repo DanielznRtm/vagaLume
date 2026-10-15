@@ -40,12 +40,12 @@ Numbers from the run on 2026-10-09, after removing duplicates:
 
 | Source | Module | How | Items |
 |---|---|---|---|
-| Greenhouse boards (101 companies, incl. Hudson River Trading and AB InBev) | `greenhouse.py` | public JSON API | 810 |
-| Lever boards (13 companies) | `lever.py` | public JSON API | 107 |
-| Ashby boards (49 companies) | `ashby.py` | public JSON API | 98 |
-| GitHub lists (SimplifyJobs Summer 2027, Off-Season, New Grad; vanshb03 Summer 2027) | `github_lists.py` | parses README tables (HTML and Markdown) | 3,898 |
+| Greenhouse boards (128 companies, incl. Hudson River Trading, AB InBev, Mirakl, Trade Republic, Isar Aerospace) | `greenhouse.py` | public JSON API | 810 |
+| Lever boards (29 companies; `eu: true` for boards in Lever's EU region) | `lever.py` | public JSON API | 107 |
+| Ashby boards (62 companies, incl. Doctolib, Back Market, Enpal) | `ashby.py` | public JSON API | 98 |
+| GitHub lists (SimplifyJobs Summer 2027, Off-Season, New Grad; vanshb03 Summer 2027; Tech Internships Europe; Canadian Tech Internships 2027) | `github_lists.py` | parses README tables (HTML and Markdown) | 3,898 + ~740 Europe/Canada (Oct 15) |
 | Gupy (estágio, estágio de férias and trainee in Brazil) | `gupy.py` | the portal's JSON search API, filtered by job type, 100 per page; also "estágio"/"estagiário" titles that companies file as talent pools or regular jobs (Itaú's estágio program is one) | 3,226 (Oct 15) |
-| Program pages (76 pages, 24 of them Brazilian) | `programs.py` | page-change watcher | 76 |
+| Program pages (80 pages, 28 of them Brazilian) | `programs.py` | page-change watcher | 80 |
 | Google Careers | `google.py` | reads the job data embedded in the results page | 90 |
 | Amazon Jobs | `amazon.py` | JSON endpoint behind amazon.jobs search | 431 |
 | NVIDIA (Workday) | `nvidia.py` | Workday JSON endpoint, "Intern" filter | 40 |
@@ -59,8 +59,9 @@ Numbers from the run on 2026-10-09, after removing duplicates:
 | **Brazil:** IEL (estágio from the industry federations, last 60 days) | `iel.py` | public Liferay API | 826 |
 | **Brazil:** Cia de Talentos (open estágio and trainee programs) | `ciadetalentos.py` | the public request the vacancy site makes before login | 10 |
 | **Brazil:** FAPESP Oportunidades (IC, master's and doctoral grants) | `fapesp.py` | parses the static list page | 28 |
-| **Brazil:** SmartRecruiters (Bosch, Syngenta, Louis Dreyfus, Aumovio, Continental, Serasa) | `smartrecruiters.py` | public API, Brazil only | 92 |
-| **Brazil:** Workday (Santander, P&G, Citi, Mondelēz, Accenture, GE Vernova, Toyota and 19 more) | `workday.py` | Workday JSON endpoint with the Brazil and intern/apprentice filters; sites with only a city filter are searched in their Brazilian cities | 70 + ~40 (Oct 15) |
+| SmartRecruiters (Bosch, Aumovio and Continental worldwide; Syngenta, Louis Dreyfus, Serasa in Brazil; Delivery Hero, Ubisoft, AUTO1, Eurofins, SGS, SIXT, CERN… abroad) | `smartrecruiters.py` | public API; `country` per company ("" = every country) | 92 in Brazil + abroad |
+| Workday abroad (`workday_global`: Airbus, Thales, PwC campus, Visa, TRUMPF, Sanofi, ABB, GE Vernova, ZEISS, NXP and 31 more) | `workday.py` | only the student job types (intern, working student, apprentice, thesis), country by country, 8 sites at a time | ~730 at Airbus alone (Oct 15) |
+| **Brazil:** Workday (Santander, P&G, Citi, Mondelēz, Accenture, GE HealthCare, Toyota and 16 more) | `workday.py` | Workday JSON endpoint with the Brazil and intern/apprentice filters; sites with only a city filter are searched in their Brazilian cities | 70 + ~40 (Oct 15) |
 | **Brazil:** Eureca (estágio programs of Aché, Serasa Experian, AkzoNobel, Motiva, Ardagh…) | `eureca.py` | the public JSON request its job site makes | 74 (Oct 15) |
 | **Brazil:** Abler (Vale's estágio board) | `abler.py` | public JSON route of each company board | 47 (Oct 15) |
 | **Brazil:** Oracle Recruiting Cloud (ArcelorMittal, PicPay) | `oracle_hcm.py` | public career-site search API | 17 (Oct 15) |
@@ -438,7 +439,13 @@ changes `new` to `seen` on the next run. Locally you can also run
 |---|---|---|
 | `boards.greenhouse.io/anthropic/...` or `job-boards.greenhouse.io/anthropic/...` | `greenhouse:` | `anthropic` |
 | `jobs.lever.co/palantir/...` | `lever:` | `palantir` |
+| `jobs.eu.lever.co/quantinuum/...` | `lever:` with `eu: true` | `quantinuum` |
 | `jobs.ashbyhq.com/openai/...` | `ashby:` | `openai` |
+| `jobs.smartrecruiters.com/BoschGroup/...` | `smartrecruiters:` (`id`, and `country: ""` for every country) | `BoschGroup` |
+| `ag.wd3.myworkdayjobs.com/en-US/Airbus/...` | `workday_global:` (every country) or `workday_brazil:` | tenant `ag`, wd `3`, site `Airbus` |
+| `estagionavale.abler.com.br` | `abler:` | `estagionavale` |
+| `<host>.oraclecloud.com/hcmUI/CandidateExperience/en/sites/<site>` | `oracle_hcm:` | host and site |
+| a SuccessFactors or Avature career site with an RSS feed | `rss_feeds:` | the feed address |
 
 Then add `- {slug: anthropic, name: Anthropic}` to `config/companies.yaml` and
 run `python -m radar check-config` to confirm that it returns jobs.
@@ -464,7 +471,11 @@ be opened in the headless browser instead.
 Google/Amazon queries:** edit `config/search.yaml`. **Brazilian employers on
 SmartRecruiters or Workday:** add them to `smartrecruiters` or `workday_brazil`
 in `config/companies.yaml` (the comments there explain how to read the id from
-a careers-site address).
+a careers-site address). **Employers with many internships abroad on
+Workday** go in `workday_global`: only their student job types are read, in
+every country. For Workday, the tenant and site are in the address the career
+site calls, `https://<tenant>.wd<N>.myworkdayjobs.com/wday/cxs/<tenant>/<site>/jobs`
+(open the browser's network tab on the career site to see it).
 
 ---
 
