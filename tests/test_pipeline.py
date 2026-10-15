@@ -57,10 +57,6 @@ def test_report_sections_and_website_data(tmp_path):
     assert [o.title for o in data.new] == ["Fresh Intern"]
     assert [o.title for o in data.rest] == ["Old Intern"]
 
-    report.write_reports(data, tmp_path)
-    markdown = (tmp_path / "latest.md").read_text()
-    assert markdown.index("Deadlines in the next") < markdown.index("New this run") < markdown.index("Everything else")
-
     path = site.write_data(everything, health, "2026-10-05", "keyword rules", tmp_path)
     payload = json.loads(path.read_text())
     assert payload["updated"] == "2026-10-05"
@@ -122,25 +118,12 @@ def test_one_failing_source_does_not_break_the_run(tmp_path, monkeypatch):
 
     monkeypatch.setattr(main, "SOURCES", {"broken": broken, "working": working, "partial": partial})
     monkeypatch.setattr(main, "load_config", lambda: {"status": {}})
-    data = main.run(db_path=tmp_path / "radar.db", reports_dir=tmp_path, site_dir=tmp_path, send=False)
+    data = main.run(db_path=tmp_path / "radar.db", site_dir=tmp_path, send=False)
     statuses = {h.name: h.status for h in data.health}
     assert statuses == {"broken": "failed", "working": "ok", "partial": "partial"}
     assert data.total_open == 2
-    assert "site is down" in (tmp_path / "latest.md").read_text()
+    assert "site is down" in next(h for h in data.health if h.name == "broken").errors[0]
     assert len(json.loads((tmp_path / "data.json").read_text())["items"]) == 2
-
-
-def test_report_stays_short_with_many_roles():
-    conn = db.connect(":memory:")
-    for n in range(400):
-        db.upsert(conn, make(title=f"Intern {n}", url=f"https://e.com/{n}"), "2026-09-01")
-    for n in range(200):
-        db.upsert(conn, make(title=f"New Intern {n}", url=f"https://e.com/new{n}"), "2026-10-05")
-    data = report.build(db.load_all(conn), [], "2026-10-05", "keyword rules")
-    markdown = report.render_markdown(data)
-    assert "… and 140 more on the [website]" in markdown  # 200 new roles in one area, 60 listed
-    assert "Intern 399" not in markdown  # "everything else" is a table of counts
-    assert "| other | 400 | 400 |" in markdown  # area, region (unknown) and total
 
 
 def test_database_round_trips_through_text(tmp_path):

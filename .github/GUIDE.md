@@ -2,7 +2,7 @@
 
 This is the detailed manual: how every source works, what each label means,
 how to add companies and programs, and how to run your own copy. For the short
-tour, see the [README](README.md) (in Portuguese; [English version](README.en.md)). The website is at
+tour, see the [README](../README.md) (in Portuguese; [English version](README.en.md)). The website is at
 **https://pedrocamargolince.github.io/vagaLume/**.
 
 vagaLume is a small Python bot that runs every day on GitHub Actions and collects **student
@@ -21,9 +21,8 @@ Every day it updates:
 - **The website** (`docs/`, served by GitHub Pages): one plain page with a
   search box, tabs (All, New, Closing in 14 days, Programs & schools, Applied,
   Hidden), a few filters and a table. See [The website](#the-website).
-- `reports/latest.md`: the same list as a Markdown file you can read on
-  GitHub. Order: deadlines in the next 14 days, then new items, then watched
-  program pages, then everything else that is open, grouped by category.
+- `docs/feed-brasil.xml` and `docs/feed.xml`: the new roles of the day as
+  feeds, and the Telegram highlights (see below).
 - `data/opportunities.jsonl` and `data/page_hashes.jsonl`: the database as
   text, one posting per line, with every posting ever seen and your status for
   each one. Each run rebuilds a working SQLite file (`data/radar.db`, not
@@ -421,7 +420,7 @@ a careers-site address).
    default branch (`main`).
 2. **Allow the workflow to push.** Go to *Settings → Actions → General →
    Workflow permissions* and pick **Read and write permissions**. The workflow
-   commits `data/*.jsonl`, `reports/` and the website data.
+   commits `data/*.jsonl` and the website data.
 3. **Turn on the website:** *Settings → Pages → Deploy from a branch → main,
    /docs*.
 4. It runs **once a day**. The schedule asks for 09:00 Brasília (12:00 UTC),
@@ -510,7 +509,7 @@ e-mail form is set.
 ```bash
 python3.12 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements-dev.txt
+pip install ".[dev]"
 python -m playwright install chromium   # headless browser, only needed for Meta
 
 python -m radar                      # full run (about 8 minutes)
@@ -535,21 +534,22 @@ radar/
   skills.py        finds the skills a posting mentions (for the résumé match)
   llm.py           optional Claude labelling (only with ANTHROPIC_API_KEY)
   db.py            SQLite storage, dedupe by id (hash of the URL)
-  report.py        writes reports/latest.md
+  report.py        the run's summary for the private digest
   site.py          writes docs/data.json (website) and docs/stats.json (README badges)
   notify.py        optional Telegram / email digest
   textutil.py      HTML to text, date parsing, deadline finding
   sources/         one module per source; each has a pure parse() function
 docs/              the website: index.html (fixed) + data.json and stats.json (updated daily)
-assets/            banner, demo GIF and screenshots used by the README
-config/            companies.yaml, programs.yaml, search.yaml, status.yaml
+config/            companies.yaml, programs.yaml, search.yaml, status.yaml, digest.yaml
 tests/             pytest tests; tests/fixtures holds saved real responses
+.github/           the workflows, this guide, the English README and the README images
+pyproject.toml     dependencies (`pip install .`) and test settings
 ```
 
 A run does four things, in this order: **collect** from each source (failures
 are caught per source), **label** with rules (plus Claude if a key is set),
 **store** in SQLite (dedupe by URL hash, keep your status), and **publish**
-(website data, Markdown report, notifications).
+(website data, feeds, notifications).
 
 ## Notes
 
@@ -558,7 +558,7 @@ are caught per source), **label** with rules (plus Claude if a key is set),
   once (longer pauses after a 429), and does not get around bot protection.
   A full run makes about 380 requests and opens 2 pages in the browser.
 - **Repository size.** The database (`data/*.jsonl`, about 7 MB of text for
-  17,000 roles), `docs/data.json` and `reports/latest.md` are committed every
+  17,000 roles) and `docs/data.json` are committed every
   day: the database is the bot's memory (first-seen dates, your statuses, page
   hashes) and the JSON is the website, so they stay in git on purpose. To keep
   the daily growth small:

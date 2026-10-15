@@ -39,7 +39,7 @@ def summary_text(data: ReportData) -> str:
         lines.append("\nNew:")
         lines += [f"- [{o.area}] {o.title} ({o.org}) {o.url}" for o in data.new[:MAX_LINES]]
         if len(data.new) > MAX_LINES:
-            lines.append(f"... and {len(data.new) - MAX_LINES} more in the report.")
+            lines.append(f"... and {len(data.new) - MAX_LINES} more on the website.")
     if os.environ.get(REPORT_URL_ENV):
         lines.append(f"\nFull report: {os.environ[REPORT_URL_ENV]}")
     return "\n".join(lines)
