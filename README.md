@@ -74,10 +74,9 @@ Funciona no celular também, no modo claro e no escuro. **[Abrir →](https://pe
 
 As melhores vagas novas do dia para você, pelo seu perfil, pelas áreas que você
 marcar (de ML a Tributário, Enfermagem ou Finanças) e, se você comparar o seu
-currículo, pelo que você sabe. Dá para receber os mesmos destaques todo dia no
-Telegram, ou as vagas da sua área por e-mail.
+currículo, pelo que você sabe.
 
-<img alt="Destaques de hoje: escolha quantas vagas e quais áreas (Direito: Tributário, Trabalhista…; Negócios: Finanças, Contabilidade…; Tecnologia…) e receba no Telegram" src=".github/assets/screenshot-picks-v2-pt.png">
+<img alt="Destaques de hoje: escolha quantas vagas e quais áreas (Direito: Tributário, Trabalhista…; Negócios: Finanças, Contabilidade…; Tecnologia…)" src=".github/assets/screenshot-picks-v2-pt.png">
 
 ## Comparar com o seu currículo
 

@@ -87,20 +87,6 @@ def test_the_code_round_trips():
     assert decode_prefs(code, SKILL_NAMES) == canonical(prefs)
 
 
-def test_the_code_with_sub_areas_still_fits_telegram_and_old_links_still_work():
-    every = Prefs(count=10, levels=list(picks.LEVELS), fields=list(picks.FIELDS), home="SP", work=list(picks.WORK),
-                  areas=list(picks.AREAS), subs=list(picks.SUBS), skills=list(SKILL_NAMES))
-    code = encode_prefs(every, SKILL_NAMES)
-    assert len(code) <= 64 and decode_prefs(code, SKILL_NAMES) == canonical(every)
-    old = "AQEBAwAZAQAAAAAAAAAAAAAAAAAAAAAA"  # version 1 (before sub-areas): undergrad, Engenharia + Computação, SP, state, 5 a day
-    assert decode_prefs(old, SKILL_NAMES).fields == ["engenharia", "computacao"] and decode_prefs(old, SKILL_NAMES).subs == []
-
-
-@pytest.mark.skipif(not shutil.which("node"), reason="needs Node.js")
-def test_the_site_lists_the_sub_areas_in_the_same_order():
-    assert run_js("process.stdout.write(JSON.stringify(PICK.subs))", {}) == picks.SUBS
-
-
 @pytest.mark.parametrize("code", ["", "hello", "AAAA", "x" * 64])
 def test_bad_codes_are_refused(code):
     with pytest.raises(ValueError):
@@ -111,7 +97,7 @@ def canonical(prefs: Prefs) -> Prefs:
     """The same preferences with every list in the code's order (decoding returns them that way)."""
     order = lambda names, universe: [n for n in universe if n in names]  # noqa: E731
     return Prefs(prefs.count, order(prefs.levels, picks.LEVELS), order(prefs.fields, picks.FIELDS), prefs.home,
-                 order(prefs.work, picks.WORK), order(prefs.areas, picks.AREAS), order(prefs.subs, picks.SUBS),
+                 order(prefs.work, picks.WORK), order(prefs.areas, picks.AREAS), [],  # sub-areas stay on the site
                  order(prefs.skills, SKILL_NAMES), prefs.lang)
 
 

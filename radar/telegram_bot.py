@@ -25,7 +25,6 @@ from __future__ import annotations
 import json
 import logging
 import os
-import re
 import sys
 import time
 from datetime import date
@@ -66,15 +65,6 @@ NAMES = {
         "hardware": "Hardware", "other": "Other",
     },
 }
-
-
-def sub_names(lang: str) -> dict[str, str]:
-    """Sub-area names ("tributario" -> "Tributário"), read from the site's strings ("sub.<key>": [en, pt])."""
-    page = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
-    pairs = re.findall(r'"sub\.(\w+)": \["([^"]*)", "([^"]*)"\]', page)
-    return {key: (en if lang == "en" else pt) for key, en, pt in pairs}
-
-
 TEXT = {
     "pt": {
         "welcome": "✅ Pronto! Todo dia você vai receber até {count} vagas novas escolhidas para você.\n\n{summary}\n\n"
@@ -88,7 +78,6 @@ TEXT = {
         "bad": "Esse link não funcionou. Gere um novo em Destaques de hoje no site:\n{site}",
         "daily": "<b>Seus destaques de hoje · {day}</b>",
         "deadline": "prazo {day}",
-        "pay_text": "* valor lido do texto da vaga: confira na página.",
         "footer": "Todas as vagas: {site}\n/parar para cancelar",
         "months": ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"],
     },
@@ -103,7 +92,6 @@ TEXT = {
         "bad": "That link didn't work. Make a new one in Today's highlights on the site:\n{site}",
         "daily": "<b>Your highlights today · {day}</b>",
         "deadline": "deadline {day}",
-        "pay_text": "* pay read from the posting's text: check it on the page.",
         "footer": "Every role: {site}\n/stop to unsubscribe",
         "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     },
@@ -151,12 +139,12 @@ def send(chat_id: str, text: str, html: bool = False) -> None:
 
 def describe(prefs: Prefs) -> str:
     """The summary in the welcome message."""
-    words, names, subs = TEXT[prefs.lang], NAMES[prefs.lang], sub_names(prefs.lang)
+    words, names = TEXT[prefs.lang], NAMES[prefs.lang]
     join = lambda items: ", ".join(names.get(i, i) for i in items) or "-"  # noqa: E731
     where = [words["my_state"].format(uf=prefs.home) if w == "state" else names.get(w, w) for w in prefs.work]
     return words["summary"].format(
         levels=join(prefs.levels), fields=join(prefs.fields), where=", ".join(where),
-        areas=", ".join([names.get(a, a) for a in prefs.areas] + [subs.get(k, k) for k in prefs.subs]) or words["all_areas"],
+        areas=join(prefs.areas) if prefs.areas else words["all_areas"],
         skills=words["skills"].format(n=len(prefs.skills)) if prefs.skills else words["no_skills"],
     )
 
@@ -225,14 +213,12 @@ def daily_text(picks: list[dict[str, Any]], prefs: Prefs, today: str) -> str:
     for n, item in enumerate(picks, 1):
         place = item["location"].split(" / ")[0].replace(", Brazil", "")
         details = [escape(item["org"]), escape(place)]
-        if item.get("pay"):  # "*": read from the description, check it on the page (as on the site)
-            details.append(escape(item["pay"]) + ("*" if item.get("pay_text") else ""))
+        if item.get("pay"):
+            details.append(escape(item["pay"]))
         if item.get("deadline"):
             details.append(words["deadline"].format(day=_day(item["deadline"], words)))
         lines.append(f'{n}. <a href="{escape(item["url"], quote=True)}">{escape(item["title"])}</a>')
         lines.append("   " + " · ".join(details))
-    if any(item.get("pay") and item.get("pay_text") for item in picks):
-        lines += ["", words["pay_text"]]
     lines += ["", words["footer"].format(site=SITE_URL + "#tab=picks")]
     return "\n".join(lines)
 

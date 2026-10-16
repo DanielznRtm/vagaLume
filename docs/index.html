@@ -685,9 +685,6 @@ const STRINGS = {
     "Um resumo curto por dia: vagas novas no Brasil e remotas primeiro, destaques no exterior e o que fecha em breve. O vagaLume não guarda seu nome nem seu e-mail."],
   "sub.telegram": ["Join the Telegram channel", "Entrar no canal do Telegram"],
   "sub.email": ["Get it by e-mail", "Receber por e-mail"],
-  "sub.emailField": [f => `${f} roles by e-mail`, f => `Vagas de ${f} por e-mail`],
-  "sub.emailNote": ["Opens a free service that sends feeds by e-mail, with the feed filled in: you leave your e-mail there, not with vagaLume.",
-    "Abre um serviço gratuito que manda feeds por e-mail, com o feed já preenchido: você deixa o seu e-mail lá, não no vagaLume."],
   "sub.feeds": ["Or follow a feed in any RSS reader:", "Ou siga um feed em qualquer leitor de RSS:"],
   "sub.feedAll": ["all new roles", "todas as vagas novas"], "sub.feedBr": ["Brazil and remote", "Brasil e remotas"],
 
@@ -1027,13 +1024,6 @@ const PICK = {
   ufs: ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"],
   work: ["state", "Brazil", "LatAm", "US/Canada", "Europe", "Asia/ME", "any"],
   areas: ["ML", "research", "SWE", "data", "quant", "hardware", "other"],
-  // Sub-areas, in the order of radar/subareas.py (new ones go at its end).
-  subs: ["tributario", "trabalhista", "contencioso", "societario", "contratos", "regulatorio", "penal", "consumidor", "enfermagem", "medicina",
-    "farmacia", "nutricao", "psicologia", "fisioterapia", "odontologia", "veterinaria", "analises", "esporte", "financas", "contabil", "rh",
-    "comercial", "logistica", "consultoria", "operacoes", "produto", "mecanica", "eletrica", "civil", "producao", "quimica_eng", "qualidade",
-    "manutencao", "seguranca_trabalho", "minas", "aeroespacial", "infra", "seguranca_info", "ux", "marketing", "design", "jornalismo", "publicidade",
-    "audiovisual", "rp", "agronomia", "biologia", "ambiental", "alimentos", "educacao", "letras", "social", "relacoes_internacionais",
-    "gestao_publica", "historia", "arquitetura", "urbanismo", "interiores", "estatistica", "matematica", "fisica", "quimica"],
   counts: [3, 5, 10],
 };
 // prefs: {count, levels, fields, home, work, areas, subs, skills, lang}
@@ -1092,11 +1082,8 @@ function pickToday(items, prefs, todayIso) {
 function encodePrefs(prefs, skillNames) {
   const bits = (names, universe) => universe.reduce((n, name, i) => names.includes(name) ? n | (1 << i) : n, 0);
   const fieldBits = bits(prefs.fields, PICK.fields);
-  const bytes = [2, Math.max(0, PICK.counts.indexOf(prefs.count)), bits(prefs.levels, PICK.levels) | (prefs.lang === "en" ? 128 : 0),
+  const bytes = [1, Math.max(0, PICK.counts.indexOf(prefs.count)), bits(prefs.levels, PICK.levels) | (prefs.lang === "en" ? 128 : 0),
     fieldBits & 255, fieldBits >> 8, PICK.ufs.indexOf(prefs.home) + 1, bits(prefs.work, PICK.work), bits(prefs.areas, PICK.areas)];
-  const subBytes = [];  // as many bytes as the last picked sub-area needs (none when none is picked)
-  PICK.subs.forEach((name, i) => { if ((prefs.subs || []).includes(name)) { while (subBytes.length <= i >> 3) subBytes.push(0); subBytes[i >> 3] |= 1 << (i & 7); } });
-  bytes.push(subBytes.length, ...subBytes);
   const mine = new Set(prefs.skills.map(s => s.toLowerCase()));
   const skillBytes = new Array(Math.max(1, Math.ceil(skillNames.length / 8))).fill(0);
   skillNames.forEach((name, i) => { if (mine.has(name.toLowerCase())) skillBytes[i >> 3] |= 1 << (i & 7); });
@@ -2086,19 +2073,10 @@ function drawLegend() {
 function drawSubscribe() {
   const links = DATA?.subscribe || { feed: "feed.xml", feedBrasil: "feed-brasil.xml" };
   const button = (href, text) => `<a class="btn" href="${esc(href)}" target="_blank" rel="noopener">${text}</a>`;
-  // E-mail: a sign-up page, or an RSS-to-email service opened with the feed of your field (or Brazil's).
-  const fields = (profile?.fields || []).filter(f => f !== "outra" && FIELDS.includes(f));
-  const absolute = path => new URL(path, location.href).href;
-  const emailFor = path => links.email || (links.emailService ? links.emailService.replace("{feed}", encodeURIComponent(absolute(path))) : "");
-  const emails = links.email || !links.emailService ? (links.email ? [[links.email, t("sub.email")]] : [])
-    : fields.length ? fields.map(f => [emailFor(`feeds/${f}.xml`), t("sub.emailField", t(`field.short.${f}`))])
-    : [[emailFor(links.feedBrasil || "feed-brasil.xml"), t("sub.email")]];
-  const fieldFeeds = fields.map(f => ` · <a href="feeds/${f}.xml">${esc(t(`field.short.${f}`))}</a>`).join("");
   $("subscribe").innerHTML = `<h3>${t("sub.title")}</h3><p>${t("sub.lead")}</p>
     ${links.bot ? `<div class="options"><button class="btn" data-go-picks="1">✈️ ${t("sub.bot")}</button></div>` : ""}
-    ${links.telegram || emails.length ? `<div class="options">${links.telegram ? button(links.telegram, "✈️ " + t("sub.telegram")) : ""}${emails.map(([href, text]) => button(href, "✉️ " + esc(text))).join("")}</div>` : ""}
-    ${emails.length && !links.email ? `<p class="fineprint">${t("sub.emailNote")}</p>` : ""}
-    <div class="feeds">${t("sub.feeds")} <a href="${esc(links.feedBrasil || "feed-brasil.xml")}">${t("sub.feedBr")}</a>${fieldFeeds} · <a href="${esc(links.feed || "feed.xml")}">${t("sub.feedAll")}</a></div>`;
+    ${links.telegram || links.email ? `<div class="options">${links.telegram ? button(links.telegram, "✈️ " + t("sub.telegram")) : ""}${links.email ? button(links.email, "✉️ " + t("sub.email")) : ""}</div>` : ""}
+    <div class="feeds">${t("sub.feeds")} <a href="${esc(links.feedBrasil || "feed-brasil.xml")}">${t("sub.feedBr")}</a> · <a href="${esc(links.feed || "feed.xml")}">${t("sub.feedAll")}</a></div>`;
 }
 function toggleSubscribe(show) {
   if (show) drawSubscribe();

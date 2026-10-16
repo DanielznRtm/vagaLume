@@ -1,10 +1,8 @@
 """The public daily digest: a Telegram channel post and Atom feeds.
 
 Students subscribe without giving vagaLume anything: they join a Telegram
-channel, or follow docs/feed.xml / docs/feed-brasil.xml, or the feed of
-their field of study (docs/feeds/direito.xml...), in a feed reader or an
-RSS-to-email service (the site's "Receber por e-mail" opens one with the
-feed filled in). vagaLume never stores names or addresses.
+channel, or follow docs/feed.xml / docs/feed-brasil.xml in a feed reader or
+an RSS-to-email service. vagaLume never stores names or addresses.
 
 Settings live in config/digest.yaml. The channel post needs the secret
 TELEGRAM_BOT_TOKEN, and the bot must be an admin of the channel.
@@ -27,16 +25,6 @@ from .models import strip_tracking
 
 log = logging.getLogger(__name__)
 
-# Fields of study with a feed of their own (radar/fields.py), as the feed titles name them.
-FIELD_NAMES = {
-    "pt": {"engenharia": "Engenharia", "computacao": "Computação", "exatas": "Exatas", "negocios": "Negócios",
-           "direito": "Direito", "saude": "Saúde", "biologicas": "Biológicas", "comunicacao": "Comunicação",
-           "humanas": "Humanas", "arquitetura": "Arquitetura"},
-    "en": {"engenharia": "Engineering", "computacao": "Computing", "exatas": "Math/Physics", "negocios": "Business",
-           "direito": "Law", "saude": "Health", "biologicas": "Biology", "comunicacao": "Communication",
-           "humanas": "Humanities", "arquitetura": "Architecture"},
-}
-
 SITE_URL = "https://pedrocamargolince.github.io/vagaLume/"
 TELEGRAM_LIMIT = 4096
 FEED_DAYS = 3  # a feed keeps the roles found in the last few days
@@ -57,7 +45,6 @@ TEXT = {
         "months": ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"],
         "feed_title": "vagaLume: vagas novas para estudantes",
         "feed_title_br": "vagaLume: vagas novas no Brasil e remotas",
-        "feed_title_field": "vagaLume: {field}, vagas novas no Brasil e remotas",
         "deadline": "prazo",
     },
     "en": {
@@ -71,7 +58,6 @@ TEXT = {
         "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         "feed_title": "vagaLume: new student opportunities",
         "feed_title_br": "vagaLume: new roles in Brazil and remote",
-        "feed_title_field": "vagaLume: {field}, new roles in Brazil and remote",
         "deadline": "deadline",
     },
 }
@@ -270,8 +256,7 @@ def _sample(items: list[StoredOpportunity], limit: int) -> list[StoredOpportunit
 
 
 def write_feeds(opportunities: list[StoredOpportunity], today_iso: str, settings: dict[str, Any], out_dir: str | Path) -> list[Path]:
-    """docs/feed.xml (everything new), docs/feed-brasil.xml (Brazil and remote) and
-    docs/feeds/<field>.xml (Brazil and remote, for one field of study)."""
+    """docs/feed.xml (everything new) and docs/feed-brasil.xml (Brazil and remote)."""
     words = _text(settings)
     since = (date.fromisoformat(today_iso) - timedelta(days=FEED_DAYS - 1)).isoformat()
     recent = sorted(
@@ -282,13 +267,10 @@ def write_feeds(opportunities: list[StoredOpportunity], today_iso: str, settings
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     paths = []
-    home = [o for o in recent if _is_home(o)]
-    lang = settings.get("language") or "pt"
-    feeds = [("feed.xml", words["feed_title"], recent), ("feed-brasil.xml", words["feed_title_br"], home)]
-    feeds += [(f"feeds/{f}.xml", words["feed_title_field"].format(field=FIELD_NAMES[lang][f]), [o for o in home if f in o.fields])
-              for f in FIELD_NAMES[lang]]
-    (out / "feeds").mkdir(exist_ok=True)
-    for name, title, items in feeds:
+    for name, title, items in (
+        ("feed.xml", words["feed_title"], recent),
+        ("feed-brasil.xml", words["feed_title_br"], [o for o in recent if _is_home(o)]),
+    ):
         path = out / name
         path.write_text(feed_xml(_sample(items, FEED_MAX), title, SITE_URL + name, today_iso, words), encoding="utf-8")
         paths.append(path)
@@ -303,8 +285,6 @@ def subscribe_links(settings: dict[str, Any]) -> dict[str, str]:
         "bot": f"https://t.me/{bot}" if bot else "",
         "telegram": f"https://t.me/{channel.lstrip('@')}" if channel.startswith("@") else "",
         "email": str(settings.get("email_signup_url") or ""),
-        # An RSS-to-email service's page, with {feed} where the feed's address goes.
-        "emailService": str(settings.get("email_service") or ""),
         "feed": "feed.xml",
         "feedBrasil": "feed-brasil.xml",
     }

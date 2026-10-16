@@ -77,10 +77,9 @@ Works on phones too, in light and dark mode. **[Open it →](https://pedrocamarg
 
 The best new roles of the day for you: by your profile, the areas you pick (from
 ML to Tax law, Nursing or Finance) and, once you match your résumé, by what you
-know. Get the same highlights every day on Telegram, or your field's new roles by
-e-mail.
+know.
 
-<img alt="Today's highlights: pick how many roles and which areas (Law: Tax, Labor…; Business: Finance, Accounting…; Technology…) and get them on Telegram" src="assets/screenshot-picks-v2.png">
+<img alt="Today's highlights: pick how many roles and which areas (Law: Tax, Labor…; Business: Finance, Accounting…; Technology…)" src="assets/screenshot-picks-v2.png">
 
 ## How it works
 

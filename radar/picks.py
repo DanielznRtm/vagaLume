@@ -39,8 +39,6 @@ from dataclasses import dataclass, field
 from datetime import date
 from typing import Any
 
-from .subareas import SUBAREAS
-
 LEVELS = ["undergrad", "masters", "phd"]
 FIELDS = ["engenharia", "computacao", "exatas", "negocios", "direito", "saude", "biologicas", "comunicacao",
           "humanas", "arquitetura", "outra"]
@@ -48,7 +46,6 @@ UFS = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "
        "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"]
 WORK = ["state", "Brazil", "LatAm", "US/Canada", "Europe", "Asia/ME", "any"]
 AREAS = ["ML", "research", "SWE", "data", "quant", "hardware", "other"]
-SUBS = list(SUBAREAS)  # the same as PICK.subs in docs/index.html: new sub-areas go at the end of SUBAREAS
 COUNTS = [3, 5, 10]
 
 # Same as FIELD_RELATED in docs/index.html.
@@ -67,7 +64,7 @@ FIELD_RELATED = {
 # Programming languages usually come as alternatives ("Java, Python or Go"): knowing one counts as one hit.
 LANGUAGES = {"Python", "C++", "C", "C#", "Java", "JavaScript", "TypeScript", "Go", "Rust", "Kotlin", "Swift", "Scala",
              "OCaml", "Haskell", "R", "MATLAB"}
-CODE_VERSION = 2  # 2 added the sub-areas; codes from version 1 are still read
+CODE_VERSION = 1
 NEW_GRAD = "new-grad role (after graduation)"  # warnings from radar/labels.py
 US_AUTH = "US work auth?"
 
@@ -80,7 +77,7 @@ class Prefs:
     home: str = ""  # a UF, or ""
     work: list[str] = field(default_factory=lambda: ["any"])
     areas: list[str] = field(default_factory=list)  # tech areas; with `subs` empty too = every area
-    subs: list[str] = field(default_factory=list)  # sub-areas (radar/subareas.py)
+    subs: list[str] = field(default_factory=list)  # sub-areas (radar/subareas.py); the site only, not in the code
     skills: list[str] = field(default_factory=list)  # names from radar/skills.py
     lang: str = "pt"
 
@@ -105,8 +102,6 @@ def encode_prefs(prefs: Prefs, skill_names: list[str]) -> str:
     """The short code for a Telegram link (the site does the same in JavaScript)."""
     skills = _bits(prefs.skills, skill_names)
     skill_bytes = skills.to_bytes(max(1, math.ceil(len(skill_names) / 8)), "little")
-    subs = _bits(prefs.subs, SUBS)
-    sub_bytes = subs.to_bytes(math.ceil(subs.bit_length() / 8), "little")  # nothing when no sub-area is picked
     raw = bytes([
         CODE_VERSION,
         COUNTS.index(prefs.count) if prefs.count in COUNTS else 1,
@@ -115,8 +110,7 @@ def encode_prefs(prefs: Prefs, skill_names: list[str]) -> str:
         UFS.index(prefs.home) + 1 if prefs.home in UFS else 0,
         _bits(prefs.work, WORK),
         _bits(prefs.areas, AREAS),
-        len(sub_bytes),
-    ]) + sub_bytes + skill_bytes
+    ]) + skill_bytes
     return base64.urlsafe_b64encode(raw).decode().rstrip("=")
 
 
@@ -126,14 +120,9 @@ def decode_prefs(code: str, skill_names: list[str]) -> Prefs:
         raw = base64.urlsafe_b64decode(code + "=" * (-len(code) % 4))
     except Exception as error:  # noqa: BLE001
         raise ValueError("not a vagaLume code") from error
-    if len(raw) < 8 or raw[0] not in (1, CODE_VERSION) or raw[1] >= len(COUNTS):
+    if len(raw) < 8 or raw[0] != CODE_VERSION or raw[1] >= len(COUNTS):
         raise ValueError("not a vagaLume code")
     work = _names(raw[6], WORK) or ["any"]
-    subs, rest = 0, raw[8:]
-    if raw[0] == 2:
-        if not rest or len(rest) < 1 + rest[0]:
-            raise ValueError("not a vagaLume code")
-        subs, rest = int.from_bytes(rest[1:1 + rest[0]], "little"), rest[1 + rest[0]:]
     return Prefs(
         count=COUNTS[raw[1]],
         levels=_names(raw[2] & 127, LEVELS),
@@ -142,8 +131,7 @@ def decode_prefs(code: str, skill_names: list[str]) -> Prefs:
         home=UFS[raw[5] - 1] if 0 < raw[5] <= len(UFS) else "",
         work=work,
         areas=_names(raw[7], AREAS),
-        subs=_names(subs, SUBS),
-        skills=_names(int.from_bytes(rest, "little"), skill_names),
+        skills=_names(int.from_bytes(raw[8:], "little"), skill_names),
     )
 
 

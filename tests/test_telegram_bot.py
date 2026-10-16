@@ -106,17 +106,3 @@ def test_nothing_happens_without_the_secrets(monkeypatch, tmp_path):
     monkeypatch.delenv("TELEGRAM_BOT_TOKEN", raising=False)
     monkeypatch.delenv("DIGEST_KEY", raising=False)
     assert bot.collect(tmp_path / "s.enc") == 0 and bot.send_daily([], TODAY, tmp_path / "s.enc") == 0
-
-
-def test_sub_areas_have_names_and_text_read_pay_is_marked():
-    from radar.subareas import SUBAREAS
-
-    for lang in ("pt", "en"):
-        assert set(bot.sub_names(lang)) >= set(SUBAREAS)
-    summary = bot.describe(Prefs(areas=["data"], subs=["tributario", "enfermagem"]))
-    assert "Áreas: Dados, Tributário, Enfermagem" in summary
-    item = {"id": "a", "title": "Estágio Fiscal", "org": "X", "location": "São Paulo, SP, Brazil", "url": "https://x",
-            "pay": "R$1,800/mo", "pay_text": 1, "deadline": ""}
-    text = bot.daily_text([item], Prefs(), "2026-10-16")
-    assert "R$1,800/mo*" in text and "confira na página" in text
-    assert "confira" not in bot.daily_text([item | {"pay_text": 0}], Prefs(), "2026-10-16")
