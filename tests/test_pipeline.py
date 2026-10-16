@@ -165,3 +165,19 @@ def test_last_seen_is_refreshed_weekly():
     assert last_seen() == "2026-10-08"  # 7 days later: refreshed
     db.close_stale(conn, "2026-11-06")  # 29 days after the refresh: still open
     assert db.load_all(conn)[0].is_open
+
+
+def test_site_leaves_out_past_terms_and_repeats(tmp_path):
+    """Stress test: "Winter 2026" roles in October and the same role listed twice."""
+    from radar.site import shown_items
+
+    conn = db.connect(tmp_path / "radar.db")
+    for title, url in [("Software Engineer Intern (Winter 2026)", "https://e.com/1"), ("Enfermagem - Auditoria", "https://e.com/2"),
+                       ("Enfermagem - Auditoria", "https://e.com/3"), ("Software Engineer Intern (Winter 2027)", "https://e.com/4")]:
+        db.upsert(conn, apply_rules(Opportunity(title=title, org="Santa Casa", source="gupy", url=url, location="Belo Horizonte, MG")), "2026-10-16")
+    program = apply_rules(Opportunity(title="Journeys into Theoretical Physics", org="ICTP", source="programs", url="https://p", deadline="2026-05-01"))
+    db.upsert(conn, program, "2026-10-16")
+    items = shown_items(db.load_all(conn), "2026-10-16")
+    titles = sorted(i["title"] for i in items)
+    assert titles == ["Enfermagem - Auditoria", "Journeys into Theoretical Physics", "Software Engineer Intern (Winter 2027)"]
+    assert next(i for i in items if i["source"] == "programs")["deadline"] == ""  # last year's edition

@@ -8,12 +8,14 @@ GitHub Pages serves the docs/ folder as a website.
 from __future__ import annotations
 
 import json
+from datetime import date
 from pathlib import Path
 
 from .db import StoredOpportunity
 from .models import strip_tracking
 from .report import SourceHealth
 from .skills import NAMES as SKILL_NAMES
+from .labels import past_term
 from .sources.programs import application_months
 
 
@@ -63,6 +65,29 @@ def stats(opportunities: list[StoredOpportunity], health: list[SourceHealth], to
     }
 
 
+def shown_items(opportunities: list[StoredOpportunity], today: str, windows: dict[str, list[int]] | None = None) -> list[dict[str, object]]:
+    """The open roles the page lists, without:
+    - roles for a term that is already over ("Winter 2026" in October 2026);
+    - repeats: the same title, company and place posted twice (a board listing a role
+      once per opening, or two sources) keep only the first.
+    A program page's deadline in the past is last year's edition, so it isn't shown as a deadline."""
+    day = date.fromisoformat(today)
+    seen: set[tuple[str, str, str]] = set()
+    items: list[dict[str, object]] = []
+    for opp in opportunities:
+        if not opp.is_open or (opp.source != "programs" and past_term(opp.title, day)):
+            continue
+        key = (opp.title.lower().strip(), opp.org.lower().strip(), opp.location.lower().strip())
+        if key in seen:
+            continue
+        seen.add(key)
+        record = item_record(opp, (windows or {}).get(opp.url) if opp.source == "programs" else None)
+        if opp.source == "programs" and str(record["deadline"]) and str(record["deadline"]) < today:
+            record["deadline"] = ""
+        items.append(record)
+    return items
+
+
 def write_data(
     opportunities: list[StoredOpportunity],
     health: list[SourceHealth],
@@ -86,7 +111,7 @@ def write_data(
         "sources": [
             {"name": h.name, "status": h.status, "items": h.items, "problems": h.errors[:5]} for h in health
         ],
-        "items": [item_record(o, windows.get(o.url) if o.source == "programs" else None) for o in opportunities if o.is_open],
+        "items": shown_items(opportunities, today, windows),
     }
     path = Path(out_dir) / "data.json"
     path.parent.mkdir(parents=True, exist_ok=True)

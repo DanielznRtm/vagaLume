@@ -125,5 +125,5 @@ easiest way to help other students find it too.
   </a>
 </p>
 
-<p align="center"><sub>Made in Brazil by a UNESP engineering student · <a href="../LICENSE">Apache 2.0 license</a> · no LinkedIn scraping, no sites that block bots</sub></p>
+<p align="center"><sub>Made in Brazil by an engineering student · <a href="../LICENSE">Apache 2.0 license</a> · no LinkedIn scraping, no sites that block bots</sub></p>
 <p align="center"><sub>Credits: IBGE's list of municipalities via <a href="https://github.com/kelvins/municipios-brasileiros">kelvins/municipios-brasileiros</a> (MIT) · Bricolage Grotesque and Schibsted Grotesk fonts in the banner (SIL Open Font License 1.1)</sub></p>

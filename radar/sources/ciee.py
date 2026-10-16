@@ -58,7 +58,7 @@ def parse(data: dict[str, Any]) -> list[Opportunity]:
         items.append(
             Opportunity(
                 title=(f"Estágio em {area}" if area else "Estágio") + level,
-                org=str(job.get("nomeEmpresa") or "Empresa não informada").strip(),
+                org=str(job.get("nomeEmpresa") or "").strip() or "Empresa não informada",  # sometimes just " "
                 source=NAME,
                 url=JOB_URL.format(code=job["codigoVaga"]),
                 location=f"{city}, Brazil" if city else "Brazil",

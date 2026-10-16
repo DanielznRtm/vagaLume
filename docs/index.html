@@ -173,7 +173,7 @@
   .picks-telegram .fineprint { font-size: .82rem; color: var(--muted); margin-top: 10px; }
 
   .layout { display: grid; grid-template-columns: 216px minmax(0, 1fr); gap: 34px; align-items: start; }
-  .filters { position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow: auto; scrollbar-width: thin; }
+  .filters { position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; }
   .filters > summary { display: none; }
   .filters-note { font-size: .85rem; color: var(--muted); }
 
@@ -230,8 +230,9 @@
 
   /* list */
   .list { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
-  .cols, .row-main { display: grid; grid-template-columns: 20px minmax(0, 2.7fr) minmax(0, 1.25fr) minmax(0, .85fr) 80px 76px 66px; gap: 16px; align-items: center; padding: 0 14px; }
+  .cols, .row-main { display: grid; grid-template-columns: 20px minmax(0, 2.7fr) minmax(0, 1.25fr) minmax(92px, .85fr) 80px 76px 66px; gap: 16px; align-items: center; padding: 0 14px; }
   .cols { font-size: .76rem; color: var(--faint); font-weight: 500; padding-block: 9px; border-bottom: 1px solid var(--line); }
+  .cols span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }  /* "Remuneração" in a narrow column */
   .row { border-bottom: 1px solid var(--line); }
   .row:last-child { border-bottom: 0; }
   .row-main { padding-block: 13px; cursor: pointer; }
@@ -421,6 +422,7 @@
       <button class="primary" id="start" disabled data-t="welcome.start"></button>
       <button class="linkish" id="skip" data-t="welcome.skip"></button>
     </div>
+    <p class="fineprint" id="start-hint" aria-live="polite"></p>
     <p class="fineprint resume-hint"><span data-t="welcome.resume1"></span><button class="linkish" id="welcome-resume" data-t="welcome.resume2"></button></p>
     <p class="fineprint" id="welcome-count"></p>
   </div>
@@ -600,9 +602,13 @@ const STRINGS = {
   "welcome.start": ["Show my opportunities", "Ver minhas oportunidades"],
   "welcome.work": ["Where would you work?", "Onde você toparia trabalhar?"],
   "welcome.home": ["I live in", "Moro em"],
+  "welcome.missing": [m => `Still to answer: ${m}.`, m => `Falta responder: ${m}.`],
+  "welcome.missField": ["areas", "áreas"], "welcome.missLevel": ["level", "nível"], "welcome.missPlace": ["where you study", "onde estuda"],
+  "welcome.missWork": ["where you'd work", "onde toparia trabalhar"],
   "welcome.homeNone": ["Choose your state (optional)", "Escolha o estado (opcional)"],
   "welcome.abroad": ["Outside Brazil", "Fora do Brasil"],
-  "welcome.workHint": ["Remote roles always show.", "Vagas remotas aparecem sempre."],
+  "welcome.workHint": ["Roles abroad are for you too: narrow this only if you want to work in person near you. Remote roles always show.",
+                       "Vagas no exterior também são para você: só restrinja se quiser trabalhar presencialmente perto de casa. Vagas remotas aparecem sempre."],
   "work.state": [uf => uf ? `In my state (${uf})` : "In my state", uf => uf ? `No meu estado (${uf})` : "No meu estado"],
   "work.Brazil": ["Anywhere in Brazil", "Em todo o Brasil"], "work.LatAm": ["Latin America", "América Latina"],
   "work.US/Canada": ["US and Canada", "EUA e Canadá"], "work.Europe": ["Europe", "Europa"],
@@ -616,7 +622,7 @@ const STRINGS = {
   "level.undergrad.name": ["Bachelor's", "Graduação"], "level.undergrad.hint": ["Undergraduate", "Bacharelado, engenharia, licenciatura"],
   "level.masters.name": ["Master's", "Mestrado"], "level.masters.hint": ["MSc, MEng", "Acadêmico ou profissional"],
   "level.phd.name": ["PhD", "Doutorado"], "level.phd.hint": ["Doctorate", "PhD"],
-  "level.short.undergrad": ["Undergrad", "Graduação"], "level.short.masters": ["Master's", "Mestrado"], "level.short.phd": ["PhD", "Doutorado"],
+  "level.short.undergrad": ["Undergrad", "Graduação"], "level.short.masters": ["Master's", "Mestrado"], "level.short.phd": ["PhD", "Doutorado"], "level.short.school": ["High school / technical", "Nível médio / técnico"],
   "place.brazil": ["Brazil", "Brasil"], "place.latam": ["Other Latin America", "Outro país da América Latina"],
   "place.usa": ["United States", "Estados Unidos"], "place.canada": ["Canada", "Canadá"],
   "place.uk": ["United Kingdom", "Reino Unido"], "place.europe": ["Europe", "Europa"],
@@ -692,6 +698,7 @@ const STRINGS = {
   "sort.deadline": ["Deadline", "Prazo"], "sort.added": ["Newest", "Mais novas"], "sort.org": ["Company A–Z", "Empresa A–Z"],
   "sort.apply": ["Applications opening soonest", "Inscrições mais próximas"],
   "count": [(n, d) => `${n} ${n === "1" ? "role" : "roles"} · updated ${d}`, (n, d) => `${n} ${n === "1" ? "vaga" : "vagas"} · atualizado em ${d}`],
+  "count.inAll": [n => `${n} more in All · see`, n => `mais ${n} em Todas · ver`],
   "more": [n => `Show ${n} more`, n => `Mostrar mais ${n}`], "loading": ["Loading opportunities…", "Carregando oportunidades…"],
   "loadError": ["Could not load today's data. Check your connection and reload the page.", "Não foi possível carregar os dados de hoje. Verifique a conexão e recarregue a página."],
   "legend.button": ["How to read", "Como ler"],
@@ -724,6 +731,8 @@ const STRINGS = {
   "d.foundVia": [(d, s, p) => `${d} via ${s}${p ? ` · posted ${p}` : ""}`, (d, s, p) => `${d} via ${s}${p ? ` · publicada em ${p}` : ""}`],
   "d.open": ["Open the posting ↗", "Abrir a vaga ↗"], "d.applied": ["✓ Applied", "✓ Candidatada"], "d.markApplied": ["Mark as applied", "Marcar como candidatada"],
   "d.saved": ["★ Saved", "★ Salva"], "d.save": ["☆ Save", "☆ Salvar"],
+  "note.changed": [d => `Page changed on ${d}`, d => `Página mudou em ${d}`],
+  "note.unchanged": [d => `Page unchanged since ${d}`, d => `Página sem mudanças desde ${d}`],
   "d.payText": ["read from the description, check the posting", "lida do texto, confirme na vaga"],
   "d.report": ["Something wrong with this role?", "Algo errado nesta vaga?"],
   "r.body": [(i, shown) => `**Role:** ${i.title} — ${i.org}\n**Link:** ${i.url}\n**id:** ${i.id}\n\n**What vagaLume shows:**\n${shown}\n\n**What is wrong?** (the right value, and where in the posting it says so)\n\n`,
@@ -746,20 +755,23 @@ const STRINGS = {
   "r.estagio": ["Estágio requires enrollment at a Brazilian university", "Estágio exige matrícula numa universidade brasileira"],
   "r.yourField": [f => `In an area you're looking for (${f})`, f => `Numa área que você procura (${f})`],
   "r.relatedField": [f => `In a related area (${f})`, f => `Numa área próxima (${f})`],
-  "r.otherField": [f => `Outside the areas you picked: ${f}`, f => `Fora das áreas que você procura: ${f}`],
+  "r.otherField": [f => `A ${f} role, outside your areas`, f => `Vaga de ${f}, fora das suas áreas`],
   "r.otherLevel": [l => `For another level: ${l}`, l => `Para outro nível: ${l}`],
   "r.otherPlace": [w => `Outside where you'd work: ${w}`, w => `Fora de onde você toparia trabalhar: ${w}`],
   "r.portuguese": ["The posting is in Portuguese", "A vaga é em português"],
   "r.us": ["Needs US or Canada work authorization", "Exige autorização de trabalho nos EUA ou no Canadá"],
   "r.abroad": [w => `Abroad (${w}): check visa`, w => `No exterior (${w}): verifique o visto`],
+  "r.placeUnknown": ["The posting doesn't say where it is: check", "A vaga não diz onde é: confira"],
+  "r.uk": ["In the UK: EU citizenship isn't enough since Brexit, check the visa", "No Reino Unido: cidadania europeia não basta desde o Brexit, verifique o visto"],
   "r.months": [s => `Runs ${s}, outside the months you're free`, s => `Acontece em ${s}, fora dos seus meses livres`],
+  "r.monthsSome": [(n, m) => `${n} of its ${m} months are in your free months`, (n, m) => `${n} dos ${m} meses caem nos seus meses livres`],
 
   "area.ML": ["ML", "ML"], "area.research": ["Research", "Pesquisa"], "area.SWE": ["Software", "Software"], "area.data": ["Data", "Dados"],
   "area.quant": ["Quant", "Quant"], "area.hardware": ["Hardware", "Hardware"], "area.other": ["Other", "Outras"],
   "region.Brazil": ["Brazil", "Brasil"], "region.LatAm": ["Latin America", "América Latina"], "region.US/Canada": ["US/Canada", "EUA/Canadá"],
   "region.Europe": ["Europe", "Europa"], "region.Asia/ME": ["Asia, Africa & Middle East", "Ásia, África e Oriente Médio"], "region.remote": ["Remote", "Remoto"],
   "season.breaks": ["Fits my breaks", "Nas minhas férias"], "season.Dec–Feb": ["Dec–Feb", "dez–fev"], "season.Jul": ["July", "julho"],
-  "season.May–Aug": ["May–Aug", "mai–ago"], "season.year-round": ["Year-round", "Ano todo"], "season.unknown": ["Not stated", "Não informado"],
+  "season.May–Aug": ["May–Aug", "mai–ago"], "season.Jan–Apr": ["Jan–Apr", "jan–abr"], "season.Sep–Dec": ["Sep–Dec", "set–dez"], "season.year-round": ["Year-round", "Ano todo"], "season.unknown": ["Not stated", "Não informado"],
   "season.inBreak": ["in your break", "nas suas férias"], "season.inClass": ["during classes", "durante as aulas"],
   "warn.US work auth?": ["US work auth?", "Autorização de trabalho nos EUA?"], "warn.PhD-level?": ["PhD-level?", "Nível doutorado?"],
   "warn.grad-year limit?": ["Graduation-year limit?", "Limite de ano de formatura?"], "warn.unsure if student role": ["Unsure if student role", "Talvez não seja de estudante"],
@@ -783,7 +795,7 @@ const STRINGS = {
   "resume.summary": ["Your résumé summary", "Resumo do seu currículo"], "resume.done": [n => `Done: ${n} skills read.`, n => `Pronto: ${n} habilidades lidas.`],
   "resume.studying": ["Studying", "Curso"], "resume.graduates": ["Graduates", "Formatura"], "resume.areas": ["Areas", "Áreas"],
   "resume.looking": ["Looking for", "Procura"], "resume.canWork": ["Can work in", "Pode trabalhar em"], "resume.languages": ["Languages", "Idiomas"],
-  "resume.free": ["Free months", "Meses livres"], "resume.freeDefault": ["UNESP breaks (not stated)", "Férias da UNESP (não informado)"],
+  "resume.free": ["Free months", "Meses livres"], "resume.freeDefault": ["Usual Brazilian breaks: Dec–Feb and July (not stated)", "Férias habituais no Brasil: dez–fev e julho (não informado)"],
   "resume.skills": [n => `Skills (${n})`, n => `Habilidades (${n})`], "resume.profile": [p => `Your profile: ${p}.`, p => `Seu perfil: ${p}.`],
   "resume.see": ["See my matches", "Ver meus matches"], "resume.replace": ["Paste a new answer", "Colar outra resposta"], "resume.remove": ["Remove my résumé", "Apagar meu currículo"],
   "err.noJson": ["No { … } found. Paste the AI's whole answer to the vagaLume prompt.", "Não encontrei { … }. Cole a resposta inteira da IA ao prompt do vagaLume."],
@@ -794,14 +806,14 @@ const STRINGS = {
   "help.title": ["How to read this page", "Como ler esta página"],
   "help.body": [`<p><b>Fit</b> compares each role with your profile: a full dot is a good fit, a half-filled dot means check something (a visa, a graduation-year rule, a job for after you graduate), an empty dot is a long shot (for example a PhD-only role while you're an undergrad). The reason shows under the company; open the row for all of them.</p>
 <p><b>Résumé match</b> compares the skills a posting mentions (Python, PyTorch, ROS, PLC…) and its area and title with the summary your AI chat made from your résumé. Strong matches get a tag; open a row to see which skills match and which are missing. It's keyword matching, so read the posting before deciding.</p>
-<p><b>When</b> is a January–December strip. <i class="swatch" style="background:var(--semester)"></i> months in class: UNESP's semesters (Mar–Jun, Aug–Nov), or the months your résumé summary doesn't list as free. <i class="swatch" style="background:var(--good)"></i> the role runs in a break. <i class="swatch" style="background:var(--check)"></i> it clashes with classes.</p>
+<p><b>When</b> is a January–December strip. <i class="swatch" style="background:var(--semester)"></i> months in class: the usual Brazilian semesters (Mar–Jun, Aug–Nov), or the months your résumé summary doesn't list as free. <i class="swatch" style="background:var(--good)"></i> the role runs in a break. <i class="swatch" style="background:var(--check)"></i> it clashes with classes.</p>
 <p><b>Pay</b> appears when the posting states it (hr = per hour, mo = per month, yr = per year).</p>
 <p><b>The areas you're looking for</b> (not only your course: an engineering student can pick Business too) hide the roles clearly meant for other areas (a law estágio if you didn't pick Law, for example); roles that don't say which area they want always stay. "Show roles outside your profile", under the number of roles or in the filters, brings them back. Related areas are shown together: engineering, computing and the exact sciences, for example.</p>
 <p><b>☆ Save</b> builds a shortlist and <b>✕ Hide</b> (it appears when you point at a row, and inside an opened row) removes a role from your lists; inside a row you can also mark it <b>Applied</b>. All of this stays in this browser. Apart from other fields, vagaLume doesn't hide anything by itself: labels and fit are hints, not verdicts.</p>
 <p>Your filters live in the page address, so you can bookmark a view (for example "ML roles in Europe") or send it to a friend.</p>`,
 `<p><b>Perfil</b> compara cada vaga com você: ponto cheio combina bem, ponto pela metade pede para verificar algo (visto, regra de ano de formatura, vaga para depois de formado), ponto vazio é improvável (por exemplo, vaga só para doutorado e você está na graduação). O motivo aparece embaixo da empresa; abra a vaga para ver todos.</p>
 <p><b>Match com o currículo</b> compara as habilidades que a vaga cita (Python, PyTorch, ROS, CLP…), a área e o título com o resumo que a sua IA fez do seu currículo. Matches fortes ganham uma etiqueta; abra a vaga para ver quais habilidades batem e quais faltam. É uma comparação por palavras-chave, então leia a vaga antes de decidir.</p>
-<p><b>Quando</b> é uma tirinha de janeiro a dezembro. <i class="swatch" style="background:var(--semester)"></i> meses de aula: os semestres da UNESP (mar–jun, ago–nov), ou os meses que o resumo do seu currículo não lista como livres. <i class="swatch" style="background:var(--good)"></i> a vaga cai nas férias. <i class="swatch" style="background:var(--check)"></i> ela bate com as aulas.</p>
+<p><b>Quando</b> é uma tirinha de janeiro a dezembro. <i class="swatch" style="background:var(--semester)"></i> meses de aula: os semestres habituais no Brasil (mar–jun, ago–nov), ou os meses que o resumo do seu currículo não lista como livres. <i class="swatch" style="background:var(--good)"></i> a vaga cai nas férias. <i class="swatch" style="background:var(--check)"></i> ela bate com as aulas.</p>
 <p><b>Remuneração</b> aparece quando a vaga informa (hr = por hora, mo = por mês, yr = por ano).</p>
 <p><b>As áreas em que você procura vagas</b> (não só o seu curso: quem faz Engenharia pode marcar Negócios também) escondem as vagas claramente de outras áreas (um estágio de Direito, se você não marcou Direito, por exemplo); vagas que não dizem a área ficam sempre visíveis. "Mostrar vagas fora do seu perfil", embaixo do número de vagas ou nos filtros, traz tudo de volta. Áreas próximas aparecem juntas: Engenharia, Computação e Exatas, por exemplo.</p>
 <p><b>☆ Salvar</b> monta a sua lista e <b>✕ Esconder</b> (aparece ao apontar para a vaga, e dentro da vaga aberta) tira uma vaga das suas listas; dentro da vaga você também pode marcar <b>Candidatada</b>. Tudo isso fica neste navegador. Fora as outras áreas, o vagaLume não esconde nada sozinho: rótulos e compatibilidade são dicas, não veredictos.</p>
@@ -833,7 +845,7 @@ const SOON_DAYS = 14;
 const PLACES = [  // where you study -> the radar's region label
   ["brazil", "Brazil"], ["latam", "LatAm"], ["usa", "US/Canada"], ["canada", "US/Canada"],
   ["uk", "Europe"], ["europe", "Europe"], ["asia", "Asia/ME"], ["mideast", "Asia/ME"],
-  ["oceania", "Asia/ME"], ["africa", ""],
+  ["oceania", "Asia/ME"], ["africa", "Asia/ME"],
 ];
 const REGION_ORDER = ["Brazil", "LatAm", "US/Canada", "Europe", "Asia/ME", "remote"];
 // Remote / hybrid / on-site (radar/workplace.py). Data from before that label only knew "remote".
@@ -852,10 +864,11 @@ const UFS = [["AC", "Acre"], ["AL", "Alagoas"], ["AP", "Amapá"], ["AM", "Amazon
 // "Where would you work": your state, whole regions, or anywhere (no location filter).
 const WORK = ["state", "Brazil", "LatAm", "US/Canada", "Europe", "Asia/ME", "any"];
 const LEVELS = ["undergrad", "masters", "phd"];
-const SEASON_ORDER = ["breaks", "Dec–Feb", "Jul", "May–Aug", "year-round", "unknown"];
+const SEASON_ORDER = ["breaks", "Dec–Feb", "Jan–Apr", "Jul", "May–Aug", "Sep–Dec", "year-round", "unknown"];
 const AREA_ORDER = ["ML", "research", "SWE", "data", "quant", "hardware", "other"];
-const SEASON_MONTHS = { "Dec–Feb": [12, 1, 2], "Jul": [7], "May–Aug": [5, 6, 7, 8], "year-round": [1,2,3,4,5,6,7,8,9,10,11,12], "unknown": [] };
-const SEMESTER = new Set([3, 4, 5, 6, 8, 9, 10, 11]);  // UNESP: Mar–Jun and Aug–Nov
+const SEASON_MONTHS = { "Dec–Feb": [12, 1, 2], "Jan–Apr": [1, 2, 3, 4], "Jul": [7], "May–Aug": [5, 6, 7, 8], "Sep–Dec": [9, 10, 11, 12],
+  "year-round": [1,2,3,4,5,6,7,8,9,10,11,12], "unknown": [] };
+const SEMESTER = new Set([3, 4, 5, 6, 8, 9, 10, 11]);  // the usual Brazilian semesters: Mar–Jun and Aug–Nov
 
 // ------------------------------------------------------------------ state
 let DATA = null;
@@ -1046,7 +1059,7 @@ function writeHash() {
 }
 
 // ------------------------------------------------------------------ calendar
-// Months in class: UNESP's semesters, or the opposite of the free months in your résumé summary.
+// Months in class: the usual Brazilian semesters, or the opposite of the free months in your résumé summary.
 const inClass = m => resume?.months.length ? !resume.months.includes(m) : SEMESTER.has(m);
 const fitsBreaks = season => !["unknown", "year-round"].includes(season) && (SEASON_MONTHS[season] || []).every(m => !inClass(m));
 const MONTH_KEYS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -1103,13 +1116,25 @@ function computeFit(item) {
   const mine = new Set(profile.places.map(regionOfPlace).filter(Boolean));
   const where = item.regions.filter(r => r !== "remote" && r !== "unknown");
   const canWork = new Set((resume?.workAuth || []).map(c => regionOfPlace(placeOf(c))).filter(Boolean));
+  // Countries where you study or can work (résumé summary), as place keys ("usa", "uk"...).
+  const yourPlaces = new Set([...profile.places, ...(resume?.workAuth || []).map(placeOf)]);
+  let usNoted = false;
   if (!estagio && item.source !== "programs" && where.length && !item.regions.includes("remote") && !where.some(r => mine.has(r) || canWork.has(r))) {
-    if (where.includes("US/Canada")) add(1, t("r.us"));
+    if (where.includes("US/Canada")) { add(1, t("r.us")); usNoted = true; }
     else add(1, t("r.abroad", where.map(r => tv("region", r)).join(", ")));
   }
+  // The bot's "US work auth?" label counts too, also for remote US roles.
+  if (!usNoted && w.has("US work auth?") && !yourPlaces.has("usa") && !yourPlaces.has("canada")) add(1, t("r.us"));
+  // Europe for an EU citizen, but the UK needs a visa since Brexit.
+  const inUK = /\b(?:uk|united kingdom|england|scotland|wales|london|edinburgh|manchester|glasgow|bristol|oxford|cambridge, uk|belfast|leeds|canary wharf)\b/i.test(item.location);
+  if (inUK && !estagio && item.source !== "programs" && where.every(r => r === "Europe") && where.some(r => mine.has(r) || canWork.has(r))
+      && !yourPlaces.has("uk")) add(1, t("r.uk"));
   // Your résumé summary lists the months you're free; say when a role runs outside them.
+  // Only when most of it falls outside: free Jun–Sep and a May–Aug role is 3 of 4 months.
   if (resume?.months.length && SEASON_MONTHS[item.season]?.length && item.season !== "year-round" && !fitsBreaks(item.season)) {
-    add(1, t("r.months", tv("season", item.season)));
+    const months = SEASON_MONTHS[item.season], free = months.filter(m => !inClass(m)).length;
+    if (free * 2 < months.length) add(1, t("r.months", tv("season", item.season)));
+    else add(0, t("r.monthsSome", free, months.length));
   }
   // Field of study: 0 = your field, 1 = a related one, 2 = the role doesn't say.
   let fieldRank = 2, otherField = false;
@@ -1126,6 +1151,8 @@ function computeFit(item) {
   // Where you'd work: remote roles and roles whose place we can't tell always stay.
   let otherPlace = false;
   const work = profile.work || ["any"];
+  // You narrowed where you'd work but the posting doesn't say where it is: shown, but not as a clear fit.
+  if (!work.includes("any") && !where.length && !item.regions.includes("remote") && item.source !== "programs") add(1, t("r.placeUnknown"));
   if (!work.includes("any") && where.length && !item.regions.includes("remote")) {
     const states = item.states || [];
     const inMyState = work.includes("state") && profile.home && where.includes("Brazil") && (!states.length || states.includes(profile.home));
@@ -1376,8 +1403,15 @@ $("welcome-resume").addEventListener("click", showResume);
 
 // ------------------------------------------------------------------ welcome
 // The answers on the welcome screen before you confirm; each question takes one or more.
-const chosen = { fields: [], levels: [], places: [], home: "", work: [] };
-const welcomeReady = () => { $("start").disabled = !(chosen.fields.length && chosen.levels.length && chosen.places.length && chosen.work.length); };
+// "Anywhere" starts picked: studying in Brazil doesn't mean only roles in Brazil.
+const chosen = { fields: [], levels: [], places: [], home: "", work: ["any"] };
+const welcomeReady = () => {
+  // Say which questions are still open, instead of a grey button that doesn't explain itself.
+  const missing = [["fields", "welcome.missField"], ["levels", "welcome.missLevel"], ["places", "welcome.missPlace"], ["work", "welcome.missWork"]]
+    .filter(([key]) => !chosen[key].length).map(([, label]) => t(label));
+  $("start").disabled = missing.length > 0;
+  $("start-hint").textContent = missing.length ? t("welcome.missing", missing.join(", ")) : "";
+};
 const toggleIn = (list, item) => list.includes(item) ? list.filter(x => x !== item) : [...list, item];
 function drawPlaces() {
   $("fields").innerHTML = FIELDS.map(key => `<button class="place" data-field="${key}" aria-pressed="${chosen.fields.includes(key)}">${t(`field.${key}`)}</button>`).join("");
@@ -1401,7 +1435,7 @@ function showWelcome() {
   $("welcome").hidden = false;
   $("to-top").hidden = true;
   Object.assign(chosen, { fields: [...(profile?.fields || [])], levels: [...(profile?.levels || [])], places: [...(profile?.places || [])],
-    home: profile?.home || "", work: [...(profile?.work || [])] });
+    home: profile?.home || "", work: profile?.work?.length ? [...profile.work] : ["any"] });
   drawPlaces();
   welcomeReady();
   window.scrollTo(0, 0);
@@ -1416,10 +1450,7 @@ for (const [box, selector, key, attr] of [["levels", ".level", "levels", "level"
   });
 }
 $("home").addEventListener("change", e => {
-  const had = /^[A-Z]{2}$/.test(chosen.home);
-  chosen.home = e.target.value;
-  // Choosing your state for the first time also picks "In my state".
-  if (!had && /^[A-Z]{2}$/.test(chosen.home) && !chosen.work.length) chosen.work = ["state"];
+  chosen.home = e.target.value;  // only offers "In my state"; it doesn't narrow anything by itself
   drawWork(); welcomeReady();
 });
 $("work").addEventListener("click", e => {
@@ -1468,14 +1499,16 @@ function drawSortOptions() {
 }
 function drawColumns() {
   // The fit column has no title: the dot is explained under "How to read".
-  $("cols").innerHTML = ["", "role", "where", "pay", "when", "deadline", ""].map(c => `<span>${c ? t(`col.${c}`) : ""}</span>`).join("");
+  $("cols").innerHTML = ["", "role", "where", "pay", "when", "deadline", ""].map(c => `<span title="${c ? esc(t(`col.${c}`)) : ""}">${c ? t(`col.${c}`) : ""}</span>`).join("");
 }
 
 // [key, test, how to show its count]. Applied and Hidden only appear once they have something in them.
+// A role whose deadline has passed leaves the lists (Saved and Applied still show it, marked "closed?").
+const isClosed = i => i.source !== "programs" && (daysLeft(i.deadline) ?? 0) < 0;
 const TABS = [
   ["picks", () => false],  // drawn by drawPicks()
-  ["all", i => mark(i) !== "hidden"],
-  ["new", i => isNew(i) && mark(i) !== "hidden", "count"],
+  ["all", i => mark(i) !== "hidden" && !isClosed(i)],
+  ["new", i => isNew(i) && mark(i) !== "hidden" && !isClosed(i), "count"],
   ["soon", i => isSoon(i) && mark(i) !== "hidden", "hot"],
   ["saved", i => saved.has(i.id), "count"],
   ["programs", i => i.source === "programs" && mark(i) !== "hidden"],
@@ -1497,7 +1530,8 @@ function togglePick(key, value) {
 
 // Each filter as a test; `skip` leaves one out so its own chips can count what they would add.
 const FILTER_TESTS = {
-  q: i => view.q.toLowerCase().split(/\s+/).filter(Boolean).every(w => `${i.title} ${i.org} ${i.location}`.toLowerCase().includes(w)),
+  // Accents don't matter: "estagio" finds "estágio", "niteroi" finds "Niterói".
+  q: i => fold(view.q).split(/\s+/).filter(Boolean).every(w => (i._q ??= fold(`${i.title} ${i.org} ${i.location}`)).includes(w)),
   match: i => !!i._match && (view.match === "strong" ? i._match.level === 0 : i._match.level <= 1),
   fit: i => view.fit === "good" ? i._fit.level === 0 : i._fit.level === 0 || i._fit.level === 1,
   area: i => picked("area").includes(i.area),
@@ -1529,9 +1563,13 @@ const SORTS = {
 };
 
 // ------------------------------------------------------------------ rendering helpers
+const fold = text => String(text).normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
+// "estagio" also marks "estágio": each letter matches its accented forms.
+const ACCENTED = { a: "aáàâãä", e: "eéèêë", i: "iíìîï", o: "oóòôõö", u: "uúùûü", c: "cç", n: "nñ" };
 function highlight(text) {
   const safe = esc(text);
-  const words = view.q.trim().split(/\s+/).filter(w => w.length > 1).map(w => esc(w).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  const words = view.q.trim().split(/\s+/).filter(w => w.length > 1)
+    .map(w => [...fold(esc(w))].map(ch => ACCENTED[ch] ? `[${ACCENTED[ch]}]` : ch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join(""));
   return words.length ? safe.replace(new RegExp(`(${words.join("|")})`, "gi"), "<mark>$1</mark>") : safe;
 }
 function monthStrip(season) {
@@ -1610,7 +1648,7 @@ function row(i) {
       ${deadlineCell(i)}
       <div class="actions">
         <button class="icon-btn save" data-act="save" aria-pressed="${isSaved}" title="${esc(t(isSaved ? "unsave" : "save"))}" aria-label="${esc(t("save"))}">${ICON_STAR(isSaved)}</button>
-        <button class="icon-btn hide" data-act="hide" aria-pressed="${m === "hidden"}" title="${esc(t(m === "hidden" ? "unhide" : "hide"))}" aria-label="${esc(t("hide"))}">${ICON_HIDE}</button>
+        <button class="icon-btn hide" data-act="hide" aria-pressed="${m === "hidden"}" title="${esc(t(m === "hidden" ? "unhide" : "hide"))}" aria-label="${esc(t(m === "hidden" ? "unhide" : "hide"))}">${ICON_HIDE}</button>
       </div>
     </div>
     ${open ? details(i) : ""}
@@ -1629,6 +1667,11 @@ function matchDetails(i) {
     ${i.skills.length ? `<p>${m.have.length ? t("m.have", m.have.length, i.skills.length) : t("m.haveNone", i.skills.length)}</p><div class="skill-list">${chips}</div>` : ""}
     ${lines.length ? `<p class="muted">${esc(lines.join(" · "))}</p>` : ""}</div>`;
 }
+// Program pages: "page changed on 2026-10-09 · notes" comes from the bot in English.
+function noteText(note) {
+  const m = /^page (changed on|unchanged since) (\d{4}-\d\d-\d\d)(.*)$/s.exec(note);
+  return m ? t(m[1] === "changed on" ? "note.changed" : "note.unchanged", fmtDate(m[2])) + m[3] : note;
+}
 function details(i) {
   const fit = i._fit;
   const m = mark(i);
@@ -1645,7 +1688,7 @@ function details(i) {
     [t("d.deadline"), i.deadline ? esc(fmtDate(i.deadline)) : `<span class="none">${t("d.deadlineNone")}</span>`],
     [t("d.pay"), i.pay ? `<span class="mono">${esc(i.pay)}</span>${i.pay_text ? ` <span class="muted">· ${t("d.payText")}</span>` : ""}` : ns],
     [t("d.labels"), labels],
-    [t("d.found"), esc(t("d.foundVia", fmtDate(i.added), i.source, i.posted ? fmtDate(i.posted) : "")) + (i.note ? `<br><span class="muted">${esc(i.note)}</span>` : "")],
+    [t("d.found"), esc(t("d.foundVia", fmtDate(i.added), i.source, i.posted ? fmtDate(i.posted) : "")) + (i.note ? `<br><span class="muted">${esc(noteText(i.note))}</span>` : "")],
   ];
   return `<div class="details">
     <div class="for-you">${matchDetails(i)}<div><h4>${fit.level < 0 ? t("d.foryou") : t(`fit.${fit.level}`)}</h4>${reasons}</div></div>
@@ -1778,10 +1821,14 @@ function render() {
   const list = inTab.filter(i => passes(i)).sort(SORTS[sortKey()]);
   const hiddenItems = inTab.filter(i => hiddenForYou(i) && passes(i, "hidden"));  // outside your profile, with today's filters
   const hidden = hiddenItems.length;
+  // Searching in a narrow tab (Programs, New...): say how many more matches the "All" tab has.
+  const moreInAll = view.q && !["all", "saved", "applied", "hidden"].includes(view.tab)
+    ? DATA.items.filter(i => TABS[1][1](i) && passes(i)).length - list.length : 0;
   const anyOther = view.others && inTab.some(i => i._fit?.hidden);
   drawSortOptions();  // "Applications opening soonest" only exists in Programs & schools
   $("rows").innerHTML = list.slice(0, view.shown).map(row).join("") || emptyState(hidden);
   $("count").innerHTML = esc(t("count", fmtN(list.length), fmtDate(DATA.updated, false)))
+    + (moreInAll ? ` · <button class="linkish" data-tab-all="1">${esc(t("count.inAll", fmtN(moreInAll)))}</button>` : "")
     + (hidden ? ` · <button class="linkish" data-others="1">${esc(t("others.show", fmtN(hidden), hiddenWhy(hiddenItems)))}</button>` : "")
     + (anyOther ? ` · <button class="linkish" data-others="">${esc(t("others.hide"))}</button>` : "");
   $("others-row").hidden = !(hidden || view.others);
@@ -1811,8 +1858,10 @@ function drawPicks() {
       <div><button class="btn" id="picks-resume">${esc(t("picks.resumeBtn"))}</button></div></div>`;
     $("rows").innerHTML = "";
     $("count").textContent = "";
+    $("cols").hidden = true;
     return writeHash();
   }
+  $("cols").hidden = false;
   const prefs = myPrefs();
   const list = pickToday(DATA.items, prefs, DATA.updated);
   const bot = DATA.subscribe?.bot;
@@ -1926,6 +1975,7 @@ document.addEventListener("click", e => {
   if (chip) { togglePick(chip.parentElement.dataset.filter, chip.dataset.value); return rerender(); }
   const tab = e.target.closest(".tab");
   if (tab) { view.tab = tab.dataset.tab; return rerender(); }
+  if (e.target.closest("[data-tab-all]")) { view.tab = "all"; return rerender(); }
   const others = e.target.closest("[data-others]");
   if (others) { view.others = others.dataset.others; return rerender(); }
   const pill = e.target.closest("[data-clear]");

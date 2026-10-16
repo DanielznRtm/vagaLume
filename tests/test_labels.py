@@ -64,7 +64,8 @@ def test_area(title, area):
     [
         ("Software Engineer Intern, Summer 2027", "May–Aug"),
         ("Estágio de Férias - Verão 2027", "Dec–Feb"),
-        ("Software Engineer Co-op (Fall 2026)", "year-round"),
+        ("Software Engineer Co-op (Fall 2026)", "Sep–Dec"),
+        ("Software Engineer Intern (Winter 2027)", "Jan–Apr"),
         ("Estágio em Dados", "year-round"),
         ("Research Intern", "unknown"),
     ],
@@ -141,7 +142,7 @@ def test_unsure_roles_are_labelled_not_dropped():
 
 
 def test_calendar_notes_cover_all_seasons():
-    for season in ("Dec–Feb", "Jul", "May–Aug", "year-round", "unknown"):
+    for season in ("Dec–Feb", "Jul", "May–Aug", "Jan–Apr", "Sep–Dec", "year-round", "unknown"):
         assert calendar_note(season)
 
 
@@ -196,3 +197,33 @@ def test_classify_area_with_fields(title, description, expected):
     from radar.fields import find_fields
     from radar.labels import classify_area
     assert classify_area(title, description, find_fields(title, description)) == expected
+
+
+def test_tech_roles_without_a_field_get_the_fields_of_their_area():
+    """Stress test: "Applied Scientist Intern" named no field, so a law student saw it as a good fit."""
+    opp = apply_rules(Opportunity(title="Applied Scientist Intern", org="Upstart", source="t", url="https://e.com/a"))
+    assert opp.area == "ML" and "direito" not in opp.fields and "computacao" in opp.fields
+    law = apply_rules(Opportunity(title="Estágio em Direito Tributário", org="X", source="t", url="https://e.com/b"))
+    assert "direito" in law.fields and "computacao" not in law.fields
+
+
+@pytest.mark.parametrize(
+    "title, over",
+    [
+        ("Software Engineer Intern (Winter 2026)", True),  # Jan–Apr 2026, over by October
+        ("Intern - Spring 2026", True),
+        ("Summer 2026 Intern", True),
+        ("Summer '25 Intern", True),
+        ("Estágio 2025", True),
+        ("Software Engineer Intern (Winter 2027)", False),
+        ("Fall 2026 Co-op", False),  # until December
+        ("Programa de Estágio 2026", False),  # the year alone: still this year
+        ("Summer Analyst", False),
+    ],
+)
+def test_past_term(title, over):
+    from datetime import date
+
+    from radar.labels import past_term
+
+    assert past_term(title, date(2026, 10, 16)) == over
