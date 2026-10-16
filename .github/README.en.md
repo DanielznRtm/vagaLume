@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://pedrocamargolince.github.io/vagaLume/">
-    <img src="assets/banner.svg" alt="vagaLume: a little light on every student opening" width="100%">
+    <img src="assets/banner-v2.svg" alt="vagaLume: a little light on every student opening" width="100%">
   </a>
 </p>
 
