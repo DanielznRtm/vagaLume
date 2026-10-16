@@ -60,6 +60,10 @@ def _plain(text: str) -> str:
     return unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode()
 
 
+_NAME_RES = [(name, uf, re.compile(rf"(?:^|[,;/(]|\be)\s*{name}\s*(?:$|[,;/)]|\be\b|\()"), re.compile(rf"\b{name}\b"))
+             for name, uf in _NAMES]
+
+
 def brazil_states(location: str) -> list[str]:
     """The UFs named in a location, in the order of UFS; [] = can't tell."""
     plain = _plain(location)
@@ -68,8 +72,8 @@ def brazil_states(location: str) -> list[str]:
         # No abbreviation: look for full names, but only as a whole part of the location
         # ("Vitória, Espírito Santo"), never inside a city name ("Ji-Paraná", "Paraíba do Sul").
         lower = plain.lower()
-        for name, uf in _NAMES:
-            if re.search(rf"(?:^|[,;/(]|\be)\s*{name}\s*(?:$|[,;/)]|\be\b|\()", lower):
+        for name, uf, as_part, _ in _NAME_RES:
+            if as_part.search(lower):
                 found.add(uf)
                 lower = lower.replace(name, " ")  # "mato grosso do sul" is not also "mato grosso"
         if _BRASILIA.search(lower):
@@ -77,7 +81,7 @@ def brazil_states(location: str) -> list[str]:
     if not found and not re.search(r"[,;/(]", plain):
         # No separators at all: "Sao Paulo Sao Paulo Brazil".
         lower = plain.lower()
-        found |= {uf for name, uf in _NAMES if re.search(rf"\b{name}\b", lower)}
+        found |= {uf for _, uf, _, as_word in _NAME_RES if as_word.search(lower)}
     if not found:
         # Just a city: "Goiânia, Brazil", "LAIC R&D - LOUVEIRA, Brazil".
         for part in re.split(r"[,;/()|]|\s[-–]\s|\se\s", plain):

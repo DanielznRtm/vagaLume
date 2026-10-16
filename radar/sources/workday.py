@@ -125,6 +125,8 @@ def parse(data: dict[str, Any], site: dict[str, Any], from_student_facet: bool, 
     items: list[Opportunity] = []
     for job in data.get("jobPostings") or []:
         title = str(job.get("title", "")).strip()
+        if not job.get("externalPath"):
+            continue  # a stub with only its ID (Thales, Valeo): nothing to link to
         if not (from_student_facet or is_student_candidate(title)) or VOCATIONAL.search(title):
             continue
         place = str(job.get("locationsText") or "")

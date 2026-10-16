@@ -128,6 +128,9 @@ def test_workday_picks_brazil_and_student_job_types():
     # Without the job-type filter, only student-looking titles stay.
     titles = [o.title for o in workday.parse(data, site, from_student_facet=False, today=TODAY)]
     assert titles == ["Programa de Estágio GM 2027", "Aprendizes Senai"]
+    # A stub with only its ID (Thales, Valeo) is skipped, not a crash for the whole site.
+    stub = {"jobPostings": [{"bulletFields": ["R0301491"]}, *data["jobPostings"]]}
+    assert len(workday.parse(stub, site, from_student_facet=True, today=TODAY)) == len(items)
 
 
 def test_workday_site_without_brazil_filter_raises():
