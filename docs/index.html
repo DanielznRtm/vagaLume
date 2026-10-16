@@ -909,6 +909,29 @@ const CURRENCY_ORDER = ["BRL", "USD", "EUR", "GBP", "CAD", "other"];
 const currencyOf = i => !i.pay ? "" : /^R\$/.test(i.pay) ? "BRL" : /^CA\$/.test(i.pay) ? "CAD" : /^\$/.test(i.pay) ? "USD"
   : /^€/.test(i.pay) ? "EUR" : /^£/.test(i.pay) ? "GBP" : "other";
 // Brazilian states for "Moro em" (radar/places.py labels each Brazilian role with its UFs).
+// Skill names are kept in English (radar/skills.py, the résumé prompt); in Portuguese they show like this.
+const SKILL_PT = { "Machine learning": "Aprendizado de máquina", "Deep learning": "Aprendizado profundo", "Computer vision": "Visão computacional",
+  "Reinforcement learning": "Aprendizado por reforço", "Statistics": "Estatística", "Probability": "Probabilidade", "Linear algebra": "Álgebra linear",
+  "Optimization": "Otimização", "Time series": "Séries temporais", "Data analysis": "Análise de dados", "Data structures": "Estruturas de dados",
+  "Distributed systems": "Sistemas distribuídos", "Robotics": "Robótica", "Control systems": "Sistemas de controle", "PLC": "CLP",
+  "Embedded systems": "Sistemas embarcados", "Electronics": "Eletrônica", "PCB design": "Projeto de PCB", "Signal processing": "Processamento de sinais",
+  "Financial markets": "Mercado financeiro", "Tax law": "Direito tributário", "Labor law": "Direito trabalhista", "Litigation": "Contencioso",
+  "Contracts": "Contratos", "Corporate law": "Direito societário", "Data protection (LGPD/GDPR)": "Proteção de dados (LGPD)",
+  "Legal research": "Pesquisa jurídica", "Patient care": "Cuidado ao paciente", "Nursing procedures": "Procedimentos de enfermagem",
+  "Pharmacology": "Farmacologia", "Clinical analysis": "Análises clínicas", "Public health": "Saúde pública", "Nutrition": "Nutrição",
+  "Physiotherapy": "Fisioterapia", "Psychology": "Psicologia", "Financial analysis": "Análise financeira", "Accounting": "Contabilidade",
+  "Financial modeling": "Modelagem financeira", "Sales": "Vendas", "Supply chain": "Cadeia de suprimentos", "Project management": "Gestão de projetos",
+  "Recruiting (HR)": "Recrutamento e seleção", "Customer service": "Atendimento ao cliente", "Digital marketing": "Marketing digital",
+  "Social media": "Redes sociais", "Video editing": "Edição de vídeo", "Quality management (ISO)": "Gestão da qualidade (ISO)",
+  "Workplace safety (NR)": "Segurança do trabalho (NR)", "Econometrics": "Econometria", "Lab techniques": "Técnicas de laboratório",
+  "GIS": "Geoprocessamento (SIG)", "Teaching": "Docência" };
+const skillName = s => LANG === "pt" && SKILL_PT[s] || s;
+// Locations come from the job boards in English ("Ilhéus, Bahia, Brazil (on-site)"); in Portuguese, the common words change.
+const PLACE_PT = [[/\bBrazil\b/g, "Brasil"], [/\(on-site\)/g, "(presencial)"], [/\(hybrid\)/g, "(híbrido)"], [/\(remote\)/g, "(remoto)"],
+  [/\bRemote\b/g, "Remoto"], [/\bUnited States of America\b|\bUnited States\b/g, "Estados Unidos"], [/\bGermany\b/g, "Alemanha"],
+  [/\bUnited Kingdom\b/g, "Reino Unido"], [/\bFrance\b/g, "França"], [/\bSpain\b/g, "Espanha"], [/\bNetherlands\b/g, "Holanda"],
+  [/\bSwitzerland\b/g, "Suíça"], [/\bMexico\b/g, "México"], [/\bPoland\b/g, "Polônia"], [/\bJapan\b/g, "Japão"], [/\bSweden\b/g, "Suécia"]];
+const placeText = text => LANG === "pt" ? PLACE_PT.reduce((out, [re, to]) => out.replace(re, to), text) : text;
 // Source keys -> the names people know (Sources table, source filter, "Found" line).
 const SOURCE_NAMES = { github_lists: "GitHub lists", gupy: "Gupy", ciee: "CIEE", superestagios: "Super Estágios", solides: "Sólides",
   iel: "IEL", ciadetalentos: "Cia de Talentos", fapesp: "FAPESP", programs: "programs", greenhouse: "Greenhouse", lever: "Lever",
@@ -989,7 +1012,7 @@ function applyIn(i) {
   return Math.min(...i.apply.map(m => (m - now + 12) % 12));
 }
 const isSoon = i => { const d = daysLeft(i.deadline); return d !== null && d >= 0 && d <= SOON_DAYS; };
-const locations = i => i.location.split(" / ").map(s => s.trim()).filter(Boolean);
+const locations = i => placeText(i.location).split(" / ").map(s => s.trim()).filter(Boolean);
 const regionNames = i => i.regions.filter(r => r !== "unknown").map(r => tv("region", r));
 const placeName = key => t(`place.${key}`);
 // "Engenharia, Computação" or, with more, "Engenharia +2".
@@ -1160,10 +1183,13 @@ function monthsUntil(ym) {
   const [y, m] = ym.split("-").map(Number);
   return (y - today.getFullYear()) * 12 + ((m || 12) - (today.getMonth() + 1));
 }
+// Season names are lower case in Portuguese so they read well inside a sentence ("Acontece em dez–fev");
+// on their own (a chip, the "Quando" line) they start with a capital.
+const cap = text => text.charAt(0).toUpperCase() + text.slice(1);
 function seasonText(season) {
   if (season === "unknown") return t("d.notStated");
   if (season === "year-round") return tv("season", season);
-  return `${tv("season", season)} · ${t(fitsBreaks(season) ? "season.inBreak" : "season.inClass")}`;
+  return `${cap(tv("season", season))} · ${t(fitsBreaks(season) ? "season.inBreak" : "season.inClass")}`;
 }
 
 // ------------------------------------------------------------------ fit
@@ -1488,7 +1514,7 @@ function renderResumeSummary(note = "") {
     <h2>${t("resume.summary")}</h2>
     ${note ? `<p class="copied">${esc(note)}</p>` : ""}
     <dl class="facts-list">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join("")}
-      <dt>${t("resume.skills", resume.skills.length)}</dt><dd><div class="skill-list">${resume.skills.map(s => `<span class="skill">${esc(s)}</span>`).join("")}</div></dd></dl>
+      <dt>${t("resume.skills", resume.skills.length)}</dt><dd><div class="skill-list">${resume.skills.map(s => `<span class="skill">${esc(skillName(s))}</span>`).join("")}</div></dd></dl>
     ${hasProfile() ? `<p class="muted">${esc(t("resume.profile", profileName()))}</p>` : ""}
     ${pendingProfile ? `<div class="pending-profile"><p>${esc(t("resume.proposes", profileChanges(pendingProfile)))}</p>
       <div class="button-row"><button class="btn" id="resume-apply">${t("resume.apply")}</button><button class="linkish" id="resume-keep">${t("resume.keep")}</button></div></div>` : ""}
@@ -1659,7 +1685,7 @@ function togglePick(key, value) {
 // Each filter as a test; `skip` leaves one out so its own chips can count what they would add.
 const FILTER_TESTS = {
   // Accents don't matter: "estagio" finds "estágio", "niteroi" finds "Niterói".
-  q: i => fold(view.q).split(/\s+/).filter(Boolean).every(w => (i._q ??= fold(`${i.title} ${i.org} ${i.location}`)).includes(w)),
+  q: i => fold(view.q).split(/\s+/).filter(Boolean).every(w => (i._q ??= fold(`${i.title} ${i.org} ${i.location} ${placeText(i.location)}`)).includes(w)),
   match: i => !!i._match && (view.match === "strong" ? i._match.level === 0 : i._match.level <= 1),
   fit: i => view.fit === "good" ? i._fit.level === 0 : i._fit.level === 0 || i._fit.level === 1,
   area: i => picked("area").some(v => areaMatches(i, v)),
@@ -1790,7 +1816,7 @@ function matchDetails(i) {
   if (m.area) lines.push(t("m.area", resume.areas.includes(i.area) ? tv("area", i.area) : t(`sub.${(i.subs || []).find(s => resume.areas.includes(s))}`)));
   if (m.role) lines.push(t("m.role", m.role));
   if (!i.skills.length) lines.push(t("m.noSkills"));
-  const chips = m.have.map(s => `<span class="skill hit">✓ ${esc(s)}</span>`).concat(m.missing.map(s => `<span class="skill miss">${esc(s)}</span>`)).join("");
+  const chips = m.have.map(s => `<span class="skill hit">✓ ${esc(skillName(s))}</span>`).concat(m.missing.map(s => `<span class="skill miss">${esc(skillName(s))}</span>`)).join("");
   return `<div><h4>${t(`match.${m.level}`)}</h4>
     ${i.skills.length ? `<p>${m.have.length ? t("m.have", m.have.length, i.skills.length) : t("m.haveNone", i.skills.length)}</p><div class="skill-list">${chips}</div>` : ""}
     ${lines.length ? `<p class="muted">${esc(lines.join(" · "))}</p>` : ""}</div>`;
@@ -1907,7 +1933,7 @@ function buildFilters(inTab) {
   const seasonPool = base("season");
   const seasons = countBy(seasonPool, i => [i.season], SEASON_ORDER.slice(1)).filter(v => v !== "unknown" || isPicked("season", "unknown"));
   chipGroup("season", [["breaks", t("season.breaks"), seasonPool.filter(i => fitsBreaks(i.season)).length],
-    ...seasons.map(v => [v, tv("season", v), seasonPool.filter(i => i.season === v).length])]);
+    ...seasons.map(v => [v, cap(tv("season", v)), seasonPool.filter(i => i.season === v).length])]);
   const sourcePool = base("source");
   const sources = countBy(sourcePool, i => [i.source], []);
   $("source").innerHTML = `<option value="">${t("filters.allSources")}</option>` + sources.map(s => `<option value="${esc(s)}">${esc(srcName(s))} (${fmtN(sourcePool.filter(i => i.source === s).length)})</option>`).join("");
