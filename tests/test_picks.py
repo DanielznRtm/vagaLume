@@ -163,3 +163,13 @@ def test_the_page_has_no_stray_control_characters():
 
     page = (Path(__file__).parent.parent / "docs" / "index.html").read_text(encoding="utf-8")
     assert not [c for c in page if ord(c) < 32 and c not in "\n\t\r"]
+
+
+@pytest.mark.skipif(not shutil.which("node"), reason="needs Node.js")
+def test_the_page_script_parses(tmp_path):
+    page = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+    for n, script in enumerate(re.findall(r"<script>(.*?)</script>", page, re.S)):
+        path = tmp_path / f"script{n}.js"
+        path.write_text(script, encoding="utf-8")
+        result = subprocess.run(["node", "--check", str(path)], capture_output=True, text=True)
+        assert result.returncode == 0, result.stderr[:500]
