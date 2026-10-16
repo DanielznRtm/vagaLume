@@ -43,10 +43,11 @@ CURRENCIES = {
 _CUR = r"(?:R\$|US\$|CA\$|HK\$|S\$|A\$|\$|€|£|₹|¥|BRL|USD|CAD|EUR|GBP|CHF|SGD|HKD|AUD|INR|JPY|PLN|AED)"
 _NUM = r"(?:\d[\d.,]*\d|\d)\s?[kK]?"  # never ends in "." or "," (sentence punctuation)
 _DASH = r"\s*(?:-|–|—|to|a|até)\s*"
+_UNIT = r"(?:\s?/\s?(?:hour|hr|h|year|yr|month|mo|week|wk)\b)"  # "$56/hour to $75/hour" (the unit is read later)
 
 # "$54 — $60 USD", "R$ 1.357,28", "€1,800 - 2,000"
 _SYMBOL_FIRST = re.compile(
-    rf"(?P<cur>{_CUR})\s?(?P<low>{_NUM})(?:{_DASH}(?:{_CUR})?\s?(?P<high>{_NUM}))?(?:\s*\(?(?P<cur2>USD|EUR|GBP|BRL|CAD|CHF)\)?)?"
+    rf"(?P<cur>{_CUR})\s?(?P<low>{_NUM})(?:{_UNIT}?{_DASH}(?:{_CUR})?\s?(?P<high>{_NUM}))?(?:\s*\(?(?P<cur2>USD|EUR|GBP|BRL|CAD|CHF)\)?)?"
 )
 # "109,395.00 USD Annually", "1,800 Swiss Francs per month"
 _NUMBER_FIRST = re.compile(
@@ -63,7 +64,7 @@ STRONG_PAY = re.compile(
 # Weaker words: they count only when nothing around says "perk".
 WEAK_PAY = re.compile(
     r"stipend|allowance|hourly|per hour|/\s?hr|annually|monthly|per month|\bbase\b|aux[íi]lio|ganho|mensal|"
-    r"por m[êe]s|/m[êe]s|\brange\b|\brate\b|pro rata|per year|a year|/\s?(?:yr|year)\b|per annum|💰",
+    r"por m[êe]s|/m[êe]s|\brange\b|\brate\b|pro rata|per year|a year|/\s?(?:yr|year|hour|month|week)\b|per annum|💰",
     re.I,
 )
 # Perks and benefits: an amount next to these is not the pay (unless a clear pay word is right there too).
@@ -266,6 +267,8 @@ def _amounts(text: str) -> list[Amount]:
                       or _period("", low, currency, guess=strong or (not perk and low >= 20000)))
             if not period:
                 continue
+            if period == "yr" and high < 200 and currency in ("$", "CA$", "€", "£"):
+                period = "hr"  # "USD $22.00 - USD $29.25 /Yr." (General Dynamics): an hourly rate with the wrong label
             amount = Amount(currency, low, high, period)
             if _believable(amount):
                 found.append(amount)

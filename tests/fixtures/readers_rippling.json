@@ -1,0 +1,22 @@
+{
+ "uuid": "dd4281b8-fa2a-4833-8370-b1859933b612",
+ "name": "ME00692-Software Engineer 1",
+ "description": {
+  "company": "<div><body><p style='font-family:\"Basel Grotesk\",Arial,sans-serif;font-size:11pt;font-weight:400;line-height:1.6;letter-spacing:0.25px;margin:4px 0px;padding:0px;'><span style=\"white-space:pre-wrap;\">Momentum Engineering, Inc. fosters an employee-centric culture. Our strength lies in our people. With a high percentage of employees holding advanced degrees in engineering, computer science, and related disciplines, we bring deep technical expertise to every mission. Our team includes professionals with security clearances and full-scope polygraphs, ensuring trusted, secure support for the most sensitive national security initiatives. Additionally, our workforce is equipped with industry-leading certifications, demonstrating a commitment to continuous learning and excellence. Most importantly, our exceptional employee retention rate reflects a culture of professional growth, mission focus, and dedication\u2014ensuring long-term stability and expertise for our customers\u2019 critical needs.</span></p></body></div>",
+  "role": "<div><body><p style='font-family:\"Basel Grotesk\",Arial,sans-serif;font-size:11pt;font-weight:400;line-height:1.6;letter-spacing:0.25px;margin:4px 0px;padding:0px;'><b><strong style=\"font-size:18pt;white-space:pre-wrap;\">Job Summary</strong></b></p><ul style='font-family:\"Basel Grotesk\",Arial,sans-serif;font-size:11pt;font-weight:400;margin:8px 0px;line-height:1.6;padding:0px 0px 0px 32px;list-style-type:disc;'><li style=\"margin:3px 0px;font-size:12pt;line-height:1.6;letter-spacing:0.25px;\"><span style=\"white-space:pre-wrap;\">Seeking a Software Engineer to support the development, enhancement, integration, testing, and sustainment of complex software systems within a mission-focused environment </span></li><li style=\"margin:3px 0px;font-size:12pt;line-height:1.6;letter-spacing:0.25px;\"><span style=\"white-space:pre-wrap;\">This role includes front-end development, cloud application deployment, workflow automation, and integration of artificial intelligence and machine learning capabilities into established systems and processes</span></li><li style=\"margin:3px 0px;font-size:12pt;line-height:1.6;letter-spacing:0.25px;\"><span style=\"white-space:pre-wrap;\">The ideal candidate is a versatile software engineer with strong problem-solving skills, a solid foundation in software development principles, and experience working across modern web, cloud, automation, and DevOps technologies</span></li></ul><p style='font-family:\"Basel Grotesk\",Arial,sans-serif;font-size:11pt;font-weight:400;line-height:1.6;letter-spacing:0.25px;margin:4px 0px;padding:0px;'><b><strong style=\"font-size:18pt;white-space:pre-wrap;\">Primary Responsibilities</strong></b></p><ul style='font-family:\"Basel Grotesk\",Arial,sans-serif;font-size:11pt;font-weight:400;margin:8px 0px;line-height:1.6;padding:0px 0px 0px 32px;list-style-type:disc;'><li style=\"font-size:12pt;margin:3px 0px;letter-spacing:0.25px;line-height:1.6;\"><span style=\"white-space:pre-wrap;\">Develop, maintain, and enhance complex software syste"
+ },
+ "workLocations": [
+  "Annapolis Junction, MD"
+ ],
+ "payRangeDetails": [
+  {
+   "location": "NBP",
+   "currency": "USD",
+   "frequency": "YEAR",
+   "rangeStart": 110000.0,
+   "rangeEnd": 155000.0,
+   "isRemote": false
+  }
+ ],
+ "companyName": "Momentum Engineering, Inc."
+}

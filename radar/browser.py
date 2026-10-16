@@ -19,7 +19,7 @@ from __future__ import annotations
 import json
 import os
 from dataclasses import dataclass, field
-from typing import Any, Callable
+from typing import Any, Callable, Iterator
 
 from .http import USER_AGENT
 
@@ -80,3 +80,29 @@ def render(url: str, keep: ResponseFilter | None = None) -> RenderedPage:
         finally:
             browser.close()
     return page_result
+
+
+def render_many(urls: list[str]) -> Iterator[tuple[str, str]]:
+    """Open several pages, one after the other, in one browser: yields (url, visible text).
+    A page that fails yields "" and the others go on."""
+    if not urls:
+        return
+    from playwright.sync_api import sync_playwright
+
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(**_launch_options())
+        try:
+            page = browser.new_page(user_agent=USER_AGENT)
+            for url in urls:
+                try:
+                    page.goto(url, wait_until="domcontentloaded", timeout=PAGE_TIMEOUT_MS)
+                    try:
+                        page.wait_for_load_state("networkidle", timeout=PAGE_TIMEOUT_MS / 4)
+                    except Exception:  # noqa: BLE001
+                        pass
+                    page.wait_for_timeout(SETTLE_MS)
+                    yield url, page.inner_text("body")
+                except Exception:  # noqa: BLE001 - one page failing doesn't stop the rest
+                    yield url, ""
+        finally:
+            browser.close()
