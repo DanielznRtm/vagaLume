@@ -43,7 +43,7 @@ no GitHub, a Gupy e o site de cada escola de verão, toda semana. Um *vagalume*
 |---|---|
 | 🌎 **No Brasil inteiro e mundo afora** | No Brasil: todos os estágios da Gupy, do CIEE, da Super Estágios, da Sólides e do IEL, os programas da Cia de Talentos, bolsas da FAPESP e os estágios de multinacionais (Santander, P&G, Citi, Bosch, Syngenta…), **mais de 11.000 vagas**, a maioria com o valor da bolsa. No exterior: **mais de 5.000 vagas** nos EUA e Canadá, na Europa, na Ásia e remotas, de big techs, laboratórios de IA, empresas de trading e programas de pesquisa. |
 | 🔭 **34 fontes, uma lista** | Também páginas Greenhouse, Lever, Ashby, SmartRecruiters e Workday de mais de 400 empresas, SAP, IBM, Goldman Sachs, KPMG, Deloitte, as listas da SimplifyJobs, Google, Amazon, Microsoft, NVIDIA, Meta, D. E. Shaw, DRW e 42 páginas de programas de pesquisa e verão. Cerca de **30.000 vagas abertas** num dia normal. |
-| 🎯 **Só o que é da sua área, na ordem certa** | Diga em quais áreas você procura vagas (não só o seu curso), se está na graduação, no mestrado ou no doutorado, onde estuda e onde toparia trabalhar (pode marcar mais de uma). Vagas de outras áreas, de outros níveis (doutorado para quem está na graduação, e vice-versa) e de fora dos lugares que você escolheu ficam escondidas, e cada vaga ganha um ponto (boa, verificar algo, improvável) com o motivo, como *"exige autorização de trabalho nos EUA"* ou *"voltada a doutorandos"*. |
+| 🎯 **Só o que é da sua área, na ordem certa** | Diga em quais áreas você procura vagas (não só o seu curso), se está na graduação, no mestrado ou no doutorado, onde estuda e onde toparia trabalhar (pode marcar mais de uma). Vagas de outras áreas, de outros níveis (doutorado para quem está na graduação, e vice-versa) e de fora dos lugares que você escolheu ficam ocultas, e cada vaga ganha um ponto (boa opção, confira antes, pouco provável) com o motivo, como *"exige autorização de trabalho nos EUA"* ou *"voltada a doutorandos"*. |
 | 📄 **Compare com o seu currículo** | Cole um prompt pronto e o seu currículo na IA que você já usa (ChatGPT, Gemini, Claude…), traga a resposta de volta, e cada vaga mostra o quanto combina. |
 | 💸 **Remuneração, quando informada** | `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`: lida das plataformas de vagas e das descrições, em inglês e em português. |
 | ✨ **Destaques do dia** | A aba *Destaques de hoje* mostra as 3, 5 ou 10 melhores vagas novas do dia para você (com o seu currículo, pelo que você sabe), e o bot do vagaLume pode mandá-las todo dia no Telegram. |
@@ -66,7 +66,7 @@ no GitHub, a Gupy e o site de cada escola de verão, toda semana. Um *vagalume*
 
 ## Veja
 
-<img alt="A lista do vagaLume no modo escuro: filtros à esquerda; cada vaga mostra o match com o currículo, a compatibilidade, o local, a remuneração, uma tirinha dos meses e o prazo" src=".github/assets/screenshot-dark-v2-pt.png">
+<img alt="A lista do vagaLume no modo escuro: filtros à esquerda; cada vaga mostra o quanto combina com o currículo e com o perfil, o local, a remuneração, uma tirinha dos meses e o prazo" src=".github/assets/screenshot-dark-v2-pt.png">
 
 Funciona no celular também, no modo claro e no escuro. **[Abrir →](https://pedrocamargolince.github.io/vagaLume/)**
 
@@ -85,8 +85,8 @@ currículo, pelo que você sabe.
    currículo. O prompt pede um resumo curto em JSON, **sem nome nem contatos**.
 3. Cole a resposta de volta no site.
 
-Pronto: cada vaga ganha um nível de match (*forte*, *bom*…),
-dá para ordenar por "melhor match" e, ao abrir uma vaga, você vê quais
+Pronto: cada vaga mostra o quanto combina com você (*combina muito*, *combina bem*…),
+dá para ordenar por "mais próximas do currículo" e, ao abrir uma vaga, você vê quais
 habilidades você tem (✓) e quais faltam. O resumo também deixa a análise mais
 precisa: países onde você já pode trabalhar deixam de gerar alerta de visto,
 vagas de recém-formado passam a valer se você se forma em até um ano, e os
@@ -122,7 +122,7 @@ configurar os segredos está no [guia](.github/GUIDE.md#secrets-all-optional) (e
 # ou rode no seu computador
 pip install .
 python -m playwright install chromium
-python -m radar          # coleta tudo (uns 8 minutos)
+python -m radar          # coleta tudo (uns 35 minutos)
 python -m http.server -d docs   # depois abra http://localhost:8000
 ```
 

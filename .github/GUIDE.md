@@ -10,7 +10,7 @@ opportunities**: internships (summer and regular, Brazil and abroad), estágio,
 research internships, fellowships, summer schools, and student programs at big
 tech companies, AI labs and trading firms.
 
-**The core rule: show everything, never decide for me.** Every student-level
+**The core rule: show everything, never decide for the student.** Every student-level
 posting found is kept. Nothing is dropped for eligibility, area or fit. Instead,
 each posting gets **labels** (area, season, region) and **warnings** (such as
 "US work auth?" or "PhD-level?"). When it is unclear whether a posting is for
@@ -19,13 +19,13 @@ students, it is still shown, with the warning `unsure if student role`.
 Every day it updates:
 
 - **The website** (`docs/`, served by GitHub Pages): one plain page with a
-  search box, tabs (All, New, Closing in 14 days, Programs & schools, Applied,
-  Hidden), a few filters and a table. See [The website](#the-website).
+  search box, tabs (Today's highlights, All, New, Closing soon, Saved, Programs
+  & schools, Applied, Hidden), filters and a table. See [The website](#the-website).
 - `docs/feed-brasil.xml` and `docs/feed.xml`: the new roles of the day as
   feeds, and the Telegram highlights (see below).
 - `data/opportunities.jsonl` and `data/page_hashes.jsonl`: the database as
-  text, one posting per line, with every posting ever seen and your status for
-  each one. Each run rebuilds a working SQLite file (`data/radar.db`, not
+  text, one posting per line, with every posting ever seen and its status
+  (see [Statuses](#statuses-for-every-device)). Each run rebuilds a working SQLite file (`data/radar.db`, not
   committed) from them and writes them back at the end.
 
 ---
@@ -36,7 +36,9 @@ Each source is one module in `radar/sources/`. They all return the same record
 (`radar/models.py`). If one source fails, the run goes on, and the failure shows
 up in the **Source health** table at the top of the report.
 
-Numbers from the run on 2026-10-09, after removing duplicates:
+Roughly how many roles each source gives on a normal day, after removing
+duplicates (the date says when it was counted; the site's Sources table has
+today's numbers):
 
 | Source | Module | How | Items |
 |---|---|---|---|
@@ -74,7 +76,7 @@ Numbers from the run on 2026-10-09, after removing duplicates:
 | Shopee (Brazil, Singapore) | `shopee.py` | the public API of its careers site, internship type | 165 (Oct 16) |
 | SuccessFactors sites, every country (SAP, Volvo Group, Volvo Cars) | `successfactors.py` | one RSS request per site with every job; places parsed from the titles | 319 (Oct 16) |
 
-Total on 2026-10-16: **25,150 open items** from 25 sources, before the 9 sources above it marked Oct 16 were added (about 5,000 more roles, most of them abroad).
+Total: about **30,000 open roles** a day from 34 sources, most of them in Brazil, Europe and the US.
 
 **Scraping without a public API.** Most sites that have no official API still
 load their jobs from somewhere: a JSON endpoint that the search page calls
@@ -111,8 +113,11 @@ servers but do answer a real browser.
   past it would mean disguising the browser or solving the challenge, which is
   defeating their anti-bot protection, so the radar doesn't do it. Where
   possible it reads the same postings from another source instead (see below).
-- **New-grad roles** are included because you asked for the SimplifyJobs
-  new-grad list. They carry the warning `new-grad role (after graduation)`.
+- **New-grad roles** (full-time jobs for after graduation, from the
+  SimplifyJobs new-grad list) are shown too, for students in their last year.
+  They carry the warning `new-grad role (after graduation)`, are marked
+  "check something" unless your résumé says you graduate within a year, and
+  never appear in Today's highlights.
 - Postings that a source stops listing are marked closed. If a source is only
   partly healthy, closing waits until a posting hasn't been seen for 30 days.
 - No LinkedIn scraping, by design.
@@ -125,16 +130,16 @@ servers but do answer a real browser.
 | MBZUAI UGRIP | nothing | https://mbzuai.ac.ae/ugrip/ |
 | OpenAI Residency | residency roles when OpenAI posts them on its Ashby board (already read daily) | https://openai.com/residency/ |
 
-Hudson River Trading used to be on this list. Its website blocks bots, but its
-jobs live on Greenhouse under the board name `wehrtyou`, so it is now read
-from the public API like any other company.
+Hudson River Trading's website also blocks bots, but its jobs are on
+Greenhouse (board `wehrtyou`), so they are read from the public API like any
+other company.
 
 ### Companies not on Greenhouse, Lever or Ashby
 
 They stay commented out in `config/companies.yaml`:
 
 - **Trading:** Two Sigma and SIG (watched as program pages), G-Research,
-  Radix, Headlands. D. E. Shaw and DRW have their own scrapers now.
+  Radix, Headlands. D. E. Shaw and DRW have their own scrapers.
 - **AI:** Google DeepMind (covered by the Google source and the Student
   Researcher page), Mistral AI, Hugging Face (uses Workable, which isn't
   supported).
@@ -169,7 +174,7 @@ notices CIEE publishes (`api-pp.ciee.org.br/api/editais/vitrine`).
 ## Labels
 
 Labels come from keyword rules in `radar/labels.py`. All the keyword lists are
-at the top of that file, so you can change them.
+at the top of that file.
 
 | Label | Values |
 |---|---|
@@ -181,12 +186,12 @@ at the top of that file, so you can change them.
 | warnings | `US work auth?`, `PhD-level?`, `grad-year limit?`, `unsure if student role`, `new-grad role (after graduation)`. `US work auth?` is for roles in the US/Canada, wording only the US uses (US citizen, green card, security clearance, ITAR), or "work authorization"/"sponsorship" on a remote role or one whose place is unknown. A role in Europe that asks for local work authorization doesn't get it. |
 | calendar note | whether it fits the usual Brazilian breaks or clashes with the semesters (Mar–Jul, Aug–Dec) |
 | deadline | a date when the source or the text states one, otherwise `check page`. A role past its deadline leaves the lists (Saved and Applied still show it); a program page's past date is last year's edition and isn't shown |
+| pay | when stated: the job board's own salary field (Ashby, Lever, Greenhouse, Sólides, CIEE, Super Estágios), otherwise read from the description by `radar/pay.py` (formats like `$54 — $60 USD`, `109,395.00 USD Annually`, `Bolsa auxílio: R$1.357,28/mês`). See **How pay is read** below. |
+| skills | the skills a posting mentions, from a fixed list of about 125 in `radar/skills.py` (Python, SQL, PLC, MATLAB, Tax law, Patient care, Financial analysis, Figma…), in English and Portuguese. Used by the résumé match on the site. |
 
 **What the site leaves out.** Roles for a term that is already over ("Winter
 2026", "Summer '25", "Estágio 2025") and repeats (the same title, company and
 place listed twice) are not written to `docs/data.json`.
-| pay | when stated: the job board's own salary field (Ashby, Lever, Greenhouse, Sólides, CIEE, Super Estágios), otherwise read from the description by `radar/pay.py` (formats like `$54 — $60 USD`, `109,395.00 USD Annually`, `Bolsa auxílio: R$1.357,28/mês`). See **How pay is read** below. |
-| skills | the skills a posting mentions, from a fixed list of about 80 in `radar/skills.py` (Python, C++, PyTorch, SQL, ROS, PLC, MATLAB, Embedded systems…), in English and Portuguese. Used by the résumé match on the site. Roles from the GitHub lists only have a title, so few skills are found for them. |
 
 ### How pay is read
 
@@ -197,14 +202,14 @@ public API (Workday, Greenhouse, Lever, Ashby, SmartRecruiters, Eightfold) or
 the page itself (IEL), and adds its text to the description: pay, skills,
 course and level come from there. A role is read again after 30 days; in
 between, the database keeps what its page gave. Each run reads at most a few
-thousand pages (new roles first). In October 2026 this added pay to roughly
-2,000 roles (IEL nearly all, GitHub-list and NVIDIA roles about two thirds,
-Microsoft about a third); Brazilian Workday and SmartRecruiters postings rarely
-state pay even on the page.
+thousand pages (new roles first), and opens a few Meta pages in the browser,
+where Meta shows its pay. How often the page states pay depends on the
+company: nearly every IEL estágio, about two thirds of the US roles from the
+GitHub lists, rarely a Brazilian Workday or a European SmartRecruiters role.
 
 A number in a description is shown as pay only when it is clearly the pay.
-Better to show nothing than a perk as a salary (a Cohere posting once showed
-`$75/hr`: it was a weekly lunch allowance).
+Better to show nothing than a perk as a salary: "a weekly lunch stipend of
+$75" is not $75/hr.
 
 - **A clear pay word** in the amount's sentence or in the heading above it:
   salary, pay, compensation, wage, remuneração, salário, bolsa. Amounts in a
@@ -225,6 +230,8 @@ Better to show nothing than a perk as a salary (a Cohere posting once showed
   talks about pay is the period guessed from the size of the number.
 - **Believable amounts only**: `$3/hr` or `$100,000/mo` is a misreading, so it
   is dropped.
+- **Totals for a whole program** ("$7,000 USD total internship stipend",
+  "R$ 6.000 durante o programa") are shown as totals: `$7,000 total`.
 
 The site marks pay read from the description with a `*` and "read from the
 description, check the posting" in the opened row. Pay from a salary field has
@@ -292,8 +299,7 @@ Science"). The site then:
   an engineering student);
 - always shows roles that don't say which field they want.
 
-With "Other" as your field nothing is hidden. Profiles made before this
-question are asked once more (the other answers are kept).
+With "Other" as your field nothing is hidden.
 
 **Level.** The bot also labels the levels a role is for (`radar/levels.py`):
 from the title ("PhD Intern", "BS/MS", "Bolsa de Mestrado", "Estágio |
@@ -314,8 +320,7 @@ their location shows "(hybrid)".
 roles always show, and so do roles whose place we can't tell. For "in my
 state", the bot reads the Brazilian state from each location
 (`radar/places.py`: "Recife - PE", "Vitória, Espírito Santo"); a Brazilian role
-without a clear state stays visible. "Anywhere" turns this off. Profiles made
-before this question keep seeing every place.
+without a clear state stays visible. "Anywhere" turns this off.
 
 **Hidden roles come back with one click.** "Show roles outside your profile",
 next to the number of roles and in the filters, shows everything again. The
@@ -447,20 +452,19 @@ found. Below, the buttons: open the posting, mark as applied, save, hide, and
   `…/vagaLume/#area=ML,data&region=Europe`), so you can bookmark a view or send it
   to a friend.
 
-**Turn it on (one time):** in the repository go to *Settings → Pages*, set
-*Source* to **Deploy from a branch**, pick branch **main** and folder
-**/docs**, and save. A minute later the site is live at
-**https://pedrocamargolince.github.io/vagaLume/**, and it updates
-after every daily run. The repository is public, so the site is public too.
+**In your own copy** (see [Setting it up on GitHub](#setting-it-up-on-github)),
+turn the site on once: *Settings → Pages*, *Source* **Deploy from a branch**,
+branch **main**, folder **/docs**. A minute later it is live at
+`https://<your-user>.github.io/vagaLume/` and it updates after every daily run.
 
 To try it on your computer: `python -m http.server -d docs` and open
 http://localhost:8000.
 
-### Statuses that follow you everywhere
+### Statuses for every device
 
-The Save, Applied and Hide buttons only remember things in one browser. For a status
-that every device sees, add the posting's id to `config/status.yaml` (edit it
-on github.com), for example:
+The Save, Applied and Hide buttons only remember things in one browser. In your
+own copy, a status that every device sees goes in `config/status.yaml` (edit it
+on github.com), by the posting's id, for example:
 
 ```yaml
 55047c2880ed6544: applied
@@ -526,7 +530,9 @@ site calls, `https://<tenant>.wd<N>.myworkdayjobs.com/wday/cxs/<tenant>/<site>/j
 
 ## Setting it up on GitHub
 
-1. **Merge to the default branch.** GitHub runs scheduled workflows only on the
+To run your own copy, with your own companies, programs and searches:
+
+1. **Fork the repository.** GitHub runs scheduled workflows only on the
    default branch (`main`).
 2. **Allow the workflow to push.** Go to *Settings → Actions → General →
    Workflow permissions* and pick **Read and write permissions**. The workflow
@@ -559,7 +565,7 @@ will link to it.
 ### Today's highlights and the personal Telegram digest
 
 The **Destaques de hoje** tab on the site shows the 3, 5 or 10 best *new* roles
-of the day for you, once you have compared your résumé. The rule
+of the day for you; with your résumé, sorted by what you know. The rule
 (`radar/picks.py`, and the same in the site's JavaScript):
 
 1. only roles first seen today, and only student roles (no "new grad" jobs);
@@ -582,7 +588,7 @@ blocking the bot) stops it. To turn it on, once:
 2. In the repository, *Settings → Secrets and variables → Actions*, add:
    - `TELEGRAM_BOT_TOKEN`: that token;
    - `DIGEST_KEY`: a random key that encrypts the subscriber list. Make one with
-     `python -m radar.telegram_bot keygen` (or ask for one), and keep a copy:
+     `python -m radar.telegram_bot keygen`, and keep a copy:
      without it the list can't be read.
 3. Write the bot's username in `config/digest.yaml` (`telegram_bot:`).
 
@@ -622,7 +628,7 @@ source .venv/bin/activate
 pip install ".[dev]"
 python -m playwright install chromium   # headless browser, only needed for Meta
 
-python -m radar                      # full run (about 8 minutes)
+python -m radar                      # full run (about 35 minutes)
 python -m radar --only gupy,programs # just some sources
 python -m radar --no-notify          # don't send Telegram/email
 python -m radar check-config         # verify every slug and program URL
@@ -666,9 +672,10 @@ are caught per source), **label** with rules (plus Claude if a key is set),
 - **Polite scraping.** The bot sends a user-agent that says what it is and
   links here, waits 0.6 s before each request, uses 25 s timeouts, retries
   once (longer pauses after a 429), and does not get around bot protection.
-  A full run makes about 380 requests and opens 2 pages in the browser.
-- **Repository size.** The database (`data/*.jsonl`, about 7 MB of text for
-  17,000 roles) and `docs/data.json` are committed every
+  A full run makes a few thousand requests (most of them job pages) and opens
+  a few dozen pages in the browser.
+- **Repository size.** The database (`data/*.jsonl`, about 22 MB of text for
+  28,000 roles) and `docs/data.json` are committed every
   day: the database is the bot's memory (first-seen dates, your statuses, page
   hashes) and the JSON is the website, so they stay in git on purpose. To keep
   the daily growth small:
@@ -676,9 +683,7 @@ are caught per source), **label** with rules (plus Claude if a key is set),
     lines that changed and merges cleanly;
   - each role's "last seen" date is refreshed once a week, not every day (it
     only decides when a role unseen for 30 days is closed), so on a normal day
-    only new and changed roles touch the file. In a test this kept the
-    repository's growth around 25 KB a day, against about 60 KB with daily
-    dates;
+    only new and changed roles touch the file;
   - `.gitignore` keeps everything else out (the working `radar.db`, caches,
     virtual environments, editor folders), and `.gitattributes` marks the
     daily files as generated so GitHub collapses them in diffs.
