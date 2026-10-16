@@ -35,7 +35,8 @@ from .textutil import html_to_text
 log = logging.getLogger(__name__)
 
 # Sources whose list gives no description (or no pay) and how many of their pages to read per run.
-BUDGET = {"github_lists": 1200, "workday": 1500, "smartrecruiters": 800, "iel": 800, "microsoft": 300, "nvidia": 200}
+# About 2,350 pages (~6 minutes) per run: the first runs clear the backlog over 2-3 days, then only new roles.
+BUDGET = {"github_lists": 600, "workday": 700, "smartrecruiters": 300, "iel": 500, "microsoft": 150, "nvidia": 100}
 REREAD_DAYS = 30
 WORKERS = 8
 
