@@ -187,6 +187,9 @@
   .fbtn .fval:not(:empty) + .chev { margin-left: 0; }
   .fbtn[aria-expanded="true"] .chev { transform: rotate(180deg); }
   .fbtn:hover { color: var(--accent); }
+  .agroup h5 { margin: 10px 0 4px; font-size: .78rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+  .agroup:first-child h5 { margin-top: 2px; }
+  .agroup-more > summary { cursor: pointer; font-size: .84rem; color: var(--accent); margin: 10px 0 2px; }
   .fpanel { display: grid; gap: 10px; padding: 10px 2px 12px; }
   #filters-clear { justify-self: start; margin-top: 8px; }
   .fsel { display: grid; gap: 6px; font-size: .85rem; color: var(--muted); }
@@ -504,7 +507,7 @@
         <div class="fdrop" data-drop="area">
           <button class="fbtn" aria-expanded="false"><span data-t="filters.area"></span><span class="fval"></span><svg class="chev" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <div class="fpanel" hidden>
-            <div class="chips" data-filter="area"></div>
+            <div id="area-groups"></div>
           </div>
         </div>
         <div class="fdrop" data-drop="region">
@@ -766,6 +769,32 @@ const STRINGS = {
   "r.months": [s => `Runs ${s}, outside the months you're free`, s => `Acontece em ${s}, fora dos seus meses livres`],
   "r.monthsSome": [(n, m) => `${n} of its ${m} months are in your free months`, (n, m) => `${n} dos ${m} meses caem nos seus meses livres`],
 
+  // Área filter: one group per section, "all of it" plus its sub-areas (radar/subareas.py).
+  "agroup.tech": ["Technology", "Tecnologia"], "agroup.all": ["All", "Todas"], "agroup.more": ["Other areas", "Outras áreas"],
+  "sub.tributario": ["Tax", "Tributário"], "sub.trabalhista": ["Labor", "Trabalhista"], "sub.contencioso": ["Litigation", "Contencioso / Cível"],
+  "sub.societario": ["Corporate", "Societário / Bancário"], "sub.contratos": ["Contracts & real estate", "Contratos / Imobiliário"],
+  "sub.regulatorio": ["Regulatory & compliance", "Regulatório / Compliance"], "sub.penal": ["Criminal", "Penal"], "sub.consumidor": ["Consumer", "Consumidor"],
+  "sub.enfermagem": ["Nursing", "Enfermagem"], "sub.medicina": ["Medicine", "Medicina"], "sub.farmacia": ["Pharmacy", "Farmácia"],
+  "sub.nutricao": ["Nutrition", "Nutrição"], "sub.psicologia": ["Psychology", "Psicologia"], "sub.fisioterapia": ["Physiotherapy", "Fisioterapia"],
+  "sub.odontologia": ["Dentistry", "Odontologia"], "sub.veterinaria": ["Veterinary", "Veterinária"], "sub.analises": ["Lab & biomedicine", "Análises clínicas / Biomedicina"],
+  "sub.esporte": ["Sport & PE", "Educação física / Esporte"],
+  "sub.financas": ["Finance & economics", "Finanças / Economia"], "sub.contabil": ["Accounting & audit", "Contabilidade / Auditoria"], "sub.rh": ["HR", "RH"],
+  "sub.comercial": ["Sales", "Comercial / Vendas"], "sub.logistica": ["Supply chain", "Logística / Compras"], "sub.consultoria": ["Consulting & strategy", "Consultoria / Estratégia"],
+  "sub.operacoes": ["Operations & CX", "Operações / Atendimento"], "sub.produto": ["Product", "Produto"],
+  "sub.mecanica": ["Mechanical", "Mecânica"], "sub.eletrica": ["Electrical & automation", "Elétrica / Automação"], "sub.civil": ["Civil", "Civil"],
+  "sub.producao": ["Production & processes", "Produção / Processos"], "sub.quimica_eng": ["Chemical", "Química"], "sub.qualidade": ["Quality", "Qualidade"],
+  "sub.manutencao": ["Maintenance", "Manutenção"], "sub.seguranca_trabalho": ["Health & safety", "Segurança do trabalho"],
+  "sub.minas": ["Mining, metals & oil", "Minas / Metalurgia / Petróleo"], "sub.aeroespacial": ["Aerospace", "Aeroespacial"],
+  "sub.infra": ["IT support & infra", "Suporte / Infraestrutura"], "sub.seguranca_info": ["Cybersecurity", "Segurança da informação"], "sub.ux": ["UX / UI", "UX / UI"],
+  "sub.marketing": ["Marketing", "Marketing"], "sub.design": ["Design & arts", "Design / Artes"], "sub.jornalismo": ["Journalism & content", "Jornalismo / Conteúdo"],
+  "sub.publicidade": ["Advertising & social media", "Publicidade / Redes sociais"], "sub.audiovisual": ["Video & photo", "Audiovisual"], "sub.rp": ["PR & internal comms", "Relações públicas"],
+  "sub.agronomia": ["Agronomy & forestry", "Agronomia / Florestal"], "sub.biologia": ["Biology & biotech", "Biologia / Biotecnologia"],
+  "sub.ambiental": ["Environment & ESG", "Meio ambiente / ESG"], "sub.alimentos": ["Food", "Alimentos"],
+  "sub.educacao": ["Education", "Educação / Pedagogia"], "sub.letras": ["Languages & translation", "Letras / Tradução"], "sub.social": ["Social work & sociology", "Serviço social / Sociais"],
+  "sub.relacoes_internacionais": ["International relations & trade", "Relações internacionais / Comex"], "sub.gestao_publica": ["Public administration", "Gestão pública"],
+  "sub.historia": ["History, geography & philosophy", "História / Geografia / Filosofia"],
+  "sub.arquitetura": ["Architecture", "Arquitetura"], "sub.urbanismo": ["Urbanism & landscape", "Urbanismo / Paisagismo"], "sub.interiores": ["Interiors", "Interiores"],
+  "sub.estatistica": ["Statistics & actuarial", "Estatística / Atuária"], "sub.matematica": ["Mathematics", "Matemática"], "sub.fisica": ["Physics", "Física"], "sub.quimica": ["Chemistry", "Química"],
   "area.ML": ["ML", "ML"], "area.research": ["Research", "Pesquisa"], "area.SWE": ["Software", "Software"], "area.data": ["Data", "Dados"],
   "area.quant": ["Quant", "Quant"], "area.hardware": ["Hardware", "Hardware"], "area.other": ["Other", "Outras"],
   "region.Brazil": ["Brazil", "Brasil"], "region.LatAm": ["Latin America", "América Latina"], "region.US/Canada": ["US/Canada", "EUA/Canadá"],
@@ -866,6 +895,24 @@ const WORK = ["state", "Brazil", "LatAm", "US/Canada", "Europe", "Asia/ME", "any
 const LEVELS = ["undergrad", "masters", "phd"];
 const SEASON_ORDER = ["breaks", "Dec–Feb", "Jan–Apr", "Jul", "May–Aug", "Sep–Dec", "year-round", "unknown"];
 const AREA_ORDER = ["ML", "research", "SWE", "data", "quant", "hardware", "other"];
+// The Área filter's groups (radar/subareas.py). Values: a tech area ("ML"), a sub-area ("s:tributario")
+// or a whole section ("f:direito", the role's fields).
+const SUB_GROUPS = {
+  tech: ["infra", "seguranca_info", "ux"],
+  engenharia: ["mecanica", "eletrica", "civil", "producao", "quimica_eng", "qualidade", "manutencao", "seguranca_trabalho", "minas", "aeroespacial"],
+  negocios: ["financas", "contabil", "rh", "comercial", "logistica", "consultoria", "operacoes", "produto"],
+  direito: ["tributario", "trabalhista", "contencioso", "societario", "contratos", "regulatorio", "penal", "consumidor"],
+  saude: ["enfermagem", "medicina", "farmacia", "nutricao", "psicologia", "fisioterapia", "odontologia", "veterinaria", "analises", "esporte"],
+  comunicacao: ["marketing", "design", "jornalismo", "publicidade", "audiovisual", "rp"],
+  biologicas: ["agronomia", "biologia", "ambiental", "alimentos"],
+  humanas: ["educacao", "letras", "social", "relacoes_internacionais", "gestao_publica", "historia"],
+  arquitetura: ["arquitetura", "urbanismo", "interiores"],
+  exatas: ["estatistica", "matematica", "fisica", "quimica"],
+};
+const areaMatches = (i, v) => v.startsWith("s:") ? (i.subs || []).includes(v.slice(2))
+  : v.startsWith("f:") ? (i.fields || []).includes(v.slice(2)) : i.area === v;
+const areaName = v => v.startsWith("s:") ? t(`sub.${v.slice(2)}`)
+  : v.startsWith("f:") ? `${t(`field.short.${v.slice(2)}`)} (${t("agroup.all").toLowerCase()})` : tv("area", v);
 const SEASON_MONTHS = { "Dec–Feb": [12, 1, 2], "Jan–Apr": [1, 2, 3, 4], "Jul": [7], "May–Aug": [5, 6, 7, 8], "Sep–Dec": [9, 10, 11, 12],
   "year-round": [1,2,3,4,5,6,7,8,9,10,11,12], "unknown": [] };
 const SEMESTER = new Set([3, 4, 5, 6, 8, 9, 10, 11]);  // the usual Brazilian semesters: Mar–Jun and Aug–Nov
@@ -1030,7 +1077,10 @@ const FIELD_FROM_TEXT = [
 const fieldFromText = text => (FIELD_FROM_TEXT.find(([, pattern]) => pattern.test(text || "")) || [""])[0];
 // Roles outside your profile (another field, level or place) are hidden until you
 // ask to see them. Roles you keep (saved, applied, hidden) always show in their own tabs.
-const hiddenForYou = i => !view.others && i._fit?.hidden && !saved.has(i.id) && !mark(i);
+// Picking an area in the Área filter means "show me these": a role hidden only for being in
+// another area comes back when it matches a pick ("Engenharias" for a law student).
+const hiddenForYou = i => !view.others && i._fit?.hidden && !saved.has(i.id) && !mark(i)
+  && !(i._fit.why === "field" && picked("area").some(v => areaMatches(i, v)));
 
 function mark(item) {
   const m = marks[item.id];
@@ -1534,7 +1584,7 @@ const FILTER_TESTS = {
   q: i => fold(view.q).split(/\s+/).filter(Boolean).every(w => (i._q ??= fold(`${i.title} ${i.org} ${i.location}`)).includes(w)),
   match: i => !!i._match && (view.match === "strong" ? i._match.level === 0 : i._match.level <= 1),
   fit: i => view.fit === "good" ? i._fit.level === 0 : i._fit.level === 0 || i._fit.level === 1,
-  area: i => picked("area").includes(i.area),
+  area: i => picked("area").some(v => areaMatches(i, v)),
   region: i => picked("region").some(r => i.regions.includes(r)),
   workplace: i => picked("workplace").some(w => workplacesOf(i).includes(w)),
   currency: i => picked("currency").includes(currencyOf(i)),
@@ -1723,6 +1773,27 @@ function chipGroup(name, values) {
   box.innerHTML = values.map(([value, text, count]) =>
     `<button class="chip ${count === 0 ? "zero" : ""}" data-value="${esc(value)}" aria-pressed="${isPicked(name, value)}">${esc(text)}${count != null ? `<small>${fmtN(count)}</small>` : ""}</button>`).join("");
 }
+// Área: technology first, then your sections (open), then the others under "Outras áreas".
+let areaMoreOpen = false;
+function buildAreaGroups(pool) {
+  const chip = (value, text) => {
+    const count = pool.filter(i => areaMatches(i, value)).length;
+    return count || isPicked("area", value)
+      ? `<button class="chip ${count === 0 ? "zero" : ""}" data-value="${esc(value)}" aria-pressed="${isPicked("area", value)}">${esc(text)}<small>${fmtN(count)}</small></button>` : "";
+  };
+  const group = (key, title, chips) => chips.join("") ? `<div class="agroup"><h5>${esc(title)}</h5><div class="chips" data-filter="area">${chips.join("")}</div></div>` : "";
+  const tech = group("tech", t("agroup.tech"), [...AREA_ORDER.filter(a => a !== "other").map(a => chip(a, tv("area", a))),
+    ...SUB_GROUPS.tech.map(k => chip(`s:${k}`, t(`sub.${k}`)))]);
+  const mine = (profile?.fields || []).filter(f => SUB_GROUPS[f]);
+  const sections = [...mine, ...Object.keys(SUB_GROUPS).filter(f => f !== "tech" && !mine.includes(f))];
+  const html = f => group(f, t(`field.${f}`), [chip(`f:${f}`, t("agroup.all")), ...SUB_GROUPS[f].map(k => chip(`s:${k}`, t(`sub.${k}`)))]);
+  const yours = sections.filter(f => mine.includes(f)).map(html).join("");
+  const others = sections.filter(f => !mine.includes(f)).map(html).join("");
+  // Without a profile every section is "yours"; with one, the others fold away.
+  $("area-groups").innerHTML = (mine.length ? yours + tech : tech + others)
+    + (mine.length && others ? `<details class="agroup-more"${areaMoreOpen ? " open" : ""}><summary>${esc(t("agroup.more"))}</summary>${others}</details>` : "");
+}
+document.addEventListener("toggle", e => { if (e.target.classList?.contains("agroup-more")) areaMoreOpen = e.target.open; }, true);
 function countBy(items, valuesOf, order) {
   const counts = {};
   items.forEach(i => valuesOf(i).forEach(v => counts[v] = (counts[v] || 0) + 1));
@@ -1742,8 +1813,7 @@ function buildFilters(inTab) {
     const n0 = pool.filter(i => i._fit.level === 0).length, n1 = pool.filter(i => i._fit.level === 1).length;
     chipGroup("fit", [["good", t("chip.fit.good"), n0], ["check", t("chip.fit.check"), n0 + n1]]);
   } else chipGroup("fit", []);
-  const areaPool = base("area");
-  chipGroup("area", countBy(areaPool, i => [i.area], AREA_ORDER).map(v => [v, tv("area", v), areaPool.filter(i => i.area === v).length]));
+  buildAreaGroups(base("area"));
   const regionPool = base("region");
   chipGroup("region", countBy(regionPool, i => i.regions.filter(r => r !== "unknown" && (r !== "remote" || isPicked("region", r))), REGION_ORDER).map(v => [v, tv("region", v), regionPool.filter(i => i.regions.includes(v)).length]));
   const workPool = base("workplace");
@@ -1766,14 +1836,14 @@ function activeFilters() {
   if (view.q) pills.push(["q", t("pill.search", view.q)]);
   for (const [key, kind] of Object.entries(FILTER_KINDS)) {
     if (!view[key]) continue;
-    if (MULTI.has(key)) picked(key).forEach(value => pills.push([`${key}:${value}`, tv(kind, value)]));  // one pill per value
+    if (MULTI.has(key)) picked(key).forEach(value => pills.push([`${key}:${value}`, key === "area" ? areaName(value) : tv(kind, value)]));  // one pill per value
     else pills.push([key, tv(kind, view[key])]);
   }
   if (view.source) pills.push(["source", view.source]);
   if (view.pay) pills.push(["pay", t("pill.pay")]);
   if (view.others) pills.push(["others", t("pill.others")]);
   // Each filter button shows what is picked in it: "Área: ML +1".
-  const name = (kind, v) => kind === "season" && v === "breaks" ? t("season.breaks") : tv(kind, v);
+  const name = (kind, v) => kind === "season" && v === "breaks" ? t("season.breaks") : kind === "area" ? areaName(v) : tv(kind, v);
   const shown = {
     foryou: view.match ? [tv("chip.match", view.match)] : view.fit ? [tv("chip.fit", view.fit)] : view.others ? [t("pill.others")] : [],
     more: [view.pay ? t("pill.pay") : "", view.source].filter(Boolean),
@@ -1980,7 +2050,8 @@ document.addEventListener("click", e => {
   if (others) { view.others = others.dataset.others; return rerender(); }
   const pill = e.target.closest("[data-clear]");
   if (pill) {
-    const [key, value] = pill.dataset.clear.split(":");
+    const at = pill.dataset.clear.indexOf(":");  // "area:s:tributario" -> "area", "s:tributario"
+    const [key, value] = at < 0 ? [pill.dataset.clear, ""] : [pill.dataset.clear.slice(0, at), pill.dataset.clear.slice(at + 1)];
     if (value) togglePick(key, value); else view[key] = "";
     if (key === "q") $("search").value = "";
     return rerender();

@@ -20,7 +20,7 @@ import unicodedata
 # key -> (section, pattern). The section is a field from radar/fields.py.
 SUBAREAS: dict[str, tuple[str, str]] = {
     # Law
-    "tributario": ("direito", r"tribut|\btax\b|fiscal(?! de (?:obra|campo|loja))"),
+    "tributario": ("direito", r"tribut|\btax law|direito fiscal"),
     "trabalhista": ("direito", r"trabalhist|\blabou?r law|employment law"),
     "contencioso": ("direito", r"contencios|civel|direito civil|civil litigation|processual|litigation|litigio"),
     "societario": ("direito", r"societari|\bm&a\b|fusoes|corporate law|mercado de capitais|bancario"),
@@ -41,7 +41,7 @@ SUBAREAS: dict[str, tuple[str, str]] = {
     "esporte": ("saude", r"educacao fisica|esporte|natacao|personal trainer|academia(?! de)|\bsports?\b"),
     # Business
     "financas": ("negocios", r"financ|economi|tesouraria|treasury|investiment|investment|credito|\bcredit\b|banking|bancari|\bfp&a\b|valuation|controladoria"),
-    "contabil": ("negocios", r"contab|accounting|auditori|\baudit|\bcustos\b"),
+    "contabil": ("negocios", r"contab|accounting|auditori|\baudit|\bcustos\b|fiscal(?! de (?:obra|campo|loja))|\btax\b"),
     "rh": ("negocios", r"recursos humanos|\brh\b|\bhr\b|human resources|departamento pessoal|\bdp\b|\btalent|\bpeople\b|recrutamento|recruit"),
     "comercial": ("negocios", r"comercial|vendas|\bsales\b|inside sales|key account|account (?:manager|executive)|business development|pre-?vendas"),
     "logistica": ("negocios", r"logistic|supply chain|suprimentos|compras|procurement|purchas|\bpcp\b|planejamento de (?:producao|demanda)|estoque|inventory"),
