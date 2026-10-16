@@ -1,0 +1,170 @@
+{
+ "status": 200,
+ "error": {
+  "message": "",
+  "body": ""
+ },
+ "data": {
+  "positions": [
+   {
+    "id": 44366095,
+    "displayJobId": "126098",
+    "name": "Practicante de Prevención de Pérdidas - Mercado Envíos",
+    "locations": [
+     "Bogotá,Colombia"
+    ],
+    "standardizedLocations": [
+     "Bogotá, Bogota, CO"
+    ],
+    "postedTs": 1790010280,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Shipping",
+    "creationTs": 1788480714,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "126098",
+    "positionUrl": "/careers/job/44366095"
+   },
+   {
+    "id": 44777707,
+    "displayJobId": "127518",
+    "name": "Practicante de Planeación Comercial - Marketplace",
+    "locations": [
+     "Bogotá,Colombia"
+    ],
+    "standardizedLocations": [
+     "Bogotá, Bogota, CO"
+    ],
+    "postedTs": 1791305453,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Marketplace",
+    "creationTs": 1790979820,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "127518",
+    "positionUrl": "/careers/job/44777707"
+   },
+   {
+    "id": 44777713,
+    "displayJobId": "127519",
+    "name": "Practicante de Marketing",
+    "locations": [
+     "Bogotá,Colombia"
+    ],
+    "standardizedLocations": [
+     "Bogotá, Bogota, CO"
+    ],
+    "postedTs": 1791306307,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Marketing",
+    "creationTs": 1790979956,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "127519",
+    "positionUrl": "/careers/job/44777713"
+   },
+   {
+    "id": 44366094,
+    "displayJobId": "126096",
+    "name": "Practicante de Tesorería",
+    "locations": [
+     "Bogotá,Colombia"
+    ],
+    "standardizedLocations": [
+     "Bogotá, Bogota, CO"
+    ],
+    "postedTs": 1788560924,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Finance",
+    "creationTs": 1788480545,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "126096",
+    "positionUrl": "/careers/job/44366094"
+   },
+   {
+    "id": 44366091,
+    "displayJobId": "126097",
+    "name": "Practicante de Contabilidad",
+    "locations": [
+     "Bogotá,Colombia"
+    ],
+    "standardizedLocations": [
+     "Bogotá, Bogota, CO"
+    ],
+    "postedTs": 1789501607,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Finance",
+    "creationTs": 1788480632,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "126097",
+    "positionUrl": "/careers/job/44366091"
+   },
+   {
+    "id": 44366063,
+    "displayJobId": "126093",
+    "name": "Practicante Comercial - Marketplace First Party",
+    "locations": [
+     "Bogotá,Colombia"
+    ],
+    "standardizedLocations": [
+     "Bogotá, Bogota, CO"
+    ],
+    "postedTs": 1788562594,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Marketplace",
+    "creationTs": 1788480213,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "126093",
+    "positionUrl": "/careers/job/44366063"
+   },
+   {
+    "id": 44366082,
+    "displayJobId": "126095",
+    "name": "Practicante de Inteligencia Comercial - Mercado Pago",
+    "locations": [
+     "Bogotá,Colombia"
+    ],
+    "standardizedLocations": [
+     "Bogotá, Bogota, CO"
+    ],
+    "postedTs": 1788788129,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Fintech",
+    "creationTs": 1788480455,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "126095",
+    "positionUrl": "/careers/job/44366082"
+   }
+  ],
+  "count": 7,
+  "sortBy": "relevance",
+  "appliedFilters": {},
+  "savedSearchMetadata": {
+   "savedSearchParamsHash": null,
+   "isSavedSearchActive": false
+  },
+  "resultsMetaData": {
+   "usedFuzzSearch": false,
+   "mocTitle": null
+  }
+ },
+ "metadata": null
+}

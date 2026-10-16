@@ -1,0 +1,51 @@
+{
+ "data": {
+  "roleSearch": {
+   "totalCount": 2,
+   "items": [
+    {
+     "roleId": "182565_GS_CAMPUS",
+     "corporateTitle": "Seasonal",
+     "jobTitle": "2027 | Americas | Sao Paulo | Investment Banking | Seasonal/Off Cycle Internship (Trainee)",
+     "jobFunction": "",
+     "locations": [
+      {
+       "primary": true,
+       "state": "Sao Paulo",
+       "country": "Brazil",
+       "city": "Sao Paulo"
+      }
+     ],
+     "status": "POSTED",
+     "division": "Global Banking & Markets",
+     "externalSource": {
+      "sourceId": "182565"
+     },
+     "educationLevel": null,
+     "startDate": "2026-10-06T20:17:37.586860822Z"
+    },
+    {
+     "roleId": "154341_GS_CAMPUS",
+     "corporateTitle": "Analyst",
+     "jobTitle": "2026 | Americas | Sao Paulo | Engineering | New Analyst",
+     "jobFunction": "",
+     "locations": [
+      {
+       "primary": true,
+       "state": "Sao Paulo",
+       "country": "Brazil",
+       "city": "Sao Paulo"
+      }
+     ],
+     "status": "POSTED",
+     "division": "Engineering Division",
+     "externalSource": {
+      "sourceId": "154341"
+     },
+     "educationLevel": null,
+     "startDate": "2026-08-18T14:58:12.521606634Z"
+    }
+   ]
+  }
+ }
+}

@@ -63,7 +63,6 @@ def parse(data: dict[str, Any], site: dict[str, Any]) -> tuple[list[Opportunity]
                 remote=model == "remote",
                 posted_date=iso_date(job.get("postedTs") or job.get("creationTs")),
                 description=str(job.get("department") or ""),
-                hints=["student"],
             )
         )
     return items, int(block.get("count") or 0)

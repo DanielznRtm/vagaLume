@@ -1,0 +1,168 @@
+{
+ "programa-de-estagio-braskem": {
+  "id": "6ff644b2-77f6-42ce-a5ce-4bc47b1141a3",
+  "slug": "programa-de-estagio-braskem",
+  "title": "Programa de estágio Braskem 2027",
+  "badge": "Programa de Estágio",
+  "vacancyType": "Estágio",
+  "status": "ATIVO",
+  "applicationStartDate": "2026-10-01T00:00:00.000Z",
+  "applicationEndDate": null,
+  "shareUrl": "https://vagas.academiadouniversitario.com.br/programas/programa-de-estagio-braskem",
+  "openVacanciesCount": 118,
+  "salaryRange": {
+   "min": {
+    "amount": "2200.00",
+    "currency": "BRL",
+    "scale": 2
+   },
+   "max": {
+    "amount": "2800.00",
+    "currency": "BRL",
+    "scale": 2
+   }
+  },
+  "workModels": [
+   "HYBRID",
+   "PRESENTIAL"
+  ],
+  "locations": [
+   "Camaçari",
+   "Campinas",
+   "Cubatão",
+   "Duque de Caxias",
+   "Maceió",
+   "Marechal Deodoro",
+   "Paulínia",
+   "Porto Alegre",
+   "Salvador",
+   "Santo André",
+   "São Paulo",
+   "Triunfo"
+  ],
+  "graduationForecast": {
+   "start": "2028-1",
+   "end": "2029-2"
+  },
+  "description": "Fazemos parte da indústria petroquímica e produzimos insumos químicos e resinas termoplásticas, a matéria-prima de boa parte do que está ao seu redor agora: a embalagem do seu café, o pote do seu almoço, o cabo do seu carregador, o material do hospital onde alguém da sua família foi atendido.\nVocê nunca comprou nada da Braskem e, mesmo assim, a gente está no seu dia. Somos uma empresa que está na "
+ },
+ "programa-de-estagio-volkswagen-2027-1": {
+  "id": "de0c2007-e705-49c8-84be-04a87336eb3b",
+  "slug": "programa-de-estagio-volkswagen-2027-1",
+  "title": "Programa de Estágio Volkswagen 2027.1",
+  "badge": "Programa de Estágio",
+  "vacancyType": "Estágio",
+  "status": "ATIVO",
+  "applicationStartDate": "2026-09-24T00:00:00.000Z",
+  "applicationEndDate": "2026-10-24T00:00:00.000Z",
+  "shareUrl": "https://vagas.academiadouniversitario.com.br/programas/programa-de-estagio-volkswagen-2027-1",
+  "openVacanciesCount": 38,
+  "salaryRange": {
+   "min": {
+    "amount": "2100.00",
+    "currency": "BRL",
+    "scale": 2
+   },
+   "max": {
+    "amount": "2100.00",
+    "currency": "BRL",
+    "scale": 2
+   }
+  },
+  "workModels": [
+   "HYBRID",
+   "PRESENTIAL"
+  ],
+  "locations": [
+   "Curitiba",
+   "São Bernardo do Campo",
+   "São Carlos",
+   "São José dos Pinhais",
+   "Taubaté"
+  ],
+  "graduationForecast": {
+   "start": "2027-2",
+   "end": "2029-1"
+  },
+  "description": "Presente no Brasil há 73 anos, a Volkswagen acumula importantes marcos em sua trajetória. É a maior fabricante de automóveis do País, com mais de 26,7 milhões de veículos produzidos, e a maior exportadora do setor automotivo brasileiro, com mais de 4,4 milhões de unidades embarcadas desde 1970. Nesse contexto, o programa de estágio desempenha papel estratégico na atração, formação e desenvolviment"
+ },
+ "9e493e79-77b7-41be-8a2f-08372cee1c46": {
+  "id": "9e493e79-77b7-41be-8a2f-08372cee1c46",
+  "title": "Estagio Administrativo",
+  "locations": [
+   {
+    "name": null,
+    "city": "Rio de Janeiro",
+    "state": "RJ"
+   }
+  ],
+  "location": {
+   "city": "Rio de Janeiro",
+   "state": "RJ",
+   "multipleLocations": false
+  },
+  "workModel": "HYBRID",
+  "openingDate": "2026-10-14T00:00:00.000Z",
+  "closingDate": "2026-11-13T00:00:00.000Z",
+  "salary": {
+   "min": {
+    "amount": "1737.00",
+    "currency": "BRL",
+    "scale": 2
+   },
+   "max": {
+    "amount": "1737.00",
+    "currency": "BRL",
+    "scale": 2
+   }
+  },
+  "occupationArea": "Administração",
+  "graduationForecast": {
+   "start": "2027-07",
+   "end": "2028-07"
+  },
+  "description": "Realizar controles e atualizações da área de suprimentos por meio de planilhas Excel;\n\nAtualizar o sistema de compras com informações e documentos contratuais;\n\nExecutar processos de compras de baixa complexidade;\n\nApoiar atualizações e controles relacionados à gestão de contratos;\n\nContribuir com ideias inovadoras que agreguem valor aos processos e à organização;\n\nDesenvolver conhecimentos técnic",
+  "company": {
+   "id": "1230e0a0-9cdb-4939-87a5-ce6e6137f585",
+   "name": "ONS"
+  }
+ },
+ "a93eea38-1802-40df-8d1d-3842c9591d6b": {
+  "id": "a93eea38-1802-40df-8d1d-3842c9591d6b",
+  "title": "Banco de talentos Volkswagen",
+  "locations": [
+   {
+    "name": null,
+    "city": null,
+    "state": null
+   }
+  ],
+  "location": {
+   "city": null,
+   "state": null,
+   "multipleLocations": true
+  },
+  "workModel": "HYBRID",
+  "openingDate": "2026-09-04T00:00:00.000Z",
+  "closingDate": "2026-11-30T00:00:00.000Z",
+  "salary": {
+   "min": {
+    "amount": "0.01",
+    "currency": "BRL",
+    "scale": 2
+   },
+   "max": {
+    "amount": "0.01",
+    "currency": "BRL",
+    "scale": 2
+   }
+  },
+  "occupationArea": "Outros",
+  "graduationForecast": null,
+  "description": "Cadastre seu perfil no Banco de Talentos Volkswagen e fique disponível para futuras oportunidades. Ao fazer seu cadastro, você poderá ser considerado(a) em processos seletivos de acordo com seu perfil, formação e oportunidades disponíveis na empresa.",
+  "company": {
+   "id": "46d0c037-eddd-44d2-8b73-69d9c009fc1f",
+   "name": "Volkswagen"
+  }
+ }
+}

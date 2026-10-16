@@ -64,6 +64,14 @@ def _location(place: str) -> str:
     return ", ".join(parts) or "Brazil"
 
 
+def job_url(job: dict[str, Any], board: dict[str, Any]) -> str:
+    """The board's own address (the list's "link" points to the older *.inhire.com.br domain).
+    https://kpmg.inhire.app/vagas/{id}, or /{career page}/vagas/{id} for the other career pages."""
+    page = str((job.get("careerPage") or {}).get("careerPage") or "default")
+    prefix = "" if page == "default" else f"/{page}"
+    return f"https://{board['tenant']}.inhire.app{prefix}/vagas/{job['jobId']}"
+
+
 def to_opportunity(job: dict[str, Any], detail: dict[str, Any] | None, board: dict[str, Any]) -> Opportunity | None:
     """One role from the list plus (when we could read it) its own page."""
     detail = detail or {}
@@ -87,7 +95,7 @@ def to_opportunity(job: dict[str, Any], detail: dict[str, Any] | None, board: di
         title=title,
         org=str(board.get("name") or board["tenant"]),
         source=NAME,
-        url=str(job.get("link") or f"https://{board['tenant']}.inhire.app/vagas/{job['jobId']}"),
+        url=job_url(job, board),
         location=location + (f" ({model})" if model else ""),
         remote=model == "remote",
         posted_date=iso_date(detail.get("lastPublishedAt") or detail.get("publishedAt") or detail.get("createdAt")),

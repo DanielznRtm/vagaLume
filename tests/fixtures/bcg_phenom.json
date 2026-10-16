@@ -1,0 +1,183 @@
+{
+ "refineSearch": {
+  "status": 200,
+  "hits": 3,
+  "totalHits": 3,
+  "data": {
+   "jobs": [
+    {
+     "country": "Brazil",
+     "subCategory": "Knowledge Management",
+     "type": "Full-Time",
+     "descriptionTeaser": "We are looking for a Research Intern to support secondary research on the Brazil market, focusing on commercial, multi-industry, and economic topics. You will synthesise data, deliver insights, and contribute to client projects. Ideal for candidates with strong organisational skills and an interest in market research.",
+     "state": "",
+     "longitude": "-43.18223",
+     "siteType": "external",
+     "multi_category": [
+      "Expertise and Insights"
+     ],
+     "reqId": "58670",
+     "jobId": "58670",
+     "city": "Rio de Janeiro",
+     "latitude": "-22.90642",
+     "industry": "",
+     "locale": "en_GLOBAL",
+     "multi_location": [
+      "Rio de Janeiro, Brazil",
+      "São Paulo, Brazil"
+     ],
+     "title": "Brazil Market- Research Intern",
+     "jobSeqNo": "BCG1US58670EXTERNALENGLOBAL",
+     "postedDate": "2026-07-08T00:00:00.000+0000",
+     "dateCreated": "2026-07-08T15:02:21.753+0000",
+     "jobVisibility": [
+      "external"
+     ],
+     "location": "Rio de Janeiro, Brazil",
+     "category": "Expertise and Insights",
+     "externalApply": true,
+     "isMultiLocation": true,
+     "isMultiCategory": true,
+     "badge": ""
+    },
+    {
+     "country": "Brazil",
+     "subCategory": "Co-op/Intern/Temporary",
+     "type": "Part-Time",
+     "descriptionTeaser": "We are looking for an AI Engineering Intern to join BCG X Delivery in Brazil, contributing to innovative technology projects and collaborating with global consulting teams. Ideal for candidates pursuing a technical degree with strong programming skills and a passion for problem-solving.",
+     "state": "",
+     "siteType": "external",
+     "longitude": "-43.18223",
+     "multi_category": [
+      "Consulting"
+     ],
+     "reqId": "59459",
+     "jobId": "59459",
+     "city": "Rio de Janeiro",
+     "latitude": "-22.90642",
+     "industry": "",
+     "locale": "en_GLOBAL",
+     "multi_location": [
+      "Rio de Janeiro, Brazil",
+      "São Paulo, Brazil"
+     ],
+     "title": "[Banco de Talentos] Delivery AI Engineering Intern, Brazil - X Delivery",
+     "jobSeqNo": "BCG1US59459EXTERNALENGLOBAL",
+     "postedDate": "2026-09-15T00:00:00.000+0000",
+     "dateCreated": "2026-09-15T21:01:59.386+0000",
+     "jobVisibility": [
+      "external"
+     ],
+     "location": "Rio de Janeiro, Brazil",
+     "category": "Consulting",
+     "externalApply": true,
+     "isMultiLocation": true,
+     "isMultiCategory": true,
+     "badge": ""
+    },
+    {
+     "country": "Brazil",
+     "subCategory": "Co-op/Intern/Temporary",
+     "type": "Part-Time",
+     "descriptionTeaser": "We are seeking a Forward Deployed AI Scientist Intern to join BCG X in Brazil, contributing to advanced analytics and machine learning projects. The role involves applying predictive analytics and optimization techniques, ideal for candidates with strong analytical skills and experience in Python.",
+     "state": "",
+     "longitude": "-43.18223",
+     "siteType": "external",
+     "multi_category": [
+      "Consulting"
+     ],
+     "reqId": "59438",
+     "jobId": "59438",
+     "city": "Rio de Janeiro",
+     "latitude": "-22.90642",
+     "industry": "",
+     "locale": "en_GLOBAL",
+     "multi_location": [
+      "Rio de Janeiro, Brazil",
+      "São Paulo, Brazil"
+     ],
+     "title": "[Banco de Talentos] Forward Deployed AI Scientist Intern, Brazil - BCG X",
+     "jobSeqNo": "BCG1US59438EXTERNALENGLOBAL",
+     "postedDate": "2026-09-21T00:00:00.000+0000",
+     "dateCreated": "2026-09-14T19:01:59.145+0000",
+     "jobVisibility": [
+      "external"
+     ],
+     "location": "Rio de Janeiro, Brazil",
+     "category": "Consulting",
+     "externalApply": true,
+     "isMultiLocation": true,
+     "isMultiCategory": true,
+     "badge": ""
+    }
+   ],
+   "aggregations": [
+    {
+     "field": "country",
+     "value": {
+      "Argentina": 2,
+      "Austria": 5,
+      "Azerbaijan": 1,
+      "Belgium": 1,
+      "Brazil": 3,
+      "Canada": 1,
+      "Chile": 2,
+      "Colombia": 4,
+      "Czechia": 2,
+      "Denmark": 3,
+      "Egypt": 1,
+      "Finland": 3,
+      "France": 10,
+      "Germany": 19,
+      "Greater China": 3,
+      "Greece": 3,
+      "Hungary": 3,
+      "Indonesia": 3,
+      "Italy": 8,
+      "Korea – Republic of Korea": 1,
+      "Malaysia": 3,
+      "Mexico": 1,
+      "Morocco": 2,
+      "Netherlands": 5,
+      "Norway": 3,
+      "Peru": 1,
+      "Philippines": 2,
+      "Poland": 1,
+      "Portugal": 1,
+      "Saudi Arabia": 9,
+      "Singapore": 2,
+      "South Africa": 1,
+      "Spain": 3,
+      "Sweden": 3,
+      "Switzerland": 2,
+      "Thailand": 2,
+      "Türkiye": 1,
+      "United Arab Emirates": 2,
+      "United Kingdom": 2,
+      "United States of America": 5,
+      "Uzbekistan": 1,
+      "Vietnam": 3,
+      "Unspecified": 1
+     }
+    },
+    {
+     "field": "jobType",
+     "value": {
+      "Internship": 3,
+      "Permanent": 20
+     }
+    }
+   ]
+  },
+  "eid": {
+   "trialIndex": -1,
+   "eid": "6ad235ee9ef39ef5314dac88",
+   "searchType": "location",
+   "isMultiLingualVectorApplied": false,
+   "query": "Brazil",
+   "variant": 0,
+   "banditId": "",
+   "keywordLanguage": "en"
+  }
+ }
+}

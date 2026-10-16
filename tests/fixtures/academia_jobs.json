@@ -1,0 +1,119 @@
+{
+ "message": "Operação realizada com sucesso",
+ "code": "@SUCCESS",
+ "response": {
+  "data": [
+   {
+    "id": "9e493e79-77b7-41be-8a2f-08372cee1c46",
+    "slug": null,
+    "type": "JOB",
+    "company": {
+     "id": "1230e0a0-9cdb-4939-87a5-ce6e6137f585",
+     "name": "ONS"
+    },
+    "name": "Estagio Administrativo",
+    "badge": null,
+    "mainLocation": "Rio de Janeiro - RJ",
+    "openPositions": null,
+    "salary": {
+     "min": {
+      "amount": "1737.00",
+      "currency": "BRL",
+      "scale": 2
+     },
+     "max": {
+      "amount": "1737.00",
+      "currency": "BRL",
+      "scale": 2
+     }
+    },
+    "workModels": [
+     "HYBRID"
+    ],
+    "jobType": "Administração",
+    "graduationForecast": {
+     "start": "2027-2",
+     "end": "2028-2"
+    },
+    "shortDescription": "Realizar controles e atualizações da área de suprimentos por meio de planilhas Excel; Atualizar o sistema de compras com informações e documentos contratuais; Executar processos de compras de baixa complexidade; Apoiar atualizações e contro…",
+    "shareUrl": "https://vagas.academiadouniversitario.com.br/vagas/9e493e79-77b7-41be-8a2f-08372cee1c46",
+    "simplifiedApplication": true
+   },
+   {
+    "id": "a93eea38-1802-40df-8d1d-3842c9591d6b",
+    "slug": null,
+    "type": "JOB",
+    "company": {
+     "id": "46d0c037-eddd-44d2-8b73-69d9c009fc1f",
+     "name": "Volkswagen"
+    },
+    "name": "Banco de talentos Volkswagen",
+    "badge": null,
+    "mainLocation": "Múltiplas localidades",
+    "openPositions": null,
+    "salary": {
+     "min": {
+      "amount": "0.01",
+      "currency": "BRL",
+      "scale": 2
+     },
+     "max": {
+      "amount": "0.01",
+      "currency": "BRL",
+      "scale": 2
+     }
+    },
+    "workModels": [
+     "HYBRID"
+    ],
+    "jobType": "Outros",
+    "graduationForecast": null,
+    "shortDescription": "Cadastre seu perfil no Banco de Talentos Volkswagen e fique disponível para futuras oportunidades. Ao fazer seu cadastro, você poderá ser considerado(a) em processos seletivos de acordo com seu perfil, formação e oportunidades disponíveis n…",
+    "shareUrl": "https://vagas.academiadouniversitario.com.br/vagas/a93eea38-1802-40df-8d1d-3842c9591d6b",
+    "simplifiedApplication": true
+   },
+   {
+    "id": "b806932d-829a-4d41-a649-4eb01d7907bc",
+    "slug": null,
+    "type": "JOB",
+    "company": {
+     "id": "b2f43294-02a5-405b-b7da-d36963506f8b",
+     "name": "RD SAÚDE"
+    },
+    "name": "Estágio em RH | Processos, Indicadores e Projetos",
+    "badge": null,
+    "mainLocation": "São Paulo - SP",
+    "openPositions": null,
+    "salary": {
+     "min": {
+      "amount": "2700.00",
+      "currency": "BRL",
+      "scale": 2
+     },
+     "max": {
+      "amount": "2700.00",
+      "currency": "BRL",
+      "scale": 2
+     }
+    },
+    "workModels": [
+     "HYBRID"
+    ],
+    "jobType": "Recursos Humanos",
+    "graduationForecast": {
+     "start": "2027-2",
+     "end": "2028-2"
+    },
+    "shortDescription": "Apoiar a estruturação, organização e melhoria de processos da diretoria; Organizar e analisar dados, construindo e acompanhando indicadores de RH; Apoiar a criação de apresentações e materiais executivos; Identificar oportunidades de conexã…",
+    "shareUrl": "https://vagas.academiadouniversitario.com.br/vagas/b806932d-829a-4d41-a649-4eb01d7907bc",
+    "simplifiedApplication": true
+   }
+  ],
+  "meta": {
+   "page": 1,
+   "pageSize": 20,
+   "total": 17,
+   "totalPages": 1
+  }
+ }
+}

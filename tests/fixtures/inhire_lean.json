@@ -1,0 +1,90 @@
+[
+ {
+  "careerPageId": "987ed72e-8075-4d71-9e1d-993fe679e0b1",
+  "displayName": "Estágio - Lighthouse Technology (LHT), São Paulo, SP",
+  "jobId": "0548f1ea-e412-4218-950b-98b0f2519903",
+  "careerPage": {
+   "id": "987ed72e-8075-4d71-9e1d-993fe679e0b1",
+   "name": "Estágio",
+   "careerPage": "starters-advisory-estagio"
+  },
+  "link": "https://kpmg.inhire.com.br/starters-advisory-estagio/vagas/0548f1ea-e412-4218-950b-98b0f2519903"
+ },
+ {
+  "careerPageId": "987ed72e-8075-4d71-9e1d-993fe679e0b1",
+  "displayName": "Estágio - DA&S - TS - Strategy (GSG), São Paulo, SP",
+  "jobId": "d9d2a027-b49c-44f2-8667-9f55b19c88e6",
+  "careerPage": {
+   "id": "987ed72e-8075-4d71-9e1d-993fe679e0b1",
+   "name": "Estágio",
+   "careerPage": "starters-advisory-estagio"
+  },
+  "link": "https://kpmg.inhire.com.br/starters-advisory-estagio/vagas/d9d2a027-b49c-44f2-8667-9f55b19c88e6"
+ },
+ {
+  "jobId": "e4b3074a-fda5-423c-9768-1fa80b412f1a",
+  "careerPageId": "default",
+  "displayName": "Banco de Talentos Estágio - Rio de Janeiro",
+  "careerPage": {
+   "id": "default",
+   "name": "kpmg",
+   "careerPage": "default"
+  },
+  "link": "https://kpmg.inhire.com.br/vagas/e4b3074a-fda5-423c-9768-1fa80b412f1a"
+ },
+ {
+  "careerPageId": "9dbe72b9-9097-4127-9980-fe754dd68d28",
+  "displayName": " Jovem Aprendiz 2026",
+  "jobId": "755485c5-62c2-4850-ac1d-d764d663dbee",
+  "careerPage": {
+   "id": "9dbe72b9-9097-4127-9980-fe754dd68d28",
+   "name": "Trainee",
+   "careerPage": "trainee"
+  },
+  "link": "https://kpmg.inhire.com.br/trainee/vagas/755485c5-62c2-4850-ac1d-d764d663dbee"
+ },
+ {
+  "careerPageId": "27d7f2a5-2edc-46d3-8cba-da833731de00",
+  "displayName": "Consultor Jr. - Deal Advisory and Strategy - Valuation - Salvador, BA",
+  "jobId": "d9844bc8-7109-419b-bbce-9754a70fc22f",
+  "careerPage": {
+   "id": "27d7f2a5-2edc-46d3-8cba-da833731de00",
+   "name": "Consultor Jr",
+   "careerPage": "starters-advisory-consultor-jr"
+  },
+  "link": "https://kpmg.inhire.com.br/starters-advisory-consultor-jr/vagas/d9844bc8-7109-419b-bbce-9754a70fc22f"
+ },
+ {
+  "careerPageId": "default",
+  "displayName": "Gerente Tributário - Due diligence trabalhista e fiscal",
+  "jobId": "188fde4d-dd81-4628-93dc-175d9b18e167",
+  "careerPage": {
+   "id": "default",
+   "name": "kpmg",
+   "careerPage": "default"
+  },
+  "link": "https://kpmg.inhire.com.br/vagas/188fde4d-dd81-4628-93dc-175d9b18e167"
+ },
+ {
+  "careerPageId": "a707e2cd-a807-47f4-935c-8103dfb0ae02",
+  "displayName": "Vaga Afirmativa para Pessoas com Deficiência - Área de Serviços de Suporte - Brasil",
+  "jobId": "8ebbb350-0137-4783-9ed4-c02c5decf5da",
+  "careerPage": {
+   "id": "a707e2cd-a807-47f4-935c-8103dfb0ae02",
+   "name": "kdsc",
+   "careerPage": "kdsc"
+  },
+  "link": "https://kpmg.inhire.com.br/kdsc/vagas/8ebbb350-0137-4783-9ed4-c02c5decf5da"
+ },
+ {
+  "careerPageId": "26774028-2a13-4798-9355-8685558193e1",
+  "displayName": "Talentos Safra | Projeto Harvest 2026 - Brasil",
+  "jobId": "af69817f-bf12-4041-aed8-6da34840a963",
+  "careerPage": {
+   "id": "26774028-2a13-4798-9355-8685558193e1",
+   "name": "harvest-talentos-safra",
+   "careerPage": "harvest-talentos-safra"
+  },
+  "link": "https://kpmg.inhire.com.br/harvest-talentos-safra/vagas/af69817f-bf12-4041-aed8-6da34840a963"
+ }
+]

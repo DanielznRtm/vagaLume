@@ -1,0 +1,98 @@
+{
+ "lean": [
+  {
+   "careerPageId": "29f937ed-de4d-4354-8d39-06042f7fa255",
+   "displayName": "Assistente de Auditoria - Novos Talentos | Porto Alegre/RS e Curitiba/PR",
+   "jobId": "d8cef19a-340a-4006-8e66-335e16c86930",
+   "careerPage": {
+    "id": "29f937ed-de4d-4354-8d39-06042f7fa255",
+    "name": "Deloitte",
+    "careerPage": "inicio-de-carreira"
+   },
+   "link": "https://deloitte.inhire.com.br/inicio-de-carreira/vagas/d8cef19a-340a-4006-8e66-335e16c86930"
+  },
+  {
+   "careerPageId": "29f937ed-de4d-4354-8d39-06042f7fa255",
+   "displayName": "Assistente de Auditoria - Novos Talentos | São Paulo/SP",
+   "jobId": "446b6ea5-e18b-419b-a526-fc93ecf1015d",
+   "careerPage": {
+    "id": "29f937ed-de4d-4354-8d39-06042f7fa255",
+    "name": "Deloitte",
+    "careerPage": "inicio-de-carreira"
+   },
+   "link": "https://deloitte.inhire.com.br/inicio-de-carreira/vagas/446b6ea5-e18b-419b-a526-fc93ecf1015d"
+  },
+  {
+   "careerPageId": "29f937ed-de4d-4354-8d39-06042f7fa255",
+   "displayName": "Estágio em Gestão de Projetos (Infraestrutura e Pojetos de Capital)",
+   "jobId": "51273c2f-baf2-4a7c-b7ef-51cc0fac9961",
+   "careerPage": {
+    "id": "29f937ed-de4d-4354-8d39-06042f7fa255",
+    "name": "Deloitte",
+    "careerPage": "inicio-de-carreira"
+   },
+   "link": "https://deloitte.inhire.com.br/inicio-de-carreira/vagas/51273c2f-baf2-4a7c-b7ef-51cc0fac9961"
+  },
+  {
+   "careerPageId": "default",
+   "displayName": "Auditor(a) Externo Sênior - Recife",
+   "jobId": "90c6cb1b-1962-4541-a312-66ee2c12ad51",
+   "careerPage": {
+    "id": "default",
+    "name": "deloitte",
+    "careerPage": "default"
+   },
+   "link": "https://deloitte.inhire.com.br/vagas/90c6cb1b-1962-4541-a312-66ee2c12ad51"
+  }
+ ],
+ "details": {
+  "d8cef19a-340a-4006-8e66-335e16c86930": {
+   "careerPageId": "29f937ed-de4d-4354-8d39-06042f7fa255",
+   "contractType": [
+    "CLT"
+   ],
+   "createdAt": "2026-06-08T19:19:45.767Z",
+   "displayName": "Assistente de Auditoria - Novos Talentos | Porto Alegre/RS e Curitiba/PR",
+   "lastPublishedAt": "2026-06-11T20:38:02.661Z",
+   "publishedAt": "2026-06-08T19:19:45.767Z",
+   "status": "published",
+   "jobId": "d8cef19a-340a-4006-8e66-335e16c86930",
+   "workplaceType": "Hybrid",
+   "location": "Porto Alegre, RS, BR",
+   "salaryCurrency": "BRL",
+   "description": "<p><strong>ASSISTENTE DE AUDITORIA | PORTO ALEGRE/RS e Curitiba/PR</strong></p>\n<p style=\"margin-bottom: 0cm; text-align: justify; line-height: normal;\"><br><span style=\"text-decoration: underline;\"><strong>OBS: </strong>Caso voc&ecirc; j&aacute; esteja inscrito no processo seletivo&nbsp;<strong>Audit Academy 2026 | Programa para In&iacute;cio de Carreira em Auditoria (Brasil) </strong>conduzido e"
+  },
+  "446b6ea5-e18b-419b-a526-fc93ecf1015d": {
+   "careerPageId": "29f937ed-de4d-4354-8d39-06042f7fa255",
+   "contractType": [
+    "CLT"
+   ],
+   "createdAt": "2026-06-04T14:27:27.611Z",
+   "displayName": "Assistente de Auditoria - Novos Talentos | São Paulo/SP",
+   "lastPublishedAt": "2026-06-18T19:41:46.861Z",
+   "publishedAt": "2026-06-04T14:27:27.611Z",
+   "status": "published",
+   "jobId": "446b6ea5-e18b-419b-a526-fc93ecf1015d",
+   "workplaceType": "Hybrid",
+   "location": "São Paulo, SP, BR",
+   "salaryCurrency": "BRL",
+   "description": "<p><strong>ASSISTENTE DE AUDITORIA | S&Atilde;O PAULO/SP</strong></p>\n<p style=\"margin-bottom: 0cm; text-align: justify; line-height: normal;\"><br><span style=\"text-decoration: underline;\"><strong>OBS: </strong>Caso voc&ecirc; j&aacute; esteja inscrito no processo seletivo&nbsp;<strong>Audit Academy 2026 | Programa para In&iacute;cio de Carreira em Auditoria (Brasil) </strong>conduzido em parceria"
+  },
+  "51273c2f-baf2-4a7c-b7ef-51cc0fac9961": {
+   "careerPageId": "29f937ed-de4d-4354-8d39-06042f7fa255",
+   "contractType": [
+    "Estágio"
+   ],
+   "createdAt": "2026-09-25T11:48:32.242Z",
+   "displayName": "Estágio em Gestão de Projetos (Infraestrutura e Pojetos de Capital)",
+   "lastPublishedAt": "2026-09-28T19:39:33.703Z",
+   "publishedAt": "2026-09-25T11:48:32.242Z",
+   "status": "published",
+   "jobId": "51273c2f-baf2-4a7c-b7ef-51cc0fac9961",
+   "workplaceType": "Hybrid",
+   "location": "Belo Horizonte, MG, BR",
+   "salaryCurrency": "BRL",
+   "description": "<h3><span style=\"color: rgb(151, 195, 104);\"><strong>Voc&ecirc; na Deloitte:</strong></span></h3>\n<p>Voc&ecirc; ter&aacute; a oportunidade de evoluir sua carreira na organiza&ccedil;&atilde;o com o portf&oacute;lio de servi&ccedil;os profissionais mais diversificado do mundo, como<strong> Estagi&aacute;rio</strong>&nbsp;no time de<strong> <span style=\"font-size: 11.0pt; line-height: 107%; font-fam"
+  }
+ }
+}
