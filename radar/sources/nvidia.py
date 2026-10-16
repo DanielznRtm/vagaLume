@@ -16,6 +16,7 @@ from typing import Any
 from ..http import post_json
 from ..labels import is_student_candidate
 from ..models import Opportunity
+from ..workplace import REMOTE_PLACE
 from . import SourceResult
 
 log = logging.getLogger(__name__)
@@ -53,7 +54,7 @@ def parse(data: dict[str, Any], from_intern_facet: bool, today: date | None = No
                 source=NAME,
                 url=JOB_URL.format(path=job["externalPath"]),
                 location=location,
-                remote="remote" in location.lower(),
+                remote=bool(REMOTE_PLACE.search(location)),
                 posted_date=_posted(str(job.get("postedOn") or ""), today),
                 hints=["student"] if from_intern_facet else [],
             )

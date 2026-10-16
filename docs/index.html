@@ -168,6 +168,10 @@
   .picks-head span { color: var(--muted); font-size: .9rem; }
   .picks-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .picks-row > span { font-size: .85rem; color: var(--muted); min-width: 92px; }
+  .picks-areas { display: grid; gap: 6px; }
+  .picks-areas > span { font-size: .85rem; color: var(--muted); }
+  .picks-areas small { opacity: .8; }
+  .picks-hint { font-size: .9rem; }
   .picks-telegram { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding-top: 4px; border-top: 1px solid var(--line); }
   .picks-telegram .btn { background: var(--accent); color: #fff; border-color: var(--accent); margin-top: 10px; }
   .picks-telegram .fineprint { font-size: .82rem; color: var(--muted); margin-top: 10px; }
@@ -217,6 +221,13 @@
   .tab { background: none; border: 0; border-bottom: 2px solid transparent; padding: 7px 10px 9px; cursor: pointer; color: var(--muted); font-weight: 500; margin-bottom: -1px; white-space: nowrap; }
   .tab small { font-family: var(--font-data); font-size: .72rem; margin-left: 5px; color: var(--faint); }
   .tab small.hot { color: var(--long); }
+  .tab-picks { color: var(--accent); }
+  .tab small.pick { background: var(--accent); color: #fff; border-radius: 999px; padding: 1px 7px; font-weight: 600; }
+  .picks-nudge { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; border: 1px solid var(--accent); border-radius: var(--radius);
+    background: var(--surface); padding: 10px 14px; margin: 0 0 12px; }
+  .picks-nudge span { flex: 1; min-width: 180px; font-weight: 500; }
+  .picks-nudge .btn { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .picks-nudge .x { background: none; border: 0; font-size: 1.2rem; line-height: 1; cursor: pointer; color: var(--muted); padding: 4px; }
   .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
   .sort { display: flex; align-items: center; gap: 2px; font-size: .88rem; color: var(--muted); padding-bottom: 5px; }
   .sort select { width: auto; color: var(--ink); border-color: transparent; background: none; padding-inline: 4px; cursor: pointer; font-weight: 500; }
@@ -564,6 +575,7 @@
         <button class="legend-btn" id="legend-btn" aria-expanded="false" aria-controls="legend"><span class="q" aria-hidden="true">?</span><span data-t="legend.button"></span></button>
         <div class="legend" id="legend" hidden></div>
       </div>
+      <div class="picks-nudge" id="picks-nudge" hidden></div>
       <div class="picks-panel" id="picks-panel" hidden></div>
       <div class="list" id="list">
         <div class="cols" id="cols" aria-hidden="true"></div>
@@ -651,10 +663,13 @@ const STRINGS = {
   "picks.title": ["Your highlights today", "Seus destaques de hoje"],
   "picks.lead": ["The best new roles of the day for you: your profile, the areas below and how well each one matches your résumé.",
     "As melhores vagas novas do dia para você: o seu perfil, as áreas abaixo e o quanto cada uma combina com o seu currículo."],
-  "picks.needResume": ["Highlights pick the best new roles of the day by how well they match your résumé. Compare your résumé once and they show up here.",
-    "Os destaques escolhem as melhores vagas novas do dia pelo quanto combinam com o seu currículo. Compare o seu currículo uma vez e eles aparecem aqui."],
+  "picks.needResume": ["Compare your résumé once and the highlights put the roles that ask for what you know first.",
+    "Compare o seu currículo uma vez e os destaques põem primeiro as vagas que pedem o que você sabe."],
   "picks.resumeBtn": ["Compare my résumé", "Comparar currículo"],
-  "picks.count": ["How many", "Quantas"], "picks.areas": ["Areas", "Áreas"],
+  "picks.nudge": [n => n === 1 ? "1 new role today picked for you" : `${n} new roles today picked for you`,
+    n => n === 1 ? "1 vaga nova de hoje escolhida para você" : `${n} vagas novas de hoje escolhidas para você`],
+  "picks.nudgeGo": ["See highlights", "Ver destaques"], "close": ["Close", "Fechar"],
+  "picks.count": ["How many", "Quantas"], "picks.areas": ["Areas", "Áreas"]
   "picks.allAreas": ["none picked = every area", "nenhuma marcada = todas"],
   "picks.profile": [p => `Level, areas and where: from your profile (${p}).`, p => `Nível, áreas e onde: do seu perfil (${p}).`],
   "picks.edit": ["Change", "Alterar"],
@@ -1009,9 +1024,16 @@ const PICK = {
   ufs: ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"],
   work: ["state", "Brazil", "LatAm", "US/Canada", "Europe", "Asia/ME", "any"],
   areas: ["ML", "research", "SWE", "data", "quant", "hardware", "other"],
+  // Sub-areas, in the order of radar/subareas.py (new ones go at its end).
+  subs: ["tributario", "trabalhista", "contencioso", "societario", "contratos", "regulatorio", "penal", "consumidor", "enfermagem", "medicina",
+    "farmacia", "nutricao", "psicologia", "fisioterapia", "odontologia", "veterinaria", "analises", "esporte", "financas", "contabil", "rh",
+    "comercial", "logistica", "consultoria", "operacoes", "produto", "mecanica", "eletrica", "civil", "producao", "quimica_eng", "qualidade",
+    "manutencao", "seguranca_trabalho", "minas", "aeroespacial", "infra", "seguranca_info", "ux", "marketing", "design", "jornalismo", "publicidade",
+    "audiovisual", "rp", "agronomia", "biologia", "ambiental", "alimentos", "educacao", "letras", "social", "relacoes_internacionais",
+    "gestao_publica", "historia", "arquitetura", "urbanismo", "interiores", "estatistica", "matematica", "fisica", "quimica"],
   counts: [3, 5, 10],
 };
-// prefs: {count, levels, fields, home, work, areas, skills, lang}
+// prefs: {count, levels, fields, home, work, areas, subs, skills, lang}
 function pickFits(item, prefs) {
   const levels = item.levels || [];
   if (levels.length && prefs.levels.length && !levels.some(l => prefs.levels.includes(l))) return false;
@@ -1029,7 +1051,9 @@ function pickFits(item, prefs) {
     const remoteOk = regions.includes("remote") && (!warnings.includes("US work auth?") || prefs.work.includes("US/Canada"));
     if (!(inMyState || where.some(r => prefs.work.includes(r)) || remoteOk)) return false;
   }
-  if (prefs.areas.length && !prefs.areas.includes(item.area)) return false;
+  const subs = prefs.subs || [];
+  if ((prefs.areas.length || subs.length) && !prefs.areas.includes(item.area)
+    && !(item.subs || []).some(s => subs.includes(s))) return false;
   return true;
 }
 function pickSkillScore(item, skills) {
@@ -1065,8 +1089,11 @@ function pickToday(items, prefs, todayIso) {
 function encodePrefs(prefs, skillNames) {
   const bits = (names, universe) => universe.reduce((n, name, i) => names.includes(name) ? n | (1 << i) : n, 0);
   const fieldBits = bits(prefs.fields, PICK.fields);
-  const bytes = [1, Math.max(0, PICK.counts.indexOf(prefs.count)), bits(prefs.levels, PICK.levels) | (prefs.lang === "en" ? 128 : 0),
+  const bytes = [2, Math.max(0, PICK.counts.indexOf(prefs.count)), bits(prefs.levels, PICK.levels) | (prefs.lang === "en" ? 128 : 0),
     fieldBits & 255, fieldBits >> 8, PICK.ufs.indexOf(prefs.home) + 1, bits(prefs.work, PICK.work), bits(prefs.areas, PICK.areas)];
+  const subBytes = [];  // as many bytes as the last picked sub-area needs (none when none is picked)
+  PICK.subs.forEach((name, i) => { if ((prefs.subs || []).includes(name)) { while (subBytes.length <= i >> 3) subBytes.push(0); subBytes[i >> 3] |= 1 << (i & 7); } });
+  bytes.push(subBytes.length, ...subBytes);
   const mine = new Set(prefs.skills.map(s => s.toLowerCase()));
   const skillBytes = new Array(Math.max(1, Math.ceil(skillNames.length / 8))).fill(0);
   skillNames.forEach((name, i) => { if (mine.has(name.toLowerCase())) skillBytes[i >> 3] |= 1 << (i & 7); });
@@ -1846,7 +1873,10 @@ function buildAreaGroups(pool) {
   $("area-groups").innerHTML = (mine.length ? yours + tech : tech + others)
     + (mine.length && others ? `<details class="agroup-more"${areaMoreOpen ? " open" : ""}><summary>${esc(t("agroup.more"))}</summary>${others}</details>` : "");
 }
-document.addEventListener("toggle", e => { if (e.target.classList?.contains("agroup-more")) areaMoreOpen = e.target.open; }, true);
+document.addEventListener("toggle", e => {
+  if (e.target.id === "picks-more") picksMoreOpen = e.target.open;
+  else if (e.target.classList?.contains("agroup-more")) areaMoreOpen = e.target.open;
+}, true);
 function countBy(items, valuesOf, order) {
   const counts = {};
   items.forEach(i => valuesOf(i).forEach(v => counts[v] = (counts[v] || 0) + 1));
@@ -1923,7 +1953,11 @@ function toggleDrop(drop) {
 function render() {
   if (!DATA) return;
   const filtered = DATA.items.filter(i => passes(i));
+  const picksN = pickToday(DATA.items, myPrefs(), DATA.updated).length;
   $("tabs").innerHTML = TABS.map(([key, test, count, optional]) => {
+    if (key === "picks") {
+      return `<button class="tab tab-picks" role="tab" data-tab="picks" aria-selected="${view.tab === "picks"}">✨ ${t("tab.picks")}${picksN ? `<small class="pick">${picksN}</small>` : ""}</button>`;
+    }
     const n = count ? filtered.filter(test).length : 0;
     if (optional && !n && view.tab !== key) return "";
     return `<button class="tab" role="tab" data-tab="${key}" aria-selected="${view.tab === key}">${t(`tab.${key}`)}${n ? `<small class="${count === "hot" ? "hot" : ""}">${fmtN(n)}</small>` : ""}</button>`;
@@ -1931,6 +1965,11 @@ function render() {
 
   const picksMode = view.tab === "picks";
   $("picks-panel").hidden = !picksMode;
+  // On the main tabs, a one-line nudge towards today's highlights (until closed for the day).
+  const nudge = !picksMode && ["all", "new"].includes(view.tab) && picksN && store.get("radar.picksNudge", "") !== DATA.updated;
+  $("picks-nudge").hidden = !nudge;
+  if (nudge) $("picks-nudge").innerHTML = `<span>✨ ${esc(t("picks.nudge", picksN))}</span>
+    <button class="btn" data-go-picks="1">${esc(t("picks.nudgeGo"))}</button><button class="x" id="picks-nudge-x" aria-label="${esc(t("close"))}">×</button>`;
   $("filterbar").hidden = picksMode;
   $("filters-note").hidden = !picksMode;
   if (picksMode) $("filters-summary").textContent = t("filters");
@@ -1963,11 +2002,15 @@ function render() {
 }
 // ------------------------------------------------------------------ today's highlights
 // Your choices for the highlights (and the Telegram bot): how many, and which areas ([] = all).
+// Areas hold tech areas ("ML") and sub-areas ("s:tributario"), the values of the Área filter.
 let digest = store.get("radar.digest", { count: 5, areas: [] });
+digest.areas = (digest.areas || []).filter(a => a !== "other");  // the old "Other" chip: the sub-areas replace it
+let picksMoreOpen = false;
 function myPrefs() {
   const p = hasProfile() ? profile : null;
   return {
-    count: digest.count, areas: digest.areas, lang: LANG,
+    count: digest.count, lang: LANG,
+    areas: digest.areas.filter(a => !a.startsWith("s:")), subs: digest.areas.filter(a => a.startsWith("s:")).map(a => a.slice(2)),
     levels: p?.levels || [], fields: p?.fields || [], home: /^[A-Z]{2}$/.test(p?.home || "") ? p.home : "",
     work: p?.work?.length ? p.work : ["any"],
     skills: (DATA.skillNames || []).filter(name => mySkills.has(name.toLowerCase())),
@@ -1976,16 +2019,17 @@ function myPrefs() {
 function drawPicks() {
   $("more").hidden = true;
   $("others-row").hidden = true;
-  if (!resume) {
-    $("picks-panel").innerHTML = `<div class="picks-card"><h3>${esc(t("picks.title"))}</h3><p>${esc(t("picks.needResume"))}</p>
-      <div><button class="btn" id="picks-resume">${esc(t("picks.resumeBtn"))}</button></div></div>`;
-    $("rows").innerHTML = "";
-    $("count").textContent = "";
-    $("cols").hidden = true;
-    return writeHash();
-  }
   $("cols").hidden = false;
   const prefs = myPrefs();
+  // Area chips: tech first, then the sub-areas of your fields; the other sections fold away.
+  const chip = v => `<button class="chip" data-pick-area="${esc(v)}" aria-pressed="${digest.areas.includes(v)}">${esc(areaName(v))}</button>`;
+  const group = (title, values) => `<div class="agroup"><h5>${esc(title)}</h5><div class="chips">${values.map(chip).join("")}</div></div>`;
+  const mine = (profile?.fields || []).filter(f => SUB_GROUPS[f] && f !== "tech");
+  const sub = f => group(t(`field.${f}`), SUB_GROUPS[f].map(k => `s:${k}`));
+  const tech = group(t("agroup.tech"), [...AREA_ORDER.filter(a => a !== "other"), ...SUB_GROUPS.tech.map(k => `s:${k}`)]);
+  const others = Object.keys(SUB_GROUPS).filter(f => f !== "tech" && !mine.includes(f));
+  const areaChips = mine.map(sub).join("") + tech + `<details class="agroup-more" id="picks-more"${picksMoreOpen || digest.areas.some(a => others.some(f =>
+    SUB_GROUPS[f].includes(a.slice(2)))) ? " open" : ""}><summary>${esc(t("agroup.more"))}</summary>${others.map(sub).join("")}</details>`;
   const list = pickToday(DATA.items, prefs, DATA.updated);
   const bot = DATA.subscribe?.bot;
   $("picks-panel").innerHTML = `<div class="picks-card">
@@ -1993,8 +2037,8 @@ function drawPicks() {
     <p>${esc(t("picks.lead"))}</p>
     <div class="picks-row"><span>${esc(t("picks.count"))}</span><div class="chips">${PICK.counts.map(n =>
       `<button class="chip" data-pick-count="${n}" aria-pressed="${prefs.count === n}">${n}</button>`).join("")}</div></div>
-    <div class="picks-row"><span>${esc(t("picks.areas"))}</span><div class="chips">${AREA_ORDER.map(a =>
-      `<button class="chip" data-pick-area="${a}" aria-pressed="${digest.areas.includes(a)}">${esc(tv("area", a))}</button>`).join("")}</div></div>
+    <div class="picks-areas"><span>${esc(t("picks.areas"))} <small>${esc(t("picks.allAreas"))}</small></span>${areaChips}</div>
+    ${resume ? "" : `<p class="picks-hint">${esc(t("picks.needResume"))} <button class="linkish" id="picks-resume">${esc(t("picks.resumeBtn"))}</button></p>`}
     <p class="fineprint">${esc(t("picks.profile", profileName()))} <button class="linkish" id="picks-profile">${esc(t("picks.edit"))}</button></p>
     ${bot ? `<div class="picks-telegram"><a class="btn" href="${esc(bot)}?start=${encodePrefs(prefs, DATA.skillNames || [])}" target="_blank" rel="noopener">✈️ ${esc(t("picks.telegram"))}</a>
       <span class="fineprint">${esc(t("picks.telegramNote"))}</span></div>` : ""}
@@ -2092,6 +2136,7 @@ document.addEventListener("click", e => {
   const pickArea = e.target.closest("[data-pick-area]");
   if (pickArea) return setDigest({ areas: toggleIn(digest.areas, pickArea.dataset.pickArea) });
   if (e.target.closest("#picks-resume")) return showResume();
+  if (e.target.closest("#picks-nudge-x")) { store.set("radar.picksNudge", DATA.updated); return render(); }
   if (e.target.closest("#picks-profile")) return showWelcome();
   if (e.target.closest("[data-go-picks]")) { toggleSubscribe(false); view.tab = "picks"; return rerender(); }
   const chip = e.target.closest(".chip");

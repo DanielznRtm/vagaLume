@@ -16,6 +16,7 @@ from typing import Any
 from ..http import get_text
 from ..models import Opportunity
 from ..textutil import html_to_text, iso_date, parse_english_date
+from ..workplace import REMOTE_PLACE
 from . import SourceResult
 
 log = logging.getLogger(__name__)
@@ -158,7 +159,7 @@ def parse(
                 source=NAME,
                 url=links[0].replace("&amp;", "&"),
                 location=location,
-                remote="remote" in location.lower(),
+                remote=bool(REMOTE_PLACE.search(location)),
                 posted_date=_posted_date(_cell_text(cell("age", "date")), today),
                 hints=hints,
                 preset={"season": season} if season and not terms else {},

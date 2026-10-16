@@ -19,7 +19,7 @@ from .fields import find_fields
 from .subareas import find_subareas
 from .levels import LEVELS, find_levels
 from .places import brazil_states
-from .workplace import find_workplaces
+from .workplace import REMOTE_PLACE, find_workplaces
 from .skills import find_skills
 from .textutil import find_deadline
 
@@ -363,7 +363,7 @@ def classify_regions(location: str, remote: bool = False) -> list[str]:
     # "Boise, ID" -> US, but "Berlin, DE" was already recognised as Europe.
     if not regions and re.search(US_AMBIGUOUS_CODES, location):
         regions.append("US/Canada")
-    if remote or re.search(r"\bremote\b|\bremoto\b|\banywhere\b|\bworldwide\b|home[- ]based", location, re.I):
+    if remote or REMOTE_PLACE.search(location) or re.search(r"\banywhere\b|\bworldwide\b|home[- ]based", location, re.I):
         regions.append("remote")
     return regions or ["unknown"]
 

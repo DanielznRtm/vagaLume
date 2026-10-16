@@ -14,6 +14,7 @@ from ..labels import is_student_candidate, student_level
 from ..models import NO_DEADLINE, Opportunity
 from ..pay import from_range, parse_number
 from ..textutil import html_to_text, iso_date
+from ..workplace import REMOTE_PLACE
 from . import SourceResult
 from .ats import fetch_boards
 
@@ -52,7 +53,7 @@ def parse(data: dict[str, Any], org: str) -> list[Opportunity]:
                 source=NAME,
                 url=job["absolute_url"],
                 location=location,
-                remote="remote" in location.lower(),
+                remote=bool(REMOTE_PLACE.search(location)),
                 posted_date=iso_date(job.get("first_published") or job.get("updated_at")),
                 deadline=iso_date(job.get("application_deadline")) or NO_DEADLINE,
                 pay=pay,
