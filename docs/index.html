@@ -1813,7 +1813,9 @@ function details(i) {
     : `<p>${t("d.noConflict")}</p>`;
   const locs = locations(i);
   const ns = `<span class="none">${t("d.notStated")}</span>`;
-  const labels = [tv("area", i.area), ...i.warnings.map(w => tv("warn", w))].map(esc).join(" · ");
+  // The area: a tech area, else the role's sub-areas (Tributário, Enfermagem...), else "Other".
+  const areaText = i.area !== "other" || !(i.subs || []).length ? [tv("area", i.area)] : i.subs.map(k => t(`sub.${k}`));
+  const labels = [...areaText, ...i.warnings.map(w => tv("warn", w))].map(esc).join(" · ");
   const facts = [
     [t("d.where"), locs.length ? esc(locs.join(" · ")) : esc(regionNames(i).join(", ")) || ns],
     [t("d.when"), i.season === "unknown" ? ns : `${esc(seasonText(i.season))}${monthStrip(i.season)}`],
@@ -1844,7 +1846,8 @@ function reportUrl(i) {
     [t("d.where"), locs.length ? locs.join(" · ") : regionNames(i).join(", ") || t("d.notStated")],
     [t("d.when"), i.season === "unknown" ? t("d.notStated") : seasonText(i.season)],
     [t("d.deadline"), i.deadline ? fmtDate(i.deadline) : t("d.notStated")],
-    [t("d.labels"), [tv("area", i.area), ...i.warnings.map(w => tv("warn", w))].join(" · ")],
+    [t("d.labels"), [...(i.area !== "other" || !(i.subs || []).length ? [tv("area", i.area)] : i.subs.map(k => t(`sub.${k}`))),
+      ...i.warnings.map(w => tv("warn", w))].join(" · ")],
   ].map(([k, v]) => `- ${k}: ${v}`).join("\n");
   const title = `${i.title} — ${i.org}`.slice(0, 120);
   const query = new URLSearchParams({ title: `[${LANG === "en" ? "wrong info" : "info errada"}] ${title}`, body: t("r.body", i, shown) });

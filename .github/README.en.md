@@ -28,7 +28,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/demo.gif" alt="vagaLume in action: pick your field, level and country, filter, search, open a role, peek at other fields and match your résumé" width="92%">
+  <img src="assets/demo-v2.gif" alt="vagaLume in action: pick your field, level and country, filter, search, open a role, peek at other fields and match your résumé" width="92%">
 </p>
 
 ---
@@ -67,11 +67,20 @@ little light that finds the openings for you.
 
 ## See it
 
-<img alt="The vagaLume list in dark mode: filters on the left; each role shows its résumé match, fit, location, pay, a month strip and the deadline" src="assets/screenshot-dark.png">
+<img alt="The vagaLume list in dark mode: filters on the left; each role shows its résumé match, fit, location, pay, a month strip and the deadline" src="assets/screenshot-dark-v2.png">
 
-<img alt="An opened role: which of your skills it mentions (✓), which are missing, and why it fits" src="assets/screenshot-match.png">
+<img alt="An opened role: which of your skills it mentions (✓), which are missing, and why it fits" src="assets/screenshot-match-v2.png">
 
 Works on phones too, in light and dark mode. **[Open it →](https://pedrocamargolince.github.io/vagaLume/)**
+
+## Today's highlights
+
+The best new roles of the day for you: by your profile, the areas you pick (from
+ML to Tax law, Nursing or Finance) and, once you match your résumé, by what you
+know. Get the same highlights every day on Telegram, or your field's new roles by
+e-mail.
+
+<img alt="Today's highlights: pick how many roles and which areas (Law: Tax, Labor…; Business: Finance, Accounting…; Technology…) and get them on Telegram" src="assets/screenshot-picks-v2.png">
 
 ## How it works
 

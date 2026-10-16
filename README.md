@@ -28,7 +28,7 @@
 </p>
 
 <p align="center">
-  <img src=".github/assets/demo-pt.gif" alt="vagaLume em uso: escolha a sua área, nível e país, filtre, busque, abra uma vaga, veja as vagas de outras áreas e compare o seu currículo" width="92%">
+  <img src=".github/assets/demo-v2-pt.gif" alt="vagaLume em uso: escolha a sua área, nível e país, filtre, busque, abra uma vaga, veja as vagas de outras áreas e compare o seu currículo" width="92%">
 </p>
 
 ---
@@ -66,9 +66,18 @@ no GitHub, a Gupy e o site de cada escola de verão, toda semana. Um *vagalume*
 
 ## Veja
 
-<img alt="A lista do vagaLume no modo escuro: filtros à esquerda; cada vaga mostra o match com o currículo, a compatibilidade, o local, a remuneração, uma tirinha dos meses e o prazo" src=".github/assets/screenshot-dark-pt.png">
+<img alt="A lista do vagaLume no modo escuro: filtros à esquerda; cada vaga mostra o match com o currículo, a compatibilidade, o local, a remuneração, uma tirinha dos meses e o prazo" src=".github/assets/screenshot-dark-v2-pt.png">
 
 Funciona no celular também, no modo claro e no escuro. **[Abrir →](https://pedrocamargolince.github.io/vagaLume/)**
+
+## Destaques de hoje
+
+As melhores vagas novas do dia para você, pelo seu perfil, pelas áreas que você
+marcar (de ML a Tributário, Enfermagem ou Finanças) e, se você comparar o seu
+currículo, pelo que você sabe. Dá para receber os mesmos destaques todo dia no
+Telegram, ou as vagas da sua área por e-mail.
+
+<img alt="Destaques de hoje: escolha quantas vagas e quais áreas (Direito: Tributário, Trabalhista…; Negócios: Finanças, Contabilidade…; Tecnologia…) e receba no Telegram" src=".github/assets/screenshot-picks-v2-pt.png">
 
 ## Comparar com o seu currículo
 
@@ -84,7 +93,7 @@ precisa: países onde você já pode trabalhar deixam de gerar alerta de visto,
 vagas de recém-formado passam a valer se você se forma em até um ano, e os
 meses livres do seu calendário substituem o calendário habitual das universidades brasileiras.
 
-<img alt="Uma vaga aberta: quais das suas habilidades ela cita (✓), quais faltam, e por que combina" src=".github/assets/screenshot-match-pt.png">
+<img alt="Uma vaga aberta: quais das suas habilidades ela cita (✓), quais faltam, e por que combina" src=".github/assets/screenshot-match-v2-pt.png">
 
 Tudo fica salvo só no seu navegador. O vagaLume não tem servidor e nunca vê o
 seu currículo.
