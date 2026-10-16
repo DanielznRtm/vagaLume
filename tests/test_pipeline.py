@@ -63,7 +63,7 @@ def test_report_sections_and_website_data(tmp_path):
     assert sorted(i["title"] for i in payload["items"]) == ["Fresh Intern", "Old Intern", "Soon Intern"]  # open only
     fresh = next(i for i in payload["items"] if i["title"] == "Fresh Intern")
     assert fresh["url"] == "https://e.com/new"  # tracking parameters removed
-    assert fresh["deadline"] == ""  # "check page" becomes empty
+    assert "deadline" not in fresh  # "check page" becomes empty, and empty values are left out (the page fills them in)
     assert fresh["skills"] == ["Python", "ROS"]  # stored and read back for the résumé match
     assert "PyTorch" in payload["skillNames"]  # the site puts these names in its résumé prompt
     assert payload["sources"][0]["name"] == "greenhouse"

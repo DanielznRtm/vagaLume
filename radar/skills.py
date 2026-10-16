@@ -103,6 +103,58 @@ SKILLS: list[tuple[str, str]] = [
     ("CAD", r"(?<!\d )(?<!\()(?-i:\bCAD\b)(?!\s*(?:\$|\d|\)|hourly|per\b))|solidworks|autocad|fusion 360|\bcatia\b"),
     # --- markets -----------------------------------------------------------
     ("Financial markets", r"financial markets|\btrading\b|\bderivatives\b|options pricing|mercado financeiro"),
+    # --- beyond tech (added October 2026; only ever add at the END: the Telegram link code
+    # numbers skills by position) ---------------------------------------------------------
+    # Law
+    ("Tax law", r"direito tribut|tax law|\btributário\b|\btributario\b"),
+    ("Labor law", r"direito do trabalho|trabalhista|labou?r law|employment law"),
+    ("Litigation", r"contencioso|litigation|processual|peti[çc][õo]es|audi[êe]ncias"),
+    ("Contracts", r"contratos|contract (?:drafting|review|law)|elabora[çc][ãa]o de contratos"),
+    ("Corporate law", r"direito societ|corporate law|societário|societario|\bM&A\b"),
+    ("Compliance", r"\bcompliance\b"),
+    ("Data protection (LGPD/GDPR)", r"\blgpd\b|\bgdpr\b|prote[çc][ãa]o de dados|data protection|privacy law"),
+    ("Legal research", r"pesquisa jur[íi]dica|jurisprud[êe]ncia|legal research"),
+    # Health
+    ("Patient care", r"cuidados? (?:ao|com o) paciente|patient care|assist[êe]ncia ao paciente|atendimento ao paciente"),
+    ("Nursing procedures", r"procedimentos de enfermagem|curativos|sinais vitais|vital signs|administra[çc][ãa]o de medicamentos"),
+    ("Pharmacology", r"farmacolog|pharmacolog|dispensa[çc][ãa]o"),
+    ("Clinical analysis", r"an[áa]lises cl[íi]nicas|clinical (?:analysis|laboratory)|coleta de (?:sangue|material)"),
+    ("Public health", r"sa[úu]de p[úu]blica|public health|\bSUS\b|vigil[âa]ncia (?:sanit|epidem)"),
+    ("Nutrition", r"\bnutri[çc][ãa]o\b|\bnutrition\b|dietoterapia"),
+    ("Physiotherapy", r"fisioterap|physiotherap|reabilita[çc][ãa]o"),
+    ("Psychology", r"psicolog|psycholog|\bpsicodiagn"),
+    # Business
+    ("Financial analysis", r"an[áa]lise financeira|financial analysis|fluxo de caixa|cash flow|\bDRE\b|demonstra[çc][õo]es financeiras"),
+    ("Accounting", r"contabilidade|accounting|concilia[çc][ãa]o|lan[çc]amentos cont[áa]beis|\bIFRS\b"),
+    ("Valuation", r"\bvaluation\b|\bDCF\b|avalia[çc][ãa]o de empresas"),
+    ("Financial modeling", r"modelagem financeira|financial model"),
+    ("SAP", r"(?-i:\bSAP\b)"),
+    ("CRM", r"(?-i:\bCRM\b)|salesforce|hubspot"),
+    ("Sales", r"\bvendas\b|\bsales\b|prospec[çc][ãa]o|negocia[çc][ãa]o"),
+    ("Supply chain", r"supply chain|log[íi]stica|compras|procurement|suprimentos|\bestoque\b|inventory"),
+    ("Project management", r"gest[ãa]o de projetos|gerenciamento de projetos|project management|\bPMBOK\b|\bscrum\b|\bkanban\b"),
+    ("Lean / Six Sigma", r"\blean\b|six sigma|seis sigma|melhoria cont[íi]nua|\bkaizen\b"),
+    ("Recruiting (HR)", r"recrutamento|recruit|sele[çc][ãa]o de pessoas|\bR&S\b|departamento pessoal|folha de pagamento|payroll"),
+    ("Customer service", r"atendimento ao cliente|customer service|customer success|sucesso do cliente"),
+    # Communication and design
+    ("Digital marketing", r"marketing digital|digital marketing|google ads|meta ads|tr[áa]fego pago|performance marketing"),
+    ("SEO", r"(?-i:\bSEO\b)"),
+    ("Social media", r"redes sociais|social media|instagram|tiktok|linkedin content"),
+    ("Copywriting", r"copywrit|reda[çc][ãa]o publicit|produ[çc][ãa]o de conte[úu]do|content writing"),
+    ("Adobe Photoshop / Illustrator", r"photoshop|illustrator|indesign|adobe creative"),
+    ("Figma", r"\bfigma\b"),
+    ("Canva", r"\bcanva\b"),
+    ("Video editing", r"edi[çc][ãa]o de v[íi]deo|video editing|premiere|after effects|davinci"),
+    # Engineering, architecture and sciences
+    ("Revit / BIM", r"\brevit\b|(?-i:\bBIM\b)"),
+    ("Quality management (ISO)", r"\bISO 9001\b|gest[ãa]o da qualidade|quality management|\bPDCA\b|\bFMEA\b"),
+    ("Workplace safety (NR)", r"\bNR-?\d+\b|seguran[çc]a do trabalho|occupational safety|\bEHS\b"),
+    ("Stata / SPSS", r"\bstata\b|\bspss\b|\beviews\b"),
+    ("Econometrics", r"econometri"),
+    ("Lab techniques", r"t[ée]cnicas laboratoriais|lab(?:oratory)? techniques|\bPCR\b|cromatografia|chromatography|\bHPLC\b"),
+    ("GIS", r"(?-i:\bGIS\b)|\bSIG\b|\bqgis\b|\barcgis\b|geoprocessamento"),
+    # Education
+    ("Teaching", r"doc[êe]ncia|\bteaching\b|regência de classe|plano de aula|lesson plan"),
 ]
 
 NAMES = [name for name, _ in SKILLS]
