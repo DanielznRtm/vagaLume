@@ -244,3 +244,18 @@ def test_subareas(title, subs):
     from radar.subareas import find_subareas
 
     assert find_subareas(title) == subs
+
+
+def test_word_lists_are_compiled_once_and_match_like_one_search_per_word():
+    from radar.labels import _WORD_RES, _any, _mentions
+    assert _any([r"intern", r"est[áa]gio"], "Estágio em Dados") and not _any([r"intern"], "International Sales")
+    assert _any([r"ab|cd"], "xcd")  # each word keeps its own \b...\b, as before: \bab|cd\b
+    assert not _any([], "anything")
+    assert _mentions([r"singapore", r"SGP"], "SGP-Singapore") and not _mentions([r"SGP"], "sgp")
+    roles = [("Software Engineer Intern", "London, UK"), ("Estágio Jurídico", "São Paulo - SP")]
+    for title, place in roles:
+        apply_rules(Opportunity(title=title, org="X", source="gupy", url=title, location=place))
+    warmed = len(_WORD_RES)
+    for title, place in roles:
+        apply_rules(Opportunity(title=title + " 2027", org="Y", source="gupy", url=title + "2", location=place))
+    assert len(_WORD_RES) == warmed  # no new regex per role

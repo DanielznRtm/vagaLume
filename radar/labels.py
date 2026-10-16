@@ -64,8 +64,22 @@ NOT_A_PROGRAM = [
     r"graduate recruiter", r"university recruiter", r"campus recruiter", r"dean of students",
     r"member of technical staff",  # AI labs' generic title, not a "staff" (senior) level
 ]
+_NOT_A_PROGRAM = [re.compile(phrase, re.I) for phrase in NOT_A_PROGRAM]
+_WORD_RES: dict[tuple[tuple[str, ...], int], re.Pattern[str]] = {}
+
+
+def _words_re(patterns: list[str], flags: int = re.I) -> re.Pattern[str]:
+    """One compiled regex for "any of these words". Compiled once per list: there are
+    more word patterns than Python's regex cache holds, so re.search(...) on each
+    pattern recompiled them for every role (minutes per run)."""
+    key = (tuple(patterns), flags)
+    if key not in _WORD_RES:
+        _WORD_RES[key] = re.compile("|".join(rf"(?:\b{p}\b)" for p in patterns) or r"(?!)", flags)
+    return _WORD_RES[key]
+
+
 def _any(patterns: list[str], text: str) -> bool:
-    return any(re.search(rf"\b{p}\b", text, re.I) for p in patterns)
+    return _words_re(patterns).search(text) is not None
 
 
 # If a title has a seniority word, a *clear* student word must also be there.
@@ -77,8 +91,8 @@ CLEAR_STUDENT_WORDS = [r"intern", r"internship", r"student", r"est[áa]gio", r"e
 def student_level(title: str) -> str:
     """Return "yes", "unsure" or "no" for a job title."""
     cleaned = title
-    for phrase in NOT_A_PROGRAM:
-        cleaned = re.sub(phrase, " ", cleaned, flags=re.I)
+    for phrase in _NOT_A_PROGRAM:
+        cleaned = phrase.sub(" ", cleaned)
     if _any(SENIOR_WORDS, cleaned) and not _any(CLEAR_STUDENT_WORDS, cleaned):
         return "no"  # e.g. "Senior Manager, Fellows Program" is a staff job
     if _any(STRONG_STUDENT_WORDS, cleaned) or STAGE.search(cleaned):
@@ -314,11 +328,15 @@ ASIA_ME = [  # Asia, Middle East and Oceania
 
 def _mentions(patterns: list[str], text: str) -> bool:
     """Words match case-insensitively; ALL-CAPS codes (GBR, SGP...) only as written."""
-    for p in patterns:
-        flags = 0 if re.fullmatch(r"[A-Z]{2,3}", p) else re.I
-        if re.search(rf"\b{p}\b", text, flags):
-            return True
-    return False
+    key = tuple(patterns)
+    if key not in _MENTION_RES:
+        codes = [p for p in patterns if re.fullmatch(r"[A-Z]{2,3}", p)]
+        _MENTION_RES[key] = (_words_re([p for p in patterns if p not in codes]), _words_re(codes, 0))
+    words, codes = _MENTION_RES[key]
+    return bool(words.search(text) or codes.search(text))
+
+
+_MENTION_RES: dict[tuple[str, ...], tuple[re.Pattern[str], re.Pattern[str]]] = {}
 
 
 _LATAM_COUNTRIES = (r"\b(?:m[eé]xico|argentina|chile|colombia|per[uú]|uruguay|paraguay|bolivia|ecuador|venezuela"
