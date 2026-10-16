@@ -138,3 +138,19 @@ def test_brazilian_places_are_not_also_latin_america(location, expected):
 def test_gupy_locations_abroad_are_not_brazil(city, state, expected):
     from radar.sources.gupy import _location
     assert _location(city, state) == expected
+
+
+@pytest.mark.parametrize(
+    "title, levels",
+    [
+        ("Estágio Nível Médio - Técnico de Enfermagem", ["school"]),
+        ("Estágio Técnico em Mecânica", ["school"]),
+        ("Aprendiz de Merchandising", ["school"]),
+        ("Técnico(a) de Laboratório - Estágio", ["school"]),
+        ("Analista Técnico de Vendas - Estágio", []),  # "técnico" describes the job, not a technical course
+        ("Estágio em Engenharia", []),
+    ],
+)
+def test_school_level(title, levels):
+    """High-school and technical-course estágios are hidden from university profiles."""
+    assert find_levels(title) == levels

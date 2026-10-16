@@ -167,11 +167,17 @@ at the top of that file, so you can change them.
 | Label | Values |
 |---|---|
 | area | `ML`, `SWE`, `research`, `data`, `quant`, `hardware`, `other`. The title decides. When it says nothing, only clear phrases in the description count ("machine learning", "ciência de dados", "desenvolvimento de software"), not words that are everywhere in Portuguese ads ("sistemas", "tecnologia", "dados", "desenvolvimento profissional"). A role for a non-tech field (law, health, business…) only gets a tech area when its title says so clearly: "Analista Financeiro" is not `data`. |
-| season | `Dec–Feb` (Brazilian summer break), `Jul` (July break), `May–Aug` (northern summer), `year-round`, `unknown` |
+| season | `Dec–Feb` (Brazilian summer break), `Jan–Apr` (a northern "Winter"/"Spring" term), `Jul` (July break), `May–Aug` (northern summer), `Sep–Dec` ("Fall" term), `year-round`, `unknown` |
+| level | `undergrad`, `masters`, `phd` (`radar/levels.py`), and `school` for estágios of high-school or technical courses ("Estágio Nível Médio", "Técnico de Enfermagem") and apprenticeships: no profile picks it, so they are hidden like any role for another level |
+| fields | the areas a role is for (`radar/fields.py`); a role that names none but has a tech area gets that area's fields ("Applied Scientist Intern" is ML: engineering, computing, sciences), so it isn't shown to law or health students |
 | region | `Brazil`, `LatAm`, `US/Canada`, `Europe`, `Asia/ME` (includes Oceania), `remote`, `unknown`. A posting can have several. |
 | warnings | `US work auth?`, `PhD-level?`, `grad-year limit?`, `unsure if student role`, `new-grad role (after graduation)`. `US work auth?` is for roles in the US/Canada, wording only the US uses (US citizen, green card, security clearance, ITAR), or "work authorization"/"sponsorship" on a remote role or one whose place is unknown. A role in Europe that asks for local work authorization doesn't get it. |
-| calendar note | whether it fits UNESP's breaks or clashes with the semesters (Mar–Jul, Aug–Dec) |
-| deadline | a date when the source or the text states one, otherwise `check page` |
+| calendar note | whether it fits the usual Brazilian breaks or clashes with the semesters (Mar–Jul, Aug–Dec) |
+| deadline | a date when the source or the text states one, otherwise `check page`. A role past its deadline leaves the lists (Saved and Applied still show it); a program page's past date is last year's edition and isn't shown |
+
+**What the site leaves out.** Roles for a term that is already over ("Winter
+2026", "Summer '25", "Estágio 2025") and repeats (the same title, company and
+place listed twice) are not written to `docs/data.json`.
 | pay | when stated: the job board's own salary field (Ashby, Lever, Greenhouse, Sólides, CIEE, Super Estágios), otherwise read from the description by `radar/pay.py` (formats like `$54 — $60 USD`, `109,395.00 USD Annually`, `Bolsa auxílio: R$1.357,28/mês`). See **How pay is read** below. |
 | skills | the skills a posting mentions, from a fixed list of about 80 in `radar/skills.py` (Python, C++, PyTorch, SQL, ROS, PLC, MATLAB, Embedded systems…), in English and Portuguese. Used by the résumé match on the site. Roles from the GitHub lists only have a title, so few skills are found for them. |
 
@@ -342,7 +348,7 @@ The summary is stored in your browser only. With it:
 - **Fit gets sharper:** countries where you can already work don't get the
   visa warning; a new-grad job is fine when you graduate within a year; an
   estágio says it's in Portuguese if you don't list Portuguese; and your free
-  months replace UNESP's calendar in the month strip, the "Fits my breaks"
+  months replace the usual Brazilian calendar in the month strip, the "Fits my breaks"
   filter, and a "runs outside the months you're free" note.
 
 It's keyword matching, so it's a hint for sorting, not a verdict: read the
@@ -355,7 +361,7 @@ posting before deciding.
 | Role | title (links to the posting), company, and at most two small tags: Applied, Strong match, New or Program. Under it, in amber or red, the first thing that might get in the way. |
 | Where | the first location, then "+N more". Open the row for all of them. |
 | Pay | when the posting states it, e.g. `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`, `$94K–125K/yr`; a dash otherwise. A `*` means it was read from the description, not a salary field: check the posting (see [How pay is read](#how-pay-is-read)). |
-| When | for roles with a season, a 12-month strip, January to December. Grey months are UNESP semesters (Mar–Jun, Aug–Nov), or the months you're not free if your résumé summary lists them. The role's months are green when they fall in a break and amber when they clash with classes. Year-round roles just say so; a dash means the posting doesn't say. |
+| When | for roles with a season, a 12-month strip, January to December. Grey months are the usual Brazilian semesters (Mar–Jun, Aug–Nov), or the months you're not free if your résumé summary lists them. The role's months are green when they fall in a break and amber when they clash with classes. Year-round roles just say so; a dash means the posting doesn't say. |
 | Deadline | the date (a dash when none is stated), with the days left in red when it closes within 14 days |
 
 On a phone the row is shorter: the title, the company and one line with the

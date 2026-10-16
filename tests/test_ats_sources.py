@@ -61,5 +61,5 @@ def test_ashby_interns_and_locations():
     assert "Toronto" in first.location and "London" in first.location  # secondary locations included
     apply_rules(first)
     assert first.area == "research"
-    assert first.season == "year-round"  # "Winter 2027" = during the semester
+    assert first.season == "Jan–Apr"  # "Winter 2027": the co-op winter term
     assert {"US/Canada", "Europe", "remote"} <= set(first.regions)

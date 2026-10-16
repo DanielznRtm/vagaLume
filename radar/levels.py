@@ -17,7 +17,11 @@ from __future__ import annotations
 import re
 import unicodedata
 
-LEVELS = ("undergrad", "masters", "phd")
+LEVELS = ("undergrad", "masters", "phd", "school")
+UNIVERSITY = ("undergrad", "masters", "phd")
+# "school": estágios for high-school or technical-course students ("Estágio Nível Médio",
+# "Técnico de Enfermagem") and apprenticeships. vagaLume is for university students, so no
+# profile picks this level: these roles are hidden like any role for another level.
 
 # B.S./M.S. in capitals as a token of their own ("BS/MS", "Intern - MS", "(M.Sc.)"),
 # but not in a list of US states ("(TN, LA, OK, MS, AR)" is Mississippi).
@@ -33,6 +37,11 @@ _TITLE = {
         r"|" + "M\\.?Sc?\\.?".join(_DEGREE_TOKEN) + r"(?!\s+(?:Office|Excel|Word|Teams|Project|Access|SQL|Dynamics|Azure|Windows))"
     ),
     "phd": re.compile(r"(?i:ph\.? ?d|doctora|doutorad|doutorand)"),
+    "school": re.compile(r"(?i:n[ií]vel m[eé]dio|ensino m[eé]dio|n[ií]vel t[eé]cnico|ensino t[eé]cnico|curso t[eé]cnico"
+                         r"|est[aá]gio t[eé]cnico|aprendiz|\bausbildung"
+                         # A technical course ("Técnico de Enfermagem") at the start or right after "Estágio",
+                         # not "Analista Técnico de Vendas".
+                         r"|(?:^|[-–|/(:]\s*|est[aá]gi\w*\s+(?:de\s+|em\s+)?)t[eé]cnic[oa](?:\(a\))?\s+(?:em|de)\b)"),
 }
 
 # Sentences that say who can apply, in lower case without accents.
@@ -58,8 +67,10 @@ def _plain(text: str, lower: bool = True) -> str:
 
 
 def _ordered(found: set[str]) -> list[str]:
-    # Open to every level is the same as not saying: nothing to hide.
-    return [] if len(found) == len(LEVELS) else [level for level in LEVELS if level in found]
+    # Open to every university level is the same as not saying: nothing to hide.
+    if set(UNIVERSITY) <= found:
+        return []
+    return [level for level in LEVELS if level in found]
 
 
 def find_levels(title: str, description: str = "") -> list[str]:

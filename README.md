@@ -82,7 +82,7 @@ dá para ordenar por "melhor match" e, ao abrir uma vaga, você vê quais
 habilidades você tem (✓) e quais faltam. O resumo também deixa a análise mais
 precisa: países onde você já pode trabalhar deixam de gerar alerta de visto,
 vagas de recém-formado passam a valer se você se forma em até um ano, e os
-meses livres do seu calendário substituem o calendário da UNESP.
+meses livres do seu calendário substituem o calendário habitual das universidades brasileiras.
 
 <img alt="Uma vaga aberta: quais das suas habilidades ela cita (✓), quais faltam, e por que combina" src=".github/assets/screenshot-match-pt.png">
 
@@ -143,5 +143,5 @@ Se o vagaLume te ajudar a encontrar algo, **dê uma estrela no repositório**.
   </a>
 </p>
 
-<p align="center"><sub>Feito no Brasil por um estudante de engenharia da UNESP · licença <a href="LICENSE">Apache 2.0</a> · sem raspagem do LinkedIn, sem sites que bloqueiam bots</sub></p>
+<p align="center"><sub>Feito no Brasil por um estudante de engenharia · licença <a href="LICENSE">Apache 2.0</a> · sem raspagem do LinkedIn, sem sites que bloqueiam bots</sub></p>
 <p align="center"><sub>Créditos: lista de municípios do IBGE via <a href="https://github.com/kelvins/municipios-brasileiros">kelvins/municipios-brasileiros</a> (MIT) · fontes Bricolage Grotesque e Schibsted Grotesk no banner (SIL Open Font License 1.1)</sub></p>

@@ -46,7 +46,7 @@ def test_offseason_skips_closed_rows_and_uses_terms():
     assert len(items) == 2  # the closed (🔒) rows are skipped
     assert items[0].title.endswith("(Winter 2026)")
     apply_rules(items[0])
-    assert items[0].season == "year-round"
+    assert items[0].season == "Jan–Apr"  # a co-op winter term
 
 
 def test_new_grad_list():

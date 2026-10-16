@@ -11,6 +11,7 @@ without touching the logic below.
 from __future__ import annotations
 
 import re
+from datetime import date
 
 from .models import NO_DEADLINE, Opportunity
 from .pay import find_pay
@@ -185,9 +186,11 @@ SEASON_RULES: list[tuple[str, list[str]]] = [
     ]),
     ("Jul", [r"f[ée]rias de julho", r"mid-year break", r"july break", r"curso de julho"]),
     ("May–Aug", [r"summer", r"may\s*[-–]\s*aug\w*", r"june\s*[-–]\s*aug\w*"]),
+    # North American terms: "Winter 2027" (co-op Jan–Apr), "Spring 2027", "Fall 2026".
+    # "spring" alone would match "Java Spring", so we require a term word.
+    ("Jan–Apr", [r"(?:winter|spring)(?:/\w+)?\s+(?:20\d\d|semester|term|co-?op|internship|intern)"]),
+    ("Sep–Dec", [r"(?:fall|autumn)(?:/\w+)?\s+(?:20\d\d|semester|term|co-?op|internship|intern)"]),
     ("year-round", [
-        # "spring" alone would match "Java Spring", so we require a term word.
-        r"(?:fall|autumn|spring|winter)(?:/\w+)?\s+(?:20\d\d|semester|term|co-?op|internship|intern)",
         r"co-?op", r"off-?cycle", r"year-round", r"part[- ]time", r"meio per[íi]odo",
         r"(?:3|4|6|12)[- ]month (?:internship|program|placement)",
         r"est[áa]gio", r"estagi[áa]ri[oa]", r"student researcher", r"working student",
@@ -399,15 +402,38 @@ def find_warnings(opp: Opportunity, level: str, regions: list[str]) -> list[str]
 
 
 # ---------------------------------------------------------------------------
-# 6. Calendar note: does it clash with UNESP semesters (Mar–Jul, Aug–Dec)?
+# 6. Calendar note: does it clash with the usual Brazilian semesters (Mar–Jul, Aug–Dec)?
 # ---------------------------------------------------------------------------
 CALENDAR_NOTES = {
-    "Dec–Feb": "fits the UNESP summer break (Dec–Feb)",
-    "Jul": "fits the UNESP July break",
+    "Dec–Feb": "fits the Brazilian summer break (Dec–Feb)",
+    "Jul": "fits the July break",
+    "Jan–Apr": "Jan–Feb fits the summer break, Mar–Apr clashes with the first semester",
+    "Sep–Dec": "clashes with the second semester (Aug–Dec)",
     "May–Aug": "overlaps semesters: May–Jul clashes with Mar–Jul and Aug with Aug–Dec; needs a leave or remote deal",
     "year-round": "runs during semesters (Mar–Jul, Aug–Dec); OK only if part-time/remote or you take a semester off",
-    "unknown": "dates unknown; compare with UNESP semesters (Mar–Jul, Aug–Dec)",
+    "unknown": "dates unknown; compare with your semesters (usually Mar–Jul, Aug–Dec)",
 }
+
+
+# Fields implied by a tech area, for roles that name no field.
+AREA_FIELDS = {
+    "ML": ["engenharia", "computacao", "exatas"], "SWE": ["engenharia", "computacao"], "data": ["computacao", "exatas", "negocios", "engenharia"],
+    "hardware": ["engenharia", "computacao"], "quant": ["exatas", "negocios", "computacao"],
+}
+
+
+# When a term ends: "Winter 2026" (co-op Jan–Apr) is over in May 2026.
+_TERM = re.compile(r"\b(winter|spring|summer|fall|autumn)(?:/\w+)?\s*['’]?((?:20)?\d\d)\b", re.I)
+_TERM_END = {"winter": 4, "spring": 5, "summer": 9, "fall": 12, "autumn": 12}
+
+
+def past_term(title: str, today: date) -> bool:
+    """Is the role for a term that is already over ("Winter 2026", "Summer '25", "Internship 2025")?"""
+    terms = [(m.group(1).lower(), int(m.group(2)) % 100 + 2000) for m in _TERM.finditer(title)]
+    if terms:
+        return all((year, _TERM_END[name]) < (today.year, today.month) for name, year in terms)
+    years = [int(y) for y in re.findall(r"\b(20\d\d)\b", title)]
+    return bool(years) and max(years) < today.year
 
 
 def calendar_note(season: str) -> str:
@@ -443,6 +469,10 @@ def apply_rules(opp: Opportunity) -> Opportunity:
     suggested = [hint.split(":", 1)[1] for hint in opp.hints if hint.startswith("area:")]
     if opp.area == "other" and suggested:
         opp.area = suggested[0]
+    # A role that names no field but has a tech area ("Applied Scientist Intern" is ML) is for
+    # the fields of that area: otherwise it would show for every student, law and nursing too.
+    if not opp.fields:
+        opp.fields = list(AREA_FIELDS.get(opp.area, []))
     opp.season = str(preset.get("season") or classify_season(opp.title, opp.description, opp.hints))
     opp.warnings = find_warnings(opp, level, opp.regions)
     for extra in preset.get("warnings") or []:  # type: ignore[union-attr]
