@@ -61,3 +61,11 @@ def test_a_remote_role_stays_remote():
     opp = apply_rules(Opportunity(title="Estágio em Dados", org="X", source="gupy", url="https://x/2",
                                   location="Brazil (remote)", remote=True, description="Trabalho 100% remoto."))
     assert opp.workplaces == ["remote"] and "remote" in opp.regions
+
+
+def test_a_remote_location_is_a_far_away_site_not_remote_work():
+    assert find_workplaces("Brazil-Remote Location-Araguaia, Brazil") == []
+    assert find_workplaces("No-KC Site Brazil – Remote") == ["remote"]
+    vale = apply_rules(Opportunity(title="Estágio Mineração", org="Vale", source="workday", url="https://x",
+                                   location="Brazil-Remote Location-Araguaia, Brazil"))
+    assert "remote" not in vale.regions and vale.workplaces == []

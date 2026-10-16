@@ -35,6 +35,7 @@ from ..http import get_json, post_json
 from ..labels import classify_regions, is_student_candidate
 from ..models import Opportunity
 from ..places import ALSO_ABROAD, city_state
+from ..workplace import REMOTE_PLACE
 from . import SourceResult
 from .nvidia import _posted
 
@@ -142,7 +143,7 @@ def parse(data: dict[str, Any], site: dict[str, Any], from_student_facet: bool, 
                 source=NAME,
                 url=f"{base_url(site)}/en-US/{site['site']}{job['externalPath']}",
                 location=location,
-                remote="remote" in place.lower(),
+                remote=bool(REMOTE_PLACE.search(place)),
                 posted_date=_posted(str(job.get("postedOn") or ""), today),
                 hints=["student"] if from_student_facet else [],
             )

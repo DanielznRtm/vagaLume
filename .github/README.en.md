@@ -28,7 +28,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/demo.gif" alt="vagaLume in action: pick your field, level and country, filter, search, open a role, peek at other fields and match your résumé" width="92%">
+  <img src="assets/demo-v2.gif" alt="vagaLume in action: pick your field, level and country, filter, search, open a role, peek at other fields and match your résumé" width="92%">
 </p>
 
 ---
@@ -43,11 +43,11 @@ little light that finds the openings for you.
 | | |
 |---|---|
 | 🌎 **All of Brazil, and the world** | In Brazil: every estágio on Gupy, CIEE, Super Estágios, Sólides and IEL, the Cia de Talentos programs, FAPESP research grants and the internships of multinationals (Santander, P&G, Citi, Bosch, Syngenta…), **over 11,000 roles**, most with the stipend shown. Abroad: **over 5,000 roles** in the US and Canada, Europe, Asia and remote, from big tech, AI labs, trading firms and research programs. |
-| 🔭 **25 sources, one list** | Plus Greenhouse, Lever, Ashby, SmartRecruiters and Workday boards of 300+ companies, the SimplifyJobs lists, Google, Amazon, Microsoft, NVIDIA, Meta, D. E. Shaw, DRW and 42 research and summer-program pages. About **17,000 open roles** on a normal day. |
+| 🔭 **34 sources, one list** | Plus Greenhouse, Lever, Ashby, SmartRecruiters and Workday boards of 400+ companies, SAP, IBM, Goldman Sachs, KPMG, Deloitte, the SimplifyJobs lists, Google, Amazon, Microsoft, NVIDIA, Meta, D. E. Shaw, DRW and 42 research and summer-program pages. About **30,000 open roles** on a normal day. |
 | 🎯 **Your areas, in the right order** | Tell it which areas you're looking for (not only your course: an engineering student can pick Business too), whether you're doing a Bachelor's, Master's or PhD, where you study and where you'd work (pick as many as apply: *Engineering* and *Computing*, *my state* and *Europe*). Roles for other fields, other levels (PhD-only for an undergrad, and the other way round) and other places are hidden (one click shows them; remote roles always show), and every role gets a dot (good fit, check something, long shot) with the reason, like *"needs US work authorization"* or *"aimed at PhD students"*. |
 | 📄 **Match your résumé** | Paste a ready-made prompt and your résumé into the AI chat you already use (ChatGPT, Gemini, Claude…), paste its answer back, and every role shows how well it matches: *"you have 6 of the 10 skills it mentions"*. No AI runs inside vagaLume and your résumé never leaves your hands. |
 | 💸 **Pay, when it's stated** | `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`: read from job boards and descriptions in English and Portuguese. |
-| ✨ **Today's highlights** | With your résumé, the *Today's highlights* tab shows the 3, 5 or 10 best new roles of the day for you, and the vagaLume bot can send them to you every day on Telegram. |
+| ✨ **Today's highlights** | The *Today's highlights* tab shows the 3, 5 or 10 best new roles of the day for you (with your résumé, by what you know), and the vagaLume bot can send them to you every day on Telegram. |
 | 📅 **Fits your calendar?** | A tiny January–December strip on every role shows whether it falls in your breaks or clashes with your semester. |
 | ⏰ **Deadlines up front** | Closing-soon roles and brand-new ones each get their own tab. |
 | ☆ **Your shortlist** | Save, mark as applied, or hide. Filters add up (*ML* and *Data*, *Brazil* and *Remote*) and live in the link, so you can bookmark *"ML roles in Europe"* or send it to a friend. |
@@ -67,15 +67,23 @@ little light that finds the openings for you.
 
 ## See it
 
-<img alt="The vagaLume list in dark mode: filters on the left; each role shows its résumé match, fit, location, pay, a month strip and the deadline" src="assets/screenshot-dark.png">
+<img alt="The vagaLume list in dark mode: filters on the left; each role shows its résumé match, fit, location, pay, a month strip and the deadline" src="assets/screenshot-dark-v2.png">
 
-<img alt="An opened role: which of your skills it mentions (✓), which are missing, and why it fits" src="assets/screenshot-match.png">
+<img alt="An opened role: which of your skills it mentions (✓), which are missing, and why it fits" src="assets/screenshot-match-v2.png">
 
 Works on phones too, in light and dark mode. **[Open it →](https://pedrocamargolince.github.io/vagaLume/)**
 
+## Today's highlights
+
+The best new roles of the day for you: by your profile, the areas you pick (from
+ML to Tax law, Nursing or Finance) and, once you match your résumé, by what you
+know.
+
+<img alt="Today's highlights: pick how many roles and which areas (Law: Tax, Labor…; Business: Finance, Accounting…; Technology…)" src="assets/screenshot-picks-v2.png">
+
 ## How it works
 
-<p align="center"><img src="assets/how-it-works.png" alt="How it works: every day, in a GitHub Action, 21 sources go through the labels (area, season, region, pay, skills, warnings) into the text database (data/*.jsonl); from there come the website on GitHub Pages, which also reads your résumé summarized by your own AI chat, and the optional daily digest by Telegram or email" width="620"></p>
+<p align="center"><img src="assets/how-it-works-v2.png" alt="How it works: every day, in a GitHub Action, 34 sources go through the labels (area, season, region, pay, skills, warnings) into the text database (data/*.jsonl); from there come the website on GitHub Pages, which also reads your résumé summarized by your own AI chat, and the optional daily digest by Telegram or email" width="620"></p>
 
 Once a day, a GitHub Action runs the Python bot, reads
 every source politely (it identifies itself and waits between requests), labels

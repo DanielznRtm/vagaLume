@@ -46,6 +46,10 @@ def test_only_roles_first_seen_today():
     (role(1, regions=["Europe"]), Prefs(work=["Brazil"]), False),
     (role(1, regions=["Europe"]), Prefs(work=["any"]), True),
     (role(1, area="quant"), Prefs(areas=["ML", "SWE"]), False),
+    (role(1, area="other", subs=["tributario"]), Prefs(subs=["tributario", "trabalhista"]), True),
+    (role(1, area="other", subs=["contabil"]), Prefs(subs=["tributario"]), False),
+    (role(1, area="SWE"), Prefs(areas=["SWE"], subs=["financas"]), True),  # a tech area or a sub-area
+    (role(1, area="other"), Prefs(areas=["SWE"], subs=["financas"]), False),
 ])
 def test_fits(item, prefs, expected):
     assert fits(item, prefs) is expected
@@ -93,7 +97,8 @@ def canonical(prefs: Prefs) -> Prefs:
     """The same preferences with every list in the code's order (decoding returns them that way)."""
     order = lambda names, universe: [n for n in universe if n in names]  # noqa: E731
     return Prefs(prefs.count, order(prefs.levels, picks.LEVELS), order(prefs.fields, picks.FIELDS), prefs.home,
-                 order(prefs.work, picks.WORK), order(prefs.areas, picks.AREAS), order(prefs.skills, SKILL_NAMES), prefs.lang)
+                 order(prefs.work, picks.WORK), order(prefs.areas, picks.AREAS), [],  # sub-areas stay on the site
+                 order(prefs.skills, SKILL_NAMES), prefs.lang)
 
 
 # --- the website's JavaScript gives the same answers ---------------------------
@@ -113,6 +118,8 @@ PROFILES = [
           skills=["Python", "PyTorch", "Machine learning", "SQL"]),
     Prefs(count=5, levels=["phd"], fields=["exatas"], work=["any"], areas=["quant", "research"], skills=["C++", "Statistics"]),
     Prefs(count=10, levels=["undergrad"], fields=["direito"], home="RJ", work=["state", "LatAm"]),
+    Prefs(count=10, fields=["direito", "negocios"], work=["Brazil"], subs=["tributario", "contabil", "financas", "quimica"]),
+    Prefs(count=5, fields=["saude"], work=["any"], areas=["data"], subs=["enfermagem"]),
 ]
 
 
@@ -142,3 +149,13 @@ def test_the_page_has_no_stray_control_characters():
 
     page = (Path(__file__).parent.parent / "docs" / "index.html").read_text(encoding="utf-8")
     assert not [c for c in page if ord(c) < 32 and c not in "\n\t\r"]
+
+
+@pytest.mark.skipif(not shutil.which("node"), reason="needs Node.js")
+def test_the_page_script_parses(tmp_path):
+    page = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+    for n, script in enumerate(re.findall(r"<script>(.*?)</script>", page, re.S)):
+        path = tmp_path / f"script{n}.js"
+        path.write_text(script, encoding="utf-8")
+        result = subprocess.run(["node", "--check", str(path)], capture_output=True, text=True)
+        assert result.returncode == 0, result.stderr[:500]

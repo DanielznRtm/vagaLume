@@ -19,7 +19,7 @@ from .fields import find_fields
 from .subareas import find_subareas
 from .levels import LEVELS, find_levels
 from .places import brazil_states
-from .workplace import find_workplaces
+from .workplace import REMOTE_PLACE, find_workplaces
 from .skills import find_skills
 from .textutil import find_deadline
 
@@ -43,6 +43,8 @@ STRONG_STUDENT_WORDS = [
     r"praktikant(?:in|en)?", r"praktyki", r"becari[oa]s?", r"pasantes?", r"pasant[íi]as?", r"practicantes?",
     r"pr[áa]cticas", r"tirocini[oa]", r"thesis", r"abschlussarbeit", r"masterarbeit", r"bachelorarbeit",
     r"studentships?", r"industrial placement", r"placement year", r"\d+[- ]months? placement",
+    # Sweden/Denmark "Examensarbete", "Praktik"; Germany "Industriepraktikum"; Malaysia "Industrial Trainee".
+    r"examensarbete", r"praktik", r"\w+praktikum", r"industrial trainee",
 ]
 # "Stage" is a French internship, but also part of a rocket ("Stage Integration Engineer"): it counts
 # only as "Stage - ...", "Stage de/en ...", "Stage 2027", "Stage (6 mois)" or next to H/F, F/H.
@@ -277,7 +279,7 @@ US_STATE_CODES = (
 US_AMBIGUOUS_CODES = r",\s*(SC|PA|MT|MS|AL|MA|DE|CO|AR|IN|IL|ID)\b"
 EUROPE = [
     r"uk", r"united kingdom", r"england", r"london", r"edinburgh", r"manchester", r"oxford", r"bristol",
-    r"ireland", r"dublin", r"france", r"paris", r"germany", r"deutschland", r"berlin", r"munich",
+    r"ireland", r"dublin", r"france", r"paris", r"germany", r"deutschland", r"berlin", r"munich", r"regensburg", r"warstein", r"dresden", r"neubiberg",
     r"m[üu]nchen", r"hamburg", r"frankfurt", r"netherlands", r"amsterdam", r"switzerland", r"zurich",
     r"z[üu]rich", r"geneva", r"lausanne", r"austria", r"vienna", r"klosterneuburg", r"spain", r"madrid",
     r"barcelona", r"portugal", r"lisbon", r"porto(?! alegre)", r"italy", r"milan", r"rome", r"sweden", r"stockholm",
@@ -315,7 +317,8 @@ ASIA_ME = [  # Asia, Middle East and Oceania
     r"SGP", r"JPN", r"KOR", r"CHN", r"HKG", r"TWN", r"IND", r"ISR", r"ARE", r"SAU", r"AUS", r"NZL",
     r"auckland", r"wellington", r"makati", r"taguig", r"cebu", r"suzhou", r"chengdu", r"wuhan", r"guangzhou",
     r"hangzhou", r"nanjing", r"tianjin", r"dalian", r"macau", r"ho chi minh", r"hanoi", r"penang", r"johor",
-    r"cyberjaya", r"selangor", r"subang", r"yokohama", r"osaka", r"kyoto", r"nagoya", r"busan", r"pakistan",
+    r"cyberjaya", r"selangor", r"subang", r"melaka", r"malacca", r"kulim", r"kedah", r"samut prakan", r"chonburi",
+    r"wuxi", r"xi'an", r"ahmedabad", r"yokohama", r"osaka", r"kyoto", r"nagoya", r"busan", r"pakistan",
     r"karachi", r"lahore", r"bangladesh", r"dhaka", r"sri lanka", r"cambodia", r"phnom penh", r"uzbekistan",
     r"tashkent", r"kazakhstan", r"almaty", r"amman", r"beirut", r"kuwait", r"bahrain",
     r"muscat",
@@ -363,7 +366,7 @@ def classify_regions(location: str, remote: bool = False) -> list[str]:
     # "Boise, ID" -> US, but "Berlin, DE" was already recognised as Europe.
     if not regions and re.search(US_AMBIGUOUS_CODES, location):
         regions.append("US/Canada")
-    if remote or re.search(r"\bremote\b|\bremoto\b|\banywhere\b|\bworldwide\b|home[- ]based", location, re.I):
+    if remote or REMOTE_PLACE.search(location) or re.search(r"\banywhere\b|\bworldwide\b|home[- ]based", location, re.I):
         regions.append("remote")
     return regions or ["unknown"]
 

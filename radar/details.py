@@ -28,6 +28,7 @@ from urllib.parse import parse_qs, urlparse
 from .http import get_json, get_text
 from .models import Opportunity
 from .pay import from_range
+from .readers_more import MORE_READERS
 from .sources.ashby import _pay as ashby_pay
 from .sources.lever import _description as lever_description, _pay as lever_pay
 from .textutil import html_to_text
@@ -35,8 +36,11 @@ from .textutil import html_to_text
 log = logging.getLogger(__name__)
 
 # Sources whose list gives no description (or no pay) and how many of their pages to read per run.
-# About 2,350 pages (~6 minutes) per run: the first runs clear the backlog over 2-3 days, then only new roles.
-BUDGET = {"github_lists": 600, "workday": 700, "smartrecruiters": 300, "iel": 500, "microsoft": 150, "nvidia": 100}
+# About 2,750 pages (~7 minutes) per run: the first runs clear the backlog over 2-3 days, then only new roles.
+BUDGET = {"github_lists": 1000, "workday": 700, "smartrecruiters": 300, "iel": 500, "microsoft": 150, "nvidia": 100}
+# Sites whose job pages only show the pay in a real browser (radar/browser.py), about 7 s a page:
+# read one after the other, a few per run. Meta: "$7,313/month to $12,667/month + benefits".
+BROWSER_BUDGET = {"meta": 20}
 REREAD_DAYS = 30
 WORKERS = 8
 
@@ -138,6 +142,9 @@ READERS: list[tuple[re.Pattern[str], Callable[[str], tuple[str, str]]]] = [
     (re.compile(r"jobs\.smartrecruiters\.com/"), _smartrecruiters),
     (re.compile(r"apply\.careers\.microsoft\.com/careers/job/"), _microsoft),
     (re.compile(r"carreiras\.iel\.org\.br/|talento\.ielpr\.com\.br/|\.iel[a-z]*\.(?:org|com)\.br/"), _page),
+    # Oracle HCM, Eightfold, iCIMS, Jibe, SuccessFactors, TikTok, Rippling, Avature... (radar/readers_more.py).
+    # Workable is left out: it answered 429 with a day-long block, untested from GitHub's runners.
+    *[(pattern, read) for pattern, read in MORE_READERS if read.__name__ != "_workable"],
 ]
 
 
@@ -183,5 +190,20 @@ def enrich(items: list[Opportunity], conn: sqlite3.Connection, today: str) -> di
             if ok:
                 opp.detail_checked = today
                 done[opp.source] = done.get(opp.source, 0) + 1
+    for source, budget in BROWSER_BUDGET.items():
+        due = [o for o in items if o.source == source and (not checked.get(o.id) or checked[o.id] < reread_before)]
+        due.sort(key=lambda o: o.id in checked)
+        by_url = {o.url: o for o in due[:budget]}
+        try:
+            from .browser import render_many
+
+            for url, text in render_many(list(by_url)):
+                if text:
+                    opp = by_url[url]
+                    opp.description = f"{opp.description}\n{text[:20000]}".strip()
+                    opp.detail_checked = today
+                    done[source] = done.get(source, 0) + 1
+        except Exception as error:  # noqa: BLE001 - no browser here: the other pages still count
+            log.warning("Job pages in the browser (%s) failed: %s", source, error)
     log.info("Job pages read: %s", done or "none")
     return done

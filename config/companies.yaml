@@ -326,7 +326,7 @@ workday_brazil:
   - {tenant: 3m, wd: 1, site: Search, name: 3M}
   # Checked 2026-10-15. GE HealthCare, J&J and Toyota have no country filter, only
   # cities: radar/sources/workday.py then picks the Brazilian ones.
-  - {tenant: mmc, wd: 1, site: MMC, name: Marsh McLennan (Oliver Wyman, Mercer, Marsh)}
+  - {tenant: mmc, wd: 1, site: MMC, name: "Marsh McLennan (Oliver Wyman, Mercer, Marsh)"}
   - {tenant: gehc, wd: 5, site: GEHC_ExternalSite, name: GE HealthCare}
   - {tenant: jj, wd: 5, site: JJ, name: Johnson & Johnson}
   - {tenant: toyota, wd: 503, site: TLAC, name: Toyota do Brasil}
@@ -395,3 +395,96 @@ workday_global:
   - {tenant: astrazeneca, wd: 3, site: Careers, name: AstraZeneca}           # ~20: Sweden, Hungary, France
   - {tenant: cae, wd: 3, site: career, name: CAE}                            # ~17: Canada
   - {tenant: maersk, wd: 3, site: Maersk_Careers, name: Maersk}              # ~14: Denmark, Brazil, Asia
+  # --- Added 2026-10-16 (student roles today, counted with workday._fetch_site_global) ---
+  - {tenant: cc, wd: 3, site: ChanelCareers, name: Chanel}                      # ~336: France, Switzerland, Monaco, Italy, UAE (stages + alternance)
+  - {tenant: globalhr, wd: 5, site: REC_RTX_Ext_Gateway, name: RTX (Raytheon / Pratt & Whitney / Collins)} # ~318: US, Canada, France, Mexico, Poland
+  - {tenant: stryker, wd: 1, site: StrykerCareers, name: Stryker}               # ~204: US, Germany, France, Poland, UK, Ireland
+  - {tenant: pernodricard, wd: 3, site: pernod-ricard, name: Pernod Ricard}     # ~132: France, Spain, Belgium
+  - {tenant: fina, wd: 103, site: DeloitteRecrute, name: Deloitte France}       # ~132: France, Morocco
+  - {tenant: msd, wd: 5, site: SearchJobs, name: MSD (Merck & Co.)}             # ~125: US, Singapore, Netherlands, Panama, UAE
+  - {tenant: goldbeck, wd: 103, site: goldbeck-jobs, name: GOLDBECK}            # ~111: Germany (no job-type filter: title searches)
+  - {tenant: saabgroup, wd: 116, site: Saab_careers, name: Saab}                # ~110: Sweden (master theses)
+  - {tenant: td, wd: 3, site: TD_Bank_Careers, name: TD Bank}                   # ~97: Canada, US, UK, Ireland (title searches, ~120 requests)
+  - {tenant: acciona, wd: 3, site: ACCIONA_Employment_Channel, name: ACCIONA}   # ~96: Spain, Peru
+  - {tenant: otis, wd: 504, site: REC_Ext_Gateway, name: Otis}                  # ~92: US, China, Brazil, France, Thailand, Germany
+  - {tenant: motorolasolutions, wd: 5, site: Careers, name: Motorola Solutions} # ~92: Malaysia, US, Poland (title searches)
+  - {tenant: ing, wd: 3, site: icsgblcor, name: ING}                            # ~90: Singapore, Luxembourg, Germany, Belgium, Netherlands, Hong Kong
+  - {tenant: pierrefabre, wd: 3, site: External_Career_Site, name: Pierre Fabre} # ~78: France, Belgium, Brazil
+  - {tenant: heinz, wd: 1, site: KraftHeinz_Careers, name: Kraft Heinz}         # ~73: Netherlands, Belgium, Türkiye, Czechia
+  - {tenant: plexus, wd: 504, site: plexus_careers, name: Plexus}               # ~72: US, Malaysia, Mexico, Thailand
+  - {tenant: mbda, wd: 3, site: MBDA-UK, name: MBDA UK}                         # ~71: UK (summer/year placements; title searches)
+  - {tenant: travelers, wd: 5, site: External, name: Travelers}                 # ~69: US
+  - {tenant: linklaters, wd: 3, site: Linklaters, name: Linklaters}             # ~58: Germany, France, Netherlands
+  - {tenant: cisco, wd: 5, site: Cisco_Careers, name: Cisco}                    # ~54: US, UK
+  - {tenant: lighting, wd: 3, site: jobs-and-careers, name: Signify (Philips Lighting)} # ~52: Netherlands, China, Germany, Spain, Poland (title searches)
+  - {tenant: aptiv, wd: 5, site: APTIV_CAREERS, name: Aptiv}                    # ~49: France, US, Canada, China, Poland
+  - {tenant: dowjones, wd: 1, site: Dow_Jones_Career, name: Dow Jones}          # ~47: US
+  - {tenant: thermofisher, wd: 5, site: ThermoFisherCareers, name: Thermo Fisher} # ~44: US, Canada, Netherlands, Czechia
+  - {tenant: arianegroup, wd: 3, site: EXTERNALALL, name: ArianeGroup}          # ~42: France, Germany
+  - {tenant: rabobank, wd: 3, site: jobs, name: Rabobank}                       # ~42: Brazil (São Paulo), US (title searches)
+  - {tenant: amgen, wd: 1, site: Careers, name: Amgen}                          # ~41: US, Singapore, Canada
+  - {tenant: analogdevices, wd: 1, site: External, name: Analog Devices}        # ~41: US, Thailand, Philippines, Ireland, UK
+  - {tenant: fticonsulting, wd: 108, site: FTIConsultingCareers, name: FTI Consulting} # ~41: Germany, France, UK, Spain, UAE
+  # --- More (15-40 student roles that day; sites without a job-type filter only with 50+) ---
+  - {tenant: disney, wd: 5, site: disneycareer, name: Disney}                   # ~37: Singapore, US, Indonesia, Philippines, France, Japan
+  - {tenant: vrtx, wd: 501, site: Vertex_Careers, name: Vertex Pharmaceuticals} # ~35: US, UK
+  - {tenant: alcon, wd: 5, site: careers_alcon, name: Alcon}                    # ~35: US, Germany, Spain
+  - {tenant: kla, wd: 1, site: Search, name: KLA}                               # ~33: US, China, Germany, Singapore
+  - {tenant: ngc, wd: 1, site: Northrop_Grumman_External_Site, name: Northrop Grumman} # ~32: US, UK
+  - {tenant: kiongroup, wd: 3, site: KIONGroup, name: KION Group}               # ~30: Germany, China, US, France, UK
+  - {tenant: autodesk, wd: 1, site: Ext, name: Autodesk}                        # ~30: Singapore, Canada, US, Poland
+  - {tenant: manulife, wd: 3, site: MFCJH_Jobs, name: Manulife}                 # ~29: Canada, US, Hong Kong
+  - {tenant: cadence, wd: 1, site: External_Careers, name: Cadence}             # ~28: China, US, Brazil, Ireland
+  - {tenant: mastercard, wd: 1, site: Campus, name: Mastercard (campus)}        # ~24: UAE, Egypt, Portugal, Saudi Arabia, Kazakhstan, Taiwan
+  - {tenant: lego, wd: 103, site: lego_External, name: LEGO}                    # ~23: Denmark, US, Germany
+  - {tenant: nike, wd: 1, site: nke, name: Nike}                                # ~22: US
+  - {tenant: jci, wd: 5, site: jci, name: Johnson Controls}                     # ~22: Singapore, US, Australia
+  - {tenant: bdo, wd: 3, site: BDO, name: BDO Canada}                           # ~21: Canada (co-ops)
+  - {tenant: mckesson, wd: 3, site: External_Careers, name: McKesson}           # ~20: US, Canada
+  - {tenant: genmills, wd: 1, site: GMI_External_Careers, name: General Mills}  # ~20: US, France, India
+  - {tenant: clarios, wd: 5, site: clarioscareers, name: Clarios}               # ~20: US, Germany, Mexico
+  - {tenant: daher, wd: 3, site: daher, name: Daher}                            # ~18: France
+  - {tenant: airproducts, wd: 5, site: AP0001, name: Air Products}              # ~18: US, Brazil, Spain (title searches)
+  - {tenant: bristolmyerssquibb, wd: 5, site: BMS, name: Bristol Myers Squibb}  # ~17: US
+  - {tenant: huntsman, wd: 1, site: Huntsman, name: Huntsman}                   # ~17: US, Costa Rica, Malaysia, Germany
+
+# InHire job boards (radar/sources/inhire.py): tenant = the subdomain of <tenant>.inhire.app.
+# Checked 2026-10-16; student roles that day.
+inhire:
+  - {tenant: kpmg, name: KPMG}                  # 26 (estágio career page + bancos de talentos)
+  - {tenant: deloitte, name: Deloitte}          # 6 (page "inicio-de-carreira")
+  - {tenant: sympla, name: Sympla}              # 3
+  - {tenant: peers, name: Peers Consulting}     # 1 (Programa de Estágio CDPeers 2027.1)
+  - {tenant: riachuelo, name: Riachuelo}        # 1
+  - {tenant: contabilizei, name: Contabilizei}  # 1
+  - {tenant: cielo, name: Cielo}                # 0 that day (215 jobs)
+  - {tenant: xp, name: XP Inc.}                 # 0 that day
+  # - {tenant: bradesco, name: Bradesco}        # tenant exists but only a test job
+
+# Eightfold "PCSX" career sites (radar/sources/eightfold.py). location narrows to a country;
+# queries default to one empty query. Vale's Eightfold (old API) is skipped: Abler covers it.
+eightfold:
+  - {host: mercadolibre.eightfold.ai, domain: mercadolibre.com, name: Mercado Livre, location: Brazil, queries: [estágio, intern, trainee]}
+  - {host: morganstanley.eightfold.ai, domain: morganstanley.com, name: Morgan Stanley, location: Brazil}
+  - {host: jobs.infineon.com, domain: infineon.com, name: Infineon, queries: [intern]}  # ~200: Singapore, Austria, Germany, Malaysia, US, China
+
+# Single-company career sites (radar/sources/company_sites.py): countries to search.
+company_sites:
+  bcg: {countries: [Brazil]}
+  goldman: {countries: [Brazil, United States, United Kingdom, Germany, France, Poland, Singapore, India, Japan, Hong Kong]}
+  ibm: {countries: [Brazil, United States, Canada, United Kingdom, Ireland, Germany, France, India]}
+
+# TOTVS RH "Atração de Talentos" boards (radar/sources/totvs_rh.py).
+totvs_rh:
+  - {tenant: vempratotvs, name: TOTVS}
+
+# Shopee / SPX careers (radar/sources/shopee.py): offices in these countries.
+shopee:
+  countries: [Brazil, Singapore]
+
+# SuccessFactors career sites, every country (radar/sources/successfactors.py): one RSS
+# request per site (rows=1000, every language). Optional: keywords, rows.
+successfactors:
+  - {host: careers.sap.com, name: SAP}             # ~184: Germany, US, China, Brazil, Singapore, Spain (jobs.sap.com is behind Cloudflare; same site)
+  - {host: jobs.volvogroup.com, name: Volvo Group} # ~125: Sweden, US, France, India, Belgium, Canada
+  - {host: jobs.volvocars.com, name: Volvo Cars}   # ~6: Belgium, Sweden

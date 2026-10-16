@@ -1,0 +1,49 @@
+{
+ "code": 0,
+ "message": "success",
+ "data": {
+  "flat_locations": [
+   {
+    "region_id": 1,
+    "region_name": "Brazil",
+    "region_abbr": "BR",
+    "default_region": 1,
+    "career_value_region": 0,
+    "city_id": 2,
+    "city_name": "São Paulo",
+    "city_abbr": "São Paulo",
+    "city_count": 1,
+    "default_city": 1,
+    "career_value_city": 13,
+    "region_transify_key": "region_brazil",
+    "city_transify_key": "city_saopaulo",
+    "display_sites": [
+     4,
+     2,
+     1
+    ]
+   },
+   {
+    "region_id": 24,
+    "region_name": "Singapore",
+    "region_abbr": "SG",
+    "default_region": 1,
+    "career_value_region": 0,
+    "city_id": 25,
+    "city_name": "Singapore",
+    "city_abbr": "Singapore",
+    "city_count": 1,
+    "default_city": 1,
+    "career_value_city": 1,
+    "region_transify_key": "region_city_singapore",
+    "city_transify_key": "region_city_singapore",
+    "display_sites": [
+     3,
+     1,
+     2,
+     4
+    ]
+   }
+  ]
+ }
+}

@@ -21,9 +21,9 @@ from . import db, details, digest, labels, llm, notify, report, site, telegram_b
 from .config import ROOT, load_config
 from .models import Opportunity
 from .sources import (
-    SourceResult, abler, amazon, ashby, ciadetalentos, ciee, eureca, fapesp, github_lists, google, greenhouse, gupy, iel,
-    lever, meta, microsoft, nextjs_sites, nvidia, oracle_hcm, programs, rss_jobs, smartrecruiters, solides,
-    superestagios, workday,
+    SourceResult, abler, academia, amazon, ashby, ciadetalentos, ciee, company_sites, eightfold, eureca, fapesp,
+    github_lists, google, greenhouse, gupy, iel, inhire, lever, meta, microsoft, nextjs_sites, nvidia, oracle_hcm,
+    programs, rss_jobs, shopee, smartrecruiters, solides, successfactors, superestagios, totvs_rh, workday,
 )
 
 log = logging.getLogger("radar")
@@ -60,6 +60,15 @@ SOURCES: dict[str, Callable[[dict[str, Any], sqlite3.Connection, str], SourceRes
     "abler": lambda cfg, conn, today: abler.fetch(cfg),
     "oracle_hcm": lambda cfg, conn, today: oracle_hcm.fetch(cfg),
     "rss_jobs": lambda cfg, conn, today: rss_jobs.fetch(cfg),
+    "inhire": lambda cfg, conn, today: inhire.fetch(cfg),
+    "eightfold": lambda cfg, conn, today: eightfold.fetch(cfg),
+    "bcg": lambda cfg, conn, today: company_sites.fetch_bcg(cfg),
+    "goldman": lambda cfg, conn, today: company_sites.fetch_goldman(cfg),
+    "ibm": lambda cfg, conn, today: company_sites.fetch_ibm(cfg),
+    "totvs_rh": lambda cfg, conn, today: totvs_rh.fetch(cfg),
+    "shopee": lambda cfg, conn, today: shopee.fetch(cfg),
+    "academia": lambda cfg, conn, today: academia.fetch(cfg),
+    "successfactors": lambda cfg, conn, today: successfactors.fetch(cfg),
 }
 
 

@@ -28,7 +28,7 @@
 </p>
 
 <p align="center">
-  <img src=".github/assets/demo-pt.gif" alt="vagaLume em uso: escolha a sua área, nível e país, filtre, busque, abra uma vaga, veja as vagas de outras áreas e compare o seu currículo" width="92%">
+  <img src=".github/assets/demo-v2-pt.gif" alt="vagaLume em uso: escolha a sua área, nível e país, filtre, busque, abra uma vaga, veja as vagas de outras áreas e compare o seu currículo" width="92%">
 </p>
 
 ---
@@ -42,11 +42,11 @@ no GitHub, a Gupy e o site de cada escola de verão, toda semana. Um *vagalume*
 | | |
 |---|---|
 | 🌎 **No Brasil inteiro e mundo afora** | No Brasil: todos os estágios da Gupy, do CIEE, da Super Estágios, da Sólides e do IEL, os programas da Cia de Talentos, bolsas da FAPESP e os estágios de multinacionais (Santander, P&G, Citi, Bosch, Syngenta…), **mais de 11.000 vagas**, a maioria com o valor da bolsa. No exterior: **mais de 5.000 vagas** nos EUA e Canadá, na Europa, na Ásia e remotas, de big techs, laboratórios de IA, empresas de trading e programas de pesquisa. |
-| 🔭 **25 fontes, uma lista** | Também páginas Greenhouse, Lever, Ashby, SmartRecruiters e Workday de mais de 300 empresas, as listas da SimplifyJobs, Google, Amazon, Microsoft, NVIDIA, Meta, D. E. Shaw, DRW e 42 páginas de programas de pesquisa e verão. Cerca de **17.000 vagas abertas** num dia normal. |
+| 🔭 **34 fontes, uma lista** | Também páginas Greenhouse, Lever, Ashby, SmartRecruiters e Workday de mais de 400 empresas, SAP, IBM, Goldman Sachs, KPMG, Deloitte, as listas da SimplifyJobs, Google, Amazon, Microsoft, NVIDIA, Meta, D. E. Shaw, DRW e 42 páginas de programas de pesquisa e verão. Cerca de **30.000 vagas abertas** num dia normal. |
 | 🎯 **Só o que é da sua área, na ordem certa** | Diga em quais áreas você procura vagas (não só o seu curso), se está na graduação, no mestrado ou no doutorado, onde estuda e onde toparia trabalhar (pode marcar mais de uma). Vagas de outras áreas, de outros níveis (doutorado para quem está na graduação, e vice-versa) e de fora dos lugares que você escolheu ficam escondidas, e cada vaga ganha um ponto (boa, verificar algo, improvável) com o motivo, como *"exige autorização de trabalho nos EUA"* ou *"voltada a doutorandos"*. |
 | 📄 **Compare com o seu currículo** | Cole um prompt pronto e o seu currículo na IA que você já usa (ChatGPT, Gemini, Claude…), traga a resposta de volta, e cada vaga mostra o quanto combina. |
 | 💸 **Remuneração, quando informada** | `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`: lida das plataformas de vagas e das descrições, em inglês e em português. |
-| ✨ **Destaques do dia** | Com o seu currículo, a aba *Destaques de hoje* mostra as 3, 5 ou 10 melhores vagas novas do dia para você, e o bot do vagaLume pode mandá-las todo dia no Telegram. |
+| ✨ **Destaques do dia** | A aba *Destaques de hoje* mostra as 3, 5 ou 10 melhores vagas novas do dia para você (com o seu currículo, pelo que você sabe), e o bot do vagaLume pode mandá-las todo dia no Telegram. |
 | 📅 **Cabe no seu calendário?** | Uma tirinha de janeiro a dezembro em cada vaga mostra se ela cai nas suas férias ou bate com o semestre. |
 | ⏰ **Prazos em destaque** | Vagas que fecham logo e vagas novas têm abas próprias. |
 | ☆ **A sua lista** | Salve, marque como candidatado ou esconda. Os filtros se somam (*ML* e *Dados*, *Brasil* e *Remoto*) e ficam no link, então dá para guardar *"vagas de ML na Europa"* ou mandar para um amigo. |
@@ -66,9 +66,17 @@ no GitHub, a Gupy e o site de cada escola de verão, toda semana. Um *vagalume*
 
 ## Veja
 
-<img alt="A lista do vagaLume no modo escuro: filtros à esquerda; cada vaga mostra o match com o currículo, a compatibilidade, o local, a remuneração, uma tirinha dos meses e o prazo" src=".github/assets/screenshot-dark-pt.png">
+<img alt="A lista do vagaLume no modo escuro: filtros à esquerda; cada vaga mostra o match com o currículo, a compatibilidade, o local, a remuneração, uma tirinha dos meses e o prazo" src=".github/assets/screenshot-dark-v2-pt.png">
 
 Funciona no celular também, no modo claro e no escuro. **[Abrir →](https://pedrocamargolince.github.io/vagaLume/)**
+
+## Destaques de hoje
+
+As melhores vagas novas do dia para você, pelo seu perfil, pelas áreas que você
+marcar (de ML a Tributário, Enfermagem ou Finanças) e, se você comparar o seu
+currículo, pelo que você sabe.
+
+<img alt="Destaques de hoje: escolha quantas vagas e quais áreas (Direito: Tributário, Trabalhista…; Negócios: Finanças, Contabilidade…; Tecnologia…)" src=".github/assets/screenshot-picks-v2-pt.png">
 
 ## Comparar com o seu currículo
 
@@ -84,14 +92,14 @@ precisa: países onde você já pode trabalhar deixam de gerar alerta de visto,
 vagas de recém-formado passam a valer se você se forma em até um ano, e os
 meses livres do seu calendário substituem o calendário habitual das universidades brasileiras.
 
-<img alt="Uma vaga aberta: quais das suas habilidades ela cita (✓), quais faltam, e por que combina" src=".github/assets/screenshot-match-pt.png">
+<img alt="Uma vaga aberta: quais das suas habilidades ela cita (✓), quais faltam, e por que combina" src=".github/assets/screenshot-match-v2-pt.png">
 
 Tudo fica salvo só no seu navegador. O vagaLume não tem servidor e nunca vê o
 seu currículo.
 
 ## Como funciona
 
-<p align="center"><img src=".github/assets/how-it-works-pt.png" alt="Como funciona: todo dia, numa GitHub Action, 21 fontes passam pelos rótulos (área, época, região, remuneração, habilidades, alertas) e vão para o banco de dados em texto (data/*.jsonl); dele saem o site no GitHub Pages, que também lê o seu currículo resumido pela sua IA, e o resumo diário opcional por Telegram ou e-mail" width="620"></p>
+<p align="center"><img src=".github/assets/how-it-works-v2-pt.png" alt="Como funciona: todo dia, numa GitHub Action, 34 fontes passam pelos rótulos (área, época, região, remuneração, habilidades, alertas) e vão para o banco de dados em texto (data/*.jsonl); dele saem o site no GitHub Pages, que também lê o seu currículo resumido pela sua IA, e o resumo diário opcional por Telegram ou e-mail" width="620"></p>
 
 Uma vez por dia, uma GitHub Action roda o bot em Python, lê
 cada fonte com educação (ele se identifica e espera entre os pedidos), rotula

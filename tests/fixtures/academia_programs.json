@@ -1,0 +1,124 @@
+{
+ "message": "Operação realizada com sucesso",
+ "code": "@SUCCESS",
+ "response": {
+  "data": [
+   {
+    "id": "6ff644b2-77f6-42ce-a5ce-4bc47b1141a3",
+    "slug": "programa-de-estagio-braskem",
+    "type": "PROGRAM",
+    "company": {
+     "id": "7966d5df-e070-4840-8f97-d38882afa956",
+     "name": "Braskem"
+    },
+    "name": "Programa de estágio Braskem 2027",
+    "badge": "Programa de Estágio",
+    "mainLocation": "Camaçari",
+    "openPositions": 118,
+    "salary": {
+     "min": {
+      "amount": "2200.00",
+      "currency": "BRL",
+      "scale": 2
+     },
+     "max": {
+      "amount": "2800.00",
+      "currency": "BRL",
+      "scale": 2
+     }
+    },
+    "workModels": [
+     "HYBRID",
+     "PRESENTIAL"
+    ],
+    "jobType": "Estágio",
+    "graduationForecast": {
+     "start": "2028-1",
+     "end": "2029-2"
+    },
+    "shortDescription": "Fazemos parte da indústria petroquímica e produzimos insumos químicos e resinas termoplásticas, a matéria-prima de boa parte do que está ao seu redor agora: a embalagem do seu café, o pote do seu almoço, o cabo do seu carregador, o material…",
+    "shareUrl": "https://vagas.academiadouniversitario.com.br/programas/programa-de-estagio-braskem",
+    "simplifiedApplication": true
+   },
+   {
+    "id": "de0c2007-e705-49c8-84be-04a87336eb3b",
+    "slug": "programa-de-estagio-volkswagen-2027-1",
+    "type": "PROGRAM",
+    "company": {
+     "id": "46d0c037-eddd-44d2-8b73-69d9c009fc1f",
+     "name": "Volkswagen"
+    },
+    "name": "Programa de Estágio Volkswagen 2027.1",
+    "badge": "Programa de Estágio",
+    "mainLocation": "Curitiba",
+    "openPositions": 38,
+    "salary": {
+     "min": {
+      "amount": "2100.00",
+      "currency": "BRL",
+      "scale": 2
+     },
+     "max": {
+      "amount": "2100.00",
+      "currency": "BRL",
+      "scale": 2
+     }
+    },
+    "workModels": [
+     "HYBRID",
+     "PRESENTIAL"
+    ],
+    "jobType": "Estágio",
+    "graduationForecast": {
+     "start": "2027-2",
+     "end": "2029-1"
+    },
+    "shortDescription": "Presente no Brasil há 73 anos, a Volkswagen acumula importantes marcos em sua trajetória. É a maior fabricante de automóveis do País, com mais de 26,7 milhões de veículos produzidos, e a maior exportadora do setor automotivo brasileiro, com…",
+    "shareUrl": "https://vagas.academiadouniversitario.com.br/programas/programa-de-estagio-volkswagen-2027-1",
+    "simplifiedApplication": true
+   },
+   {
+    "id": "63d4ad3c-30f6-4eaa-b5a1-949a4803dd0d",
+    "slug": "programa-de-estagio-cinpal-2027",
+    "type": "PROGRAM",
+    "company": {
+     "id": "6397d0c1-2635-4e6e-8654-66cbff46829b",
+     "name": "Cinpal"
+    },
+    "name": "Pré-inscrição - Programa de Estágio Cinpal",
+    "badge": "Programa de Estágio",
+    "mainLocation": "São Paulo",
+    "openPositions": 1,
+    "salary": {
+     "min": {
+      "amount": "2100.00",
+      "currency": "BRL",
+      "scale": 2
+     },
+     "max": {
+      "amount": "2100.00",
+      "currency": "BRL",
+      "scale": 2
+     }
+    },
+    "workModels": [
+     "HYBRID"
+    ],
+    "jobType": "Estágio",
+    "graduationForecast": {
+     "start": "2027-2",
+     "end": "2028-2"
+    },
+    "shortDescription": "Programa de Estágio Cinpal 2027",
+    "shareUrl": "https://vagas.academiadouniversitario.com.br/programas/programa-de-estagio-cinpal-2027",
+    "simplifiedApplication": true
+   }
+  ],
+  "meta": {
+   "page": 1,
+   "pageSize": 20,
+   "total": 5,
+   "totalPages": 1
+  }
+ }
+}

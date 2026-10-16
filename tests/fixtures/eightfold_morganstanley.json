@@ -1,0 +1,233 @@
+{
+ "status": 200,
+ "error": {
+  "message": "",
+  "body": ""
+ },
+ "data": {
+  "positions": [
+   {
+    "id": 549800007444,
+    "displayJobId": "JR042973",
+    "name": "Intern",
+    "locations": [
+     "Baltimore, Maryland, United States of America"
+    ],
+    "standardizedLocations": [
+     "Baltimore, MD, US"
+    ],
+    "postedTs": 1790208000,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Intern - Non-Program",
+    "creationTs": 1787702400,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "JR042973",
+    "positionUrl": "/careers/job/549800007444"
+   },
+   {
+    "id": 549800708308,
+    "displayJobId": "JR045320",
+    "name": "Intern - Bilingual English/Mandarin",
+    "locations": [
+     "Beverly Hills, California, United States of America"
+    ],
+    "standardizedLocations": [
+     "Beverly Hills, CA, US"
+    ],
+    "postedTs": 1791936000,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Intern - Non-Program",
+    "creationTs": 1791331200,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "JR045320",
+    "positionUrl": "/careers/job/549800708308"
+   },
+   {
+    "id": 549800809784,
+    "displayJobId": "JR045559",
+    "name": "Intern",
+    "locations": [
+     "Long Beach, California, United States of America"
+    ],
+    "standardizedLocations": [
+     "Long Beach, CA, US"
+    ],
+    "postedTs": 1792022400,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Intern - Non-Program",
+    "creationTs": 1791936000,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "JR045559",
+    "positionUrl": "/careers/job/549800809784"
+   },
+   {
+    "id": 549798287140,
+    "displayJobId": "JR037649",
+    "name": "Intern",
+    "locations": [
+     "Pasadena, California, United States of America"
+    ],
+    "standardizedLocations": [
+     "Pasadena, CA, US"
+    ],
+    "postedTs": 1782259200,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Intern - Non-Program",
+    "creationTs": 1779321600,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "JR037649",
+    "positionUrl": "/careers/job/549798287140"
+   },
+   {
+    "id": 549798287199,
+    "displayJobId": "JR037650",
+    "name": "Intern - Bilingual Eglish/Mandarin",
+    "locations": [
+     "Pasadena, California, United States of America"
+    ],
+    "standardizedLocations": [
+     "Pasadena, CA, US"
+    ],
+    "postedTs": 1782259200,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Intern - Non-Program",
+    "creationTs": 1779321600,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "JR037650",
+    "positionUrl": "/careers/job/549798287199"
+   },
+   {
+    "id": 549798287280,
+    "displayJobId": "JR037647",
+    "name": "Intern - Bilingual English/Spanish",
+    "locations": [
+     "Pasadena, California, United States of America"
+    ],
+    "standardizedLocations": [
+     "Pasadena, CA, US"
+    ],
+    "postedTs": 1782259200,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Intern - Non-Program",
+    "creationTs": 1779321600,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "JR037647",
+    "positionUrl": "/careers/job/549798287280"
+   },
+   {
+    "id": 549800265051,
+    "displayJobId": "JR043711",
+    "name": "Return to Work Program - Mumbai",
+    "locations": [
+     "Mumbai, Maharashtra, India"
+    ],
+    "standardizedLocations": [
+     "Mumbai, MH, IN"
+    ],
+    "postedTs": 1791417600,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Intern",
+    "creationTs": 1789084800,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "JR043711",
+    "positionUrl": "/careers/job/549800265051"
+   },
+   {
+    "id": 549800265189,
+    "displayJobId": "JR043712",
+    "name": "Return to Work Program - Bengaluru",
+    "locations": [
+     "Bengaluru, Karnataka, India"
+    ],
+    "standardizedLocations": [
+     "Bengaluru, KA, IN"
+    ],
+    "postedTs": 1790640000,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Intern",
+    "creationTs": 1789084800,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "JR043712",
+    "positionUrl": "/careers/job/549800265189"
+   },
+   {
+    "id": 549798142027,
+    "displayJobId": "JR038619",
+    "name": "Vice President, Strats",
+    "locations": [
+     "New York, New York, United States of America"
+    ],
+    "standardizedLocations": [
+     "New York, NY, US"
+    ],
+    "postedTs": 1790553600,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Strats",
+    "creationTs": 1780963200,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "JR038619",
+    "positionUrl": "/careers/job/549798142027"
+   },
+   {
+    "id": 549800587480,
+    "displayJobId": "JR045156",
+    "name": "Client Relationship Analyst",
+    "locations": [
+     "Minneapolis, Minnesota, United States of America"
+    ],
+    "standardizedLocations": [
+     "Minneapolis, MN, US"
+    ],
+    "postedTs": 1791158400,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Sales Support",
+    "creationTs": 1790899200,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "JR045156",
+    "positionUrl": "/careers/job/549800587480"
+   }
+  ],
+  "count": 242,
+  "sortBy": "relevance",
+  "appliedFilters": {},
+  "savedSearchMetadata": {
+   "savedSearchParamsHash": null,
+   "isSavedSearchActive": false
+  },
+  "resultsMetaData": {
+   "usedFuzzSearch": false,
+   "mocTitle": null
+  }
+ },
+ "metadata": null
+}

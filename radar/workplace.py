@@ -18,8 +18,10 @@ import unicodedata
 
 WORKPLACES = ("remote", "hybrid", "on-site")
 
+# "Brazil-Remote Location-Araguaia" (Vale) is a mine far away, not remote work.
+REMOTE_PLACE = re.compile(r"\bremot[eo]\b(?![- ](?:location|site|area|camp))", re.I)
 _LOCATION = {
-    "remote": re.compile(r"\bremot[eo]\b|home[- ]?office|home[- ]based|\banywhere\b|\bworldwide\b|\bvirtual\b", re.I),
+    "remote": re.compile(rf"{REMOTE_PLACE.pattern}|home[- ]?office|home[- ]based|\banywhere\b|\bworldwide\b|\bvirtual\b", re.I),
     "hybrid": re.compile(r"\bhybrid\b|\bhibrid[oa]\b", re.I),
     "on-site": re.compile(r"\bon[- ]?site\b|\bpresencial\b|\bin[- ]office\b", re.I),
 }

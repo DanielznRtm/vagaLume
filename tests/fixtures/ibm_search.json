@@ -1,0 +1,159 @@
+{
+ "took": 16,
+ "timed_out": false,
+ "_shards": {
+  "total": 20,
+  "successful": 20,
+  "skipped": 0,
+  "failed": 0
+ },
+ "hits": {
+  "total": {
+   "value": 7,
+   "relation": "eq"
+  },
+  "max_score": null,
+  "hits": [
+   {
+    "_index": "genesis-prod-1788036777996",
+    "_id": "8c8b7004bc3f1d2ba3fd8174279362823690ec9c68c720a5b44ede8f09b90de0",
+    "_score": 0,
+    "_source": {
+     "url": "https://careers.ibm.com/careers/JobDetail?jobId=134936",
+     "dcdate": "2026-10-16",
+     "title": "Salesforce Consultant",
+     "description": "A career in IBM Consulting is built on long-term client relationships and close collaboration worldwide. You’ll work with leading companies across industries, helping them shape their hybrid cloud and AI journeys. With support from our strategic...",
+     "field_keyword_05": "Brazil",
+     "field_keyword_08": "Consulting",
+     "field_keyword_17": "Hybrid",
+     "field_keyword_18": "Professional",
+     "field_keyword_19": "SÃO PAULO, BR"
+    },
+    "sort": [
+     1792108800000,
+     0
+    ]
+   },
+   {
+    "_index": "genesis-prod-1788036777996",
+    "_id": "dd8d45f1a460c286622ee1066f83ae125eda63f6497efa530cafb5531d1d4da5",
+    "_score": 0,
+    "_source": {
+     "url": "https://careers.ibm.com/careers/JobDetail?jobId=136710",
+     "dcdate": "2026-10-16",
+     "title": "Application Developer - STUDENT CONVERSION",
+     "description": "A career in IBM Consulting is built on long-term client relationships and close collaboration worldwide. Youâ€™ll work with leading companies across industries, helping them shape their hybrid cloud and AI journeys. With support from our strategic...",
+     "field_keyword_05": "Brazil",
+     "field_keyword_08": "Software Engineering",
+     "field_keyword_17": "Hybrid",
+     "field_keyword_18": "Entry Level",
+     "field_keyword_19": "No City, BR"
+    },
+    "sort": [
+     1792108800000,
+     0
+    ]
+   },
+   {
+    "_index": "genesis-prod-1788036777996",
+    "_id": "ce5a3b2dfdb145674edb1b957bf33fba59811a64e47c07d6a55385da2d88a50f",
+    "_score": 0,
+    "_source": {
+     "url": "https://careers.ibm.com/careers/JobDetail?jobId=137069",
+     "dcdate": "2026-10-15",
+     "title": "Process Delivery Specialist - STUDENT CONVERSION",
+     "description": "A career in IBM Consulting is built on long-term client relationships and close collaboration worldwide. You'll work with leading companies across industries, helping them shape their hybrid cloud and AI journeys. With support from our strategic...",
+     "field_keyword_05": "Brazil",
+     "field_keyword_08": "Enterprise Operations",
+     "field_keyword_17": "",
+     "field_keyword_18": "Professional",
+     "field_keyword_19": "HORTOLANDIA, BR"
+    },
+    "sort": [
+     1792022400000,
+     0
+    ]
+   },
+   {
+    "_index": "genesis-prod-1788036777996",
+    "_id": "26e007883a0071eb3252f3959a9632001b7d2dfd91de5bc467908fe9ba0248a2",
+    "_score": 0,
+    "_source": {
+     "url": "https://careers.ibm.com/careers/JobDetail?jobId=136474",
+     "dcdate": "2026-10-14",
+     "title": "Cientista de Dados Sênior",
+     "description": "A career in IBM Consulting is built on long-term client relationships and close collaboration worldwide. Youâ€™ll work with leading companies across industries, helping them shape their hybrid cloud and AI journeys. With support from our strategic...",
+     "field_keyword_05": "Brazil",
+     "field_keyword_08": "Data & Analytics",
+     "field_keyword_17": "Hybrid",
+     "field_keyword_18": "Professional",
+     "field_keyword_19": "NO City, BR"
+    },
+    "sort": [
+     1791936000000,
+     0
+    ]
+   },
+   {
+    "_index": "genesis-prod-1788036777996",
+    "_id": "3da6b150065eb7703e452b2de6355411071b78f480442ad216438ec90ee88d58",
+    "_score": 0,
+    "_source": {
+     "url": "https://careers.ibm.com/careers/JobDetail?jobId=120710",
+     "dcdate": "2026-10-08",
+     "title": "Estagiário(a) em Operações de Vendas (Sales Operations Intern)",
+     "description": "Na IBM Global Sales, reunimos inovação, colaboração e expertise para ajudar os clientes a resolver seus desafios de negócios mais complexos. Trabalhando em diferentes setores e geografias, você fará parceria com colegas, clientes e parceiros para...",
+     "field_keyword_05": "Brazil",
+     "field_keyword_08": "Cloud",
+     "field_keyword_17": "",
+     "field_keyword_18": "Internship",
+     "field_keyword_19": "SÃO PAULO, BR"
+    },
+    "sort": [
+     1791417600000,
+     0
+    ]
+   },
+   {
+    "_index": "genesis-prod-1788036777996",
+    "_id": "ebc80f554399a308305807910eee5983605d6f94c90a134ff94827661b34a3e4",
+    "_score": 0,
+    "_source": {
+     "url": "https://careers.ibm.com/careers/JobDetail?jobId=135843",
+     "dcdate": "2026-10-06",
+     "title": "Full Stack Developer - Azure Cloud Pleno",
+     "description": "A career in IBM Consulting is built on long-term client relationships and close collaboration worldwide. Youâ€™ll work with leading companies across industries, helping them shape their hybrid cloud and AI journeys. With support from our strategic...",
+     "field_keyword_05": "Brazil",
+     "field_keyword_08": "Software Engineering",
+     "field_keyword_17": "Hybrid",
+     "field_keyword_18": "Professional",
+     "field_keyword_19": "No City, BR"
+    },
+    "sort": [
+     1791244800000,
+     0
+    ]
+   },
+   {
+    "_index": "genesis-prod-1788036777996",
+    "_id": "2b9279764120cc7d189e94af3f62d42afb2a29f0cc967fd69ccb6d2c4c1c4a88",
+    "_score": 0,
+    "_source": {
+     "url": "https://careers.ibm.com/careers/JobDetail?jobId=134137",
+     "dcdate": "2026-09-28",
+     "title": "Cisco Network Services Specialist – CCNP Data Center",
+     "description": "At IBM Infrastructure & Technology, we design and operate the systems that keep the world running. From high-resiliency mainframes and hybrid cloud platforms to networking, automation, and site reliability. Our teams ensure the performance, security,...",
+     "field_keyword_05": "Brazil",
+     "field_keyword_08": "Infrastructure & Technology",
+     "field_keyword_17": "",
+     "field_keyword_18": "Professional",
+     "field_keyword_19": "SÃO PAULO, BR"
+    },
+    "sort": [
+     1790553600000,
+     0
+    ]
+   }
+  ]
+ }
+}

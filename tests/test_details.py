@@ -62,3 +62,29 @@ def test_enrich_reads_new_roles_once_and_the_database_keeps_what_the_page_gave(m
     # After a month it is read again.
     third = Opportunity(title="Estágio Administrativo", org="X", source="iel", url=url)
     assert details.enrich([third], conn, "2026-11-20") == {"iel": 1}
+
+
+def test_meta_pages_are_read_in_the_browser_a_few_per_run(monkeypatch, tmp_path):
+    from radar import browser
+
+    opened = []
+
+    def fake_render_many(urls):
+        opened.extend(urls)
+        for url in urls:
+            yield url, "Locations\nUnited States of America: $7,313/month to $12,667/month + benefits"
+
+    monkeypatch.setattr(browser, "render_many", fake_render_many)
+    monkeypatch.setitem(details.BROWSER_BUDGET, "meta", 2)
+    conn = db.connect(tmp_path / "radar.db")
+    roles = [Opportunity(title="Software Engineer, Intern", org="Meta", source="meta", url=f"https://www.metacareers.com/jobs/{n}/")
+             for n in range(3)]
+    assert details.enrich(roles, conn, "2026-10-16") == {"meta": 2}
+    assert len(opened) == 2 and apply_rules(roles[0]).pay == "$7,313–12,667/mo"
+
+    def broken(urls):
+        raise RuntimeError("no browser")
+        yield  # pragma: no cover
+
+    monkeypatch.setattr(browser, "render_many", broken)
+    assert details.enrich(roles[2:], conn, "2026-10-16") == {}  # no browser: logged, the run goes on

@@ -17,7 +17,9 @@ to keep them identical. The rule:
      or remote, unless it needs US work authorization and you didn't pick the
      US. Unlike the main list, a role whose place we can't tell at all is
      left out: highlights should be safe bets;
-   - area: one of the areas you picked (none picked = every area).
+   - area: one of the areas you picked: a tech area (ML, Software...) or a
+     sub-area of any section (Tributário, Enfermagem, Finanças... from
+     radar/subareas.py). None picked = every area.
 3. Best résumé match first: the share of the skills the posting mentions that
    you have (programming languages count once, as alternatives); then roles
    for your own field, then for a related one, then those that don't say;
@@ -74,7 +76,8 @@ class Prefs:
     fields: list[str] = field(default_factory=list)
     home: str = ""  # a UF, or ""
     work: list[str] = field(default_factory=lambda: ["any"])
-    areas: list[str] = field(default_factory=list)  # [] = every area
+    areas: list[str] = field(default_factory=list)  # tech areas; with `subs` empty too = every area
+    subs: list[str] = field(default_factory=list)  # sub-areas (radar/subareas.py); the site only, not in the code
     skills: list[str] = field(default_factory=list)  # names from radar/skills.py
     lang: str = "pt"
 
@@ -155,7 +158,8 @@ def fits(item: dict[str, Any], prefs: Prefs) -> bool:
         remote_ok = "remote" in regions and (US_AUTH not in warnings or "US/Canada" in prefs.work)
         if not (in_my_state or set(where) & set(prefs.work) or remote_ok):
             return False
-    if prefs.areas and item.get("area") not in prefs.areas:
+    if (prefs.areas or prefs.subs) and item.get("area") not in prefs.areas \
+            and not set(item.get("subs") or []) & set(prefs.subs):
         return False
     return True
 

@@ -43,10 +43,11 @@ CURRENCIES = {
 _CUR = r"(?:R\$|US\$|CA\$|HK\$|S\$|A\$|\$|€|£|₹|¥|BRL|USD|CAD|EUR|GBP|CHF|SGD|HKD|AUD|INR|JPY|PLN|AED)"
 _NUM = r"(?:\d[\d.,]*\d|\d)\s?[kK]?"  # never ends in "." or "," (sentence punctuation)
 _DASH = r"\s*(?:-|–|—|to|a|até)\s*"
+_UNIT = r"(?:\s?/\s?(?:hour|hr|h|year|yr|month|mo|week|wk)\b)"  # "$56/hour to $75/hour" (the unit is read later)
 
 # "$54 — $60 USD", "R$ 1.357,28", "€1,800 - 2,000"
 _SYMBOL_FIRST = re.compile(
-    rf"(?P<cur>{_CUR})\s?(?P<low>{_NUM})(?:{_DASH}(?:{_CUR})?\s?(?P<high>{_NUM}))?(?:\s*\(?(?P<cur2>USD|EUR|GBP|BRL|CAD|CHF)\)?)?"
+    rf"(?P<cur>{_CUR})\s?(?P<low>{_NUM})(?:{_UNIT}?{_DASH}(?:{_CUR})?\s?(?P<high>{_NUM}))?(?:\s*\(?(?P<cur2>USD|EUR|GBP|BRL|CAD|CHF)\)?)?"
 )
 # "109,395.00 USD Annually", "1,800 Swiss Francs per month"
 _NUMBER_FIRST = re.compile(
@@ -63,7 +64,7 @@ STRONG_PAY = re.compile(
 # Weaker words: they count only when nothing around says "perk".
 WEAK_PAY = re.compile(
     r"stipend|allowance|hourly|per hour|/\s?hr|annually|monthly|per month|\bbase\b|aux[íi]lio|ganho|mensal|"
-    r"por m[êe]s|/m[êe]s|\brange\b|\brate\b|pro rata|per year|a year|/\s?(?:yr|year)\b|per annum|💰",
+    r"por m[êe]s|/m[êe]s|\brange\b|\brate\b|pro rata|per year|a year|/\s?(?:yr|year|hour|month|week)\b|per annum|💰",
     re.I,
 )
 # Perks and benefits: an amount next to these is not the pay (unless a clear pay word is right there too).
@@ -89,9 +90,20 @@ NOT_PAY = re.compile(
     r"billion|million|trillion|bilh|milh|revenue|valuation|raised|funding|assets|customers|relocat|"
     r"sign[- ]on|signing|bonus target is|tuition|housing|travel|401|donat|equity grant|capital|"
     r"budget|reimburs|wellness|gym|meal|commut|vale|transporte|refei[çc][ãa]o|alimenta[çc][ãa]o|home office|"
-    r"se h[íi]brido|presencial\)",
+    r"se h[íi]brido|presencial\)|doa[çc][ãa]o|sugerid|taxa de inscri|mensalidade",
     re.I,
 )
+# A total for the whole program ("$12,000 for the 10-week program", "valor total de R$ 6.000"):
+# shown as "$12K total". It needs a pay word too ("stipend", "receive", "bolsa"...).
+TOTAL = re.compile(
+    r"\bin total\b|\btotal (?:\w+ )?(?:stipend|award|amount|compensation|of)\b|\blump[- ]sum|"
+    r"\bfor the (?:whole |entire |full )?(?:(?:\w+|\d+)[- ](?:week|month)s?(?:[- ]long)? )?"
+    r"(?:program(?:me)?|fellowship|internship|school|summer|placement|residency|period)\b|"
+    r"valor total|\bno total\b|\bao todo\b|pelo programa|para todo o (?:programa|per[íi]odo)|durante (?:todo )?o (?:programa|per[íi]odo)",
+    re.I,
+)
+_SENTENCE_END = re.compile(r"[.!?](?:\s|$)")
+RECEIVE = re.compile(r"\breceive|\brecebe|\bawarded\b|\bstipend|\bbolsa|\bpaid\b|\bremunera", re.I)
 PERIODS = [
     ("hr", re.compile(r"hour|hourly|/\s?hr\b|/\s?h\b|por hora", re.I)),
     ("wk", re.compile(r"\bweek|weekly|semana", re.I)),
@@ -106,7 +118,7 @@ class Amount:
     currency: str  # symbol to show, e.g. "$"
     low: float
     high: float
-    period: str  # hr | wk | mo | yr
+    period: str  # hr | wk | mo | yr | total (for the whole program)
 
 
 def parse_number(text: str) -> float | None:
@@ -137,13 +149,13 @@ def parse_number(text: str) -> float | None:
 _WORK_HOURS = re.compile(r"\d+\s*(?:h|hrs?|horas?|hours?)\s*(?:semanais|por semana|/\s?semana|per week|/\s?week|a week|weekly)", re.I)
 
 
-def _period(context: str, value: float, currency: str, guess: bool = True) -> str:
+def _period(context: str, value: float, currency: str, guess: bool = True, brl_monthly: bool = True) -> str:
     """hr | wk | mo | yr from the words around the amount; "" if unsure and guess=False."""
     context = _WORK_HOURS.sub(" ", context)
     for name, pattern in PERIODS:
         if pattern.search(context):
             return name
-    if currency == "R$":
+    if currency == "R$" and brl_monthly:
         return "mo"  # Brazilian bolsas are monthly
     if not guess:
         return ""
@@ -152,7 +164,7 @@ def _period(context: str, value: float, currency: str, guess: bool = True) -> st
 
 
 # Believable pay for each period, in units of the currency (big currencies like ¥ and ₹ aren't checked).
-_RANGES = {"hr": (5, 400), "wk": (80, 8000), "mo": (150, 60000), "yr": (4000, 1_500_000)}
+_RANGES = {"hr": (5, 400), "wk": (80, 8000), "mo": (150, 60000), "yr": (4000, 1_500_000), "total": (300, 400_000)}
 _CHECKED = {"$", "R$", "€", "£", "CA$", "CHF ", "A$", "S$", "HK$"}
 
 
@@ -224,6 +236,9 @@ def _amounts(text: str) -> list[Amount]:
             # no clear pay word is ("a weekly lunch stipend of $75").
             if strong and near_perk and not STRONG_PAY.search(near_text):
                 strong = False
+            whole = TOTAL.search(match.group(0) + " " + _SENTENCE_END.split(after)[0]) or TOTAL.search(clause_before)
+            if whole and not near_perk and RECEIVE.search(context):
+                strong = True  # "Students receive $10,000 for the summer": the program's total
             if not strong and (perk or not WEAK_PAY.search(context)):
                 continue
             low = parse_number(match.group("low"))
@@ -240,14 +255,20 @@ def _amounts(text: str) -> list[Amount]:
             # ("weekly ... $75"); a guess from the size only when the sentence is clearly about pay.
             # Right after the amount ("/mês", " per hour", " USD Annually"), up to a bracket or line end,
             # so "R$ 900 (a partir do 2º ano...)" is not read as per year.
-            right_after = re.split(r"[(\n,;|•]|(?<=[\da-zà-ú])(?=[A-ZÀ-Ú])", _WORK_HOURS.sub(" ", after), maxsplit=1)[0][:22]
-            period = (_period(f"{match.group(0)} {right_after}", low, currency, guess=False)
+            right_after = re.split(r"[(\n,;|•]|(?<=[\da-zà-ú])(?=[A-ZÀ-Ú])", TOTAL.sub(" ", _WORK_HOURS.sub(" ", after)), maxsplit=1)[0][:22]
+            # A period word right after the amount wins over "for the program" ("R$ 1.500 por mês durante o programa").
+            total = whole and strong and not near_perk \
+                and not _period(f"{match.group(0)} {right_after}", low, currency, guess=False, brl_monthly=False) \
+                and not _period(clause_before, low, currency, guess=False, brl_monthly=False)
+            period = "total" if total else (_period(f"{match.group(0)} {right_after}", low, currency, guess=False)
                       or _period(clause_before, low, currency, guess=False)
                       or _period(heading.split("\n")[-1] if heading else "", low, currency, guess=False)
                       # "💰 £42,500 pro rata": a figure that big is a yearly salary.
                       or _period("", low, currency, guess=strong or (not perk and low >= 20000)))
             if not period:
                 continue
+            if period == "yr" and high < 200 and currency in ("$", "CA$", "€", "£"):
+                period = "hr"  # "USD $22.00 - USD $29.25 /Yr." (General Dynamics): an hourly rate with the wrong label
             amount = Amount(currency, low, high, period)
             if _believable(amount):
                 found.append(amount)
@@ -265,6 +286,8 @@ def _fmt(value: float, period: str) -> str:
 def format_amount(amount: Amount) -> str:
     low, high = _fmt(amount.low, amount.period), _fmt(amount.high, amount.period)
     span = low if low == high else f"{low}–{high}"
+    if amount.period == "total":
+        return f"{amount.currency}{span} total"
     return f"{amount.currency}{span}/{amount.period}"
 
 

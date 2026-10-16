@@ -60,14 +60,21 @@ Numbers from the run on 2026-10-09, after removing duplicates:
 | **Brazil:** Cia de Talentos (open estágio and trainee programs) | `ciadetalentos.py` | the public request the vacancy site makes before login | 10 |
 | **Brazil:** FAPESP Oportunidades (IC, master's and doctoral grants) | `fapesp.py` | parses the static list page | 28 |
 | SmartRecruiters (Bosch, Aumovio and Continental worldwide; Syngenta, Louis Dreyfus, Serasa in Brazil; Delivery Hero, Ubisoft, AUTO1, Eurofins, SGS, SIXT, CERN… abroad) | `smartrecruiters.py` | public API; `country` per company ("" = every country) | 92 in Brazil + abroad |
-| Workday abroad (`workday_global`: Airbus, Thales, PwC campus, Visa, TRUMPF, Sanofi, ABB, GE Vernova, ZEISS, NXP and 31 more) | `workday.py` | only the student job types (intern, working student, apprentice, thesis), country by country, 8 sites at a time | ~730 at Airbus alone (Oct 15) |
+| Workday abroad (`workday_global`: Airbus, Thales, PwC campus, Visa, TRUMPF, Sanofi, ABB, GE Vernova, ZEISS, NXP, Chanel, RTX, Stryker, MSD, Saab, Cisco and 75 more) | `workday.py` | only the student job types (intern, working student, apprentice, thesis), country by country, 8 sites at a time | ~730 at Airbus alone (Oct 15) |
 | **Brazil:** Workday (Santander, P&G, Citi, Mondelēz, Accenture, GE HealthCare, Toyota and 16 more) | `workday.py` | Workday JSON endpoint with the Brazil and intern/apprentice filters; sites with only a city filter are searched in their Brazilian cities | 70 + ~40 (Oct 15) |
 | **Brazil:** Eureca (estágio programs of Aché, Serasa Experian, AkzoNobel, Motiva, Ardagh…) | `eureca.py` | the public JSON request its job site makes | 74 (Oct 15) |
 | **Brazil:** Abler (Vale's estágio board) | `abler.py` | public JSON route of each company board | 47 (Oct 15) |
 | **Brazil:** Oracle Recruiting Cloud (ArcelorMittal, PicPay) | `oracle_hcm.py` | public career-site search API | 17 (Oct 15) |
 | **Brazil:** RSS job feeds (Klabin, Nestlé, Siemens, TotalEnergies) | `rss_jobs.py` | SuccessFactors and Avature feeds | 28 (Oct 15) |
+| **Brazil:** InHire boards (KPMG, Deloitte, Sympla, Peers, Riachuelo, Contabilizei, Cielo, XP) | `inhire.py` | the public API behind `<tenant>.inhire.app`, one request per role page | 38 (Oct 16) |
+| **Brazil:** Academia do Universitário (Braskem, Volkswagen, ONS, Vibra, RD Saúde, Ipiranga… programs) | `academia.py` | the public API of its job site; one item per program | 22 (Oct 16) |
+| **Brazil:** TOTVS (its own "Atração de Talentos" board) | `totvs_rh.py` | reads the roles listed in the board's page | 1 (Oct 16) |
+| BCG (Brazil), Goldman Sachs and IBM (Brazil and abroad) | `company_sites.py` | BCG's Phenom widget API, Goldman's GraphQL campus search, IBM's careers search API | 3 + 145 + 274 (Oct 16) |
+| Eightfold sites (Infineon worldwide; Mercado Livre, Morgan Stanley in Brazil) | `eightfold.py` | the public `/api/pcsx/search` of each site | ~230 (Oct 16) |
+| Shopee (Brazil, Singapore) | `shopee.py` | the public API of its careers site, internship type | 165 (Oct 16) |
+| SuccessFactors sites, every country (SAP, Volvo Group, Volvo Cars) | `successfactors.py` | one RSS request per site with every job; places parsed from the titles | 319 (Oct 16) |
 
-Total: **17,038 open items, 11,688 of them in Brazil**, from 21 sources. (Meta, about 15 items, failed in this test run only because of the test machine's browser.)
+Total on 2026-10-16: **25,150 open items** from 25 sources, before the 9 sources above it marked Oct 16 were added (about 5,000 more roles, most of them abroad).
 
 **Scraping without a public API.** Most sites that have no official API still
 load their jobs from somewhere: a JSON endpoint that the search page calls
@@ -481,6 +488,9 @@ changes `new` to `seen` on the next run. Locally you can also run
 | `estagionavale.abler.com.br` | `abler:` | `estagionavale` |
 | `<host>.oraclecloud.com/hcmUI/CandidateExperience/en/sites/<site>` | `oracle_hcm:` | host and site |
 | a SuccessFactors or Avature career site with an RSS feed | `rss_feeds:` | the feed address |
+| a SuccessFactors career site, every country (`careers.sap.com/job/...`) | `successfactors:` | host |
+| `<tenant>.inhire.app/vagas/...` | `inhire:` | tenant |
+| `<host>/careers?...` on Eightfold (`/api/pcsx/search` answers) | `eightfold:` | host and domain |
 
 Then add `- {slug: anthropic, name: Anthropic}` to `config/companies.yaml` and
 run `python -m radar check-config` to confirm that it returns jobs.
