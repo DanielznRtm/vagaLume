@@ -685,6 +685,9 @@ const STRINGS = {
     "Um resumo curto por dia: vagas novas no Brasil e remotas primeiro, destaques no exterior e o que fecha em breve. O vagaLume não guarda seu nome nem seu e-mail."],
   "sub.telegram": ["Join the Telegram channel", "Entrar no canal do Telegram"],
   "sub.email": ["Get it by e-mail", "Receber por e-mail"],
+  "sub.emailField": [f => `${f} roles by e-mail`, f => `Vagas de ${f} por e-mail`],
+  "sub.emailNote": ["Opens a free service that sends feeds by e-mail, with the feed filled in: you leave your e-mail there, not with vagaLume.",
+    "Abre um serviço gratuito que manda feeds por e-mail, com o feed já preenchido: você deixa o seu e-mail lá, não no vagaLume."],
   "sub.feeds": ["Or follow a feed in any RSS reader:", "Ou siga um feed em qualquer leitor de RSS:"],
   "sub.feedAll": ["all new roles", "todas as vagas novas"], "sub.feedBr": ["Brazil and remote", "Brasil e remotas"],
 
@@ -2080,10 +2083,19 @@ function drawLegend() {
 function drawSubscribe() {
   const links = DATA?.subscribe || { feed: "feed.xml", feedBrasil: "feed-brasil.xml" };
   const button = (href, text) => `<a class="btn" href="${esc(href)}" target="_blank" rel="noopener">${text}</a>`;
+  // E-mail: a sign-up page, or an RSS-to-email service opened with the feed of your field (or Brazil's).
+  const fields = (profile?.fields || []).filter(f => f !== "outra" && FIELDS.includes(f));
+  const absolute = path => new URL(path, location.href).href;
+  const emailFor = path => links.email || (links.emailService ? links.emailService.replace("{feed}", encodeURIComponent(absolute(path))) : "");
+  const emails = links.email || !links.emailService ? (links.email ? [[links.email, t("sub.email")]] : [])
+    : fields.length ? fields.map(f => [emailFor(`feeds/${f}.xml`), t("sub.emailField", t(`field.short.${f}`))])
+    : [[emailFor(links.feedBrasil || "feed-brasil.xml"), t("sub.email")]];
+  const fieldFeeds = fields.map(f => ` · <a href="feeds/${f}.xml">${esc(t(`field.short.${f}`))}</a>`).join("");
   $("subscribe").innerHTML = `<h3>${t("sub.title")}</h3><p>${t("sub.lead")}</p>
     ${links.bot ? `<div class="options"><button class="btn" data-go-picks="1">✈️ ${t("sub.bot")}</button></div>` : ""}
-    ${links.telegram || links.email ? `<div class="options">${links.telegram ? button(links.telegram, "✈️ " + t("sub.telegram")) : ""}${links.email ? button(links.email, "✉️ " + t("sub.email")) : ""}</div>` : ""}
-    <div class="feeds">${t("sub.feeds")} <a href="${esc(links.feedBrasil || "feed-brasil.xml")}">${t("sub.feedBr")}</a> · <a href="${esc(links.feed || "feed.xml")}">${t("sub.feedAll")}</a></div>`;
+    ${links.telegram || emails.length ? `<div class="options">${links.telegram ? button(links.telegram, "✈️ " + t("sub.telegram")) : ""}${emails.map(([href, text]) => button(href, "✉️ " + esc(text))).join("")}</div>` : ""}
+    ${emails.length && !links.email ? `<p class="fineprint">${t("sub.emailNote")}</p>` : ""}
+    <div class="feeds">${t("sub.feeds")} <a href="${esc(links.feedBrasil || "feed-brasil.xml")}">${t("sub.feedBr")}</a>${fieldFeeds} · <a href="${esc(links.feed || "feed.xml")}">${t("sub.feedAll")}</a></div>`;
 }
 function toggleSubscribe(show) {
   if (show) drawSubscribe();

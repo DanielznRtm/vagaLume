@@ -20,6 +20,12 @@ telegram_channel: ""
 # offer e-mail. The service keeps the addresses, not vagaLume.
 email_signup_url: ""
 
+# Without email_signup_url, "Receber por e-mail" opens this RSS-to-email
+# service with the student's feed filled in (Brazil and remote, or their
+# field's: docs/feeds/direito.xml...). {feed} is replaced by the feed's
+# address. The service keeps the addresses, not vagaLume. Empty = no e-mail.
+email_service: "https://feedrabbit.com/?url={feed}"
+
 # Language of the channel post and the feed titles: pt or en.
 language: pt
 

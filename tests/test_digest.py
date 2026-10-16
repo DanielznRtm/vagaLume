@@ -69,3 +69,21 @@ def test_subscribe_links():
     links = digest.subscribe_links({"telegram_channel": "@vagalume_vagas"})
     assert links["telegram"] == "https://t.me/vagalume_vagas"
     assert links["feedBrasil"] == "feed-brasil.xml"
+
+
+def test_each_field_of_study_has_its_own_brazil_feed(tmp_path):
+    pairs = [make("Estágio Jurídico Tributário", "https://e.com/law", "São Paulo, SP, Brazil"),
+             make("Estágio em Enfermagem", "https://e.com/nurse", "Recife, PE, Brazil"),
+             make("Legal Intern", "https://e.com/law-us", "New York, NY")]
+    paths = digest.write_feeds(stored(pairs), TODAY, {"language": "pt"}, tmp_path)
+    ns = {"a": "http://www.w3.org/2005/Atom"}
+    law = ET.parse(tmp_path / "feeds" / "direito.xml").getroot()
+    assert law.find("a:title", ns).text == "vagaLume: Direito, vagas novas no Brasil e remotas"
+    assert [e.find("a:link", ns).get("href") for e in law.findall("a:entry", ns)] == ["https://e.com/law"]
+    assert len(ET.parse(tmp_path / "feeds" / "saude.xml").getroot().findall("a:entry", ns)) == 1
+    assert len(paths) == 2 + len(digest.FIELD_NAMES["pt"])
+
+
+def test_e_mail_goes_through_a_feed_to_e_mail_service():
+    links = digest.subscribe_links({"email_service": "https://feedrabbit.com/?url={feed}"})
+    assert links["email"] == "" and "{feed}" in links["emailService"]
