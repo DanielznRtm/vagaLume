@@ -22,6 +22,7 @@ stop on a short page instead of trusting it.
 from __future__ import annotations
 
 import logging
+import re
 from typing import Any
 from urllib.parse import urlencode
 
@@ -62,6 +63,29 @@ def _location(city: str, state: str) -> str:
     return city
 
 
+_TAGLINE = re.compile(r"^fa[çc]a parte d[oa] (?:nosso |nossa )?(?:time|equipe|família)\s*(?:d[oa]s?\s+)?", re.I)
+_HASHTAG = re.compile(r"^#(?:quero ?ser|seja|vem ?pra|vem ?para|venha ?ser|bora ?ser|faca ?parte|somos)?", re.I)
+
+
+def company_name(name: str, job_url: str) -> str:
+    """The company behind a career page's name: "#QueroSerMercantil" -> "Mercantil",
+    "Faça parte do time Vieira Rezende Advogados!" -> "Vieira Rezende Advogados",
+    "Confidencial" -> "Empresa confidencial"; a bare tagline -> the career page's address."""
+    name = name.strip()
+    if name.lower() == "confidencial":
+        return "Empresa confidencial"
+    cleaned = name
+    if cleaned.startswith("#"):
+        cleaned = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", _HASHTAG.sub("", cleaned)).strip()  # "SejaSBT" -> "SBT"
+    cleaned = _TAGLINE.sub("", cleaned).strip(" !.")
+    if cleaned and cleaned.lower() not in ("time", "nosso time", "equipe"):
+        if cleaned.islower():  # "#vempraot" -> "OT", "#queroseraurora" -> "Aurora"
+            cleaned = cleaned.upper() if len(cleaned) <= 4 else cleaned.title()
+        return cleaned
+    subdomain = (re.match(r"https?://([\w-]+)\.gupy\.io", job_url) or [None, ""])[1]
+    return subdomain.replace("-", " ").title() if subdomain else name
+
+
 def to_opportunity(job: dict[str, Any]) -> Opportunity | None:
     """One Gupy job -> Opportunity, or None when it isn't a student role at all."""
     title = str(job.get("name", "")).strip()
@@ -78,7 +102,7 @@ def to_opportunity(job: dict[str, Any]) -> Opportunity | None:
     location = _location(city, state)
     return Opportunity(
         title=title,
-        org=str(job.get("careerPageName") or "?"),
+        org=company_name(str(job.get("careerPageName") or "?"), str(job.get("jobUrl") or "")),
         source=NAME,
         url=str(job["jobUrl"]),
         location=location + (f" ({workplace})" if workplace else ""),

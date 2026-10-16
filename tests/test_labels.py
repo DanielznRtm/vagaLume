@@ -227,3 +227,20 @@ def test_past_term(title, over):
     from radar.labels import past_term
 
     assert past_term(title, date(2026, 10, 16)) == over
+
+
+@pytest.mark.parametrize(
+    "title, subs",
+    [
+        ("Estágio em Direito Tributário", ["tributario"]),
+        ("Estagiário(a) Contencioso Cível Estratégico", ["contencioso"]),
+        ("Estagiário Engenharia (Elétrica, Mecânica ou Civil)", ["mecanica", "eletrica", "civil"]),
+        ("Estágio em Enfermagem", ["enfermagem"]),
+        ("(PP) Estagiário(a) Ensino Superior (Farmácia) - CURITIBA - PR", ["farmacia"]),
+        ("Software Engineer Intern", []),  # tech roles keep their own areas (SWE)
+    ],
+)
+def test_subareas(title, subs):
+    from radar.subareas import find_subareas
+
+    assert find_subareas(title) == subs

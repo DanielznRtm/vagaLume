@@ -166,3 +166,20 @@ def test_the_site_gets_the_application_months(tmp_path):
     import json
 
     assert json.loads(path.read_text())["items"][0]["apply"] == [11, 12, 1]
+
+
+@pytest.mark.parametrize(
+    "name, url, company",
+    [
+        ("#QueroSerMercantil", "https://estagiomercantil.gupy.io/job/1", "Mercantil"),
+        ("#SejaSBT", "https://sbt.gupy.io/job/1", "SBT"),
+        ("#vempraot", "https://ot.gupy.io/job/1", "OT"),
+        ("Faça parte do time Vieira Rezende Advogados!", "https://vra.gupy.io/job/1", "Vieira Rezende Advogados"),
+        ("Faça parte do nosso time!", "https://grupoabc.gupy.io/job/1", "Grupoabc"),
+        ("Confidencial", "https://vagasoculta.gupy.io/job/1", "Empresa confidencial"),
+        ("Itaú Unibanco", "https://vemproitau.gupy.io/job/1", "Itaú Unibanco"),
+    ],
+)
+def test_gupy_company_names(name, url, company):
+    """Career pages named with a hashtag or a tagline (stress test, 2026-10-16)."""
+    assert gupy.company_name(name, url) == company

@@ -134,3 +134,11 @@ def test_the_site_writes_codes_the_bot_reads(prefs):
                   {"prefs": prefs.to_dict(), "names": SKILL_NAMES})
     assert code == encode_prefs(prefs, SKILL_NAMES)
     assert decode_prefs(code, SKILL_NAMES) == canonical(prefs)
+
+
+def test_the_page_has_no_stray_control_characters():
+    """A "\\b" once reached docs/index.html as a real backspace, so /\\blaw\\b/ never matched "Law"."""
+    from pathlib import Path
+
+    page = (Path(__file__).parent.parent / "docs" / "index.html").read_text(encoding="utf-8")
+    assert not [c for c in page if ord(c) < 32 and c not in "\n\t\r"]

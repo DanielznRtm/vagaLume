@@ -183,6 +183,18 @@ place listed twice) are not written to `docs/data.json`.
 
 ### How pay is read
 
+**Job pages.** Many sources list only a title and a place (Workday,
+SmartRecruiters, Microsoft, NVIDIA, IEL, the GitHub lists). For their roles,
+`radar/details.py` reads the job's own page once, through the job board's
+public API (Workday, Greenhouse, Lever, Ashby, SmartRecruiters, Eightfold) or
+the page itself (IEL), and adds its text to the description: pay, skills,
+course and level come from there. A role is read again after 30 days; in
+between, the database keeps what its page gave. Each run reads at most a few
+thousand pages (new roles first). In October 2026 this added pay to roughly
+2,000 roles (IEL nearly all, GitHub-list and NVIDIA roles about two thirds,
+Microsoft about a third); Brazilian Workday and SmartRecruiters postings rarely
+state pay even on the page.
+
 A number in a description is shown as pay only when it is clearly the pay.
 Better to show nothing than a perk as a salary (a Cohere posting once showed
 `$75/hr`: it was a weekly lunch allowance).
@@ -333,6 +345,17 @@ top (or the link on the first screen):
 3. Paste the answer back. vagaLume finds the `{ … }` part even if the AI
    wrapped it in text or a code block, and shows what it read.
 
+It works for every area, not only tech: the skill list has law (Tax law,
+Litigation, LGPD…), health (Patient care, Pharmacology…), business
+(Financial analysis, SAP, CRM…), communication (SEO, Figma, Canva…) and more,
+spelled in Portuguese and English in the postings; the "areas" can be any
+sub-area of the Área filter (`tributario`, `enfermagem`, `financas`…); and the
+role keywords come in both languages. If you already have a profile and the
+résumé says something different (another area or level), the summary shows
+the change with **Atualizar meu perfil** / **Manter como está** instead of
+changing it silently. A graduation date in the past, or one it couldn't read,
+is pointed out.
+
 The summary is stored in your browser only. With it:
 
 - Every role gets a **match**: *Strong*, *Good*, *Some* or *Low*. It adds up
@@ -391,7 +414,11 @@ found. Below, the buttons: open the posting, mark as applied, save, hide, and
   picked in it ("Área — ML +1"). On phones the column is the "Filtros" box
   above the list. They are:
   *For you* (good fit, no long shots, and with a résumé: strong
-  match, good match or better), Area, Where, **Work mode** (remote, hybrid,
+  match, good match or better), **Area** (one group per section: Direito with
+  Tributário, Trabalhista, Contencioso…; Saúde with Enfermagem, Farmácia…;
+  Negócios, Engenharias, Comunicação and the others, plus Tecnologia with ML,
+  Software, Data…; your sections first, the rest under "Outras áreas"; picking
+  an area outside your profile shows its roles), Where, **Work mode** (remote, hybrid,
   on-site), When (including a **Fits my breaks** shortcut) and **Pay
   currency** (R$, US$, €, £, CA$, other). Under **More filters**: only roles that state pay, and
   the source. The small number on each chip is how many roles you'd see after

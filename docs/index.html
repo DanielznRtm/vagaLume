@@ -187,6 +187,11 @@
   .fbtn .fval:not(:empty) + .chev { margin-left: 0; }
   .fbtn[aria-expanded="true"] .chev { transform: rotate(180deg); }
   .fbtn:hover { color: var(--accent); }
+  .pending-profile { border: 1px solid var(--check); background: var(--check-soft); border-radius: 8px; padding: 10px 14px; margin: 10px 0; }
+  .pending-profile p { margin: 0 0 8px; }
+  .agroup h5 { margin: 10px 0 4px; font-size: .78rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+  .agroup:first-child h5 { margin-top: 2px; }
+  .agroup-more > summary { cursor: pointer; font-size: .84rem; color: var(--accent); margin: 10px 0 2px; }
   .fpanel { display: grid; gap: 10px; padding: 10px 2px 12px; }
   #filters-clear { justify-self: start; margin-top: 8px; }
   .fsel { display: grid; gap: 6px; font-size: .85rem; color: var(--muted); }
@@ -504,7 +509,7 @@
         <div class="fdrop" data-drop="area">
           <button class="fbtn" aria-expanded="false"><span data-t="filters.area"></span><span class="fval"></span><svg class="chev" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <div class="fpanel" hidden>
-            <div class="chips" data-filter="area"></div>
+            <div id="area-groups"></div>
           </div>
         </div>
         <div class="fdrop" data-drop="region">
@@ -714,9 +719,11 @@ const STRINGS = {
   "d.applyNote": ["usually, from past years: check the page", "costumam ser assim, pelos anos anteriores: confira na página"],
   "tag.new": ["New", "Nova"], "tag.applied": ["Applied", "Candidatada"], "tag.program": ["Program", "Programa"],
   "fit.none": ["Set your profile to see fit", "Defina o seu perfil para ver a compatibilidade"],
-  "fit.0": ["Good fit", "Combina bem"], "fit.1": ["Check", "Verificar"], "fit.2": ["Long shot", "Improvável"],
+  // Fit compares the role with your profile answers, match with your résumé's skills: the names say which.
+  "fit.0": ["Profile: good fit", "Perfil: combina bem"], "fit.1": ["Profile: check something", "Perfil: verificar"], "fit.2": ["Profile: long shot", "Perfil: improvável"],
   "match": ["Résumé match", "Match com o currículo"],
-  "match.0": ["Strong match", "Match forte"], "match.1": ["Good match", "Match bom"], "match.2": ["Some match", "Pouco match"], "match.3": ["Low match", "Match baixo"],
+  "match.0": ["Résumé: strong match", "Currículo: match forte"], "match.1": ["Résumé: good match", "Currículo: match bom"],
+  "match.2": ["Résumé: some match", "Currículo: pouco match"], "match.3": ["Résumé: low match", "Currículo: match baixo"],
   "more.locations": [n => `+${n} more`, n => `+${n}`],
   "deadline.today": ["today", "hoje"], "deadline.tomorrow": ["tomorrow", "amanhã"], "deadline.in": [n => `in ${n} days`, n => `em ${n} dias`],
   "deadline.past": ["closed?", "encerrada?"], "deadline.none": ["No deadline stated", "Sem prazo informado"],
@@ -737,7 +744,8 @@ const STRINGS = {
   "d.report": ["Something wrong with this role?", "Algo errado nesta vaga?"],
   "r.body": [(i, shown) => `**Role:** ${i.title} — ${i.org}\n**Link:** ${i.url}\n**id:** ${i.id}\n\n**What vagaLume shows:**\n${shown}\n\n**What is wrong?** (the right value, and where in the posting it says so)\n\n`,
              (i, shown) => `**Vaga:** ${i.title} — ${i.org}\n**Link:** ${i.url}\n**id:** ${i.id}\n\n**O que o vagaLume mostra:**\n${shown}\n\n**O que está errado?** (o valor certo, e onde na vaga isso aparece)\n\n`],
-  "m.have": [(h, n) => `You have ${h} of the ${n} skills it mentions`, (h, n) => `Você tem ${h} das ${n} habilidades que ela cita`],
+  "m.have": [(h, n) => `You have ${h} of the ${n} skills it mentions${n < 3 ? " (too few to judge: the match also weighs area and title)" : ""}`,
+             (h, n) => `Você tem ${h} das ${n} habilidades que ela cita${n < 3 ? " (poucas para comparar: o match também pesa área e título)" : ""}`],
   "m.haveNone": [n => `None of the ${n} skills it mentions are in your résumé`, n => `Nenhuma das ${n} habilidades citadas está no seu currículo`],
   "m.area": [a => `In one of your areas (${a})`, a => `Numa das suas áreas (${a})`], "m.role": [r => `Title matches “${r}”`, r => `O título bate com “${r}”`],
   "m.noSkills": ["The posting names no skills vagaLume knows. Read it to judge.", "A vaga não cita habilidades que o vagaLume conhece. Leia para avaliar."],
@@ -766,6 +774,32 @@ const STRINGS = {
   "r.months": [s => `Runs ${s}, outside the months you're free`, s => `Acontece em ${s}, fora dos seus meses livres`],
   "r.monthsSome": [(n, m) => `${n} of its ${m} months are in your free months`, (n, m) => `${n} dos ${m} meses caem nos seus meses livres`],
 
+  // Área filter: one group per section, "all of it" plus its sub-areas (radar/subareas.py).
+  "agroup.tech": ["Technology", "Tecnologia"], "agroup.all": ["All", "Todas"], "agroup.more": ["Other areas", "Outras áreas"],
+  "sub.tributario": ["Tax", "Tributário"], "sub.trabalhista": ["Labor", "Trabalhista"], "sub.contencioso": ["Litigation", "Contencioso / Cível"],
+  "sub.societario": ["Corporate", "Societário / Bancário"], "sub.contratos": ["Contracts & real estate", "Contratos / Imobiliário"],
+  "sub.regulatorio": ["Regulatory & compliance", "Regulatório / Compliance"], "sub.penal": ["Criminal", "Penal"], "sub.consumidor": ["Consumer", "Consumidor"],
+  "sub.enfermagem": ["Nursing", "Enfermagem"], "sub.medicina": ["Medicine", "Medicina"], "sub.farmacia": ["Pharmacy", "Farmácia"],
+  "sub.nutricao": ["Nutrition", "Nutrição"], "sub.psicologia": ["Psychology", "Psicologia"], "sub.fisioterapia": ["Physiotherapy", "Fisioterapia"],
+  "sub.odontologia": ["Dentistry", "Odontologia"], "sub.veterinaria": ["Veterinary", "Veterinária"], "sub.analises": ["Lab & biomedicine", "Análises clínicas / Biomedicina"],
+  "sub.esporte": ["Sport & PE", "Educação física / Esporte"],
+  "sub.financas": ["Finance & economics", "Finanças / Economia"], "sub.contabil": ["Accounting & audit", "Contabilidade / Auditoria"], "sub.rh": ["HR", "RH"],
+  "sub.comercial": ["Sales", "Comercial / Vendas"], "sub.logistica": ["Supply chain", "Logística / Compras"], "sub.consultoria": ["Consulting & strategy", "Consultoria / Estratégia"],
+  "sub.operacoes": ["Operations & CX", "Operações / Atendimento"], "sub.produto": ["Product", "Produto"],
+  "sub.mecanica": ["Mechanical", "Mecânica"], "sub.eletrica": ["Electrical & automation", "Elétrica / Automação"], "sub.civil": ["Civil", "Civil"],
+  "sub.producao": ["Production & processes", "Produção / Processos"], "sub.quimica_eng": ["Chemical", "Química"], "sub.qualidade": ["Quality", "Qualidade"],
+  "sub.manutencao": ["Maintenance", "Manutenção"], "sub.seguranca_trabalho": ["Health & safety", "Segurança do trabalho"],
+  "sub.minas": ["Mining, metals & oil", "Minas / Metalurgia / Petróleo"], "sub.aeroespacial": ["Aerospace", "Aeroespacial"],
+  "sub.infra": ["IT support & infra", "Suporte / Infraestrutura"], "sub.seguranca_info": ["Cybersecurity", "Segurança da informação"], "sub.ux": ["UX / UI", "UX / UI"],
+  "sub.marketing": ["Marketing", "Marketing"], "sub.design": ["Design & arts", "Design / Artes"], "sub.jornalismo": ["Journalism & content", "Jornalismo / Conteúdo"],
+  "sub.publicidade": ["Advertising & social media", "Publicidade / Redes sociais"], "sub.audiovisual": ["Video & photo", "Audiovisual"], "sub.rp": ["PR & internal comms", "Relações públicas"],
+  "sub.agronomia": ["Agronomy & forestry", "Agronomia / Florestal"], "sub.biologia": ["Biology & biotech", "Biologia / Biotecnologia"],
+  "sub.ambiental": ["Environment & ESG", "Meio ambiente / ESG"], "sub.alimentos": ["Food", "Alimentos"],
+  "sub.educacao": ["Education", "Educação / Pedagogia"], "sub.letras": ["Languages & translation", "Letras / Tradução"], "sub.social": ["Social work & sociology", "Serviço social / Sociais"],
+  "sub.relacoes_internacionais": ["International relations & trade", "Relações internacionais / Comex"], "sub.gestao_publica": ["Public administration", "Gestão pública"],
+  "sub.historia": ["History, geography & philosophy", "História / Geografia / Filosofia"],
+  "sub.arquitetura": ["Architecture", "Arquitetura"], "sub.urbanismo": ["Urbanism & landscape", "Urbanismo / Paisagismo"], "sub.interiores": ["Interiors", "Interiores"],
+  "sub.estatistica": ["Statistics & actuarial", "Estatística / Atuária"], "sub.matematica": ["Mathematics", "Matemática"], "sub.fisica": ["Physics", "Física"], "sub.quimica": ["Chemistry", "Química"],
   "area.ML": ["ML", "ML"], "area.research": ["Research", "Pesquisa"], "area.SWE": ["Software", "Software"], "area.data": ["Data", "Dados"],
   "area.quant": ["Quant", "Quant"], "area.hardware": ["Hardware", "Hardware"], "area.other": ["Other", "Outras"],
   "region.Brazil": ["Brazil", "Brasil"], "region.LatAm": ["Latin America", "América Latina"], "region.US/Canada": ["US/Canada", "EUA/Canadá"],
@@ -797,6 +831,10 @@ const STRINGS = {
   "resume.looking": ["Looking for", "Procura"], "resume.canWork": ["Can work in", "Pode trabalhar em"], "resume.languages": ["Languages", "Idiomas"],
   "resume.free": ["Free months", "Meses livres"], "resume.freeDefault": ["Usual Brazilian breaks: Dec–Feb and July (not stated)", "Férias habituais no Brasil: dez–fev e julho (não informado)"],
   "resume.skills": [n => `Skills (${n})`, n => `Habilidades (${n})`], "resume.profile": [p => `Your profile: ${p}.`, p => `Seu perfil: ${p}.`],
+  "resume.proposes": [c => `This résumé would change your profile: ${c}.`, c => `Este currículo mudaria o seu perfil: ${c}.`],
+  "resume.apply": ["Update my profile", "Atualizar meu perfil"], "resume.keep": ["Keep it as it is", "Manter como está"],
+  "resume.gradPast": ["already past: check it", "já passou: confira"],
+  "resume.gradUnread": [g => `couldn't read "${g}"`, g => `não entendi "${g}"`],
   "resume.see": ["See my matches", "Ver meus matches"], "resume.replace": ["Paste a new answer", "Colar outra resposta"], "resume.remove": ["Remove my résumé", "Apagar meu currículo"],
   "err.noJson": ["No { … } found. Paste the AI's whole answer to the vagaLume prompt.", "Não encontrei { … }. Cole a resposta inteira da IA ao prompt do vagaLume."],
   "err.badJson": ["That isn't valid JSON. Ask the AI to “reply again with only the JSON object”, then paste it.", "Isso não é um JSON válido. Peça à IA para “responder de novo só com o objeto JSON” e cole outra vez."],
@@ -866,12 +904,32 @@ const WORK = ["state", "Brazil", "LatAm", "US/Canada", "Europe", "Asia/ME", "any
 const LEVELS = ["undergrad", "masters", "phd"];
 const SEASON_ORDER = ["breaks", "Dec–Feb", "Jan–Apr", "Jul", "May–Aug", "Sep–Dec", "year-round", "unknown"];
 const AREA_ORDER = ["ML", "research", "SWE", "data", "quant", "hardware", "other"];
+// The Área filter's groups (radar/subareas.py). Values: a tech area ("ML"), a sub-area ("s:tributario")
+// or a whole section ("f:direito", the role's fields).
+const SUB_GROUPS = {
+  tech: ["infra", "seguranca_info", "ux"],
+  engenharia: ["mecanica", "eletrica", "civil", "producao", "quimica_eng", "qualidade", "manutencao", "seguranca_trabalho", "minas", "aeroespacial"],
+  negocios: ["financas", "contabil", "rh", "comercial", "logistica", "consultoria", "operacoes", "produto"],
+  direito: ["tributario", "trabalhista", "contencioso", "societario", "contratos", "regulatorio", "penal", "consumidor"],
+  saude: ["enfermagem", "medicina", "farmacia", "nutricao", "psicologia", "fisioterapia", "odontologia", "veterinaria", "analises", "esporte"],
+  comunicacao: ["marketing", "design", "jornalismo", "publicidade", "audiovisual", "rp"],
+  biologicas: ["agronomia", "biologia", "ambiental", "alimentos"],
+  humanas: ["educacao", "letras", "social", "relacoes_internacionais", "gestao_publica", "historia"],
+  arquitetura: ["arquitetura", "urbanismo", "interiores"],
+  exatas: ["estatistica", "matematica", "fisica", "quimica"],
+};
+const areaMatches = (i, v) => v.startsWith("s:") ? (i.subs || []).includes(v.slice(2))
+  : v.startsWith("f:") ? (i.fields || []).includes(v.slice(2)) : i.area === v;
+const areaName = v => v.startsWith("s:") ? t(`sub.${v.slice(2)}`)
+  : v.startsWith("f:") ? `${t(`field.short.${v.slice(2)}`)} (${t("agroup.all").toLowerCase()})` : tv("area", v);
 const SEASON_MONTHS = { "Dec–Feb": [12, 1, 2], "Jan–Apr": [1, 2, 3, 4], "Jul": [7], "May–Aug": [5, 6, 7, 8], "Sep–Dec": [9, 10, 11, 12],
   "year-round": [1,2,3,4,5,6,7,8,9,10,11,12], "unknown": [] };
 const SEMESTER = new Set([3, 4, 5, 6, 8, 9, 10, 11]);  // the usual Brazilian semesters: Mar–Jun and Aug–Nov
 
 // ------------------------------------------------------------------ state
 let DATA = null;
+const ITEM_DEFAULTS = { location: "", warnings: [], deadline: "", pay: "", skills: [], fields: [], levels: [], states: [],
+  workplaces: [], subs: [], posted: "", note: "", season: "unknown", area: "other", status: "seen" };
 // {levels, fields, places, home, work} or {skipped: true}. Older profiles had one
 // level/field/place each; normalizeProfile turns them into lists.
 // Profiles from before "where would you work" have no `work`: they keep seeing every place.
@@ -881,7 +939,7 @@ const normalizeProfile = p => {
   return { ...lists, home: p.home || "", work: p.work?.length ? p.work : ["any"] };
 };
 let profile = normalizeProfile(store.get("radar.profile", null));
-let marks = store.get("radar.marks", {});         // id -> "applied" | "hidden" | "none"
+let marks = store.get("radar.marks", {});         // id -> "applied" | "hidden" | "applied-hidden" | "none"
 let saved = new Set(store.get("radar.saved", []));
 let resume = store.get("radar.resume", null);    // summary of your résumé, see "résumé match" below
 const DEFAULT_VIEW = { tab: "all", others: "", match: "", fit: "", area: "", region: "", workplace: "", season: "", currency: "", source: "", pay: "", q: "", sort: "" };
@@ -1019,7 +1077,7 @@ const fieldNames = fields => fields.map(f => t(`field.short.${f}`)).join(", ");
 // A field written in the résumé summary ("Control and Automation Engineering") -> one of FIELDS.
 const FIELD_FROM_TEXT = [
   ["engenharia", /engineer|engenh/i], ["computacao", /comput|software|information (systems|technology)|data science|ci[eê]ncia de dados/i],
-  ["exatas", /math|statist|physic|chemi|matem|estat[ií]st|f[ií]sica|qu[ií]mica/i], ["direito", /law|legal|direito/i],
+  ["exatas", /math|statist|physic|chemi|matem|estat[ií]st|f[ií]sica|qu[ií]mica/i], ["direito", /\blaw\b|legal|direito/i],
   ["saude", /medic|nurs|pharm|nutri|psycholog|health|dent|physio|enferm|farm[aá]c|sa[uú]de|psicolog|odonto|fisioter/i],
   ["biologicas", /biolog|agro|environment|forest|food|ambient|florest|alimento/i],
   ["negocios", /business|econom|account|administra|finance|contab/i],
@@ -1030,15 +1088,23 @@ const FIELD_FROM_TEXT = [
 const fieldFromText = text => (FIELD_FROM_TEXT.find(([, pattern]) => pattern.test(text || "")) || [""])[0];
 // Roles outside your profile (another field, level or place) are hidden until you
 // ask to see them. Roles you keep (saved, applied, hidden) always show in their own tabs.
-const hiddenForYou = i => !view.others && i._fit?.hidden && !saved.has(i.id) && !mark(i);
+// Picking an area in the Área filter means "show me these": a role hidden only for being in
+// another area comes back when it matches a pick ("Engenharias" for a law student).
+const hiddenForYou = i => !view.others && i._fit?.hidden && !saved.has(i.id) && !mark(i)
+  && !(i._fit.why === "field" && picked("area").some(v => areaMatches(i, v)));
 
 function mark(item) {
   const m = marks[item.id];
   if (m) return m === "none" ? "" : m;
   return item.status === "applied" ? "applied" : item.status === "ignored" ? "hidden" : "";
 }
-function setMark(item, value) {
-  marks[item.id] = mark(item) === value ? "none" : value;  // the same click again undoes it
+// A role can be applied to and hidden at once ("applied-hidden"): hiding keeps the Applied mark.
+const isApplied = i => ["applied", "applied-hidden"].includes(mark(i));
+const isHidden = i => ["hidden", "applied-hidden"].includes(mark(i));
+function setMark(item, flag) {  // flag: "applied" or "hidden"; the same click again undoes it
+  const applied = flag === "applied" ? !isApplied(item) : isApplied(item);
+  const hidden = flag === "hidden" ? !isHidden(item) : isHidden(item);
+  marks[item.id] = applied && hidden ? "applied-hidden" : applied ? "applied" : hidden ? "hidden" : "none";
   store.set("radar.marks", marks);
 }
 function toggleSave(id) {
@@ -1172,7 +1238,10 @@ const FIT_CLASS = ["good", "check", "long"];
 // (ChatGPT, Gemini, Claude...) with your résumé, and paste its JSON answer
 // back. parseResume() reads that answer; computeMatch() compares it with
 // the skills the bot found in each posting (radar/skills.py).
+// Every area the résumé can name: the tech areas and the sub-areas of the Área filter.
+const RESUME_AREAS = [...AREA_ORDER.filter(a => a !== "other"), ...Object.values(SUB_GROUPS).flat()];
 function resumePrompt(skillNames) {
+  const areaCodes = RESUME_AREAS.join(", ");
   const vocabulary = skillNames.length ? skillNames.join(", ") : "Python, C++, SQL, PyTorch, MATLAB, ROS, PLC, Excel";
   if (LANG === "pt") return `Estou usando o vagaLume, uma lista de oportunidades para estudantes (estágios, programas de pesquisa, fellowships, escolas de verão), e quero comparar meu currículo com elas.
 
@@ -1186,9 +1255,9 @@ Leia meu currículo (anexado ou colado abaixo) e responda APENAS com um objeto J
   "graduation": "AAAA-MM, quando espero me formar no curso atual",
   "work_authorization": ["países onde posso trabalhar sem visto (cidadania ou residência permanente)"],
   "languages": ["idiomas que falo em nível profissional"],
-  "areas": ["1 a 3 entre: ML, research, SWE, data, quant, hardware"],
+  "areas": ["1 a 4 entre: ${areaCodes}"],
   "skills": ["10 a 40 habilidades, veja as regras"],
-  "target_roles": ["3 a 6 palavras-chave curtas de vagas que combinam comigo, como apareceriam em títulos de vagas, ex.: machine learning, robotics, quant"],
+  "target_roles": ["3 a 8 palavras-chave curtas de vagas que combinam comigo, como apareceriam em títulos de vagas, em português e em inglês, ex.: direito tributário, tax, enfermagem, nursing, machine learning"],
   "available_months": [números dos meses 1-12 em que eu poderia fazer um estágio em tempo integral]
 }
 
@@ -1196,7 +1265,7 @@ Regras:
 - Use só o que o currículo mostra. Se algo não estiver lá, use "" ou [] em vez de adivinhar. Em available_months, se o currículo não disser, use as férias acadêmicas habituais do país da minha universidade (no Brasil: [1, 2, 7, 12]).
 - Em "skills", primeiro escolha todos os itens desta lista que o currículo mostra, escritos exatamente assim: ${vocabulary}. Depois acrescente até 10 outras habilidades importantes.
 - Não inclua meu nome, e-mail, telefone, endereço, links nem qualquer outro dado pessoal.
-- Escreva todos os valores em inglês, mesmo que o currículo esteja em português.`;
+- Escreva os valores em inglês (menos target_roles, que vai nas duas línguas), mesmo que o currículo esteja em português.`;
   return `I'm using vagaLume, a list of student opportunities (internships, research programs, fellowships, summer schools), and want to compare my résumé with them.
 
 Read my résumé (attached or pasted below) and reply with ONLY one JSON object in a \`\`\`json code block, in exactly this shape:
@@ -1209,9 +1278,9 @@ Read my résumé (attached or pasted below) and reply with ONLY one JSON object 
   "graduation": "YYYY-MM, when I expect to finish my current degree",
   "work_authorization": ["countries where I can work without a visa (citizenship or permanent residence)"],
   "languages": ["languages I speak at a professional level"],
-  "areas": ["1 to 3 of: ML, research, SWE, data, quant, hardware"],
+  "areas": ["1 to 4 of: ${areaCodes}"],
   "skills": ["10 to 40 skills, see the rules"],
-  "target_roles": ["3 to 6 short keywords for roles that suit me, as they'd appear in job titles, e.g. machine learning, robotics, quant"],
+  "target_roles": ["3 to 8 short keywords for roles that suit me, as they'd appear in job titles, in English and in Portuguese, e.g. tax law, direito tributário, nursing, enfermagem, machine learning"],
   "available_months": [month numbers 1-12 when I could do a full-time internship]
 }
 
@@ -1219,7 +1288,7 @@ Rules:
 - Use only what the résumé shows. If something isn't there, use "" or [] instead of guessing. For available_months, if the résumé doesn't say, use the usual academic breaks of my university's country (for example Brazil: [1, 2, 7, 12]).
 - For "skills", first pick every item of this list that the résumé shows, spelled exactly as here: ${vocabulary}. Then add up to 10 other important skills.
 - Don't include my name, email, phone, address, links or any other personal detail.
-- Write every value in English, even if the résumé is in another language.`;
+- Write the values in English (except target_roles, in both languages), even if the résumé is in another language.`;
 }
 
 // Country names (English or Portuguese) -> the "where you study" places used by the profile.
@@ -1260,6 +1329,18 @@ function skillKeys(skills) {
 }
 let mySkills = skillKeys(resume?.skills || []);
 
+// "2027-12", "2027-6", "December 2027", "dez/2027", "12/2027" -> "YYYY-MM"; "" when unreadable.
+const MONTH_WORDS = ["jan", "feb|fev", "mar", "apr|abr", "may|mai", "jun", "jul", "aug|ago", "sep|set", "oct|out", "nov", "dec|dez"];
+function readGraduation(value) {
+  const text = fold(String(value || "").trim());
+  let m = /^(\d{4})(?:-(\d{1,2}))?/.exec(text);
+  if (m) return m[2] ? `${m[1]}-${m[2].padStart(2, "0")}` : m[1];
+  m = /^(\d{1,2})[/.-](\d{4})$/.exec(text);
+  if (m && +m[1] >= 1 && +m[1] <= 12) return `${m[2]}-${m[1].padStart(2, "0")}`;
+  const month = MONTH_WORDS.findIndex(w => new RegExp(`\\b(?:${w})`).test(text));
+  m = /\b(20\d\d)\b/.exec(text);
+  return m ? (month >= 0 ? `${m[1]}-${String(month + 1).padStart(2, "0")}` : m[1]) : "";
+}
 // Read the AI's answer: a JSON object, maybe inside ```json fences or surrounded by chatter.
 function parseResume(text) {
   let s = String(text || "").replace(/[“”]/g, '"').replace(/[‘’]/g, "'");
@@ -1284,10 +1365,11 @@ function parseResume(text) {
     level: /phd|doctor|doutor/.test(lvl) ? "phd" : /master|mestr|msc/.test(lvl) ? "masters" : /under|bachel|gradua|bsc/.test(lvl) ? "undergrad" : "",
     field: String(raw.field || "").trim(),
     country: String(raw.study_country || "").trim(),
-    graduation: /^\d{4}(-\d{1,2})?/.test(String(raw.graduation || "")) ? String(raw.graduation).trim().slice(0, 7).replace(/-(\d)$/, "-0$1") : "",
+    graduation: readGraduation(raw.graduation),
+    graduationRaw: String(raw.graduation || "").trim(),
     workAuth: list(raw.work_authorization),
     languages: list(raw.languages),
-    areas: list(raw.areas).map(a => AREA_ORDER.find(x => x.toLowerCase() === a.toLowerCase())).filter(Boolean),
+    areas: list(raw.areas).map(a => RESUME_AREAS.find(x => fold(x) === fold(a).replace(/\s+/g, "_"))).filter(Boolean),
     skills: [...new Set(list(raw.skills))].slice(0, 60),
     roles: list(raw.target_roles).slice(0, 10),
     months: [...new Set(months)].sort((a, b) => a - b),
@@ -1306,7 +1388,7 @@ function computeMatch(item) {
   const langs = asks.filter(s => LANGUAGES.has(s));
   const needed = asks.length - langs.length + (langs.length ? 1 : 0);
   const got = have.filter(s => !LANGUAGES.has(s)).length + (have.some(s => LANGUAGES.has(s)) ? 1 : 0);
-  const area = resume.areas.includes(item.area);
+  const area = resume.areas.includes(item.area) || (item.subs || []).some(s => resume.areas.includes(s));
   const title = ` ${item.title.toLowerCase()} `;
   const role = resume.roles.find(r => r.length > 1 && new RegExp(`[^a-z]${r.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}[^a-z]`).test(title));
   // Full marks for skills when you have 60% of what the posting mentions (at least 3 of them).
@@ -1315,23 +1397,39 @@ function computeMatch(item) {
   return { score, level: score >= 70 ? 0 : score >= 45 ? 1 : score >= 20 ? 2 : 3, have, missing, area, role };
 }
 
+// What the résumé says about the welcome questions (level, area, where you study), added to your profile.
+function profileFromResume(value) {
+  const add = (list, item) => item && !list.includes(item) ? [...list, item] : list;
+  const old = hasProfile() ? profile : { levels: [], fields: [], places: [] };
+  const next = { levels: add(old.levels, value.level), fields: add(old.fields || [], fieldFromText(value.field)),
+    places: add(old.places || [], placeOf(value.country)), home: old.home || "", work: old.work?.length ? old.work : ["any"] };
+  if (!next.fields.length) next.fields = ["outra"];
+  return next.levels.length && next.places.length ? next : null;
+}
+// A résumé pasted over an existing profile only proposes the change (shown in the summary).
+let pendingProfile = null;
 function setResume(value) {
   resume = value;
   mySkills = skillKeys(resume?.skills || []);
   store.set("radar.resume", value);
+  pendingProfile = null;
   if (value) {
-    // The résumé also answers the welcome questions.
-    const place = placeOf(value.country);
-    const field = fieldFromText(value.field);
-    const add = (list, item) => item && !list.includes(item) ? [...list, item] : list;
-    const old = hasProfile() ? profile : { levels: [], fields: [], places: [] };
-    const next = { levels: add(old.levels, value.level), fields: add(old.fields || [], field), places: add(old.places || [], place),
-      home: old.home || "", work: old.work?.length ? old.work : ["any"] };
-    if (!next.fields.length) next.fields = ["outra"];
-    profile = next.levels.length && next.places.length ? next : profile || { skipped: true };
-    store.set("radar.profile", profile);
+    const next = profileFromResume(value);
+    if (next && !hasProfile()) applyProfile(next);  // the first time, it answers the welcome questions
+    else if (next && JSON.stringify(next) !== JSON.stringify({ ...profile, home: profile.home || "", work: profile.work })) pendingProfile = next;
     view.sort = "";
   } else if (view.sort === "match") view.sort = "";
+}
+function applyProfile(next) {
+  profile = next;
+  store.set("radar.profile", profile);
+  pendingProfile = null;
+}
+// "+ Mestrado, + Engenharia": what accepting the résumé would add to the profile.
+function profileChanges(next) {
+  const added = (key, name) => next[key].filter(v => !(profile[key] || []).includes(v)).map(name);
+  return [...added("levels", l => t(`level.short.${l}`)), ...added("fields", f => t(`field.short.${f}`)), ...added("places", placeName)]
+    .map(x => `+ ${x}`).join(", ");
 }
 
 function showResume() {
@@ -1353,8 +1451,9 @@ function renderResumeSummary(note = "") {
   const ns = t("d.notStated");
   const rows = [
     [t("resume.studying"), [resume.level ? t(`level.short.${resume.level}`) : "", resume.field, resume.country].filter(Boolean).join(" · ") || ns],
-    [t("resume.graduates"), resume.graduation ? fmtMonth(resume.graduation) : ns],
-    [t("resume.areas"), resume.areas.map(a => tv("area", a)).join(", ") || ns],
+    [t("resume.graduates"), resume.graduation ? fmtMonth(resume.graduation) + (monthsUntil(resume.graduation) < 0 ? ` (${t("resume.gradPast")})` : "")
+      : resume.graduationRaw ? t("resume.gradUnread", resume.graduationRaw) : ns],
+    [t("resume.areas"), resume.areas.map(a => AREA_ORDER.includes(a) ? tv("area", a) : t(`sub.${a}`)).join(", ") || ns],
     [t("resume.looking"), resume.roles.join(", ") || ns],
     [t("resume.canWork"), resume.workAuth.join(", ") || ns],
     [t("resume.languages"), resume.languages.join(", ") || ns],
@@ -1366,6 +1465,8 @@ function renderResumeSummary(note = "") {
     <dl class="facts-list">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join("")}
       <dt>${t("resume.skills", resume.skills.length)}</dt><dd><div class="skill-list">${resume.skills.map(s => `<span class="skill">${esc(s)}</span>`).join("")}</div></dd></dl>
     ${hasProfile() ? `<p class="muted">${esc(t("resume.profile", profileName()))}</p>` : ""}
+    ${pendingProfile ? `<div class="pending-profile"><p>${esc(t("resume.proposes", profileChanges(pendingProfile)))}</p>
+      <div class="button-row"><button class="btn" id="resume-apply">${t("resume.apply")}</button><button class="linkish" id="resume-keep">${t("resume.keep")}</button></div></div>` : ""}
     <div class="button-row">
       <button class="primary" id="resume-done">${t("resume.see")}</button>
       <button class="btn" id="resume-replace">${t("resume.replace")}</button>
@@ -1396,6 +1497,8 @@ $("resume").addEventListener("click", e => {
   if (e.target.closest("#resume-done")) openList();
   if (e.target.closest("#resume-replace")) { $("resume-saved").hidden = true; $("resume-steps").hidden = false; }
   if (e.target.closest("#resume-remove")) { setResume(null); renderResumeSummary(); }
+  if (e.target.closest("#resume-apply")) { applyProfile(pendingProfile); renderResumeSummary(); }
+  if (e.target.closest("#resume-keep")) { pendingProfile = null; renderResumeSummary(); }
 });
 $("resume-back").addEventListener("click", () => profile ? openList() : showWelcome());
 $("resume-chip").addEventListener("click", showResume);
@@ -1507,13 +1610,13 @@ function drawColumns() {
 const isClosed = i => i.source !== "programs" && (daysLeft(i.deadline) ?? 0) < 0;
 const TABS = [
   ["picks", () => false],  // drawn by drawPicks()
-  ["all", i => mark(i) !== "hidden" && !isClosed(i)],
-  ["new", i => isNew(i) && mark(i) !== "hidden" && !isClosed(i), "count"],
-  ["soon", i => isSoon(i) && mark(i) !== "hidden", "hot"],
+  ["all", i => !isHidden(i) && !isClosed(i)],
+  ["new", i => isNew(i) && !isHidden(i) && !isClosed(i), "count"],
+  ["soon", i => isSoon(i) && !isHidden(i), "hot"],
   ["saved", i => saved.has(i.id), "count"],
-  ["programs", i => i.source === "programs" && mark(i) !== "hidden"],
-  ["applied", i => mark(i) === "applied", "count", "optional"],
-  ["hidden", i => mark(i) === "hidden", "count", "optional"],
+  ["programs", i => i.source === "programs" && !isHidden(i)],
+  ["applied", i => isApplied(i), "count", "optional"],
+  ["hidden", i => isHidden(i), "count", "optional"],
 ];
 const tabTest = () => (TABS.find(tb => tb[0] === view.tab) || TABS[0])[1];
 
@@ -1534,7 +1637,7 @@ const FILTER_TESTS = {
   q: i => fold(view.q).split(/\s+/).filter(Boolean).every(w => (i._q ??= fold(`${i.title} ${i.org} ${i.location}`)).includes(w)),
   match: i => !!i._match && (view.match === "strong" ? i._match.level === 0 : i._match.level <= 1),
   fit: i => view.fit === "good" ? i._fit.level === 0 : i._fit.level === 0 || i._fit.level === 1,
-  area: i => picked("area").includes(i.area),
+  area: i => picked("area").some(v => areaMatches(i, v)),
   region: i => picked("region").some(r => i.regions.includes(r)),
   workplace: i => picked("workplace").some(w => workplacesOf(i).includes(w)),
   currency: i => picked("currency").includes(currencyOf(i)),
@@ -1625,7 +1728,7 @@ function row(i) {
   const open = view.open.has(i.id);
   // At most two quiet tags: what you did first, then what's notable.
   const tags = [];
-  if (m === "applied") tags.push(`<span class="tag applied">${t("tag.applied")}</span>`);
+  if (isApplied(i)) tags.push(`<span class="tag applied">${t("tag.applied")}</span>`);
   if (i._match && i._match.level === 0) tags.push(`<span class="tag match">${t("match.0")}</span>`);
   if (isNew(i)) tags.push(`<span class="tag new">${t("tag.new")}</span>`);
   if (i.source === "programs") {
@@ -1648,7 +1751,7 @@ function row(i) {
       ${deadlineCell(i)}
       <div class="actions">
         <button class="icon-btn save" data-act="save" aria-pressed="${isSaved}" title="${esc(t(isSaved ? "unsave" : "save"))}" aria-label="${esc(t("save"))}">${ICON_STAR(isSaved)}</button>
-        <button class="icon-btn hide" data-act="hide" aria-pressed="${m === "hidden"}" title="${esc(t(m === "hidden" ? "unhide" : "hide"))}" aria-label="${esc(t(m === "hidden" ? "unhide" : "hide"))}">${ICON_HIDE}</button>
+        <button class="icon-btn hide" data-act="hide" aria-pressed="${isHidden(i)}" title="${esc(t(isHidden(i) ? "unhide" : "hide"))}" aria-label="${esc(t(isHidden(i) ? "unhide" : "hide"))}">${ICON_HIDE}</button>
       </div>
     </div>
     ${open ? details(i) : ""}
@@ -1659,7 +1762,7 @@ function matchDetails(i) {
   if (!m) return "";
   if (!i.skills) return `<div><h4>${t("match")}</h4><p class="muted">${t("m.pending")}</p></div>`;
   const lines = [];
-  if (m.area) lines.push(t("m.area", tv("area", i.area)));
+  if (m.area) lines.push(t("m.area", resume.areas.includes(i.area) ? tv("area", i.area) : t(`sub.${(i.subs || []).find(s => resume.areas.includes(s))}`)));
   if (m.role) lines.push(t("m.role", m.role));
   if (!i.skills.length) lines.push(t("m.noSkills"));
   const chips = m.have.map(s => `<span class="skill hit">✓ ${esc(s)}</span>`).concat(m.missing.map(s => `<span class="skill miss">${esc(s)}</span>`)).join("");
@@ -1695,9 +1798,9 @@ function details(i) {
     <dl class="facts-list">${facts.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl>
     <div class="detail-actions">
       <a class="btn primary-link" href="${esc(i.url)}" target="_blank" rel="noopener">${t("d.open")}</a>
-      <button class="btn" data-act="applied" aria-pressed="${m === "applied"}">${t(m === "applied" ? "d.applied" : "d.markApplied")}</button>
+      <button class="btn" data-act="applied" aria-pressed="${isApplied(i)}">${t(isApplied(i) ? "d.applied" : "d.markApplied")}</button>
       <button class="btn" data-act="save">${t(saved.has(i.id) ? "d.saved" : "d.save")}</button>
-      <button class="btn" data-act="hide">${t(m === "hidden" ? "unhide" : "hide")}</button>
+      <button class="btn" data-act="hide">${t(isHidden(i) ? "unhide" : "hide")}</button>
       <a class="btn report" href="${esc(reportUrl(i))}" target="_blank" rel="noopener">${t("d.report")}</a>
     </div>
   </div>`;
@@ -1723,6 +1826,27 @@ function chipGroup(name, values) {
   box.innerHTML = values.map(([value, text, count]) =>
     `<button class="chip ${count === 0 ? "zero" : ""}" data-value="${esc(value)}" aria-pressed="${isPicked(name, value)}">${esc(text)}${count != null ? `<small>${fmtN(count)}</small>` : ""}</button>`).join("");
 }
+// Área: technology first, then your sections (open), then the others under "Outras áreas".
+let areaMoreOpen = false;
+function buildAreaGroups(pool) {
+  const chip = (value, text) => {
+    const count = pool.filter(i => areaMatches(i, value)).length;
+    return count || isPicked("area", value)
+      ? `<button class="chip ${count === 0 ? "zero" : ""}" data-value="${esc(value)}" aria-pressed="${isPicked("area", value)}">${esc(text)}<small>${fmtN(count)}</small></button>` : "";
+  };
+  const group = (key, title, chips) => chips.join("") ? `<div class="agroup"><h5>${esc(title)}</h5><div class="chips" data-filter="area">${chips.join("")}</div></div>` : "";
+  const tech = group("tech", t("agroup.tech"), [...AREA_ORDER.filter(a => a !== "other").map(a => chip(a, tv("area", a))),
+    ...SUB_GROUPS.tech.map(k => chip(`s:${k}`, t(`sub.${k}`)))]);
+  const mine = (profile?.fields || []).filter(f => SUB_GROUPS[f]);
+  const sections = [...mine, ...Object.keys(SUB_GROUPS).filter(f => f !== "tech" && !mine.includes(f))];
+  const html = f => group(f, t(`field.${f}`), [chip(`f:${f}`, t("agroup.all")), ...SUB_GROUPS[f].map(k => chip(`s:${k}`, t(`sub.${k}`)))]);
+  const yours = sections.filter(f => mine.includes(f)).map(html).join("");
+  const others = sections.filter(f => !mine.includes(f)).map(html).join("");
+  // Without a profile every section is "yours"; with one, the others fold away.
+  $("area-groups").innerHTML = (mine.length ? yours + tech : tech + others)
+    + (mine.length && others ? `<details class="agroup-more"${areaMoreOpen ? " open" : ""}><summary>${esc(t("agroup.more"))}</summary>${others}</details>` : "");
+}
+document.addEventListener("toggle", e => { if (e.target.classList?.contains("agroup-more")) areaMoreOpen = e.target.open; }, true);
 function countBy(items, valuesOf, order) {
   const counts = {};
   items.forEach(i => valuesOf(i).forEach(v => counts[v] = (counts[v] || 0) + 1));
@@ -1742,8 +1866,7 @@ function buildFilters(inTab) {
     const n0 = pool.filter(i => i._fit.level === 0).length, n1 = pool.filter(i => i._fit.level === 1).length;
     chipGroup("fit", [["good", t("chip.fit.good"), n0], ["check", t("chip.fit.check"), n0 + n1]]);
   } else chipGroup("fit", []);
-  const areaPool = base("area");
-  chipGroup("area", countBy(areaPool, i => [i.area], AREA_ORDER).map(v => [v, tv("area", v), areaPool.filter(i => i.area === v).length]));
+  buildAreaGroups(base("area"));
   const regionPool = base("region");
   chipGroup("region", countBy(regionPool, i => i.regions.filter(r => r !== "unknown" && (r !== "remote" || isPicked("region", r))), REGION_ORDER).map(v => [v, tv("region", v), regionPool.filter(i => i.regions.includes(v)).length]));
   const workPool = base("workplace");
@@ -1766,14 +1889,14 @@ function activeFilters() {
   if (view.q) pills.push(["q", t("pill.search", view.q)]);
   for (const [key, kind] of Object.entries(FILTER_KINDS)) {
     if (!view[key]) continue;
-    if (MULTI.has(key)) picked(key).forEach(value => pills.push([`${key}:${value}`, tv(kind, value)]));  // one pill per value
+    if (MULTI.has(key)) picked(key).forEach(value => pills.push([`${key}:${value}`, key === "area" ? areaName(value) : tv(kind, value)]));  // one pill per value
     else pills.push([key, tv(kind, view[key])]);
   }
   if (view.source) pills.push(["source", view.source]);
   if (view.pay) pills.push(["pay", t("pill.pay")]);
   if (view.others) pills.push(["others", t("pill.others")]);
   // Each filter button shows what is picked in it: "Área: ML +1".
-  const name = (kind, v) => kind === "season" && v === "breaks" ? t("season.breaks") : tv(kind, v);
+  const name = (kind, v) => kind === "season" && v === "breaks" ? t("season.breaks") : kind === "area" ? areaName(v) : tv(kind, v);
   const shown = {
     foryou: view.match ? [tv("chip.match", view.match)] : view.fit ? [tv("chip.fit", view.fit)] : view.others ? [t("pill.others")] : [],
     more: [view.pay ? t("pill.pay") : "", view.source].filter(Boolean),
@@ -1980,7 +2103,8 @@ document.addEventListener("click", e => {
   if (others) { view.others = others.dataset.others; return rerender(); }
   const pill = e.target.closest("[data-clear]");
   if (pill) {
-    const [key, value] = pill.dataset.clear.split(":");
+    const at = pill.dataset.clear.indexOf(":");  // "area:s:tributario" -> "area", "s:tributario"
+    const [key, value] = at < 0 ? [pill.dataset.clear, ""] : [pill.dataset.clear.slice(0, at), pill.dataset.clear.slice(at + 1)];
     if (value) togglePick(key, value); else view[key] = "";
     if (key === "q") $("search").value = "";
     return rerender();
@@ -2040,6 +2164,8 @@ profile && (profile.skipped || profile.fields?.length) ? showApp() : showWelcome
 fetch("data.json", { cache: "no-cache" })
   .then(r => r.json())
   .then(data => {
+    // data.json leaves out empty values and defaults (radar/site.py, COMPACT_DEFAULTS): put them back.
+    data.items.forEach(i => { for (const [k, v] of Object.entries(ITEM_DEFAULTS)) if (i[k] === undefined) i[k] = Array.isArray(v) ? [] : v; });
     DATA = data;
     applyLanguage();
     $("sources").innerHTML = data.sources.map(s =>

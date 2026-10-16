@@ -38,6 +38,7 @@ def item_record(opp: StoredOpportunity, apply_months: list[int] | None = None) -
         "levels": opp.levels,
         "states": opp.states,
         "workplaces": opp.workplaces,
+        "subs": opp.subs,
         "posted": opp.posted_date,
         "added": opp.first_seen,
         "source": opp.source,
@@ -88,6 +89,18 @@ def shown_items(opportunities: list[StoredOpportunity], today: str, windows: dic
     return items
 
 
+# Values the page fills back in when a role leaves them out (ITEM_DEFAULTS in docs/index.html):
+# leaving them out of data.json saves about a fifth of its size.
+COMPACT_DEFAULTS: dict[str, object] = {
+    "location": "", "warnings": [], "deadline": "", "pay": "", "skills": [], "fields": [], "levels": [], "states": [],
+    "workplaces": [], "subs": [], "posted": "", "note": "", "season": "unknown", "area": "other", "status": "seen",
+}
+
+
+def compact(record: dict[str, object]) -> dict[str, object]:
+    return {k: v for k, v in record.items() if k not in COMPACT_DEFAULTS or v != COMPACT_DEFAULTS[k]}
+
+
 def write_data(
     opportunities: list[StoredOpportunity],
     health: list[SourceHealth],
@@ -116,7 +129,7 @@ def write_data(
     path = Path(out_dir) / "data.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     # One item per line: easier to read in git diffs than one giant line.
-    lines = ",\n".join(json.dumps(item, ensure_ascii=False) for item in payload.pop("items"))
+    lines = ",\n".join(json.dumps(compact(item), ensure_ascii=False) for item in payload.pop("items"))
     head = json.dumps(payload, ensure_ascii=False)[:-1]
     path.write_text(f'{head}, "items": [\n{lines}\n]}}\n', encoding="utf-8")
     summary = stats(opportunities, health, today)

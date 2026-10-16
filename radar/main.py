@@ -17,7 +17,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any, Callable
 
-from . import db, digest, labels, llm, notify, report, site, telegram_bot
+from . import db, details, digest, labels, llm, notify, report, site, telegram_bot
 from .config import ROOT, load_config
 from .models import Opportunity
 from .sources import (
@@ -124,6 +124,9 @@ def run(
         collected[name] = items
         health.append(source_health)
     all_items = dedupe([opp for items in collected.values() for opp in items])
+
+    # 1b. Read the job pages the lists left out (pay, skills, course, level).
+    details.enrich(all_items, conn, today)
 
     # 2. Label: keyword rules always; Claude on top for new items if a key is set.
     for opp in all_items:

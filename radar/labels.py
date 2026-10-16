@@ -16,6 +16,7 @@ from datetime import date
 from .models import NO_DEADLINE, Opportunity
 from .pay import find_pay
 from .fields import find_fields
+from .subareas import find_subareas
 from .levels import LEVELS, find_levels
 from .places import brazil_states
 from .workplace import find_workplaces
@@ -464,6 +465,7 @@ def apply_rules(opp: Opportunity) -> Opportunity:
         # ...and the "(remote)" our sources add to the location says so too.
         opp.location = re.sub(r"\((?:remote|hybrid|on-site)\)$", f"({opp.workplaces[0]})", opp.location)
     opp.fields = find_fields(opp.title, opp.description)
+    opp.subs = find_subareas(opp.title)
     opp.area = str(preset.get("area") or classify_area(opp.title, opp.description, opp.fields))
     # Sources can suggest an area ("area:quant") used when the rules find nothing.
     suggested = [hint.split(":", 1)[1] for hint in opp.hints if hint.startswith("area:")]
