@@ -590,9 +590,10 @@
 // cities) stays as the posting wrote it.
 const STRINGS = {
   "welcome.title": ["A little light on <em>every student opening.</em>", "Uma luzinha em <em>cada vaga para estudantes.</em>"],
-  "welcome.lead": ["Internships, research programs, fellowships and schools from 21 sources, collected once a day. Tell vagaLume what and where you study: it sorts the roles by fit, says what might get in the way, and hides the ones meant for other fields (one click shows them).",
-    "Estágios, programas de pesquisa, fellowships e escolas de 21 fontes, coletados uma vez por dia. Conte ao vagaLume o que e onde você estuda: ele ordena as vagas pelo quanto combinam com você, avisa o que pode atrapalhar e esconde as que são de outras áreas (um clique mostra tudo)."],
-  "welcome.field": ["My field of study", "Minha área de estudo"],
+  "welcome.lead": ["Internships, research programs, fellowships and schools from 25 sources, collected once a day. Tell vagaLume which areas you're looking for and what and where you study: it sorts the roles by fit, says what might get in the way, and hides the ones in other areas (one click shows them).",
+    "Estágios, programas de pesquisa, fellowships e escolas de 25 fontes, coletados uma vez por dia. Conte ao vagaLume em quais áreas você procura vagas, o que e onde você estuda: ele ordena as vagas pelo quanto combinam com você, avisa o que pode atrapalhar e esconde as de outras áreas (um clique mostra tudo)."],
+  // Areas you're looking for, not only your own course: an engineering student can pick Business too.
+  "welcome.field": ["Which areas are you looking for roles in?", "Você procura vagas em quais áreas?"],
   "welcome.multi": ["(one or more)", "(uma ou mais)"],
   "welcome.level": ["I'm studying for a", "Estou cursando"],
   "welcome.place": ["at a university in", "numa universidade em"],
@@ -605,7 +606,7 @@ const STRINGS = {
   "work.state": [uf => uf ? `In my state (${uf})` : "In my state", uf => uf ? `No meu estado (${uf})` : "No meu estado"],
   "work.Brazil": ["Anywhere in Brazil", "Em todo o Brasil"], "work.LatAm": ["Latin America", "América Latina"],
   "work.US/Canada": ["US and Canada", "EUA e Canadá"], "work.Europe": ["Europe", "Europa"],
-  "work.Asia/ME": ["Asia & Middle East", "Ásia e Oriente Médio"], "work.any": ["Anywhere (show everything)", "Qualquer lugar (ver tudo)"],
+  "work.Asia/ME": ["Asia, Africa & Middle East", "Ásia, África e Oriente Médio"], "work.any": ["Anywhere (show everything)", "Qualquer lugar (ver tudo)"],
   "top.profileEdit": ["Change your answers", "Alterar suas respostas"],
   "welcome.skip": ["Skip and show everything", "Pular e ver tudo"],
   "welcome.resume1": ["Have a résumé?", "Tem um currículo?"],
@@ -644,7 +645,7 @@ const STRINGS = {
   "picks.resumeBtn": ["Compare my résumé", "Comparar currículo"],
   "picks.count": ["How many", "Quantas"], "picks.areas": ["Areas", "Áreas"],
   "picks.allAreas": ["none picked = every area", "nenhuma marcada = todas"],
-  "picks.profile": [p => `Level, field and where: from your profile (${p}).`, p => `Nível, área de estudo e onde: do seu perfil (${p}).`],
+  "picks.profile": [p => `Level, areas and where: from your profile (${p}).`, p => `Nível, áreas e onde: do seu perfil (${p}).`],
   "picks.edit": ["Change", "Alterar"],
   "picks.telegram": ["Get these every day on Telegram", "Receber estes todo dia no Telegram"],
   "picks.telegramNote": ["Opens the vagaLume bot with these choices. It confirms within 30 minutes; send /stop to cancel.",
@@ -679,7 +680,7 @@ const STRINGS = {
   // Why they are hidden, so "2 roles" for a search doesn't look like everything there is.
   "others.place": [n => n ? `${n} elsewhere` : "elsewhere", n => n ? `${n} em outros lugares` : "em outros lugares"],
   "others.level": [n => n ? `${n} for another level` : "for another level", n => n ? `${n} de outro nível` : "de outro nível"],
-  "others.field": [n => n ? `${n} for another field` : "for another field", n => n ? `${n} de outra área de estudo` : "de outra área de estudo"],
+  "others.field": [n => n ? `${n} in other areas` : "in other areas", n => n ? `${n} de outras áreas` : "de outras áreas"],
   "others.hide": ["hide them again", "esconder de novo"],
   "empty.others": [n => `${n} roles outside your profile (other fields, levels or places) are hidden.`, n => `${n} vagas fora do seu perfil (outras áreas, níveis ou lugares) estão escondidas.`],
   "pill.remove": [x => `Remove filter ${x}`, x => `Remover filtro ${x}`],
@@ -743,9 +744,9 @@ const STRINGS = {
   "r.gradYearYou": [y => `Mentions a graduation-year rule (you graduate in ${y})`, y => `Cita regra de ano de formatura (você se forma em ${y})`],
   "r.gradYear": ["Mentions a graduation-year rule", "Cita regra de ano de formatura"],
   "r.estagio": ["Estágio requires enrollment at a Brazilian university", "Estágio exige matrícula numa universidade brasileira"],
-  "r.yourField": [f => `For your field (${f})`, f => `Para a sua área (${f})`],
-  "r.relatedField": [f => `For a related field (${f})`, f => `Para uma área próxima (${f})`],
-  "r.otherField": [f => `For another field: ${f}`, f => `Para outra área: ${f}`],
+  "r.yourField": [f => `In an area you're looking for (${f})`, f => `Numa área que você procura (${f})`],
+  "r.relatedField": [f => `In a related area (${f})`, f => `Numa área próxima (${f})`],
+  "r.otherField": [f => `Outside the areas you picked: ${f}`, f => `Fora das áreas que você procura: ${f}`],
   "r.otherLevel": [l => `For another level: ${l}`, l => `Para outro nível: ${l}`],
   "r.otherPlace": [w => `Outside where you'd work: ${w}`, w => `Fora de onde você toparia trabalhar: ${w}`],
   "r.portuguese": ["The posting is in Portuguese", "A vaga é em português"],
@@ -756,7 +757,7 @@ const STRINGS = {
   "area.ML": ["ML", "ML"], "area.research": ["Research", "Pesquisa"], "area.SWE": ["Software", "Software"], "area.data": ["Data", "Dados"],
   "area.quant": ["Quant", "Quant"], "area.hardware": ["Hardware", "Hardware"], "area.other": ["Other", "Outras"],
   "region.Brazil": ["Brazil", "Brasil"], "region.LatAm": ["Latin America", "América Latina"], "region.US/Canada": ["US/Canada", "EUA/Canadá"],
-  "region.Europe": ["Europe", "Europa"], "region.Asia/ME": ["Asia & Middle East", "Ásia e Oriente Médio"], "region.remote": ["Remote", "Remoto"],
+  "region.Europe": ["Europe", "Europa"], "region.Asia/ME": ["Asia, Africa & Middle East", "Ásia, África e Oriente Médio"], "region.remote": ["Remote", "Remoto"],
   "season.breaks": ["Fits my breaks", "Nas minhas férias"], "season.Dec–Feb": ["Dec–Feb", "dez–fev"], "season.Jul": ["July", "julho"],
   "season.May–Aug": ["May–Aug", "mai–ago"], "season.year-round": ["Year-round", "Ano todo"], "season.unknown": ["Not stated", "Não informado"],
   "season.inBreak": ["in your break", "nas suas férias"], "season.inClass": ["during classes", "durante as aulas"],
@@ -795,14 +796,14 @@ const STRINGS = {
 <p><b>Résumé match</b> compares the skills a posting mentions (Python, PyTorch, ROS, PLC…) and its area and title with the summary your AI chat made from your résumé. Strong matches get a tag; open a row to see which skills match and which are missing. It's keyword matching, so read the posting before deciding.</p>
 <p><b>When</b> is a January–December strip. <i class="swatch" style="background:var(--semester)"></i> months in class: UNESP's semesters (Mar–Jun, Aug–Nov), or the months your résumé summary doesn't list as free. <i class="swatch" style="background:var(--good)"></i> the role runs in a break. <i class="swatch" style="background:var(--check)"></i> it clashes with classes.</p>
 <p><b>Pay</b> appears when the posting states it (hr = per hour, mo = per month, yr = per year).</p>
-<p><b>Your field of study</b> hides the roles clearly meant for other fields (a law estágio for an engineering student, for example); roles that don't say which field they want always stay. "Show roles for other fields", under the number of roles or in the filters, brings them back. Related fields are shown together: engineering, computing and the exact sciences, for example.</p>
+<p><b>The areas you're looking for</b> (not only your course: an engineering student can pick Business too) hide the roles clearly meant for other areas (a law estágio if you didn't pick Law, for example); roles that don't say which area they want always stay. "Show roles outside your profile", under the number of roles or in the filters, brings them back. Related areas are shown together: engineering, computing and the exact sciences, for example.</p>
 <p><b>☆ Save</b> builds a shortlist and <b>✕ Hide</b> (it appears when you point at a row, and inside an opened row) removes a role from your lists; inside a row you can also mark it <b>Applied</b>. All of this stays in this browser. Apart from other fields, vagaLume doesn't hide anything by itself: labels and fit are hints, not verdicts.</p>
 <p>Your filters live in the page address, so you can bookmark a view (for example "ML roles in Europe") or send it to a friend.</p>`,
 `<p><b>Perfil</b> compara cada vaga com você: ponto cheio combina bem, ponto pela metade pede para verificar algo (visto, regra de ano de formatura, vaga para depois de formado), ponto vazio é improvável (por exemplo, vaga só para doutorado e você está na graduação). O motivo aparece embaixo da empresa; abra a vaga para ver todos.</p>
 <p><b>Match com o currículo</b> compara as habilidades que a vaga cita (Python, PyTorch, ROS, CLP…), a área e o título com o resumo que a sua IA fez do seu currículo. Matches fortes ganham uma etiqueta; abra a vaga para ver quais habilidades batem e quais faltam. É uma comparação por palavras-chave, então leia a vaga antes de decidir.</p>
 <p><b>Quando</b> é uma tirinha de janeiro a dezembro. <i class="swatch" style="background:var(--semester)"></i> meses de aula: os semestres da UNESP (mar–jun, ago–nov), ou os meses que o resumo do seu currículo não lista como livres. <i class="swatch" style="background:var(--good)"></i> a vaga cai nas férias. <i class="swatch" style="background:var(--check)"></i> ela bate com as aulas.</p>
 <p><b>Remuneração</b> aparece quando a vaga informa (hr = por hora, mo = por mês, yr = por ano).</p>
-<p><b>A sua área de estudo</b> esconde as vagas claramente de outras áreas (um estágio de Direito para quem faz Engenharia, por exemplo); vagas que não dizem a área ficam sempre visíveis. "Mostrar vagas de outras áreas", embaixo do número de vagas ou nos filtros, traz tudo de volta. Áreas próximas aparecem juntas: Engenharia, Computação e Exatas, por exemplo.</p>
+<p><b>As áreas em que você procura vagas</b> (não só o seu curso: quem faz Engenharia pode marcar Negócios também) escondem as vagas claramente de outras áreas (um estágio de Direito, se você não marcou Direito, por exemplo); vagas que não dizem a área ficam sempre visíveis. "Mostrar vagas fora do seu perfil", embaixo do número de vagas ou nos filtros, traz tudo de volta. Áreas próximas aparecem juntas: Engenharia, Computação e Exatas, por exemplo.</p>
 <p><b>☆ Salvar</b> monta a sua lista e <b>✕ Esconder</b> (aparece ao apontar para a vaga, e dentro da vaga aberta) tira uma vaga das suas listas; dentro da vaga você também pode marcar <b>Candidatada</b>. Tudo isso fica neste navegador. Fora as outras áreas, o vagaLume não esconde nada sozinho: rótulos e compatibilidade são dicas, não veredictos.</p>
 <p>Os filtros ficam no endereço da página, então dá para salvar uma visão (por exemplo "vagas de ML na Europa") ou mandar para um amigo.</p>`],
   "sources.title": ["Sources", "Fontes"], "sources.source": ["Source", "Fonte"], "sources.status": ["Status", "Situação"],

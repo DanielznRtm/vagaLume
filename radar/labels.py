@@ -227,6 +227,10 @@ LATAM = [
     # districts Gupy sends without a country (Peru, Chile)
     r"surco", r"chincha", r"lurigancho", r"miraflores", r"callao", r"arequipa", r"las condes", r"providencia",
     r"costa rica", r"latam", r"latin america", r"am[ée]rica latina",
+    r"quer[ée]taro", r"puebla", r"tijuana", r"guanajuato", r"saltillo", r"chihuahua", r"c[óo]rdoba, argentina",
+    r"rosario", r"valpara[íi]so", r"cali", r"barranquilla", r"quito", r"guayaquil", r"la paz", r"asunci[óo]n",
+    r"panam[áa]", r"managua", r"nicaragua", r"honduras", r"tegucigalpa", r"el salvador", r"guatemala",
+    r"dominican", r"santo domingo", r"san jos[ée], costa rica",
 ]
 US_CANADA = [
     r"usa", r"united states", r"u\.s\.", r"us remote", r"remote in usa", r"canada", r"toronto",
@@ -240,6 +244,9 @@ US_CANADA = [
     r"south carolina", r"minnesota", r"wisconsin", r"missouri", r"tennessee", r"connecticut",
     r"alabama", r"ontario", r"british columbia", r"quebec", r"alberta", r"iowa", r"indiana", r"idaho",
     r"georgia", r"kansas", r"kentucky", r"nevada", r"oklahoma", r"south sf", r"americas",
+    r"montr[ée]al", r"vancouver", r"ottawa", r"waterloo", r"calgary", r"edmonton", r"kitchener",
+    r"mississauga", r"oakville", r"markham", r"burnaby", r"halifax", r"winnipeg", r"raleigh", r"evendale",
+    r"schenectady", r"longmont", r"muskegon", r"bromont", r"brossard",
 ]
 # US state codes + Canadian provinces that are unambiguous...
 US_STATE_CODES = (
@@ -264,6 +271,20 @@ EUROPE = [
     r"latvia", r"riga", r"slovenia", r"ljubljana", r"cyprus", r"malta", r"iceland", r"zaragoza",
     r"GBR", r"DEU", r"FRA", r"NLD", r"CHE", r"AUT", r"ESP", r"PRT", r"ITA", r"SWE", r"DNK", r"NOR",
     r"FIN", r"POL", r"CZE", r"SVK", r"BEL", r"IRL", r"ROU", r"HUN", r"GRC", r"SRB", r"UKR", r"UA",
+    # More cities (internships abroad often give just the city) and Turkey.
+    r"warszawa", r"wroc[łl]aw", r"gda[ńn]sk", r"pozna[ńn]", r"[łl][óo]d[źz]", r"brno", r"ostrava", r"toulouse",
+    r"marseille", r"bordeaux", r"lille", r"nantes", r"rennes", r"strasbourg", r"montpellier", r"belfort",
+    r"villeurbanne", r"neuilly-sur-seine", r"aix-les-bains", r"massy", r"v[ée]lizy", r"saint[- ]nazaire",
+    r"stuttgart", r"k[öo]ln", r"cologne", r"d[üu]sseldorf", r"dresden", r"leipzig", r"n[üu]rnberg", r"nuremberg",
+    r"karlsruhe", r"mannheim", r"bremen", r"hannover", r"jena", r"oberkochen", r"erlangen", r"darmstadt",
+    r"eindhoven", r"rotterdam", r"utrecht", r"den haag", r"the hague", r"delft", r"veghel", r"antwerp",
+    r"leuven", r"wavre", r"basel", r"bern", r"lugano", r"visp", r"graz", r"linz", r"salzburg", r"villach",
+    r"g[öo]teborg", r"gothenburg", r"malm[öo]", r"v[äa]ster[åa]s", r"aarhus", r"odense", r"trondheim",
+    r"espoo", r"tampere", r"turin", r"torino", r"bologna", r"florence", r"firenze", r"naples", r"genoa",
+    r"seville", r"sevilla", r"bilbao", r"m[áa]laga", r"getafe", r"glasgow", r"belfast", r"leeds",
+    r"cardiff", r"galway", r"canary wharf", r"knutsford", r"northampton", r"gloucester",
+    r"bucure[șs]ti", r"cluj", r"timi[șs]oara", r"ia[șs]i",
+    r"turkey", r"t[üu]rkiye", r"istanbul", r"ankara", r"izmir", r"bursa", r"TUR",
 ]
 ASIA_ME = [  # Asia, Middle East and Oceania
     r"singapore", r"hong kong", r"china", r"shanghai", r"beijing", r"shenzhen", r"taiwan", r"taipei",
@@ -274,6 +295,16 @@ ASIA_ME = [  # Asia, Middle East and Oceania
     r"philippines", r"manila", r"malaysia", r"kuala lumpur", r"indonesia", r"jakarta", r"thailand",
     r"bangkok", r"apac", r"asia",
     r"SGP", r"JPN", r"KOR", r"CHN", r"HKG", r"TWN", r"IND", r"ISR", r"ARE", r"SAU", r"AUS", r"NZL",
+    r"auckland", r"wellington", r"makati", r"taguig", r"cebu", r"suzhou", r"chengdu", r"wuhan", r"guangzhou",
+    r"hangzhou", r"nanjing", r"tianjin", r"dalian", r"macau", r"ho chi minh", r"hanoi", r"penang", r"johor",
+    r"cyberjaya", r"selangor", r"subang", r"yokohama", r"osaka", r"kyoto", r"nagoya", r"busan", r"pakistan",
+    r"karachi", r"lahore", r"bangladesh", r"dhaka", r"sri lanka", r"cambodia", r"phnom penh", r"uzbekistan",
+    r"tashkent", r"kazakhstan", r"almaty", r"amman", r"beirut", r"kuwait", r"bahrain",
+    r"muscat",
+    # Africa is shown with Asia and the Middle East ("Ásia, África e Oriente Médio").
+    r"africa", r"cape town", r"johannesburg", r"ZAF", r"egypt", r"cairo", r"morocco", r"casablanca",
+    r"rabat", r"tunisia", r"tunis", r"nigeria", r"lagos", r"kenya", r"nairobi", r"ghana", r"accra",
+    r"algeria", r"algiers", r"senegal", r"dakar", r"c[ôo]te d'ivoire", r"abidjan", r"ethiopia",
 ]
 
 

@@ -31,8 +31,8 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import date
 from typing import Any, Iterator
 
-from ..http import post_json
-from ..labels import is_student_candidate
+from ..http import get_json, post_json
+from ..labels import classify_regions, is_student_candidate
 from ..models import Opportunity
 from ..places import ALSO_ABROAD, city_state
 from . import SourceResult
@@ -193,8 +193,34 @@ def _countries(data: dict[str, Any]) -> tuple[str, list[tuple[str, str]]]:
     return "", []
 
 
+MAX_DETAILS = 150  # job pages read per site to learn where a role is
+
+
+def _fill_places(items: list[Opportunity], site: dict[str, Any]) -> int:
+    """ "2 Locations" or a bare "Belfort" doesn't say the country: read the job's own page,
+    which does ("Massy", country France). Returns how many pages were read."""
+    unknown = [o for o in items if classify_regions(o.location, o.remote) == ["unknown"]][:MAX_DETAILS]
+    for opp in unknown:
+        path = opp.url.split(f"/{site['site']}", 1)[-1]
+        try:
+            info = get_json(f"{base_url(site)}/wday/cxs/{site['tenant']}/{site['site']}{path}").get("jobPostingInfo") or {}
+        except Exception:  # noqa: BLE001 - keep the role with what we have
+            continue
+        country = str((info.get("country") or {}).get("descriptor") or "")
+        places = [str(p) for p in [info.get("location"), *(info.get("additionalLocations") or [])] if p]
+        if places or country:
+            first = ", ".join(p for p in (places[0] if places else "", country) if p)
+            opp.location = " / ".join([first, *places[1:]])
+    return len(unknown)
+
+
 def fetch_site_global(site: dict[str, Any]) -> tuple[list[Opportunity], int]:
     """Student roles of one Workday site in every country, and how many requests it took."""
+    items, made = _fetch_site_global(site)
+    return items, made + _fill_places(items, site)
+
+
+def _fetch_site_global(site: dict[str, Any]) -> tuple[list[Opportunity], int]:
     url = api_url(site)
     first = post_json(url, {"appliedFacets": {}, "limit": 1, "offset": 0, "searchText": ""})
     facets = student_facets(first)
