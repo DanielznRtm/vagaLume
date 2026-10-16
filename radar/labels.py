@@ -417,7 +417,7 @@ def find_warnings(opp: Opportunity, level: str, regions: list[str]) -> list[str]
     if _any(GRAD_YEAR_TEXT, text):
         warnings.append(W_GRAD_YEAR)
     if "new-grad" in hints or (level != "yes" and _any(NEW_GRAD_TITLE, opp.title)):
-        warnings.append(W_NEW_GRAD)  # sure it's not a student role, but you asked to see these
+        warnings.append(W_NEW_GRAD)  # not a student role, but kept: useful in a student's last year
     elif level != "yes":
         warnings.append(W_UNSURE)
     return warnings

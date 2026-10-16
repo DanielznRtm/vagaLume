@@ -105,7 +105,7 @@ Optional: Telegram or email digests and Claude labelling. Setting up the secrets
 # or run it on your computer
 pip install .
 python -m playwright install chromium
-python -m radar          # collect everything (about 8 minutes)
+python -m radar          # collect everything (about 35 minutes)
 python -m http.server -d docs   # then open http://localhost:8000
 ```
 
