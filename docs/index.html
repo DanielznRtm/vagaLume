@@ -223,10 +223,10 @@
   .tab small.hot { color: var(--long); }
   .tab-picks { color: var(--accent); }
   .tab small.pick { background: var(--accent); color: #fff; border-radius: 999px; padding: 1px 7px; font-weight: 600; }
-  .picks-nudge { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; border: 1px solid var(--accent); border-radius: var(--radius);
-    background: var(--surface); padding: 10px 14px; margin: 0 0 12px; }
-  .picks-nudge span { flex: 1; min-width: 180px; font-weight: 500; }
-  .picks-nudge .btn { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .picks-nudge { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; border-left: 3px solid var(--accent);
+    padding: 6px 8px 6px 12px; margin: 0 0 12px; font-size: .92rem; }
+  .picks-nudge span { flex: 1; min-width: 180px; }
+  .picks-nudge .linkish { font-weight: 600; }
   .picks-nudge .x { background: none; border: 0; font-size: 1.2rem; line-height: 1; cursor: pointer; color: var(--muted); padding: 4px; }
   .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
   .sort { display: flex; align-items: center; gap: 2px; font-size: .88rem; color: var(--muted); padding-bottom: 5px; }
@@ -1949,7 +1949,7 @@ function render() {
   const picksN = pickToday(DATA.items, myPrefs(), DATA.updated).length;
   $("tabs").innerHTML = TABS.map(([key, test, count, optional]) => {
     if (key === "picks") {
-      return `<button class="tab tab-picks" role="tab" data-tab="picks" aria-selected="${view.tab === "picks"}">✨ ${t("tab.picks")}${picksN ? `<small class="pick">${picksN}</small>` : ""}</button>`;
+      return `<button class="tab tab-picks" role="tab" data-tab="picks" aria-selected="${view.tab === "picks"}">${t("tab.picks")}${picksN ? `<small class="pick">${picksN}</small>` : ""}</button>`;
     }
     const n = count ? filtered.filter(test).length : 0;
     if (optional && !n && view.tab !== key) return "";
@@ -1961,8 +1961,8 @@ function render() {
   // On the main tabs, a one-line nudge towards today's highlights (until closed for the day).
   const nudge = !picksMode && ["all", "new"].includes(view.tab) && picksN && store.get("radar.picksNudge", "") !== DATA.updated;
   $("picks-nudge").hidden = !nudge;
-  if (nudge) $("picks-nudge").innerHTML = `<span>✨ ${esc(t("picks.nudge", picksN))}</span>
-    <button class="btn" data-go-picks="1">${esc(t("picks.nudgeGo"))}</button><button class="x" id="picks-nudge-x" aria-label="${esc(t("close"))}">×</button>`;
+  if (nudge) $("picks-nudge").innerHTML = `<span>${esc(t("picks.nudge", picksN))}</span>
+    <button class="linkish" data-go-picks="1">${esc(t("picks.nudgeGo"))}</button><button class="x" id="picks-nudge-x" aria-label="${esc(t("close"))}">×</button>`;
   $("filterbar").hidden = picksMode;
   $("filters-note").hidden = !picksMode;
   if (picksMode) $("filters-summary").textContent = t("filters");
