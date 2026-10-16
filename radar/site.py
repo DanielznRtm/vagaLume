@@ -38,6 +38,7 @@ def item_record(opp: StoredOpportunity, apply_months: list[int] | None = None) -
         "levels": opp.levels,
         "states": opp.states,
         "workplaces": opp.workplaces,
+        "subs": opp.subs,
         "posted": opp.posted_date,
         "added": opp.first_seen,
         "source": opp.source,

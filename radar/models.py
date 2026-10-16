@@ -56,6 +56,8 @@ class Opportunity:
     # Where the pay came from: "field" (the job board's own salary field, set by the source),
     # "text" (read from the description by radar/pay.py) or "claude". The site asks you to check "text" ones.
     pay_from: str = ""
+    # The day we last read the role's own job page (radar/details.py); "" = not this run.
+    detail_checked: str = ""
     # Free text used only while labelling; it is NOT stored in the database
     # (that keeps the database small enough to commit every day).
     description: str = ""
@@ -82,6 +84,7 @@ class Opportunity:
     levels: list[str] = field(default_factory=list)  # study levels it's for, e.g. ["masters", "phd"]; see radar/levels.py
     states: list[str] = field(default_factory=list)  # Brazilian states (UFs), e.g. ["SP"]; see radar/places.py
     workplaces: list[str] = field(default_factory=list)  # remote / hybrid / on-site; see radar/workplace.py
+    subs: list[str] = field(default_factory=list)  # sub-areas, e.g. ["tributario"]; see radar/subareas.py
 
     # --- filled in by radar.db ---------------------------------------------
     first_seen: str = ""
