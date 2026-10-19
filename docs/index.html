@@ -197,7 +197,7 @@
   .agroup:first-child h5 { margin-top: 2px; }
   .agroup-more > summary { cursor: pointer; font-size: .84rem; color: var(--accent); margin: 10px 0 2px; }
   .fpanel { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 10px 2px 12px; }
-  #filters-clear { justify-self: start; margin-top: 8px; }
+  #filters-clear { justify-self: start; margin: 2px 0 8px; font-weight: 600; }
   .fsel { display: grid; gap: 6px; font-size: .85rem; color: var(--muted); }
   .chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .chips:empty { display: none; }
@@ -209,6 +209,7 @@
   .chip.zero { opacity: .4; }
   .check-row { display: flex; align-items: center; gap: 8px; font-size: .9rem; cursor: pointer; }
   select { padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); width: 100%; }
+  select option { background: var(--surface); color: var(--ink); }  /* the open menu, readable in dark mode too */
 
   /* toolbar */
   .toolbar { display: grid; gap: 14px; margin-bottom: 4px; }
@@ -254,6 +255,9 @@
   .row-main { padding-block: 13px; cursor: pointer; }
   .row-main:hover { background: color-mix(in srgb, var(--accent-soft) 40%, transparent); }
   .row.open .row-main { background: var(--accent-soft); }
+  /* An opened row reads as one card: an accent bar on the left, and a gap before the next opened row. */
+  .row.open { box-shadow: inset 3px 0 0 var(--accent); border-bottom-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+  .row.open + .row.open { margin-top: 12px; border-top: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line)); }
   .role { min-width: 0; }
   .role a { color: var(--ink); font-weight: 600; text-decoration: none; }
   .role a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
@@ -266,6 +270,7 @@
   .tag.applied { color: var(--good); }
   .tag.match { color: var(--good); }
   .tag.program { color: var(--muted); font-weight: 500; }
+  .tag.closed { color: var(--faint); font-weight: 500; }
   .tag.apply-open { color: var(--good); }
   .tag.apply-soon { color: var(--check); }
   .where { min-width: 0; font-size: .9rem; }
@@ -305,6 +310,7 @@
   }
   @media (hover: none) { .row-main .icon-btn.hide:not([aria-pressed="true"]) { display: none; } }
 
+  .host-note { grid-column: 1 / -1; margin: -6px 0 0; font-size: .82rem; color: var(--muted); }
   .details { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 18px 40px; padding: 6px 14px 18px 50px; background: var(--accent-soft); font-size: .9rem; }
   .details h4 { margin: 0 0 6px; font-size: .95rem; }
   .details p { margin: 0 0 6px; }
@@ -509,6 +515,7 @@
     <details class="filters" id="filters" open>
       <summary id="filters-summary"></summary>
       <div class="filterbar" id="filterbar">
+        <button class="linkish" id="filters-clear" data-reset="1" hidden></button>
         <div class="fdrop" data-drop="foryou" id="foryou-group">
           <button class="fbtn" aria-expanded="false"><span data-t="filters.foryou"></span><span class="fval"></span><svg class="chev" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <div class="fpanel" hidden>
@@ -554,7 +561,6 @@
             <label class="fsel"><span data-t="filters.source"></span><select id="source"></select></label>
           </div>
         </div>
-        <button class="linkish" id="filters-clear" data-reset="1" data-t="filters.clear" hidden></button>
       </div>
       <p class="fineprint filters-note" id="filters-note" data-t="picks.filtersOff" hidden></p>
     </details>
@@ -696,7 +702,8 @@ const STRINGS = {
   "currency.BRL": ["R$ (real)", "R$ (real)"], "currency.USD": ["US$ (dollar)", "US$ (dólar)"], "currency.EUR": ["€ (euro)", "€ (euro)"],
   "currency.GBP": ["£ (pound)", "£ (libra)"], "currency.CAD": ["CA$ (Canadian dollar)", "CA$ (dólar canadense)"], "currency.other": ["Other", "Outras"], "filters.more": ["More filters", "Mais filtros"], "filters.pay": ["Pay", "Remuneração"],
   "filters.payOnly": ["Only roles that state pay", "Só vagas com remuneração informada"], "filters.source": ["Source", "Fonte"],
-  "filters.allSources": ["All sources", "Todas as fontes"], "filters.clear": ["Clear all", "Limpar tudo"],
+  "filters.allSources": ["All sources", "Todas as fontes"], "filters.clear": ["Clear all filters", "Limpar todos os filtros"],
+  "filters.clearN": [n => `Clear all filters (${n})`, n => `Limpar todos os filtros (${n})`],
   "chip.fit.good": ["Good fit", "Boas opções"], "chip.fit.check": ["No long shots", "Boas ou a conferir"],
   "chip.match.strong": ["Strong résumé match", "Currículo: combina muito"], "chip.match.good": ["Good match or better", "Currículo: combina bem ou mais"],
   "pill.search": [q => `Search: “${q}”`, q => `Busca: “${q}”`], "pill.pay": ["States pay", "Com remuneração"],
@@ -729,6 +736,7 @@ const STRINGS = {
   "col.role": ["Role", "Vaga"], "col.where": ["Where", "Onde"], "col.pay": ["Pay", "Remuneração"], "col.when": ["When", "Quando"], "col.deadline": ["Deadline", "Prazo"],
 
   "tag.applyOpen": ["Applications usually open now", "Inscrições costumam estar abertas"],
+  "tag.closed": ["Applications closed", "Inscrições encerradas"],
   "tag.applySoon": [m => `Usually opens in ${m}`, m => `Costuma abrir em ${m}`],
   "d.apply": ["Applications", "Inscrições"],
   "d.applyNote": ["usually, from past years: check the page", "costumam ser assim, pelos anos anteriores: confira na página"],
@@ -748,7 +756,9 @@ const STRINGS = {
   "d.noProfile": ["Set your profile to see how this fits you.", "Defina o seu perfil para ver se combina com você."],
   "d.noConflict": ["Nothing in the posting conflicts with your profile.", "Nada na vaga conflita com o seu perfil."],
   "d.where": ["Where", "Onde"], "d.when": ["When", "Quando"], "d.deadline": ["Deadline", "Prazo"], "d.pay": ["Pay", "Remuneração"],
-  "d.labels": ["Labels", "Rótulos"], "d.found": ["Found", "Encontrada em"], "d.notStated": ["Not stated", "Não informado"],
+  "note.deloitte": ["Deloitte's career site refuses some visitors (\"406 Not Acceptable\"), often outside the US. If it happens, try another browser or network, or search for the role on deloitte.com.",
+    "O site de vagas da Deloitte recusa alguns acessos (\"406 Not Acceptable\"), muitas vezes de fora dos EUA. Se acontecer, tente outro navegador ou outra rede, ou procure a vaga em deloitte.com."],
+  "d.labels": ["Labels", "Rótulos"], "d.alts": ["Same role, other places", "A mesma vaga em outros lugares"], "d.found": ["Found", "Encontrada em"], "d.notStated": ["Not stated", "Não informado"],
   "d.deadlineNone": ["Not stated. Check the posting.", "Não informado. Veja a vaga."],
   "d.foundVia": [(d, s, p) => `${d} via ${s}${p ? ` · posted ${p}` : ""}`, (d, s, p) => `${d} via ${s}${p ? ` · publicada em ${p}` : ""}`],
   "d.open": ["Open the posting ↗", "Abrir a vaga ↗"], "d.applied": ["✓ Applied", "✓ Já me candidatei"], "d.markApplied": ["Mark as applied", "Já me candidatei"],
@@ -1155,6 +1165,18 @@ function setMark(item, flag) {  // flag: "applied" or "hidden"; the same click a
   marks[item.id] = applied && hidden ? "applied-hidden" : applied ? "applied" : hidden ? "hidden" : "none";
   store.set("radar.marks", marks);
 }
+// The same role in several places is one row ("alts": [place, link, id] per other place; "also": every merged
+// id). A role saved, applied to or hidden under one of those ids keeps its mark on the row.
+function carryMarks(items) {
+  let changed = false;
+  for (const i of items) for (const id of i.also || []) {
+    if (saved.has(id) && !saved.has(i.id)) { saved.add(i.id); changed = true; }
+    if (marks[id] && !marks[i.id]) { marks[i.id] = marks[id]; changed = true; }
+  }
+  if (changed) { store.set("radar.saved", [...saved]); store.set("radar.marks", marks); }
+}
+// Career sites known to turn some visitors away: said next to "Open the posting", so an error page isn't a surprise.
+const HOST_NOTES = [[/apply\.deloitte\.com/, "note.deloitte"]];
 function toggleSave(id) {
   saved.has(id) ? saved.delete(id) : saved.add(id);
   store.set("radar.saved", [...saved]);
@@ -1658,7 +1680,8 @@ function drawColumns() {
 
 // [key, test, how to show its count]. Applied and Hidden only appear once they have something in them.
 // A role whose deadline has passed leaves the lists (Saved and Applied still show it, marked "closed?").
-const isClosed = i => i.source !== "programs" && (daysLeft(i.deadline) ?? 0) < 0;
+// A role past its deadline, or a program whose page says this year's applications are over (it stays in Programs).
+const isClosed = i => i.closed === 1 || (i.source !== "programs" && (daysLeft(i.deadline) ?? 0) < 0);
 const TABS = [
   ["picks", () => false],  // drawn by drawPicks()
   ["all", i => !isHidden(i) && !isClosed(i)],
@@ -1713,7 +1736,7 @@ const SORTS = {
   deadline: (a, b) => deadlineRank(a) - deadlineRank(b) || newest(a, b),
   added: newest,
   org: (a, b) => a.org.localeCompare(b.org) || a.title.localeCompare(b.title),
-  apply: (a, b) => applyIn(a) - applyIn(b) || a._fit.level - b._fit.level || a.title.localeCompare(b.title),
+  apply: (a, b) => (a.closed || 0) - (b.closed || 0) || applyIn(a) - applyIn(b) || a._fit.level - b._fit.level || a.title.localeCompare(b.title),
 };
 
 // ------------------------------------------------------------------ rendering helpers
@@ -1782,7 +1805,8 @@ function row(i) {
   if (isApplied(i)) tags.push(`<span class="tag applied">${t("tag.applied")}</span>`);
   if (i._match && i._match.level === 0) tags.push(`<span class="tag match">${t("match.0")}</span>`);
   if (isNew(i)) tags.push(`<span class="tag new">${t("tag.new")}</span>`);
-  if (i.source === "programs") {
+  if (i.closed) tags.push(`<span class="tag closed">${t("tag.closed")}</span>`);
+  else if (i.source === "programs") {
     const when = applyIn(i);
     if (when === 0) tags.push(`<span class="tag apply-open">${t("tag.applyOpen")}</span>`);
     else if (when <= 2) tags.push(`<span class="tag apply-soon">${t("tag.applySoon", monthName(i.apply.find(m => (m - today.getUTCMonth() - 1 + 12) % 12 === when)))}</span>`);
@@ -1839,6 +1863,7 @@ function details(i) {
   const labels = [...areaText, ...i.warnings.map(w => tv("warn", w))].map(esc).join(" · ");
   const facts = [
     [t("d.where"), locs.length ? esc(locs.join(" · ")) : esc(regionNames(i).join(", ")) || ns],
+    ...(i.alts?.length ? [[t("d.alts"), i.alts.map(([place, url]) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(placeText(place) || url)}</a>`).join(" · ")]] : []),
     [t("d.when"), i.season === "unknown" ? ns : `${esc(seasonText(i.season))}${monthStrip(i.season)}`],
     ...(i.apply?.length ? [[t("d.apply"), `${esc(applyText(i))} <span class="muted">· ${t("d.applyNote")}</span>`]] : []),
     [t("d.deadline"), i.deadline ? esc(fmtDate(i.deadline)) : `<span class="none">${t("d.deadlineNone")}</span>`],
@@ -1856,6 +1881,7 @@ function details(i) {
       <button class="btn" data-act="hide">${t(isHidden(i) ? "unhide" : "hide")}</button>
       <a class="btn report" href="${esc(reportUrl(i))}" target="_blank" rel="noopener">${t("d.report")}</a>
     </div>
+    ${HOST_NOTES.filter(([re]) => re.test(i.url)).map(([, key]) => `<p class="host-note">${esc(t(key))}</p>`).join("")}
   </div>`;
 }
 // A pre-filled GitHub issue with what the page shows for this role, so a wrong label
@@ -1966,7 +1992,9 @@ function activeFilters() {
   });
   const active = pills.filter(([key]) => key !== "q").length;
   $("filters-clear").hidden = !active;
+  $("filters-clear").textContent = t("filters.clearN", active);
   $("filters-summary").textContent = active ? t("filters.on", active) : t("filters");
+  return active;
 }
 
 // ------------------------------------------------------------------ filter menus
@@ -2005,7 +2033,7 @@ function render() {
 
   const inTab = DATA.items.filter(tabTest());
   buildFilters(inTab);
-  activeFilters();
+  const filtersActive = activeFilters();
 
   const list = inTab.filter(i => passes(i)).sort(SORTS[sortKey()]);
   const hiddenItems = inTab.filter(i => hiddenForYou(i) && passes(i, "hidden"));  // outside your profile, with today's filters
@@ -2019,7 +2047,8 @@ function render() {
   $("count").innerHTML = esc(t("count", fmtN(list.length), fmtDate(DATA.updated, false)))
     + (moreInAll ? ` · <button class="linkish" data-tab-all="1">${esc(t("count.inAll", fmtN(moreInAll)))}</button>` : "")
     + (hidden ? ` · <button class="linkish" data-others="1">${esc(t("others.show", fmtN(hidden), hiddenWhy(hiddenItems)))}</button>` : "")
-    + (anyOther ? ` · <button class="linkish" data-others="">${esc(t("others.hide"))}</button>` : "");
+    + (anyOther ? ` · <button class="linkish" data-others="">${esc(t("others.hide"))}</button>` : "")
+    + (filtersActive ? ` · <button class="linkish" data-reset="1">${esc(t("filters.clear"))}</button>` : "");
   $("others-row").hidden = !(hidden || view.others);
   $("show-others").checked = !!view.others;
   $("others-label").textContent = t("others.toggle", fmtN(hidden || inTab.filter(i => i._fit?.hidden && passes(i, "hidden")).length));
@@ -2238,6 +2267,7 @@ fetch("data.json", { cache: "no-cache" })
   .then(data => {
     // data.json leaves out empty values and defaults (radar/site.py, COMPACT_DEFAULTS): put them back.
     data.items.forEach(i => { for (const [k, v] of Object.entries(ITEM_DEFAULTS)) if (i[k] === undefined) i[k] = Array.isArray(v) ? [] : v; });
+    carryMarks(data.items);
     DATA = data;
     applyLanguage();
     $("sources").innerHTML = data.sources.map(s =>

@@ -189,9 +189,21 @@ at the top of that file.
 | pay | when stated: the job board's own salary field (Ashby, Lever, Greenhouse, Sólides, CIEE, Super Estágios), otherwise read from the description by `radar/pay.py` (formats like `$54 — $60 USD`, `109,395.00 USD Annually`, `Bolsa auxílio: R$1.357,28/mês`). See **How pay is read** below. |
 | skills | the skills a posting mentions, from a fixed list of about 125 in `radar/skills.py` (Python, SQL, PLC, MATLAB, Tax law, Patient care, Financial analysis, Figma…), in English and Portuguese. Used by the résumé match on the site. |
 
-**What the site leaves out.** Roles for a term that is already over ("Winter
-2026", "Summer '25", "Estágio 2025") and repeats (the same title, company and
-place listed twice) are not written to `docs/data.json`.
+**What the site leaves out or merges.**
+
+- Roles for a term that is already over ("Winter 2026", "Summer '25",
+  "Estágio 2025").
+- Roles whose own page says they are gone: list roles are re-read every week,
+  and a job page that answers "not found" closes the role.
+- Workday sites only for a company's own staff (Boeing's "External_Subsidiary").
+- The same job twice: a GitHub list and the company's board, or two addresses of
+  one job, show once.
+- The same title at the same company in several places becomes one row with
+  every place; the opened row links to the posting for each place ("A mesma
+  vaga em outros lugares").
+- A program whose page says this year's applications are closed stays in
+  Programs & schools, marked **Inscrições encerradas** and listed last, and
+  leaves the other tabs.
 
 ### How pay is read
 

@@ -181,3 +181,36 @@ def test_site_leaves_out_past_terms_and_repeats(tmp_path):
     titles = sorted(i["title"] for i in items)
     assert titles == ["Enfermagem - Auditoria", "Journeys into Theoretical Physics", "Software Engineer Intern (Winter 2027)"]
     assert next(i for i in items if i["source"] == "programs")["deadline"] == ""  # last year's edition
+
+
+def test_the_site_shows_one_row_per_job_and_merges_places():
+    from radar import db
+    from radar.labels import apply_rules
+    from radar.models import Opportunity
+    from radar.site import shown_items
+
+    conn = db.connect(":memory:")
+    roles = [
+        # One Boeing job: a staff-only site, the public site via a GitHub list, and Boeing's Workday.
+        Opportunity(title="Data Science Intern", org="Boeing", source="github_lists", location="Richmond, BC, Canada",
+                    url="https://boeing.wd1.myworkdayjobs.com/external_subsidiary/job/CAN/Data-Science-Intern_JR1?utm_source=Simplify"),
+        Opportunity(title="Data Science Intern", org="Boeing", source="github_lists", location="Richmond, BC, Canada",
+                    url="https://boeing.wd1.myworkdayjobs.com/EXTERNAL_CAREERS/job/CAN/Data-Science-Intern_JR1-1"),
+        Opportunity(title="Data Science Intern", org="Boeing", source="workday", location="2 Locations, Canada",
+                    url="https://boeing.wd1.myworkdayjobs.com/en-US/External_Careers/job/CAN/Data-Science-Intern_JR1-1"),
+        # The same estágio in three DF regions: one row, every place, a link for each.
+        *[Opportunity(title="Estágio em Agronomia", org="SEEC/DF", source="superestagios", location=f"{place}, DF, Brazil",
+                      url=f"https://www.superestagios.com.br/index/vagasEstagioDestaque.php?i={n}")
+          for n, place in enumerate(["Ceilândia", "Guará", "Gama"])],
+        # Two confidential companies are not one.
+        Opportunity(title="Estágio em Direito", org="Empresa confidencial", source="superestagios", location="Recife, PE, Brazil", url="https://s/x?i=1"),
+        Opportunity(title="Estágio em Direito", org="Empresa confidencial", source="superestagios", location="Natal, RN, Brazil", url="https://s/x?i=2"),
+    ]
+    for opp in roles:
+        db.upsert(conn, apply_rules(opp), "2026-10-19")
+    items = shown_items(db.load_all(conn), "2026-10-19")
+    boeing = [i for i in items if i["org"] == "Boeing"]
+    assert len(boeing) == 1 and "subsidiary" not in boeing[0]["url"]
+    df = [i for i in items if i["org"] == "SEEC/DF"]
+    assert len(df) == 1 and df[0]["location"].count(" / ") == 2 and len(df[0]["alts"]) == 2 and len(df[0]["also"]) == 2
+    assert len([i for i in items if i["org"] == "Empresa confidencial"]) == 2

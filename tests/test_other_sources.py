@@ -138,6 +138,25 @@ def test_program_opportunity_uses_presets():
     assert "grad-year limit?" in opp.warnings  # "expect to graduate in 2028 or later"
 
 
+@pytest.mark.parametrize("text, closed", [
+    ("The deadline for applications has passed. The selection notifications have been released.", True),  # EEML
+    ("Inscrições encerradas. Aguarde a próxima edição.", True),
+    ("Applications are now closed for 2026.", True),
+    ("Applications open on 1 February. Deadline: March 15.", False),
+    ("Last year applications closed in March; this year they open in January.", False),
+    ("Programa de Estágio Clariant 2027 Inscrições encerradas. Programa de Estágio Raízen: Inscreva-se", False),  # several programs
+])
+def test_program_page_that_says_applications_are_closed(text, closed):
+    from radar.site import item_record
+
+    opp = programs.build_opportunity({"name": "EEML", "url": "https://www.eeml.eu/"}, text, changed=False, last_changed="2026-10-01")
+    assert opp.note.startswith("applications closed") is closed
+    conn = db.connect(":memory:")
+    db.upsert(conn, apply_rules(opp), "2026-10-19")
+    record = item_record(db.load_all(conn)[0])
+    assert record.get("closed") == (1 if closed else None) and record["note"].startswith("page unchanged since")
+
+
 @pytest.mark.parametrize(
     "window, months",
     [("Nov–Jan", [11, 12, 1]), ("Feb, Aug", [2, 8]), ("Mar", [3]), ("Dec-Feb", [12, 1, 2]), ("", [])],

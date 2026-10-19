@@ -88,3 +88,40 @@ def test_meta_pages_are_read_in_the_browser_a_few_per_run(monkeypatch, tmp_path)
 
     monkeypatch.setattr(browser, "render_many", broken)
     assert details.enrich(roles[2:], conn, "2026-10-16") == {}  # no browser: logged, the run goes on
+
+
+def test_a_role_whose_page_is_gone_is_closed_and_stays_closed(monkeypatch, tmp_path):
+    import requests
+
+    def gone(url, **kwargs):
+        response = requests.Response()
+        response.status_code = 404
+        raise requests.HTTPError("404", response=response)
+
+    monkeypatch.setattr(details, "get_json", gone)
+    conn = db.connect(tmp_path / "radar.db")
+    url = "https://job-boards.greenhouse.io/acme/jobs/123"
+    opp = role(url)
+    assert details.enrich([opp], conn, "2026-10-19") == {"github_lists closed": 1}
+    db.upsert(conn, apply_rules(opp), "2026-10-19")
+    assert not db.load_all(conn)[0].is_open
+    # The list still shows it the next day: it stays closed, and its page isn't asked again.
+    again = role(url)
+    assert details.enrich([again], conn, "2026-10-20") == {}
+    db.upsert(conn, apply_rules(again), "2026-10-20")
+    assert not db.load_all(conn)[0].is_open
+
+
+def test_many_gone_pages_at_once_look_like_a_block_and_close_nothing(monkeypatch, tmp_path):
+    import requests
+
+    def blocked(url, **kwargs):
+        response = requests.Response()
+        response.status_code = 403
+        raise requests.HTTPError("403", response=response)
+
+    monkeypatch.setattr(details, "get_json", blocked)
+    conn = db.connect(tmp_path / "radar.db")
+    roles = [role(f"https://acme.wd1.myworkdayjobs.com/en-US/Careers/job/US/Intern_R{n}") for n in range(30)]
+    assert details.enrich(roles, conn, "2026-10-19") == {}
+    assert all(o.is_open for o in roles)

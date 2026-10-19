@@ -8,6 +8,7 @@ sends back into a list of `Opportunity` objects. Everything after that
 from __future__ import annotations
 
 import hashlib
+import re
 from dataclasses import dataclass, field
 
 # Used when we could not find a deadline anywhere.
@@ -37,6 +38,28 @@ def strip_tracking(url: str) -> str:
         and not part.lower().startswith(("utm_", "ref=", "source=", "jobboardsource=", "gh_src="))
     ]
     return base + ("?" + "&".join(kept) if kept else "")
+
+
+# Job boards whose address says which job it is without the query ("?gh_jid=", "?domain=microsoft.com"
+# repeat what the path already says). Elsewhere the query can be the job (superestagios "...php?i=...").
+_PATH_IS_THE_JOB = re.compile(r"myworkdayjobs\.com|greenhouse\.io|lever\.co|ashbyhq\.com|smartrecruiters\.com|eightfold\.ai|careers\.microsoft\.com")
+# Workday sites only for a company's own staff ("External_Subsidiary" at Boeing is for current employees).
+_INTERNAL_SITE = re.compile(r"myworkdayjobs\.com/(?:[a-z]{2}-[A-Z]{2}/)?[^/]*(?:subsidiar|internal|employee)", re.I)
+
+
+def same_job_key(url: str) -> str:
+    """One key for the addresses of one job: the same Workday job with and without "/en-US/" or in
+    upper and lower case, a Greenhouse job with "?gh_jid=", a Microsoft job with "?domain="."""
+    url = strip_tracking(url).split("#")[0].rstrip("/")
+    if _PATH_IS_THE_JOB.search(url):
+        url = url.split("?")[0]
+    url = re.sub(r"^https?://(?:www\.)?", "", url)
+    url = re.sub(r"(myworkdayjobs\.com)/[a-z]{2}-[A-Z]{2}/", r"\1/", url)
+    return url.lower()
+
+
+def is_internal_site(url: str) -> bool:
+    return bool(_INTERNAL_SITE.search(url))
 
 
 @dataclass
