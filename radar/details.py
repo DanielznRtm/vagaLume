@@ -25,6 +25,8 @@ from datetime import date, timedelta
 from typing import Any, Callable
 from urllib.parse import parse_qs, urlparse
 
+import requests
+
 from .http import get_json, get_text
 from .models import Opportunity
 from .pay import from_range
@@ -42,6 +44,12 @@ BUDGET = {"github_lists": 1000, "workday": 700, "smartrecruiters": 300, "iel": 5
 # read one after the other, a few per run. Meta: "$7,313/month to $12,667/month + benefits".
 BROWSER_BUDGET = {"meta": 20}
 REREAD_DAYS = 30
+# The GitHub lists keep a role for days after the company takes it down: their pages are read again
+# every week, so a removed role (the page answers 404) leaves the site soon.
+REREAD_DAYS_BY_SOURCE = {"github_lists": 7}
+# A role whose page is gone is closed, unless that many pages of one source are "gone" in one run
+# (then the site is more likely blocking us than closing them all).
+GONE_LIMIT = 0.3
 WORKERS = 8
 
 
@@ -92,6 +100,10 @@ def _lever(url: str) -> tuple[str, str]:
     return lever_description(job), lever_pay(job)
 
 
+class JobGone(Exception):
+    """The job board says this job no longer exists."""
+
+
 _ASHBY_BOARDS: dict[str, dict[str, Any]] = {}
 
 
@@ -104,7 +116,10 @@ def _ashby(url: str) -> tuple[str, str]:
     if org not in _ASHBY_BOARDS:
         board = get_json(f"https://api.ashbyhq.com/posting-api/job-board/{org}?includeCompensation=true")
         _ASHBY_BOARDS[org] = {str(job.get("id")): job for job in board.get("jobs") or []}
-    job = _ASHBY_BOARDS[org].get(job_id) or {}
+    job = _ASHBY_BOARDS[org].get(job_id)
+    if job is None and _ASHBY_BOARDS[org]:
+        raise JobGone(url)  # the board lists its jobs, and this one isn't there any more
+    job = job or {}
     return str(job.get("descriptionPlain") or html_to_text(str(job.get("descriptionHtml") or ""))), ashby_pay(job)
 
 
@@ -166,32 +181,60 @@ def read(opp: Opportunity) -> bool:
     return True
 
 
+def is_gone(url: str, error: Exception) -> bool:
+    """Does this error mean the job was taken down? 404/410 anywhere; Workday answers 403 for a removed job."""
+    if isinstance(error, JobGone):
+        return True
+    code = getattr(getattr(error, "response", None), "status_code", None)
+    return isinstance(error, requests.HTTPError) and (code in (404, 410) or (code == 403 and "myworkdayjobs.com" in url))
+
+
 def enrich(items: list[Opportunity], conn: sqlite3.Connection, today: str) -> dict[str, int]:
-    """Read the pages of the roles that need it (new ones first). Returns pages read per source."""
+    """Read the pages of the roles that need it (new ones first). Returns pages read per source.
+    A role whose page is gone is closed (opp.is_open = False, detail_checked = "gone <date>")."""
     checked = {row["id"]: row["detail_checked"] for row in conn.execute("SELECT id, detail_checked FROM opportunities")}
-    reread_before = (date.fromisoformat(today) - timedelta(days=REREAD_DAYS)).isoformat()
+
+    def reread_before(source: str) -> str:
+        return (date.fromisoformat(today) - timedelta(days=REREAD_DAYS_BY_SOURCE.get(source, REREAD_DAYS))).isoformat()
+
     queue: list[Opportunity] = []
     for source, budget in BUDGET.items():
+        before = reread_before(source)
         due = [o for o in items if o.source == source and reader_for(o.url)
-               and (not checked.get(o.id) or checked[o.id] < reread_before)]
+               and (not checked.get(o.id) or checked[o.id] < before)]
         due.sort(key=lambda o: o.id in checked)  # roles we have never seen first
         queue += due[:budget]
 
-    def one(opp: Opportunity) -> tuple[Opportunity, bool]:
+    def one(opp: Opportunity) -> tuple[Opportunity, str]:
         try:
-            return opp, read(opp)
+            return opp, "read" if read(opp) else ""
         except Exception as error:  # noqa: BLE001 - a page that fails is tried again next run
+            if is_gone(opp.url, error):
+                return opp, "gone"
             log.debug("details %s: %s", opp.url, error)
-            return opp, False
+            return opp, ""
 
     done: dict[str, int] = {}
+    gone: dict[str, list[Opportunity]] = {}
+    tried: dict[str, int] = {}
     with ThreadPoolExecutor(max_workers=WORKERS) as pool:
-        for opp, ok in pool.map(one, queue):
-            if ok:
+        for opp, outcome in pool.map(one, queue):
+            tried[opp.source] = tried.get(opp.source, 0) + 1
+            if outcome == "read":
                 opp.detail_checked = today
                 done[opp.source] = done.get(opp.source, 0) + 1
+            elif outcome == "gone":
+                gone.setdefault(opp.source, []).append(opp)
+    for source, roles in gone.items():
+        if len(roles) > max(20, GONE_LIMIT * tried[source]):
+            log.warning("%s: %d of %d job pages answered 'gone'; not closing them (blocked?)", source, len(roles), tried[source])
+            continue
+        for opp in roles:
+            opp.is_open, opp.detail_checked = False, f"gone {today}"
+        done[f"{source} closed"] = len(roles)
     for source, budget in BROWSER_BUDGET.items():
-        due = [o for o in items if o.source == source and (not checked.get(o.id) or checked[o.id] < reread_before)]
+        before = reread_before(source)
+        due = [o for o in items if o.source == source and (not checked.get(o.id) or checked[o.id] < before)]
         due.sort(key=lambda o: o.id in checked)
         by_url = {o.url: o for o in due[:budget]}
         try:

@@ -118,9 +118,31 @@ def content_hash(text: str) -> str:
     return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
 
+# The page says this year's applications are over ("The deadline for applications has passed",
+# "Inscrições encerradas"). The program stays in the Programs tab, marked closed, for next year.
+CLOSED = re.compile(
+    r"deadline for (?:the )?applications? (?:has|have) (?:now )?passed|applications? (?:are|is|have|has been) (?:now )?closed"
+    r"|applications? (?:period|window|round) (?:is|has) (?:now )?(?:closed|ended)|(?:call|registration) (?:is|has) (?:now )?closed"
+    r"|(?:we are|we're) no longer accepting applications|applications? closed for (?:the )?20\d\d"
+    r"|inscri[çc][õo]es (?:est[ãa]o |foram )?encerradas|per[íi]odo de inscri[çc][õo]es (?:est[áa] )?encerrado"
+    r"|inscripciones (?:est[áa]n )?cerradas",
+    re.I,
+)
+# ...unless something on the page is still open: a page listing several programs ("Estágio Clariant:
+# Inscrições encerradas", next to "Programa X: Inscreva-se") is not closed.
+STILL_OPEN = re.compile(
+    r"applications? (?:are|is) (?:now )?open\b|now accepting applications|\bapply now\b|apply by\b|accepting applications"
+    r"|inscri[çc][õo]es (?:est[ãa]o )?abertas|inscreva-se|fazer (?:a )?inscri[çc][ãa]o|candidate-se|inscri[çc][õo]es at[ée]",
+    re.I,
+)
+CLOSED_NOTE = "applications closed"
+
+
 def build_opportunity(program: dict[str, Any], text: str, changed: bool, last_changed: str) -> Opportunity:
     """One Opportunity per watched page, with the labels you set in programs.yaml."""
     note = f"page changed on {last_changed}" if changed else f"page unchanged since {last_changed}"
+    if CLOSED.search(text) and not STILL_OPEN.search(text):
+        note = f"{CLOSED_NOTE} · {note}"
     preset = {key: program[key] for key in ("area", "season", "regions", "warnings", "levels") if program.get(key)}
     return Opportunity(
         title=program["name"],

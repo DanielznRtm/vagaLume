@@ -195,6 +195,10 @@ def upsert(conn: sqlite3.Connection, opp: Opportunity, today: str) -> bool:
             values.pop(name, None)
         if opp.deadline == "check page":
             values.pop("deadline")
+    # Its job page said the job is gone (radar/details.py): it stays closed even while a list still shows it.
+    if str(row["detail_checked"] or "").startswith("gone"):
+        values["is_open"] = 0
+        values.pop("detail_checked", None)
     if row["last_seen"] and (date.fromisoformat(today) - date.fromisoformat(row["last_seen"])).days < LAST_SEEN_REFRESH_DAYS:
         values.pop("last_seen")
 
