@@ -173,6 +173,7 @@ greenhouse:
   - {slug: getyourguide, name: GetYourGuide}                  # Switzerland
   - {slug: dataiku, name: Dataiku}                            # France
 lever:
+  - {slug: solopulseco, name: SoloPulse}
   - {slug: palantir, name: Palantir}
   - {slug: spotify, name: Spotify}
   - {slug: zoox, name: Zoox}
