@@ -119,7 +119,11 @@
   .primary:disabled { opacity: .45; cursor: not-allowed; }
   .linkish { background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
   .welcome .fineprint { font-size: .85rem; color: var(--muted); margin: 0; }
-  .resume-hint { display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: baseline; }
+  .resume-hint { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; justify-content: space-between;
+    border-left: 3px solid var(--accent); padding: 10px 0 10px 14px; font-size: .92rem; }
+  .resume-hint > div { flex: 1 1 280px; color: var(--muted); }
+  .resume-hint b { color: var(--ink); }
+  .btn.outline { border-color: var(--accent); color: var(--accent); background: none; font-weight: 600; }
 
   .resume-card { max-width: 700px; gap: 22px; }
   .resume-card h1 { font-size: clamp(1.9rem, 5.4vw, 2.6rem); }
@@ -153,6 +157,9 @@
   .pill-btn svg { color: var(--muted); flex: none; }
   .pill-btn .done { color: var(--good); font-weight: 700; }
   .pill-btn.icon-only { padding: 6px 9px; }
+  .pill-btn.cta { background: var(--accent); border-color: var(--accent); color: var(--surface); font-weight: 600; }
+  .pill-btn.cta svg { color: inherit; }
+  .pill-btn.cta:hover { filter: brightness(1.08); }
   .top-actions { position: relative; }
   .subscribe { position: absolute; right: 0; top: calc(100% + 8px); z-index: 6; width: min(340px, calc(100vw - 32px)); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 8px 24px rgb(0 0 0 / .16); padding: 16px; display: grid; gap: 12px; font-size: .9rem; }
   .subscribe h3 { margin: 0; font-size: 1rem; }
@@ -310,6 +317,9 @@
   }
   @media (hover: none) { .row-main .icon-btn.hide:not([aria-pressed="true"]) { display: none; } }
 
+  .resume-teaser .btn { margin-top: 10px; }
+  .resume-teaser p { margin: 0 0 6px; }
+  .resume-link { text-align: left; font-size: .86rem; }
   .host-note { grid-column: 1 / -1; margin: -6px 0 0; font-size: .82rem; color: var(--muted); }
   .details { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 18px 40px; padding: 6px 14px 18px 50px; background: var(--accent-soft); font-size: .9rem; }
   .details h4 { margin: 0 0 6px; font-size: .95rem; }
@@ -445,7 +455,10 @@
       <button class="linkish" id="skip" data-t="welcome.skip"></button>
     </div>
     <p class="fineprint" id="start-hint" aria-live="polite"></p>
-    <p class="fineprint resume-hint"><span data-t="welcome.resume1"></span><button class="linkish" id="welcome-resume" data-t="welcome.resume2"></button></p>
+    <div class="resume-hint">
+      <div><b data-t="welcome.resume1"></b> <span data-t="welcome.resumeLead"></span></div>
+      <button class="btn outline" id="welcome-resume" data-t="welcome.resume2"></button>
+    </div>
     <p class="fineprint" id="welcome-count"></p>
   </div>
 </section>
@@ -639,7 +652,9 @@ const STRINGS = {
   "top.profileEdit": ["Change your answers", "Alterar suas respostas"],
   "welcome.skip": ["Skip and show everything", "Pular e ver tudo"],
   "welcome.resume1": ["Have a résumé?", "Tem um currículo?"],
-  "welcome.resume2": ["Match it against every role with your AI chat →", "Compare com todas as vagas usando a sua IA →"],
+  "welcome.resume2": ["Match my résumé", "Comparar meu currículo"],
+  "welcome.resumeLead": ["Your AI chat sums it up in a minute, and every role shows which of its skills you already have; the list puts the best matches first.",
+    "A sua IA resume em um minuto, e cada vaga mostra quais das habilidades que ela pede você já tem; a lista põe primeiro as que mais combinam."],
   "welcome.count": [(n, d) => `${n} open roles and programs, updated ${d}. Your answers stay in this browser.`, (n, d) => `${n} vagas e programas abertos, atualizados em ${d}. Suas respostas ficam só neste navegador.`],
   "welcome.loadError": ["Could not load today's data. Reload the page to try again.", "Não foi possível carregar os dados de hoje. Recarregue a página."],
   "level.undergrad.name": ["Bachelor's", "Graduação"], "level.undergrad.hint": ["Undergraduate", "Bacharelado, engenharia, licenciatura"],
@@ -661,7 +676,7 @@ const STRINGS = {
   "field.short.biologicas": ["Biology", "Biológicas"], "field.short.comunicacao": ["Communication", "Comunicação"], "field.short.humanas": ["Humanities", "Humanas"],
   "field.short.arquitetura": ["Architecture", "Arquitetura"], "field.short.outra": ["Other field", "Outra área"],
 
-  "top.resume": ["Match my résumé", "Comparar currículo"], "top.resumeDone": ["Résumé", "Currículo"],
+  "top.resume": ["Match my résumé", "Comparar meu currículo"], "top.resumeDone": ["Résumé", "Currículo"],
   "top.profileNone": ["Set your profile", "Definir perfil"], "top.github": ["Star vagaLume on GitHub", "Dê uma estrela no GitHub"],
   "top.toTop": ["Back to top", "Voltar ao topo"],
   "sub.button": ["Daily updates", "Receber todo dia"],
@@ -705,6 +720,7 @@ const STRINGS = {
   "filters.allSources": ["All sources", "Todas as fontes"], "filters.clear": ["Clear all filters", "Limpar todos os filtros"],
   "filters.clearN": [n => `Clear all filters (${n})`, n => `Limpar todos os filtros (${n})`],
   "chip.fit.good": ["Good fit", "Boas opções"], "chip.fit.check": ["No long shots", "Boas ou a conferir"],
+  "chip.match.none": ["Match your résumé to filter by how well each role fits it", "Compare o seu currículo para filtrar pelo quanto cada vaga combina"],
   "chip.match.strong": ["Strong résumé match", "Currículo: combina muito"], "chip.match.good": ["Good match or better", "Currículo: combina bem ou mais"],
   "pill.search": [q => `Search: “${q}”`, q => `Busca: “${q}”`], "pill.pay": ["States pay", "Com remuneração"],
   "pill.others": ["Showing roles outside your profile", "Mostrando vagas fora do seu perfil"],
@@ -771,6 +787,8 @@ const STRINGS = {
              (i, shown) => `**Vaga:** ${i.title} — ${i.org}\n**Link:** ${i.url}\n**id:** ${i.id}\n\n**O que o vagaLume mostra:**\n${shown}\n\n**O que está errado?** (o valor certo e onde isso aparece na vaga)\n\n`],
   "m.have": [(h, n) => `You have ${h} of the ${n} skills it mentions${n < 3 ? " (too few to judge: the match also weighs area and title)" : ""}`,
              (h, n) => `Você tem ${h} das ${n} habilidades que ela cita${n < 3 ? " (poucas para comparar: a comparação também pesa área e título)" : ""}`],
+  "m.teaser": [n => `This role asks for ${n} ${n === 1 ? "skill" : "skills"}. Match your résumé to see which ones you already have.`,
+    n => `Esta vaga pede ${n} ${n === 1 ? "habilidade" : "habilidades"}. Compare o seu currículo para ver quais você já tem.`],
   "m.haveNone": [n => `None of the ${n} skills it mentions are in your résumé`, n => `Nenhuma das ${n} habilidades citadas está no seu currículo`],
   "m.area": [a => `In one of your areas (${a})`, a => `Numa das suas áreas (${a})`], "m.role": [r => `Title matches “${r}”`, r => `O título bate com “${r}”`],
   "m.noSkills": ["The posting names no skills vagaLume knows. Read it to judge.", "A vaga não cita habilidades que o vagaLume conhece. Leia para avaliar."],
@@ -1651,6 +1669,7 @@ function showApp() {
   $("profile-text").textContent = profileName();
   $("profile-chip").title = hasProfile() ? t("top.profileEdit") : "";
   $("resume-text").innerHTML = resume ? `${esc(t("top.resumeDone"))} <span class="done">✓</span>` : esc(t("top.resume"));
+  $("resume-chip").classList.toggle("cta", !resume);  // until a résumé is in, it is the one filled button at the top
   $("foryou-group").hidden = !hasProfile() && !resume;
   // "Daily updates" appears once there is a bot, a Telegram channel or an e-mail sign-up (config/digest.yaml).
   $("subscribe-btn").hidden = !(DATA?.subscribe?.bot || DATA?.subscribe?.telegram || DATA?.subscribe?.email);
@@ -1834,7 +1853,13 @@ function row(i) {
 }
 function matchDetails(i) {
   const m = i._match;
-  if (!m) return "";
+  if (!m) {
+    // No résumé yet: the skills this posting asks for, and what comparing would show.
+    if (!i.skills?.length) return "";
+    const chips = i.skills.slice(0, 10).map(s => `<span class="skill">${esc(skillName(s))}</span>`).join("");
+    return `<div class="resume-teaser"><h4>${t("match")}</h4><p>${esc(t("m.teaser", i.skills.length))}</p><div class="skill-list">${chips}</div>
+      <button class="btn outline" data-resume="1">${t("welcome.resume2")}</button></div>`;
+  }
   if (!i.skills) return `<div><h4>${t("match")}</h4><p class="muted">${t("m.pending")}</p></div>`;
   const lines = [];
   if (m.area) lines.push(t("m.area", resume.areas.includes(i.area) ? tv("area", i.area) : t(`sub.${(i.subs || []).find(s => resume.areas.includes(s))}`)));
@@ -1943,7 +1968,11 @@ function buildFilters(inTab) {
     const pool = base("match");
     const n0 = pool.filter(i => i._match.level === 0).length, n1 = pool.filter(i => i._match.level === 1).length;
     chipGroup("match", [["strong", t("chip.match.strong"), n0], ["good", t("chip.match.good"), n0 + n1]]);
-  } else chipGroup("match", []);
+  } else {
+    chipGroup("match", []);
+    document.querySelector('.chips[data-filter="match"]').innerHTML =
+      `<button class="linkish resume-link" data-resume="1">${esc(t("chip.match.none"))}</button>`;
+  }
   if (hasProfile()) {
     const pool = base("fit");
     const n0 = pool.filter(i => i._fit.level === 0).length, n1 = pool.filter(i => i._fit.level === 1).length;
@@ -2221,6 +2250,7 @@ document.addEventListener("click", e => {
     return render();
   }
   if (e.target.closest("a")) return;  // links open the posting
+  if (e.target.closest("[data-resume]")) return showResume();
   const toggle = e.target.closest("[data-toggle]");
   if (toggle) {
     const id = toggle.closest(".row").dataset.id;

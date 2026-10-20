@@ -356,8 +356,9 @@ show in their own tabs.
 Fit only sorts and flags. Every role stays on the page unless you filter it
 out yourself.
 
-**Résumé match (no AI inside vagaLume).** Click **Match my résumé** at the
-top (or the link on the first screen):
+**Résumé match (no AI inside vagaLume).** Click **Match my résumé**: the
+filled button at the top, the one on the first screen, or the one in any opened
+role (which already lists the skills that posting asks for):
 
 1. Copy the prompt. It lists the skill names vagaLume knows, so the answer
    uses the same spelling.
