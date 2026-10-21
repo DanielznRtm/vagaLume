@@ -5,7 +5,8 @@ Each board has a public JSON API (or RSS feed) and its own terms, checked on 202
   himalayas  GET https://himalayas.app/jobs/api/search?employment_type=Intern&country=BR&page=N
              Free, no key. Terms: the Apply link must be the job's `applicationLink`, unchanged,
              with a visible link to Himalayas; don't pass the jobs on to other job boards, Google
-             Jobs or LinkedIn (no JobPosting markup); drop jobs once they expire. Up to 5 pages.
+             Jobs or LinkedIn (no JobPosting markup); drop jobs once they expire (a role missing from
+             the board is closed the next day). Up to 5 pages.
              `country=BR` returns jobs open to Brazil, worldwide jobs included.
   remotive   GET https://remotive.com/api/remote-jobs
              Terms: link back to the job's Remotive URL and name Remotive as the source; at most
@@ -160,8 +161,7 @@ def parse_himalayas(payload: dict[str, Any]) -> list[Opportunity]:
             str(job.get("applicationLink") or job.get("guid") or ""), where,
             posted=iso_date(job.get("pubDate") and int(job["pubDate"])), pay=pay,
             description=html_to_text(str(job.get("description") or job.get("excerpt") or "")), hints=hints,
-            deadline=iso_date(job.get("expiryDate") and int(job["expiryDate"])),
-        ))
+        ))  # expiryDate is always pubDate + 60 days, the board's listing time, not an application deadline
     return items
 
 

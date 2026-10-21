@@ -205,7 +205,7 @@ def test_usp_mural_and_vacancy_page():
     iri = next(o for o in items if o.url.endswith("/vagas/1559"))
     assert iri.title == "Estágio no Instituto de Relações Internacionais - USP"
     assert iri.deadline == "2026-10-30" and iri.pay == "R$1,081/mo"
-    assert iri.location == "São Paulo, SP, Brazil" and iri.org == "FFLCH-USP"
+    assert iri.location == "São Paulo, SP, Brazil" and iri.org == "Mural de estágios FFLCH-USP"
     assert "Atendimento ao público" in iri.description and iri.hints == ["student"]
     tutor = next(o for o in items if o.url.endswith("/vagas/1534"))
     assert tutor.pay == "" and tutor.hints == ["unsure-student"]  # "R$ 35" for one weekly hour

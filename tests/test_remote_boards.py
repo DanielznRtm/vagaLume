@@ -42,7 +42,7 @@ def test_himalayas_keeps_students_open_to_brazil():
     assert first.source == "himalayas" and first.remote is True
     assert first.location == "Brazil (remote)"
     assert first.url.startswith("https://himalayas.app/companies/s-p-global/jobs/")  # applicationLink, unchanged
-    assert first.posted_date == "2026-10-18" and first.deadline == "2026-12-17"  # expiryDate
+    assert first.posted_date == "2026-10-18" and first.deadline == "check page"  # expiryDate is only the listing time
     assert first.description and "<" not in first.description
     worldwide = next(o for o in items if o.title == "Growth Intern")
     assert worldwide.location == "Worldwide (remote)"

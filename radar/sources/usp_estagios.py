@@ -28,7 +28,7 @@ from ..textutil import html_to_text
 from . import SourceResult
 
 NAME = "usp_estagios"
-DEFAULT_BOARDS = [{"host": "estagios.fflch.usp.br", "name": "FFLCH-USP"}]
+DEFAULT_BOARDS = [{"host": "estagios.fflch.usp.br", "name": "Mural de estágios FFLCH-USP"}]
 ROW = re.compile(r"<td>\s*<h4>(.*?)</h4>(.*?)</td>\s*<td>\s*<a href=\"(/vagas/\d+)\"", re.S)
 MAX_DETAILS = 60
 

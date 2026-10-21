@@ -643,4 +643,4 @@ quickin:
 
 # USP estágio murals on uspdev/estagios (radar/sources/usp_estagios.py). Checked 2026-10-21.
 usp_estagios:
-  - {host: estagios.fflch.usp.br, name: FFLCH-USP}   # 19 that day
+  - {host: estagios.fflch.usp.br, name: Mural de estágios FFLCH-USP}   # 19 that day
