@@ -13,6 +13,7 @@ import logging
 import sqlite3
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor
 from datetime import date
 from pathlib import Path
 from typing import Any, Callable
@@ -85,7 +86,7 @@ SOURCES: dict[str, Callable[[dict[str, Any], sqlite3.Connection, str], SourceRes
 }
 
 
-def run_source(name: str, config: dict[str, Any], conn: sqlite3.Connection, today: str) -> tuple[list[Opportunity], report.SourceHealth]:
+def run_source(name: str, config: dict[str, Any], conn: sqlite3.Connection | None, today: str) -> tuple[list[Opportunity], report.SourceHealth]:
     """Run one source. Whatever happens inside, this never raises."""
     health = report.SourceHealth(name=name)
     started = time.monotonic()
@@ -104,6 +105,25 @@ def run_source(name: str, config: dict[str, Any], conn: sqlite3.Connection, toda
     log.info("%-13s %-7s %4d items (%d checked, %d problems, %.0fs)",
              name, health.status, health.items, health.checked, len(health.errors), health.seconds)
     return items, health
+
+
+# Sources that need the database run in the main thread (an SQLite connection stays in its own thread).
+NEEDS_DB = {"programs"}
+PARALLEL_SOURCES = 6
+
+
+def collect(names: list[str], config: dict[str, Any], conn: sqlite3.Connection, today: str) -> dict[str, tuple[list[Opportunity], report.SourceHealth]]:
+    """Run the sources side by side: each one asks a different site, one request at a time, so
+    together they take as long as the slowest (Workday, the program pages) instead of the sum."""
+    outcomes: dict[str, tuple[list[Opportunity], report.SourceHealth]] = {}
+    with ThreadPoolExecutor(max_workers=PARALLEL_SOURCES) as pool:
+        running = {name: pool.submit(run_source, name, config, None, today) for name in names if name not in NEEDS_DB}
+        for name in names:
+            if name in NEEDS_DB:
+                outcomes[name] = run_source(name, config, conn, today)
+        for name, future in running.items():
+            outcomes[name] = future.result()
+    return outcomes
 
 
 def dedupe(items: list[Opportunity]) -> list[Opportunity]:
@@ -140,11 +160,10 @@ def run(
     # 1. Collect from every source.
     collected: dict[str, list[Opportunity]] = {}
     health: list[report.SourceHealth] = []
-    for name in SOURCES:
-        if only and name not in only:
-            continue
-        items, source_health = run_source(name, config, conn, today)
-        collected[name] = items
+    names = [name for name in SOURCES if not only or name in only]
+    outcomes = collect(names, config, conn, today)
+    for name in names:  # in the SOURCES order, whatever finished first (dedupe keeps the first copy)
+        collected[name], source_health = outcomes[name]
         health.append(source_health)
     all_items = dedupe([opp for items in collected.values() for opp in items])
 

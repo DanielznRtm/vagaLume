@@ -160,7 +160,7 @@ def build_opportunity(program: dict[str, Any], text: str, changed: bool, last_ch
 
 
 # A university server that times out or answers 503 is often back a few minutes later
-# (DESY, MPIA and KAIST on 2026-10-21): pages that failed get one more try at the end.
+# (DESY, MPIA and KAIST on 2026-10-21): pages that didn't answer get one more try at the end.
 RETRY_PAUSE_SECONDS = 60
 
 
@@ -183,6 +183,9 @@ def fetch(config: dict[str, Any], conn: sqlite3.Connection | None = None, today:
         result.checked += 1
         try:
             result.items.append(_check(program, conn, today))
+        except ValueError as error:  # the page answered, with almost no text: trying again won't help
+            log.warning("Program page %s failed: %s", program.get("name"), error)
+            result.errors.append(f"{program.get('name')}: {error}")
         except Exception as error:  # noqa: BLE001
             log.info("Program page %s failed, trying again later: %s", program.get("name"), error)
             failed.append(program)

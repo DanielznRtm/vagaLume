@@ -766,13 +766,14 @@ programs:
     notes: "the 2027 calendar (e.g. Theoretical Ecology and the Physics of Life school, Jan 18–29, 2027; ML in physics); the URL has the year in it"
 
   # --- Brazil: public-sector estágio programs ----------------------------------
-  - name: TCU Seleção de estagiários (desenvolvimento web, Oracle APEX)
-    org: Tribunal de Contas da União (Brasília)
-    url: https://contas.tcu.gov.br/ords/f?p=701667:101
-    area: SWE
-    season: year-round
-    regions: [Brazil, remote]
-    notes: "graduandos em TI; bolsa R$ 1.500, 20 h/semana, remoto ou presencial no DF; the page says 'Prazo esgotado' until a new round opens (last one Dec–Feb)"
+  # Almost no text from GitHub's servers, even in the browser (2026-10-21):
+  # - name: TCU Seleção de estagiários (desenvolvimento web, Oracle APEX)
+  #   org: Tribunal de Contas da União (Brasília)
+  #   url: https://contas.tcu.gov.br/ords/f?p=701667:101
+  #   area: SWE
+  #   season: year-round
+  #   regions: [Brazil, remote]
+  #   notes: "graduandos em TI; bolsa R$ 1.500, 20 h/semana, remoto ou presencial no DF; the page says 'Prazo esgotado' until a new round opens (last one Dec–Feb)"
 
   - name: Câmara dos Deputados Estágio universitário (vagas disponíveis)
     org: Câmara dos Deputados (Brasília)
@@ -796,14 +797,15 @@ programs:
     regions: [Brazil]
     notes: "selection through CIEE; this page lists every selection process by year"
 
-  - name: MPF Processo seletivo de estágio (nacional)
-    org: Ministério Público Federal
-    url: https://selecaoestagio.mpf.mp.br/
-    render: true  # built by JavaScript
-    applications: "Mar, Jul–Aug"
-    season: year-round
-    regions: [Brazil]
-    notes: "two national rounds a year with an online test, vagas in most states; bolsa R$ 1.320 (graduação) / R$ 2.640 (pós)"
+  # Almost no text from GitHub's servers, even in the browser (2026-10-21):
+  # - name: MPF Processo seletivo de estágio (nacional)
+  #   org: Ministério Público Federal
+  #   url: https://selecaoestagio.mpf.mp.br/
+  #   render: true  # built by JavaScript
+  #   applications: "Mar, Jul–Aug"
+  #   season: year-round
+  #   regions: [Brazil]
+  #   notes: "two national rounds a year with an online test, vagas in most states; bolsa R$ 1.320 (graduação) / R$ 2.640 (pós)"
 
   - name: Embrapa Estágios
     org: Embrapa

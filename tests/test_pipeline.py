@@ -230,3 +230,26 @@ def test_a_partial_source_still_closes_the_roles_of_the_boards_that_answered():
     db.mark_missing_as_closed(conn, "workday", set(), keep_orgs={"Beta"})
     open_orgs = {o.org for o in db.load_all(conn) if o.is_open}
     assert open_orgs == {"Beta"}
+
+
+def test_sources_run_side_by_side_in_the_listed_order(monkeypatch):
+    """The slow sources wait at the same time; the results keep the SOURCES order (dedupe keeps
+    the first copy), and only the program pages get the database (it stays in the main thread)."""
+    import threading
+    import time as clock
+
+    seen = {}
+
+    def source(name, delay):
+        def fetch(config, conn, today):
+            clock.sleep(delay)
+            seen[name] = (conn is not None, threading.current_thread() is threading.main_thread())
+            return SourceResult(items=[make(title=f"{name} Intern", url=f"https://e.com/{name}")], checked=1)
+        return fetch
+
+    monkeypatch.setattr(main, "SOURCES", {"slow": source("slow", 0.3), "programs": source("programs", 0), "fast": source("fast", 0)})
+    started = clock.monotonic()
+    outcomes = main.collect(["slow", "programs", "fast"], {}, db.connect(":memory:"), "2026-10-21")
+    assert list(outcomes) and set(outcomes) == {"slow", "programs", "fast"}
+    assert seen == {"slow": (False, False), "programs": (True, True), "fast": (False, False)}
+    assert clock.monotonic() - started < 0.6
