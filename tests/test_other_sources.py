@@ -11,7 +11,7 @@ from radar.sources import amazon, google, gupy, nvidia, programs
 
 
 def test_gupy_reads_the_json_api():
-    items = gupy.parse(fixture_json("gupy_api.json"))
+    items = gupy.parse(fixture_json("gupy_api.json"), today=date(2026, 10, 15))
     titles = [o.title for o in items]
     assert "Analista de Dados Pleno" not in titles  # not a student role
     assert len(items) == 5
@@ -33,8 +33,18 @@ def test_gupy_skips_jobs_of_switched_off_pages():
     assert gupy.to_opportunity(job | {"jobUrl": "https://terras.gupy.io/job/eyJqb2JJZCI6MTUyNDA1NX0="}) is not None
 
 
+def test_gupy_leaves_out_jobs_published_over_a_year_ago_except_talent_pools():
+    from datetime import date
+
+    old = {"name": "Estágio Tecnologia", "type": "vacancy_type_internship", "careerPageName": "Safra",
+           "jobUrl": "https://venhasersafra.gupy.io/job/x", "publishedDate": "2023-12-05T10:00:00.000Z", "state": "São Paulo", "city": "São Paulo"}
+    assert gupy.to_opportunity(old, today=date(2026, 10, 21)) is None
+    assert gupy.to_opportunity(old | {"name": "Banco de Talentos - Estágio"}, today=date(2026, 10, 21)) is not None
+    assert gupy.to_opportunity(old | {"publishedDate": "2026-09-01T10:00:00.000Z"}, today=date(2026, 10, 21)) is not None
+
+
 def test_gupy_trainee_without_place_or_dates():
-    trainee = gupy.parse(fixture_json("gupy_api.json"))[-1]
+    trainee = gupy.parse(fixture_json("gupy_api.json"), today=date(2026, 10, 15))[-1]
     assert trainee.hints == ["unsure-student"]  # trainee: maybe for recent graduates
     assert trainee.location == "Brazil (remote)" and trainee.remote
     assert trainee.posted_date == "" and trainee.deadline == "check page"

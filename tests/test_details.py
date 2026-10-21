@@ -125,3 +125,21 @@ def test_many_gone_pages_at_once_look_like_a_block_and_close_nothing(monkeypatch
     roles = [role(f"https://acme.wd1.myworkdayjobs.com/en-US/Careers/job/US/Intern_R{n}") for n in range(30)]
     assert details.enrich(roles, conn, "2026-10-19") == {}
     assert all(o.is_open for o in roles)
+
+
+def test_gupy_closed_jobs_and_dead_company_pages_close_the_role(monkeypatch):
+    import pytest as _pytest
+
+    closed = '<script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"job":{"status":"closed"}}}}</script>'
+    open_ = closed.replace('"closed"', '"published"')
+    monkeypatch.setattr(details, "get_text", lambda url: closed)
+    with _pytest.raises(details.JobGone):
+        details._gupy("https://safra.gupy.io/job/abc")
+    monkeypatch.setattr(details, "get_text", lambda url: open_)
+    assert details._gupy("https://safra.gupy.io/job/abc") == (" ", "")
+    # A GitHub-list link with no reader of its own: "position has been filled" closes it.
+    monkeypatch.setattr(details, "get_text", lambda url: "<h1>Data Intern</h1><p>This position has been filled.</p>")
+    assert details.reader_for("https://careers.hydro.com/job/1", "github_lists") is details._page_or_gone
+    assert details.reader_for("https://www.tesla.com/careers/1", "github_lists") is None  # it blocks bots: no answer
+    with _pytest.raises(details.JobGone):
+        details._page_or_gone("https://careers.hydro.com/job/1")

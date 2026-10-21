@@ -301,6 +301,7 @@ def fetch(config: dict[str, Any]) -> SourceResult:
                 result.checked += 1
                 log.warning("Workday %s failed: %s", site.get("tenant"), outcome)
                 result.errors.append(f"{site.get('name') or site.get('tenant')}: {outcome}")
+                result.failed_orgs.add(str(site.get("name") or site["tenant"]))
             else:
                 items, requests_made = outcome
                 result.items.extend(items)

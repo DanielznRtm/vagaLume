@@ -24,3 +24,6 @@ class SourceResult:
     errors: list[str] = field(default_factory=list)
     # How many boards / pages / queries we tried (for the health table).
     checked: int = 0
+    # Companies whose board failed this run (as their roles' `org`). The roles of every other
+    # company are complete, so the ones they no longer list can be closed (radar/main.py).
+    failed_orgs: set[str] = field(default_factory=set)

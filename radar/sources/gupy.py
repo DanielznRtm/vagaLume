@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import logging
 import re
+from datetime import date, timedelta
 from typing import Any
 from urllib.parse import urlencode
 
@@ -91,9 +92,20 @@ def company_name(name: str, job_url: str) -> str:
 INACTIVE_PAGE = re.compile(r"^https?://[^/]*(?:&|\binactive\b)", re.I)
 
 
-def to_opportunity(job: dict[str, Any]) -> Opportunity | None:
+# The portal's search also returns jobs published years ago, nearly all closed (a sample of
+# pre-2025 estágios: 12 of 14 closed or gone). Talent pools ("Banco de talentos") stay open for long.
+MAX_AGE_DAYS = 365
+TALENT_POOL = re.compile(r"banco de (?:talentos|curr[íi]culos)|talent pool", re.I)
+
+
+def to_opportunity(job: dict[str, Any], today: date | None = None) -> Opportunity | None:
     """One Gupy job -> Opportunity, or None when it isn't a student role at all or is closed."""
     if INACTIVE_PAGE.search(str(job.get("jobUrl") or "")):
+        return None
+    published = iso_date(job.get("publishedDate"))
+    cutoff = ((today or date.today()) - timedelta(days=MAX_AGE_DAYS)).isoformat()
+    if published and published < cutoff and job.get("type") != "vacancy_type_talent_pool" \
+            and not TALENT_POOL.search(str(job.get("name") or "")):
         return None
     title = str(job.get("name", "")).strip()
     job_type = str(job.get("type", ""))
@@ -121,11 +133,11 @@ def to_opportunity(job: dict[str, Any]) -> Opportunity | None:
     )
 
 
-def parse(payload: dict[str, Any]) -> list[Opportunity]:
+def parse(payload: dict[str, Any], today: date | None = None) -> list[Opportunity]:
     """One page of the JSON API."""
     if not isinstance(payload, dict) or not isinstance(payload.get("data"), list):
         raise ValueError("unexpected answer from the Gupy API (no 'data' list)")
-    return [opp for job in payload["data"] if (opp := to_opportunity(job))]
+    return [opp for job in payload["data"] if (opp := to_opportunity(job, today))]
 
 
 def _search(result: SourceResult, seen: set[str], params: dict[str, Any], students_only: bool) -> None:

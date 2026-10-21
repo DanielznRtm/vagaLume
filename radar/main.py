@@ -79,6 +79,7 @@ def run_source(name: str, config: dict[str, Any], conn: sqlite3.Connection, toda
     try:
         result = SOURCES[name](config, conn, today)
         health.items, health.checked, health.errors = len(result.items), result.checked, result.errors
+        health.failed_orgs = set(result.failed_orgs)
         if result.errors:
             # Everything failed -> "failed"; some parts failed -> "partial".
             health.status = "failed" if not result.items else "partial"
@@ -147,13 +148,17 @@ def run(
         done = llm.refine_labels(fresh)
         labeled_by = f"keyword rules + Claude ({done} new items)"
 
-    # 3. Store. A source that worked completely also tells us which of its
-    #    old postings disappeared (= closed). Failed/partial sources don't.
+    # 3. Store. A source that worked also tells us which of its old postings disappeared (= closed).
+    #    A partial source whose failures were whole companies' boards (one Workday site answered 429)
+    #    still tells us for every other company; a source that failed in another way doesn't.
     for opp in all_items:
         db.upsert(conn, opp, today)
     for h in health:
+        seen = {o.id for o in collected[h.name] if o.is_open}
         if h.status == "ok":
-            db.mark_missing_as_closed(conn, h.name, {o.id for o in collected[h.name] if o.is_open})
+            db.mark_missing_as_closed(conn, h.name, seen)
+        elif h.status == "partial" and h.failed_orgs and len(h.failed_orgs) == len(h.errors):
+            db.mark_missing_as_closed(conn, h.name, seen, keep_orgs=h.failed_orgs)
     db.close_stale(conn, today)
     apply_status_file(conn, config.get("status") or {})
     conn.commit()

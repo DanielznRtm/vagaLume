@@ -32,4 +32,5 @@ def fetch_boards(
             message = f"{org} ({slug}): {error}"
             log.warning("%s board failed: %s", source_name, message)
             result.errors.append(message)
+            result.failed_orgs.add(org)
     return result
