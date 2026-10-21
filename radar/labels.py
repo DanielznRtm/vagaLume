@@ -242,7 +242,7 @@ BRAZIL = [
 BRAZIL_STATE_CODES = r",\s*(SP|RJ|MG|RS|BA|PE|CE|DF|GO|ES|AM|PB|RN|PI|SE|TO|RO|RR|AP|AC|PR)\b|\bBRA\b"
 LATAM = [
     r"MEX", r"ARG", r"CHL", r"COL", r"PER", r"URY", r"CRI",  # ISO country codes (checked case-sensitively below)
-    r"mexico", r"m[ée]xico", r"guadalajara", r"monterrey", r"argentina", r"buenos aires", r"chile",
+    r"(?<!new )mexico", r"m[ée]xico", r"bolivia", r"puerto rico", r"guadalajara", r"monterrey", r"argentina", r"buenos aires", r"chile",
     r"santiago", r"colombia", r"bogot[áa]", r"medell[íi]n", r"per[uú]", r"(?<!nova )(?<!abreu e )lima(?! duarte)", r"uruguay", r"montevideo",
     # districts Gupy sends without a country (Peru, Chile)
     r"surco", r"chincha", r"lurigancho", r"miraflores", r"callao", r"arequipa", r"las condes", r"providencia",
@@ -282,9 +282,9 @@ EUROPE = [
     r"ireland", r"dublin", r"france", r"paris", r"germany", r"deutschland", r"berlin", r"munich", r"regensburg", r"warstein", r"dresden", r"neubiberg",
     r"m[üu]nchen", r"hamburg", r"frankfurt", r"netherlands", r"amsterdam", r"switzerland", r"zurich",
     r"z[üu]rich", r"geneva", r"lausanne", r"austria", r"vienna", r"klosterneuburg", r"spain", r"madrid",
-    r"barcelona", r"portugal", r"lisbon", r"porto(?! alegre)", r"italy", r"milan", r"rome", r"sweden", r"stockholm",
+    r"barcelona", r"portugal", r"lisbon", r"porto(?! (?:alegre|velho|nacional|feliz|ferreira|seguro|belo|real))", r"italy", r"milan", r"rome", r"sweden", r"stockholm",
     r"denmark", r"copenhagen", r"norway", r"oslo", r"finland", r"helsinki", r"poland", r"warsaw",
-    r"krak[óo]w", r"prague", r"czech", r"belgium", r"brussels", r"ghent", r"luxembourg", r"budapest",
+    r"krak[óo]w", r"prague", r"czech\w*", r"belgium", r"brussels", r"ghent", r"luxembourg", r"budapest",
     r"hungary", r"romania", r"bucharest", r"greece", r"athens", r"estonia", r"tallinn", r"europe", r"emea",
     r"cambridge, uk", r"t[üu]bingen", r"lyon", r"grenoble", r"serbia", r"belgrade", r"ukraine", r"kyiv",
     r"slovakia", r"bratislava", r"croatia", r"zagreb", r"bulgaria", r"sofia", r"lithuania", r"vilnius",
@@ -346,8 +346,85 @@ _LATAM_COUNTRIES = (r"\b(?:m[eé]xico|argentina|chile|colombia|per[uú]|uruguay|
                     r"|costa rica|panam[aá]|guatemala|MEX|CHL|ARG|COL|PER|CRI)\b")
 
 
+# ", VA" or ", ON" at the end of a place: a US state or Canadian province (not "NYC" or "SF" inside a sentence).
+_US_STATE_AT_END = US_STATE_CODES.split(r"|\b(USA")[0]
+
+# A place that ends with its country ("Madrid, MD, Spain", "Porto Velho, RO, Brazil", "Albuquerque,
+# New Mexico, United States") is in that country: its city and "state code" are not read again, so
+# "MD" isn't Maryland, "Porto" isn't Portugal and "New Mexico" isn't Mexico.
+COUNTRY_REGION: dict[str, str] = {
+    **dict.fromkeys(["brazil", "brasil", "bra", "br"], "Brazil"),
+    **dict.fromkeys(["united states", "united states of america", "usa", "us", "u.s.", "canada"], "US/Canada"),
+    **dict.fromkeys(["mexico", "méxico", "argentina", "chile", "colombia", "peru", "perú", "uruguay", "paraguay", "bolivia",
+                     "ecuador", "venezuela", "costa rica", "panama", "panamá", "guatemala", "el salvador", "honduras",
+                     "dominican republic", "república dominicana", "nicaragua", "cuba", "puerto rico"], "LatAm"),
+    **dict.fromkeys(["united kingdom", "uk", "england", "scotland", "wales", "northern ireland", "ireland", "france", "germany",
+                     "deutschland", "spain", "españa", "portugal", "italy", "italia", "netherlands", "the netherlands",
+                     "belgium", "switzerland", "austria", "sweden", "norway", "denmark", "finland", "iceland", "poland",
+                     "czechia", "czech republic", "slovakia", "hungary", "romania", "bulgaria", "greece", "croatia",
+                     "slovenia", "serbia", "estonia", "latvia", "lithuania", "luxembourg", "malta", "cyprus", "monaco",
+                     "ukraine", "bosnia and herzegovina", "north macedonia", "albania", "montenegro", "moldova",
+                     "türkiye", "turkey"], "Europe"),
+    **dict.fromkeys(["china", "india", "japan", "south korea", "korea", "singapore", "hong kong", "taiwan", "malaysia",
+                     "thailand", "vietnam", "indonesia", "philippines", "australia", "new zealand", "israel",
+                     "united arab emirates", "uae", "saudi arabia", "qatar", "kuwait", "bahrain", "oman", "jordan",
+                     "egypt", "morocco", "south africa", "nigeria", "kenya", "ghana", "tunisia", "algeria", "senegal",
+                     "benin", "pakistan", "bangladesh", "sri lanka", "myanmar", "cambodia", "kazakhstan", "armenia",
+                     "georgia (country)", "lebanon"], "Asia/ME"),
+}
+# "US-IA-CEDAR RAPIDS-182", "CA-QC-LONGUEUIL", "PL-18-RZESZOW", "USA - New York - Malta": the country comes first.
+_LEADING_CODE = re.compile(r"^\s*(USA?|CA|MX|BR|BRA|PL|DE|FR|GB|UK|IN|CN|JP|SG|IT|ES|NL|CH|SE|IE|IL)\s*[-–,]")
+_CODE_REGION = {"US": "US/Canada", "USA": "US/Canada", "CA": "US/Canada", "MX": "LatAm", "BR": "Brazil", "BRA": "Brazil",
+                "IN": "Asia/ME", "CN": "Asia/ME", "JP": "Asia/ME", "SG": "Asia/ME", "IL": "Asia/ME"}
+
+
+def _named_country(part: str) -> str:
+    """The region of the country a place names at its end (or starts with as a code); "" if none."""
+    clean = re.sub(r"\((?:remote|hybrid|on-site|remoto|h[íi]brido|presencial)\)", "", part, flags=re.I).strip(" ,.-")
+    segments = [x.strip().lower() for x in clean.split(",")]
+    last = segments[-1]
+    # "London, Montreal, Hong Kong, New York, Singapore" is a list of cities, not a place in Singapore.
+    middle = segments[1:-1]
+    if len(segments) > 3 and not all(len(x) <= 3 or x == last for x in middle):
+        return ""
+    if len(segments) == 3 and last in COUNTRY_REGION and middle[0] and len(middle[0]) > 3:
+        # "London, Montreal, Singapore" (the first is already somewhere else) vs "Ilhéus, Bahia, Brazil".
+        first_regions = [r for r in _regions_by_words(segments[0]) if r != "remote"]
+        if first_regions and COUNTRY_REGION[last] not in first_regions:
+            return ""
+    if last in COUNTRY_REGION:
+        return COUNTRY_REGION[last]
+    first = clean.split(",", 1)[0].strip().lower()  # "Costa Rica, San Jose" (not "Lebanon, PA": a US town)
+    if "," in clean and first in COUNTRY_REGION and len(first) > 3 and not re.fullmatch(r"[A-Z]{2}", clean.rsplit(",", 1)[-1].strip()):
+        return COUNTRY_REGION[first]
+    match = _LEADING_CODE.match(clean)
+    if match:
+        return _CODE_REGION.get(match.group(1).upper(), "Europe")
+    return ""
+
+
 def classify_regions(location: str, remote: bool = False) -> list[str]:
     """Return every region that the location string mentions."""
+    regions: list[str] = []
+    rest: list[str] = []
+    for part in re.split(r"\s/\s|;|\|", location):
+        country = _named_country(part)
+        if country:
+            regions.append(country)
+        elif part.strip():
+            rest.append(part)
+    for part in rest:
+        regions += [r for r in _regions_by_words(part) if r not in regions]
+    if remote or REMOTE_PLACE.search(location) or re.search(r"\banywhere\b|\bworldwide\b|home[- ]based", location, re.I):
+        if re.search(r"(?i:remote)[^/;]*\b(?:US|USA)\b|\b(?:US|USA)\b[^/;]*(?i:remote)", location) and "US/Canada" not in regions:
+            regions.append("US/Canada")  # "Remote (US)", "Remote, US"
+        regions.append("remote")
+    ordered = [r for r in ("Brazil", "LatAm", "US/Canada", "Europe", "Asia/ME", "remote") if r in regions]
+    return ordered or ["unknown"]
+
+
+def _regions_by_words(location: str) -> list[str]:
+    """Regions from city names and state codes, for places that don't name their country."""
     regions: list[str] = []
     checks = [
         ("Brazil", BRAZIL, BRAZIL_STATE_CODES),
@@ -366,9 +443,16 @@ def classify_regions(location: str, remote: bool = False) -> list[str]:
     # "Boise, ID" -> US, but "Berlin, DE" was already recognised as Europe.
     if not regions and re.search(US_AMBIGUOUS_CODES, location):
         regions.append("US/Canada")
-    if remote or REMOTE_PLACE.search(location) or re.search(r"\banywhere\b|\bworldwide\b|home[- ]based", location, re.I):
-        regions.append("remote")
-    return regions or ["unknown"]
+    # "Vienna, VA", "Melbourne, FL", "London, Ontario": a US state (or Canadian province) at the end
+    # says the country; the city's European or Australian namesake doesn't count.
+    us_end = re.search(rf"{_US_STATE_AT_END}\s*(?:\(|$)", location.strip()) or location.count(",") == 1 and re.search(
+        r",\s*(?:ontario|quebec|british columbia|alberta|wisconsin|massachusetts|pennsylvania|illinois|indiana|colorado|"
+        r"virginia|georgia|ohio|michigan|minnesota|texas|california|washington|oregon|arizona|florida|new york|new jersey|"
+        r"north carolina|south carolina|tennessee|kentucky|missouri|maryland|connecticut|utah|alabama|iowa|kansas|"
+        r"nebraska|nevada|new mexico|louisiana|oklahoma|arkansas|mississippi|idaho|montana|delaware|maine)\s*$", location.strip(), re.I)
+    if "US/Canada" in regions and us_end and "Brazil" not in regions:
+        regions = ["US/Canada"]
+    return regions
 
 
 # ---------------------------------------------------------------------------

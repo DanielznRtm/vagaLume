@@ -271,3 +271,23 @@ def test_word_lists_are_compiled_once_and_match_like_one_search_per_word():
 ])
 def test_summer_in_the_south_is_december_to_february(title, place, season):
     assert apply_rules(Opportunity(title=title, org="X", source="workday", url=title + place, location=place)).season == season
+
+
+@pytest.mark.parametrize("location, regions", [
+    ("Madrid, MD, Spain", ["Europe"]),  # MD is a Spanish region here, not Maryland
+    ("Vargarda, SE, Sweden", ["Europe"]),  # not Sergipe
+    ("Porto Velho, RO, Brazil", ["Brazil"]),  # not Portugal
+    ("US, New Mexico, Albuquerque", ["US/Canada"]),
+    ("Mexico City, Distrito Federal, Mexico", ["LatAm"]),
+    ("San Salvador, , El Salvador", ["LatAm"]),
+    ("Vienna, VA", ["US/Canada"]),
+    ("Melbourne, FL", ["US/Canada"]),
+    ("US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182", ["US/Canada"]),
+    ("PL-18-RZESZOW", ["Europe"]),
+    ("Prague, Czechia", ["Europe"]),
+    ("Remote (US)", ["US/Canada", "remote"]),
+    ("London, Montreal, Singapore", ["US/Canada", "Europe", "Asia/ME"]),  # a list of cities
+    ("Costa Rica, San Jose", ["LatAm"]),
+])
+def test_the_country_a_place_names_wins(location, regions):
+    assert classify_regions(location) == regions
