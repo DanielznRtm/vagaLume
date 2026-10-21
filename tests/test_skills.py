@@ -45,3 +45,13 @@ def test_apply_rules_fills_skills() -> None:
 
 def test_names_are_unique() -> None:
     assert len(NAMES) == len(set(NAMES))
+
+
+def test_boilerplate_is_not_a_skill():
+    """Equal-opportunity text, "your recruiter" and "follow us on Instagram" are on every posting."""
+    blurb = ("Software Engineer Intern. Your Recruiting Partner will contact you. We are in compliance with all applicable laws. "
+             "Follow us on Instagram and LinkedIn. Our sales team serves 100 countries.")
+    assert not {"Recruiting (HR)", "Compliance", "Social media", "Sales"} & set(find_skills(blurb))
+    assert "Recruiting (HR)" in find_skills("Estágio em Recrutamento e Seleção")
+    assert "Social media" in find_skills("Estágio em Marketing: criação de conteúdo para redes sociais")
+    assert "Compliance" in find_skills("Estágio Compliance: apoio à área de compliance, KYC")

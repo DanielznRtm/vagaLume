@@ -1,0 +1,523 @@
+{
+ "comments": "Search results come 20 to a page. Pass ?page=2, ?page=3 and so on for more; there is no cursor on search. Cursor pagination (nextCursor) is only on /jobs/api, the browse feed. 13/03/2026: The API has been updated to include the companySlug field in the response.",
+ "updatedAt": 1792351683,
+ "offset": 0,
+ "limit": 20,
+ "totalCount": 88,
+ "jobs": [
+  {
+   "title": "Agribusiness Intern (Early Careers)",
+   "excerpt": "About the Role:Grade Level (for internal use):05S&P Global Agribusiness consultant team is part of the S&P Global team of energy and agribusiness consultants and serves clients across the spectrum of agricultural value chains, e.",
+   "companyName": "S&P Global",
+   "companySlug": "s-p-global",
+   "companyLogo": "https://cdn-images.himalayas.app/kkmv72kx2xnbftnekna64zf8sbwj",
+   "employmentType": "Intern",
+   "minSalary": null,
+   "maxSalary": null,
+   "salaryPeriod": "annual",
+   "seniority": [
+    "Entry-level"
+   ],
+   "currency": null,
+   "locationRestrictions": [
+    "Brazil"
+   ],
+   "timezoneRestrictions": [
+    -5,
+    -4,
+    -3,
+    -2
+   ],
+   "categories": [
+    "Agribusiness-Intern",
+    "Agronomy-Intern",
+    "Market-Research-Intern",
+    "Agricultural-Researcher",
+    "Agribusiness-Consulting",
+    "Entry-Level-Business-Development-Associate-In-Agriculture"
+   ],
+   "parentCategories": [],
+   "description": "<h3><b>About the Role:</b></h3><h3>Grade Level (for internal use):</h3>05<p>S&amp;P Global Agribusiness consultant team is part of the S&amp;P Global team of energy and agribusiness consultants and serves clients across the spectrum of agricultural v",
+   "pubDate": 1792351683,
+   "expiryDate": 1797535683,
+   "applicationLink": "https://himalayas.app/companies/s-p-global/jobs/agribusiness-intern-early-careers?utm_source=api",
+   "guid": "https://himalayas.app/companies/s-p-global/jobs/agribusiness-intern-early-careers"
+  },
+  {
+   "title": "Estagiário em Sucesso do Cliente (vaga remota)",
+   "excerpt": "Estagiário(a) de Atendimento ao Cliente - Pós-venda (vaga 100% remota)Estamos em busca de uma pessoa proativa e comunicativa para atuar na área de Atendimento ao Cliente, com foco em pós-venda.",
+   "companyName": "Órulo",
+   "companySlug": "orulo",
+   "companyLogo": "https://cdn-images.himalayas.app/fblqnq1manw92q7u0e764hl3t8r2",
+   "employmentType": "Intern",
+   "minSalary": null,
+   "maxSalary": null,
+   "salaryPeriod": "annual",
+   "seniority": [
+    "Entry-level"
+   ],
+   "currency": null,
+   "locationRestrictions": [
+    "Brazil"
+   ],
+   "timezoneRestrictions": [
+    -5,
+    -4,
+    -3,
+    -2
+   ],
+   "categories": [
+    "Customer-Service-Intern",
+    "Customer-Success-Intern",
+    "After-Sales-Intern",
+    "Customer-Experience-Intern",
+    "Analista-De-Sucesso-Do-Cliente",
+    "Remote-Client-Success-Specialist",
+    "Estagiário"
+   ],
+   "parentCategories": [],
+   "description": "<h3>Estagiário(a) de Atendimento ao Cliente -  Pós-venda (vaga 100% remota)</h3><p>Estamos em busca de uma pessoa proativa e comunicativa para atuar na área de Atendimento ao Cliente, com foco em pós-venda. </p><p>Se você gosta de lidar com pessoas, ",
+   "pubDate": 1792328714,
+   "expiryDate": 1797512713,
+   "applicationLink": "https://himalayas.app/companies/orulo/jobs/estagiario-em-sucesso-do-cliente-vaga-remota?utm_source=api",
+   "guid": "https://himalayas.app/companies/orulo/jobs/estagiario-em-sucesso-do-cliente-vaga-remota"
+  },
+  {
+   "title": "AI Research Lab Co-Founder / CMO (100 % remote) (m/f/d)",
+   "excerpt": "We are looking to hire ambitious entrepreneurs to start and scale their own startups.",
+   "companyName": "EWOR GmbH",
+   "companySlug": "ewor-gmbh",
+   "companyLogo": "https://cdn-images.himalayas.app/mzfjnameg78wsqgnqdccysf7eg22",
+   "employmentType": "Intern",
+   "minSalary": null,
+   "maxSalary": null,
+   "salaryPeriod": "annual",
+   "seniority": [
+    "Executive"
+   ],
+   "currency": null,
+   "locationRestrictions": [],
+   "timezoneRestrictions": [
+    -11,
+    -10,
+    -9.5,
+    -9,
+    -8,
+    -7,
+    -6,
+    -5,
+    -4,
+    -3.5,
+    -3,
+    -2,
+    -1,
+    0,
+    1,
+    2,
+    3,
+    3.5,
+    4,
+    4.5,
+    5,
+    5.5,
+    5.75,
+    6,
+    6.5,
+    7,
+    8,
+    8.75,
+    9,
+    9.5,
+    10,
+    10.5,
+    11,
+    12,
+    12.75,
+    13,
+    14
+   ],
+   "categories": [
+    "Co-Founder",
+    "Chief-Marketing-Officer",
+    "Entrepreneur",
+    "Startup-Founder",
+    "Marketing-Executive",
+    "AI-Research-Lab-Co-Founder",
+    "AI-Research-Lab-Leadership-Co-Founder"
+   ],
+   "parentCategories": [
+    "Management"
+   ],
+   "description": "<p>We are looking to hire ambitious entrepreneurs to start and scale their own startups.</p><p>We are serial entrepreneurs, for example Paul Müller (founder Adjust, €1.2B exit) and Petter Made (founder SumUp, €8B) who are eager to support outlier per",
+   "pubDate": 1792284066,
+   "expiryDate": 1797468065,
+   "applicationLink": "https://himalayas.app/companies/ewor-gmbh/jobs/ai-research-lab-co-founder-cmo-100-remote-m-f-d-5545667816?utm_source=api",
+   "guid": "https://himalayas.app/companies/ewor-gmbh/jobs/ai-research-lab-co-founder-cmo-100-remote-m-f-d-5545667816"
+  },
+  {
+   "title": "Senior Back-End Engineer Intern",
+   "excerpt": "This is an unpaid internship at this time and is suitable for candidates pursuing degree completion that wants to be a Senior Back-End Engineer.",
+   "companyName": "Flowai",
+   "companySlug": "flowai",
+   "companyLogo": "https://cdn-images.himalayas.app/gw4jj975dtmbsibvf4ldga409h1u",
+   "employmentType": "Intern",
+   "minSalary": null,
+   "maxSalary": null,
+   "salaryPeriod": "annual",
+   "seniority": [
+    "Entry-level"
+   ],
+   "currency": "USD",
+   "locationRestrictions": [],
+   "timezoneRestrictions": [
+    -11,
+    -10,
+    -9.5,
+    -9,
+    -8,
+    -7,
+    -6,
+    -5,
+    -4,
+    -3.5,
+    -3,
+    -2,
+    -1,
+    0,
+    1,
+    2,
+    3,
+    3.5,
+    4,
+    4.5,
+    5,
+    5.5,
+    5.75,
+    6,
+    6.5,
+    7,
+    8,
+    8.75,
+    9,
+    9.5,
+    10,
+    10.5,
+    11,
+    12,
+    12.75,
+    13,
+    14
+   ],
+   "categories": [
+    "Backend-Engineer",
+    "Django-Developer",
+    "Python-Developer",
+    "Software-Engineer",
+    "Backend-Engineering-Intern",
+    "Backend-Developer-Intern",
+    "Backend-Development-Intern",
+    "Backend-Development-Internship",
+    "Software-Engineer-Intern"
+   ],
+   "parentCategories": [
+    "Developer"
+   ],
+   "description": "<p><strong>This is an unpaid internship at this time and is suitable for candidates pursuing degree completion that wants to be a Senior Back-End Engineer.Company Overview:</strong></p><p>Flow Global Software Technologies, LLC., operating in the Info",
+   "pubDate": 1792191527,
+   "expiryDate": 1797375526,
+   "applicationLink": "https://himalayas.app/companies/flowai/jobs/senior-back-end-engineer-intern?utm_source=api",
+   "guid": "https://himalayas.app/companies/flowai/jobs/senior-back-end-engineer-intern"
+  },
+  {
+   "title": "Growth Intern",
+   "excerpt": "About LatticaLattica’s mission is to turn prediction markets into the largest asset class on Earth and, along the way, make traders an ungodly amount of money.",
+   "companyName": "Lattica",
+   "companySlug": "lattica",
+   "companyLogo": "https://cdn-images.himalayas.app/8rmerrhfqo042uz9w4q29g8vsx04",
+   "employmentType": "Intern",
+   "minSalary": null,
+   "maxSalary": null,
+   "salaryPeriod": "annual",
+   "seniority": [
+    "Entry-level"
+   ],
+   "currency": "USD",
+   "locationRestrictions": [],
+   "timezoneRestrictions": [
+    -11,
+    -10,
+    -9.5,
+    -9,
+    -8,
+    -7,
+    -6,
+    -5,
+    -4,
+    -3.5,
+    -3,
+    -2,
+    -1,
+    0,
+    1,
+    2,
+    3,
+    3.5,
+    4,
+    4.5,
+    5,
+    5.5,
+    5.75,
+    6,
+    6.5,
+    7,
+    8,
+    8.75,
+    9,
+    9.5,
+    10,
+    10.5,
+    11,
+    12,
+    12.75,
+    13,
+    14
+   ],
+   "categories": [
+    "Growth-Specialist-Intern",
+    "Marketing-Intern",
+    "Business-Development-Intern",
+    "Sales-Intern",
+    "Growth-Marketing-Intern",
+    "Growth-Internships",
+    "Growth-Operations-Intern",
+    "Growth-Hacking-Intern",
+    "Entry-Level-Growth-Marketing-Associate",
+    "Marketing",
+    "Growth"
+   ],
+   "parentCategories": [
+    "Marketing"
+   ],
+   "description": "<h3><strong>About <a href=\"https://himalayas.app/companies/lattica\">Lattica</a></strong></h3><p><a href=\"https://himalayas.app/companies/lattica\">Lattica</a>’s mission is to turn prediction markets into the largest asset class on Earth and, along the",
+   "pubDate": 1791947326,
+   "expiryDate": 1797131325,
+   "applicationLink": "https://himalayas.app/companies/lattica/jobs/growth-intern?utm_source=api",
+   "guid": "https://himalayas.app/companies/lattica/jobs/growth-intern"
+  },
+  {
+   "title": "Estágio de Marketing (CLM)",
+   "excerpt": "Aqui na HostGator trabalhamos para que cada vez mais empreendedores possam tirar suas ideias do papel, transformando-as em negócios de sucesso na internet!",
+   "companyName": "Newfold Digital",
+   "companySlug": "newfold-digital",
+   "companyLogo": "https://cdn-images.himalayas.app/zatxmg0ucn23bp621zf3lp44kh4j",
+   "employmentType": "Intern",
+   "minSalary": null,
+   "maxSalary": null,
+   "salaryPeriod": "annual",
+   "seniority": [
+    "Entry-level"
+   ],
+   "currency": null,
+   "locationRestrictions": [
+    "Brazil"
+   ],
+   "timezoneRestrictions": [
+    -5,
+    -4,
+    -3,
+    -2
+   ],
+   "categories": [
+    "Marketing-Intern",
+    "Digital-Marketing-Specialist",
+    "CRM-Specialist",
+    "Email-Marketing-Specialist",
+    "Marketing-Coordinator",
+    "Estágio-Em-Marketing",
+    "Estagiário-Em-Marketing",
+    "Marketing"
+   ],
+   "parentCategories": [
+    "Marketing"
+   ],
+   "description": "<p>Aqui na <b>HostGator </b>trabalhamos para que cada vez mais empreendedores possam tirar suas ideias do papel, transformando-as em negócios de sucesso na internet! </p><p>Estamos aqui para fornecer os melhores produtos e serviços para presença onli",
+   "pubDate": 1791679674,
+   "expiryDate": 1796863674,
+   "applicationLink": "https://himalayas.app/companies/newfold-digital/jobs/estagio-de-marketing-clm?utm_source=api",
+   "guid": "https://himalayas.app/companies/newfold-digital/jobs/estagio-de-marketing-clm"
+  },
+  {
+   "title": "SOFT - Inatel Developer Program - IDP",
+   "excerpt": "O Inatel está recrutando pessoas em início de carreira, principalmente recém-formadas ou em fase final da graduação na área de tecnologia, para integrar o Inatel Developer Program e atuar no ICC SOFT.",
+   "companyName": "Instituto Nacional de Telecomunicações - Inatel",
+   "companySlug": "instituto-nacional-de-telecomunicacoes-inatel",
+   "companyLogo": "https://cdn-images.himalayas.app/m2dksugpk897aog5zfiwjso2pjd1",
+   "employmentType": "Intern",
+   "minSalary": null,
+   "maxSalary": null,
+   "salaryPeriod": "annual",
+   "seniority": [
+    "Entry-level"
+   ],
+   "currency": null,
+   "locationRestrictions": [
+    "Brazil"
+   ],
+   "timezoneRestrictions": [
+    -5,
+    -4,
+    -3,
+    -2
+   ],
+   "categories": [
+    "Software-Developer",
+    "Backend-Engineer",
+    "Front-End-Developer",
+    "Full-Stack-Developer",
+    "Junior-Developer",
+    "Developer-Program",
+    "Developer"
+   ],
+   "parentCategories": [
+    "Developer"
+   ],
+   "description": "<p>O Inatel está recrutando pessoas em início de carreira, principalmente recém-formadas ou em fase final da graduação na área de tecnologia, para integrar o Inatel Developer Program e atuar no ICC SOFT.</p><p>O programa oferece uma formação intensiv",
+   "pubDate": 1791622786,
+   "expiryDate": 1796806785,
+   "applicationLink": "https://himalayas.app/companies/instituto-nacional-de-telecomunicacoes-inatel/jobs/soft-inatel-developer-program-idp?utm_source=api",
+   "guid": "https://himalayas.app/companies/instituto-nacional-de-telecomunicacoes-inatel/jobs/soft-inatel-developer-program-idp"
+  },
+  {
+   "title": "Summer 2027 UCD Sales and Service Undergraduate Intern",
+   "excerpt": "Company :United Concordia DentalJob Description : The Summer 2027 UCD Sales and Service Undergraduate Internship provides students with an opportunity to gain practical, hands-on experience supporting the Sales and Service team dedicated to United Co",
+   "companyName": "Highmark Health",
+   "companySlug": "highmark-health",
+   "companyLogo": "https://cdn-images.himalayas.app/hm0cxl7gpqm79vns491v5oz1s5zz",
+   "employmentType": "Intern",
+   "minSalary": null,
+   "maxSalary": null,
+   "salaryPeriod": "annual",
+   "seniority": [
+    "Entry-level"
+   ],
+   "currency": null,
+   "locationRestrictions": [
+    "United States"
+   ],
+   "timezoneRestrictions": [
+    -10,
+    -9,
+    -8,
+    -7,
+    -6,
+    -5,
+    14
+   ],
+   "categories": [
+    "Sales-Intern",
+    "Customer-Service-Intern",
+    "Account-Management-Intern",
+    "Marketing-Intern",
+    "Business-Operations-Intern",
+    "Sales-And-Business-Development-Intern",
+    "Sales-Support-Intern",
+    "Customer-Experience-Intern",
+    "Sales-Internships",
+    "Sales",
+    "Customer-Service"
+   ],
+   "parentCategories": [
+    "Sales",
+    "Customer Service"
+   ],
+   "description": "<h3><b>Company :</b></h3>United Concordia Dental<h3><b>Job Description : </b></h3><br><p>The <b>Summer 2027 UCD Sales and Service Undergraduate Internship</b> provides students with an opportunity to gain practical, hands-on experience supporting the",
+   "pubDate": 1792595902,
+   "expiryDate": 1797779901,
+   "applicationLink": "https://himalayas.app/companies/highmark-health/jobs/summer-2027-ucd-sales-and-service-undergraduate-intern?utm_source=api",
+   "guid": "https://himalayas.app/companies/highmark-health/jobs/summer-2027-ucd-sales-and-service-undergraduate-intern"
+  },
+  {
+   "title": "Engineering Internship - Rail Public Projects",
+   "excerpt": "Company Description We are Olsson.  We engineer and design solutions that improve the world around us.",
+   "companyName": "Olsson",
+   "companySlug": "olsson-com",
+   "companyLogo": "",
+   "employmentType": "Intern",
+   "minSalary": null,
+   "maxSalary": null,
+   "salaryPeriod": "annual",
+   "seniority": [
+    "Entry-level"
+   ],
+   "currency": null,
+   "locationRestrictions": [
+    "United States"
+   ],
+   "timezoneRestrictions": [
+    -10,
+    -9,
+    -8,
+    -7,
+    -6,
+    -5,
+    14
+   ],
+   "categories": [
+    "Engineering-Intern",
+    "Civil-Engineering-Intern",
+    "Project-Management-Intern",
+    "Rail-Project-Intern",
+    "Civil-Engineering-Internship",
+    "Engineering-Internship",
+    "Internships-In-Engineering",
+    "Rail-Infrastructure-Engineering",
+    "Rail-and-Transit-Engineering",
+    "Rail-Engineering"
+   ],
+   "parentCategories": [],
+   "description": "<div class=\"content-intro\">\n<div><h3>Company Description</h3></div>\n<p>We are <a href=\"https://himalayas.app/companies/olsson-com\">Olsson</a>. We engineer and design solutions that improve the world around us. As a company, we promise to always be re",
+   "pubDate": 1792591302,
+   "expiryDate": 1797775301,
+   "applicationLink": "https://himalayas.app/companies/olsson-com/jobs/engineering-internship-rail-public-projects?utm_source=api",
+   "guid": "https://himalayas.app/companies/olsson-com/jobs/engineering-internship-rail-public-projects"
+  },
+  {
+   "title": "PROGRAMA DE ESTÁGIO 2026",
+   "excerpt": "O Instituto Via de Acesso – Ruy Leal, é uma entidade sem fins lucrativos, que tem como finalidade principal ações sociais de caráter educacional, filantrópico e de assistência social, relacionados à promoção de capacitação profissional gratuita e à i",
+   "companyName": "Instituto Via de Acesso",
+   "companySlug": "instituto-via-de-acesso",
+   "companyLogo": "https://cdn-images.himalayas.app/b7pj7kc7e66kuwk9z8fodvp6jcn7",
+   "employmentType": "Intern",
+   "minSalary": null,
+   "maxSalary": null,
+   "salaryPeriod": "annual",
+   "seniority": [
+    "Entry-level"
+   ],
+   "currency": null,
+   "locationRestrictions": [
+    "Brazil"
+   ],
+   "timezoneRestrictions": [
+    -5,
+    -4,
+    -3,
+    -2
+   ],
+   "categories": [
+    "Programa-de-Estágio",
+    "Internship-Programs",
+    "Student-Internships",
+    "Estágio",
+    "Entry-Level-Opportunities",
+    "Vagas-De-Estágio"
+   ],
+   "parentCategories": [],
+   "description": "<p>O <a href=\"https://himalayas.app/companies/instituto-via-de-acesso\">Instituto Via de Acesso</a> – Ruy Leal, é uma entidade sem fins lucrativos, que tem como finalidade principal ações sociais de caráter educacional, filantrópico e de assistência s",
+   "pubDate": 1791033621,
+   "expiryDate": 1796217620,
+   "applicationLink": "https://himalayas.app/companies/instituto-via-de-acesso/jobs/programa-de-estagio-2026?utm_source=api",
+   "guid": "https://himalayas.app/companies/instituto-via-de-acesso/jobs/programa-de-estagio-2026"
+  }
+ ]
+}

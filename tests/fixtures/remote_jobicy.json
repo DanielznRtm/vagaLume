@@ -1,0 +1,116 @@
+{
+ "apiVersion": "2.2.19",
+ "documentationUrl": "https://jobi.cy/apidocs",
+ "friendlyNotice": "Thanks for using Jobicy API! Please ensure Jobicy is clearly credited with a direct link to the source, and all application buttons redirect to the original job URL provided in this feed. That’s all! You might be building something amazing, we wish you the best of luck!",
+ "jobCount": 127,
+ "lastUpdate": "2026-10-21T03:18:46+00:00",
+ "nextCursor": null,
+ "hasMore": false,
+ "appliedFilters": {
+  "count": 200,
+  "geo": "latam"
+ },
+ "statusCode": 200,
+ "success": true,
+ "jobs": [
+  {
+   "id": 156147,
+   "url": "https://jobicy.com/jobs/156147-securities-operations-intern-f-m-d",
+   "jobSlug": "156147-securities-operations-intern-f-m-d",
+   "jobTitle": "Securities Operations Intern (f/m/d)",
+   "companyName": "Upvest",
+   "companyLogo": "https://jobicy.com/data/server-nyc0409/galaxy/mercury/2025/06/ca06e577-221.png",
+   "jobIndustry": [
+    "Finance & Accounting"
+   ],
+   "jobType": [
+    "Internship"
+   ],
+   "jobGeo": "France,  Germany",
+   "jobLevel": "Entry-Level, Junior",
+   "jobExcerpt": "About Us: At Upvest, we are on a mission to make investing as easy as spending money. Upvest empowers businesses to offer a wide range of investment products and the best experience in the field of capital market investment and retirement planning. U",
+   "jobDescription": "<p><strong>About Us:</strong></p>\n<p>At <a href=\"https://jobicy.com/company/upvest\" target=\"_blank\" rel=\"noopener\">Upvest</a>, we are on a <strong>mission to make investing as easy as spending money</strong>. Upvest empowers businesses to offer a wid",
+   "pubDate": "2026-10-21T09:42:19+00:00"
+  },
+  {
+   "id": 155448,
+   "url": "https://jobicy.com/jobs/155448-security-research-internship",
+   "jobSlug": "155448-security-research-internship",
+   "jobTitle": "Security Research Internship",
+   "companyName": "CertiK",
+   "companyLogo": "https://jobicy.com/data/server-nyc0409/galaxy/mercury/2021/03/Jobicy-210308091023-955845.jpg",
+   "jobIndustry": [
+    "Cybersecurity"
+   ],
+   "jobType": [
+    "Internship"
+   ],
+   "jobGeo": "USA",
+   "jobLevel": "Any",
+   "jobExcerpt": "About CertiK One of the fastest-growing and most trusted companies in blockchain security, CertiK is a true market leader. To date, CertiK has worked with over 3,200 Enterprise clients, secured over $310 billion worth of digital assets, and has detec",
+   "jobDescription": "<p><b>About <a href=\"https://jobicy.com/company/certik\" target=\"_blank\" rel=\"noopener\">CertiK</a></b></p>\n<p>One of the fastest-growing and most trusted companies in blockchain security, CertiK is a true market leader. To date, CertiK has worked with",
+   "pubDate": "2026-10-16T13:32:33+00:00",
+   "salaryMin": 3000,
+   "salaryMax": 8000,
+   "salaryCurrency": "USD",
+   "salaryPeriod": "monthly"
+  },
+  {
+   "id": 153741,
+   "url": "https://jobicy.com/jobs/153741-senior-software-enginner-full-stack-node-react",
+   "jobSlug": "153741-senior-software-enginner-full-stack-node-react",
+   "jobTitle": "Senior Software Enginner (Full-stack Node + React)",
+   "companyName": "Airtm",
+   "companyLogo": "https://jobicy.com/data/server-nyc0409/galaxy/mercury/2025/06/1994f28e-221.png",
+   "jobIndustry": [
+    "Software Engineering"
+   ],
+   "jobType": [
+    "Full-Time"
+   ],
+   "jobGeo": "LATAM",
+   "jobLevel": "Senior",
+   "jobExcerpt": "About us: Airtm is a financial-infrastructure company building the future of the online-work economy. We are on a mission to empower the world's growing number of Digital Entrepreneurs in the Global South, giving them the financial freedom to thrive.",
+   "jobDescription": "<h3><strong>About us: </strong></h3>\n<p><a href=\"https://jobicy.com/company/airtm\" target=\"_blank\" rel=\"noopener\">Airtm</a> is a financial-infrastructure company building the future of the online-work economy. We are on a mission to empower the world",
+   "pubDate": "2026-10-21T03:18:43+00:00"
+  },
+  {
+   "id": 153737,
+   "url": "https://jobicy.com/jobs/153737-infrastructure-engineer-4",
+   "jobSlug": "153737-infrastructure-engineer-4",
+   "jobTitle": "Infrastructure Engineer",
+   "companyName": "Airtm",
+   "companyLogo": "https://jobicy.com/data/server-nyc0409/galaxy/mercury/2025/06/1994f28e-221.png",
+   "jobIndustry": [
+    "DevOps & Infrastructure"
+   ],
+   "jobType": [
+    "Full-Time"
+   ],
+   "jobGeo": "LATAM",
+   "jobLevel": "Any",
+   "jobExcerpt": "This role is open for LATAM based candidates About us: Airtm is a financial-infrastructure company building the future of the online-work economy. We are on a mission to empower the world's growing number of Digital Entrepreneurs in the Global South,",
+   "jobDescription": "<p><em><strong>This role is open for LATAM based candidates</strong></em></p>\n<p><strong>About us:</strong></p>\n<p><a href=\"https://jobicy.com/company/airtm\" target=\"_blank\" rel=\"noopener\">Airtm</a> is a financial-infrastructure company building the ",
+   "pubDate": "2026-10-21T03:18:41+00:00"
+  },
+  {
+   "id": 153740,
+   "url": "https://jobicy.com/jobs/153740-ai-senior-engineer-vision",
+   "jobSlug": "153740-ai-senior-engineer-vision",
+   "jobTitle": "AI Senior Engineer (Vision)",
+   "companyName": "Able",
+   "companyLogo": "https://jobicy.com/data/server-nyc0409/galaxy/mercury/2025/06/b70bf263-221.png",
+   "jobIndustry": [
+    "Software Engineering"
+   ],
+   "jobType": [
+    "Full-Time"
+   ],
+   "jobGeo": "LATAM",
+   "jobLevel": "Senior",
+   "jobExcerpt": "Back in 2012, we were a group of engineers and designers who decided we wanted to build things—so we did. Able started as an engineering and product hub building for a portfolio of early-stage startups. We built many relationships while developing pr",
+   "jobDescription": "<p>Back in 2012, we were a group of engineers and designers who decided we wanted to build things—so we did. <a href=\"https://jobicy.com/company/able\" target=\"_blank\" rel=\"noopener\">Able</a> started as an engineering and product hub building for a po",
+   "pubDate": "2026-10-21T03:18:33+00:00"
+  }
+ ]
+}

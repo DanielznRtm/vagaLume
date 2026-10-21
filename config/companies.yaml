@@ -331,6 +331,7 @@ workday_brazil:
   - {tenant: gehc, wd: 5, site: GEHC_ExternalSite, name: GE HealthCare}
   - {tenant: jj, wd: 5, site: JJ, name: Johnson & Johnson}
   - {tenant: toyota, wd: 503, site: TLAC, name: Toyota do Brasil}
+  - {tenant: equifax, wd: 5, site: External, name: Equifax}                  # Summer Job (estágio de férias) and estágios in Barueri
 
 # --- More Brazilian estágio boards (checked 2026-10-15) ----------------------
 # Abler boards: https://{subdomain}.abler.com.br (radar/sources/abler.py).
@@ -489,3 +490,157 @@ successfactors:
   - {host: careers.sap.com, name: SAP}             # ~184: Germany, US, China, Brazil, Singapore, Spain (jobs.sap.com is behind Cloudflare; same site)
   - {host: jobs.volvogroup.com, name: Volvo Group} # ~125: Sweden, US, France, India, Belgium, Canada
   - {host: jobs.volvocars.com, name: Volvo Cars}   # ~6: Belgium, Sweden
+
+# Quickin job boards (radar/sources/quickin.py): slug of jobs.quickin.io/<slug>/jobs; id = the
+# account id (saves one request per board). From a scan of all 615 boards in
+# jobs.quickin.io/sitemap.xml on 2026-10-21: these 145 had student roles that day (count after #).
+quickin:
+  - {slug: levelcinco, id: "612fca5d1c4e5c00139fc54e", name: Level Cinco}  # 21
+  - {slug: lmveterinaria, id: "62f24f1fc742280013f22131", name: LM Hospital Veterinário}  # 18
+  - {slug: cdludi, id: "5f8f1fc45b2b610013c6b1d3", name: Fundação CDL Uberlândia}  # 15
+  - {slug: sek, id: "648c8d480db90c0013798ae0", name: SEK - Security Ecosystem Knowledge}  # 10
+  - {slug: foxengenharia, id: "66f59034c4b615001390f9f7", name: Fox Engenharia e Consultoria}  # 8
+  - {slug: rhgrandestalentos, id: "6315e9f8afa7580013dfecf0", name: RH Grandes Talentos}  # 8
+  - {slug: aciub, id: "68b1efa76407260013a0efb8", name: Aciub}  # 7
+  - {slug: faepen, id: "66901c478df1a40013e938e8", name: Fundação FAEPEN}  # 7
+  - {slug: unitaengenharia, id: "64788d51652bfd001bd0ac74", name: Unità Engenharia}  # 7
+  - {slug: vagasautomotivas, id: "64342d7f09d8680013bf3f6f", name: Vagas Automotivas}  # 7
+  - {slug: carone, id: "6409d3f1988fca0014f2d9c1", name: Carone}  # 6
+  - {slug: cieerj, id: "684aeb4182288a0013435714", name: CIEE Rio}  # 6
+  - {slug: drhairfranchising, id: "6973dbf3bf10bb0013773fd8", name: Dr Hair Franchising}  # 6
+  - {slug: grupowish, id: "69eb841e9ea388001315ac6f", name: GRUPO WISH}  # 6
+  - {slug: newjob, id: "64a40f5b33769e001a0dc01b", name: New Job}  # 6
+  - {slug: stratas, id: "68ae03767ccf880013f04358", name: Stratas Business}  # 6
+  - {slug: alyconsultoria, id: "67aa14ed7e8aca0013d93ed8", name: Aly Consultoria em Gestão}  # 5
+  - {slug: saudeopalus, id: "698dc9d90eadf3001355605d", name: Grupo Opalus}  # 5
+  - {slug: umanse, id: "65eb079d5770c000144861e6", name: Umanse}  # 5
+  - {slug: conscer, id: "65672f3f26a9d600137301b7", name: Conscer Consultoria em RH}  # 4
+  - {slug: dommainc, id: "6904eef50fbd8c0013a4da93", name: DOMMA INCORPORAÇÕES LTDA}  # 4
+  - {slug: globalconsultoria, id: "685c37216ce92e00120e128d", name: Global Gestão e Consultoria}  # 4
+  - {slug: matrizrh, id: "68d446087c27cd0012570b92", name: MATRIZ RH}  # 4
+  - {slug: pesseti, id: "6892665232c7e70013b200f0", name: Pesseti Consultoria}  # 4
+  - {slug: reframax, id: "62e7c503c6585300134a2893", name: Reframax Engenharia}  # 4
+  - {slug: rodriguesassessoria, id: "663bd6ee38eba000135179fc", name: Rodrigues Assessoria}  # 4
+  - {slug: workrequest, id: "62e14eeac8228c001550c239", name: Agencia Work Request}  # 4
+  - {slug: afonsofranca, id: "692dec3c36996b0013a7661c", name: Afonso França Engenharia}  # 3
+  - {slug: attractfy, id: "645e704e34637c0013d575b0", name: Attractfy Consultoria em Recursos Humanos}  # 3
+  - {slug: bancobari, id: "63dbe1d9e78d4c0014bc378d", name: Grupo Bari.}  # 3
+  - {slug: cbre, id: "68add220a3475b0013887425", name: CBRE}  # 3
+  - {slug: evoluetreinamento, id: "67bf0cc62b6100001385c82d", name: EVOLUE - Recrutamento e Seleção}  # 3
+  - {slug: gbconstrutora, id: "67783119da9bac0013d0ed5f", name: GB Construtora}  # 3
+  - {slug: innotec, id: "6a1846d5d26f220013ac57a1", name: Instituto Innotec}  # 3
+  - {slug: ligavitoria, id: "6a0b63e6971104001375b737", name: LIGA VITORIA ADMINISTRADORA E CORRETORA DE SEGUROS LTDA}  # 3
+  - {slug: marcelafantato, id: "66c6006c637e170013d1509a", name: "Marcela Fantato & Headhunters Associados"}  # 3
+  - {slug: megaluzz, id: "60100a012fc02800134a6730", name: MegaLuzz Negócios}  # 3
+  - {slug: netglobe, id: "66c65794637e17001324e510", name: Netglobe Hybrid Workplace}  # 3
+  - {slug: plugaae, id: "607715b684e7d9001a615862", name: Plugaaê}  # 3
+  - {slug: sacavalcante, id: "651719b25f167800129527e8", name: Sá Cavalcante}  # 3
+  - {slug: sanityconsultoria, id: "6ac66200ff553d0014260409", name: Sanity Consultoria e Treinamentos}  # 3
+  - {slug: vagasconsultoria, id: "638a174fbb868b0016e83959", name: Vagas Consultoria}  # 3
+  - {slug: vitaedesenvolvimento, id: "5c2aad805ff72172b298ee01", name: Vitae Desenvolvimento}  # 3
+  - {slug: 4mti, id: "6823b2c7c4be910013df4cfc", name: 4mti}  # 2
+  - {slug: agfe, id: "6978b7eeb5303d0013bd720d", name: Agência de Fomento Empresarial do Alto Tietê e Região}  # 2
+  - {slug: arauz, id: "6a44320ee19f380013d4fb1d", name: "ARAUZ & ADVOGADOS ASSOCIADOS"}  # 2
+  - {slug: ativainvestimentos, id: "6a1d87871a020400134b26cc", name: Ativa Investimentos}  # 2
+  - {slug: bd, id: "661581b717434a0014b65861", name: Pity}  # 2
+  - {slug: beyondhr, id: "60ba216de885870013d82130", name: Beyond HR}  # 2
+  - {slug: cebds, id: "685c1c90b086300013bad38b", name: CEBDS}  # 2
+  - {slug: elsys, id: "69a1ff971c84e700132f2d46", name: Elsys}  # 2
+  - {slug: engravida, id: "687fc04d10ca2c001341b949", name: Engravida Clínica de Reprodução Humana}  # 2
+  - {slug: eurekacoworking, id: "67aa4f8532c4670013103070", name: Eureka Coworking}  # 2
+  - {slug: fahz, id: "68da89fe9e569e0013a9aa05", name: Fundação Zerrenner}  # 2
+  - {slug: felexrh, id: "68264d03d4b5be0013f9c4b8", name: Felex RH}  # 2
+  - {slug: ge21cm, id: "67bcaa7aa37b420013a31195", name: GE21 Consultoria Mineral}  # 2
+  - {slug: greentalents, id: "6384b4d8bb868b0016de0b15", name: Green Talents}  # 2
+  - {slug: grupovelas, id: "61e84e91b40734001aae9c14", name: Grupo Velas}  # 2
+  - {slug: grupovicoabrasil, id: "66ed7dd819929900125bccdb", name: Grupo Vicoa Brasil}  # 2
+  - {slug: hrtalents, id: "6524429aa85ff300131bc549", name: HR talents}  # 2
+  - {slug: inoveben, id: "5c2aad8044ec1f4efb52e897", name: InoveBen RH}  # 2
+  - {slug: ludwigpoloni, id: "6361165c9cfabb0013f470e1", name: "Instituto Ludwig & Poloni"}  # 2
+  - {slug: madronaadvogados, id: "68b883696cccda00133aa1e5", name: Madrona Advogados}  # 2
+  - {slug: moovgenteegestao, id: "686ff582c27777001394fa01", name: "Moov Gente & Gestão"}  # 2
+  - {slug: netglobecybersecurity, id: "68a381c3c3c84c00137a59ff", name: Netglobe Cybersecurity}  # 2
+  - {slug: pensataconsultoria, id: "6005bdccd922440019d039bc", name: Pensata Consultoria}  # 2
+  - {slug: rbrands, id: "62bc8e67a1e2700014b14c11", name: R.brands}  # 2
+  - {slug: saviolirh, id: "68cda0172017de0014b0a886", name: Consultoria Savioli Recursos Humanos}  # 2
+  - {slug: selbetti, id: "6a1058109b5924001399e0cf", name: Selbetti}  # 2
+  - {slug: sinerhgia, id: "622f5cb0cd5c2d0015115fce", name: Sinerhgia Educação Corporativa}  # 2
+  - {slug: talentsclub, id: "6244892264f86f001528b4e0", name: "talent's club"}  # 2
+  - {slug: tecnocomp, id: "60aeb0f4df02370013e23633", name: Tecnocomp Tecnologia e Serviços Ltda}  # 2
+  - {slug: vocare, id: "6a8dedf0499f8d00135702e2", name: VOCARE}  # 2
+  - {slug: workingcenter, id: "6809276c541e3300139886c8", name: WORKING CENTER - AGÊNCIA DE EMPREGOS}  # 2
+  - {slug: wtime, id: "68d41fe9d8bcac00131c6d7c", name: Wtime}  # 2
+  - {slug: abc, id: "652d3c23009f320012ca188c", name: ABC}  # 1
+  - {slug: alifenino, id: "660fe936e694dc0013c8be35", name: Alife Nino}  # 1
+  - {slug: assefaz, id: "5f2986f64039080012dad341", name: Assefaz}  # 1
+  - {slug: atlanticafoods, id: "6a50f5f88824d20013dd2211", name: ATLANTICA FOODS GROUP}  # 1
+  - {slug: audazrh, id: "688a426d336e310013cb3e17", name: Audaz RH}  # 1
+  - {slug: bariladvogados, id: "60ccfe66ef79a300193b4ec5", name: Baril Advogados}  # 1
+  - {slug: botcity, id: "67f6b4c5dcf76400135d3538", name: BotCity}  # 1
+  - {slug: calasserh, id: "6a88888e35a6270013d8f26a", name: Calasse RH}  # 1
+  - {slug: capacitygestaodepessoas, id: "65a1883d981df70014f2df05", name: Capacity Gestão de Pessoas}  # 1
+  - {slug: cgengenharia, id: "6a57a1411b8c5300131c9526", name: CG Engenharia}  # 1
+  - {slug: ci, id: "61d81b66ce738d001398c03f", name: CI Intercâmbio}  # 1
+  - {slug: comidadibuteco, id: "68bf2b7b67776d0012ae1782", name: Comida di Buteco}  # 1
+  - {slug: courmayeur, id: "698f9344bbe2160013710357", name: Courmayeur Domaine}  # 1
+  - {slug: deheus, id: "61e8293fb40734001aae8638", name: De Heus Nutrição Animal}  # 1
+  - {slug: dentalarteclinicas, id: "6ac69989ff553d00144e859b", name: Dental Arte Clínicas}  # 1
+  - {slug: ditah, id: "5c2aad802f67e93929172acc", name: Ditah}  # 1
+  - {slug: dmpessoas, id: "64121a18bba05f001c3d49a4", name: DM Pessoas e Organizações}  # 1
+  - {slug: ehdesenvolvimentohumano, id: "696941664d015d0013ab1818", name: EH DESENVOLVIMENTO HUMANO}  # 1
+  - {slug: eslogistics, id: "68d6fcc3ee81540013c3648a", name: ES LOGISTICS}  # 1
+  - {slug: eurotextil, id: "658d9b9c22f7930012ea3e3f", name: Eurotextil}  # 1
+  - {slug: evtit, id: "6164604b3b5ea8001a8b4d75", name: EVT}  # 1
+  - {slug: gamestation, id: "6797aeecd50f690013a25956", name: Game Station}  # 1
+  - {slug: genica, id: "659458eeca77cb00143530cc", name: Gênica}  # 1
+  - {slug: gestaltconsultoria, id: "632db7c467c45a0014f258a0", name: Gestalt Cravo Consultoria de RH}  # 1
+  - {slug: gorocket, id: "69fba4688a17370013139c5c", name: ROCKET TIMES DE ALTA PERFOMANCE}  # 1
+  - {slug: grupo-primo, id: "670919e1850b240013108044", name: Grupo Primo}  # 1
+  - {slug: grupoengear, id: "6a0b11d39eb32f001324caa9", name: Grupo Engear}  # 1
+  - {slug: gruponortedistribuicao, id: "65ae741d042b7f00133f29e3", name: Grupo Norte Distribuição}  # 1
+  - {slug: gruporfk, id: "68e3b1a955e46800131f94fe", name: Grupo RFK}  # 1
+  - {slug: hinova, id: "633ef95c87e410001359b42f", name: Hinova Soluções Digitais}  # 1
+  - {slug: hr4, id: "690a5c89af5ea20013b546f0", name: HR4}  # 1
+  - {slug: humtech, id: "619ba15d7d676000132c2416", name: Humtech - Recrutando para Tecnologia}  # 1
+  - {slug: idgengenharia, id: "698644c9e61bd90013904656", name: IDG ENGENHARIA E CONSULTORIA}  # 1
+  - {slug: idmrecrutamentoeselecao, id: "6984ef7396f5a1001316eac0", name: "IDM RECRUTAMENTO & SELEÇÃO"}  # 1
+  - {slug: isapa, id: "695fce4415afe60013ac679f", name: ISAPA}  # 1
+  - {slug: jztalent, id: "64ee4b737764060013cf4108", name: JZ Talent}  # 1
+  - {slug: koin, id: "6148a4dc23278d001a3c2c30", name: Koin}  # 1
+  - {slug: m2consult, id: "5f8dde8c0fa6e60012de8118", name: m.dois gente e gestão}  # 1
+  - {slug: maisrh, id: "65bb9763a829600014444d7f", name: MAIS RH}  # 1
+  - {slug: manifestaai, id: "698f6f576d47320013ee587f", name: Manifestaai}  # 1
+  - {slug: metododeconversao, id: "635c3367900f59001b4c5473", name: MDC}  # 1
+  - {slug: modaxo, id: "68dbf42b573a9200131f5b07", name: Modaxo}  # 1
+  - {slug: nacaodigital, id: "5fc017cc7a32d80013f54ec8", name: Nação Digital}  # 1
+  - {slug: nansen, id: "664b3b9df263ef001332e847", name: Nansen}  # 1
+  - {slug: nefer, id: "689e2189bce2ce00130197a7", name: Nefer Pharma}  # 1
+  - {slug: nimbi, id: "6862f0bf43a7370012700270", name: Nimbi}  # 1
+  - {slug: novvo, id: "67ffba3331a470001330cab1", name: Novvo Bem-Estar}  # 1
+  - {slug: oraclum, id: "67b61603511a12001377e372", name: Oraclum Recrutamento Seleção e Treinamento Ltda}  # 1
+  - {slug: oticasavenida, id: "68b1b4b8b7d711001350de70", name: Óticas Avenida}  # 1
+  - {slug: oximil, id: "66a29772d1055c0013caa011", name: Oximil Oxigênio Minas Gerais Ltda}  # 1
+  - {slug: pessoalizerh, id: "675ada6352a278001334ea86", name: Pessoalize RH}  # 1
+  - {slug: po2hc, id: "689e3d14f1640f0013d032c6", name: PO2 Human Capital}  # 1
+  - {slug: prafesta, id: "69fc823ccf308e0013bfdee7", name: Prafesta Industria e Comercio de Embalagens LTDA}  # 1
+  - {slug: prospecta-gott, id: "606faf6f8766380013fc7249", name: Prospecta - Gente o Tempo Todo}  # 1
+  - {slug: rainhalogistica, id: "69050ed0af70fe0013fc075c", name: Broker Rainha}  # 1
+  - {slug: remopt, id: "6929963f2a75f100133241f4", name: REMOPT}  # 1
+  - {slug: rhpontocom, id: "63a4aeae3e2edf001cdd5682", name: RH.com}  # 1
+  - {slug: rptalentos, id: "6203f6917e6920001a0fd69b", name: RP Talentos e Estágios}  # 1
+  - {slug: salesimpact, id: "645a5dd8aa04d70016983dcc", name: Sales Impact}  # 1
+  - {slug: siegen, id: "6247462a5a54f3001543edb7", name: Siegen}  # 1
+  - {slug: sioux, id: "626c2b3d7c7e8900131ece5f", name: "Sioux digital 1:1"}  # 1
+  - {slug: snd, id: "6939c30cf6e76600139250fe", name: SND}  # 1
+  - {slug: soulemure, id: "67f7f46dfc5a17001205df1e", name: Lêmure Consultoria}  # 1
+  - {slug: supergirodistribuidora, id: "69288d0cae52ed0013e7e0b8", name: Supergiro Distribuidora}  # 1
+  - {slug: talst, id: "65a044043ef54b0013fd7fc1", name: Talst Contabilidade}  # 1
+  - {slug: unimedinconfidentes, id: "5c2aad80bce8a9bc371adc95", name: Unimed Inconfidentes}  # 1
+  - {slug: vanguardamartech, id: "672ba7e117ad9d0014842cb8", name: Vanguarda Martech}  # 1
+  - {slug: viabilizenegocios, id: "6568e9a607a32c0013a7967e", name: Viabilize Negócios}  # 1
+  - {slug: winity, id: "6a198e28d26f2200131cf3be", name: WINITY}  # 1
+  - {slug: yungas, id: "61b741d07436bb00133f77ba", name: Yungas}  # 1
+
+# USP estágio murals on uspdev/estagios (radar/sources/usp_estagios.py). Checked 2026-10-21.
+usp_estagios:
+  - {host: estagios.fflch.usp.br, name: Mural de estágios FFLCH-USP}   # 19 that day

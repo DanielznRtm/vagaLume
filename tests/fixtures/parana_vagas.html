@@ -1,0 +1,237 @@
+
+
+
+
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Central de Est&aacute;gios - Secretaria de Estado da Administra&ccedil;&atilde;o e Previd&ecirc;ncia</title>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	scrollbar-track-color : #E9E7E3;
+	scrollbar-face-color: #D4D0C8;
+	scrollbar-shadow-color: #D4D0C8;
+	scrollbar-highlight-color: #D4D0C8;
+	scrollbar-3dlight-color: #E8E6E1;
+	scrollbar-darkshadow-color: #706E6A;
+	scrollbar-arrow-color: #000000;
+	scrollbar-base-color : #D4D0C8;
+}
+-->
+</style>
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+<script language="JavaScript" src="../js/v_vagas2.js?v=1792606883426">
+</script>
+<script>
+function reload(){
+
+	if(document.frm_busca_vagas.tipoOferta.value == "2")
+		document.frm_busca_vagas.action = "frm_busca_vagas.jsp?TipoOferta=N";
+	else
+		document.frm_busca_vagas.action = "frm_busca_vagas.jsp";
+
+	document.frm_busca_vagas.method = "post";
+	document.frm_busca_vagas.submit();
+}
+</script>
+</head>
+<body onLoad="document.frm_busca_vagas.NivelEnsino.focus()">
+<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0"> <!-- tabela principal -->
+  <tr>
+    <td colspan="3">
+<table width="100%" height="100%"  border="0" cellpadding="0" cellspacing="0"> <!-- nivel 1 -->
+  <tr>
+    <td align="center" valign="top">
+      <table width="100%"  border="0" cellspacing="0" cellpadding="20">
+        <tr>
+          <td class="normalHome" align="center"><p class="titulo">Pesquisa de Vagas para Estágio</p>
+            <form method="POST" action="frm_busca_vagas.jsp" name="frm_busca_vagas" onsubmit="return valida_buscavagas();">
+              <input type=hidden name=indVaga value="E">
+              <input type=hidden name=tipoOferta value=1>
+              <table width="100%"  border="0" cellpadding="5" cellspacing="0"> <!-- conteúdo -->
+                <tr>
+                  <td valign="top">
+                	<table width="100%"  border="0" cellspacing="0" cellpadding="5">
+                       
+                      <tr>
+                	    <td colspan = "2" align="center" class = "titulo">BUSCA DE OFERTAS</td>
+                      </tr>
+                      <tr>
+                        <td class="normal">N&iacute;vel Escolar</td>
+                        <td>
+                          <select name="NivelEnsino" OnChange="document.frm_busca_vagas.CodCategoria.value='';reload();">
+                          <option value="" ></option>
+                          <option value="M" >Ensino M&eacute;dio</option>
+                          <option value="S" selected>Ensino Superior</option>
+                           <option value="P" >Pós-Graduação</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="normal">Categoria Ensino </td>
+                        <td><select name="CodCategoria"></select></td>
+                      </tr>
+                      <tr>
+                        <td width="189" class="normal">Curso </td>
+                        <td><select name="CodCurso"></select></td>
+                      </tr>
+                      <tr>
+                        <td width="189" class="normal">Órgão </td>
+                        <td><select name="CodOrgao"></select></td>
+                      </tr>
+                      <tr>
+                        <td width="189" class="normal">Cidade </td>
+                        <td><select name="CodCidade"></select></td>
+                      </tr>
+                      <tr>
+                        <td class="normal">Pessoa com Deficiência</td>
+                        <td>
+                          <select name="Portador" OnChange="reload();">
+                          <option value="" selected></option>
+                          <option value="N" >Não</option>
+                          <option value="S" >Sim</option>
+                          </select>
+                      </tr>
+                      <tr>
+                        <td align="center" colspan="2"><input type="submit" name="Submit" value="    Prosseguir    "></td>
+                      </tr>
+                    </table>
+               <!-- Mostra vagas -->
+                    <table width="100%"  border="1" cellpadding="5" cellspacing="0">
+				      <tr>
+                        <td colspan="9" align="center"><font class="destaque3">VAGAS DISPONÍVEIS</font></td>
+                      </tr>
+                      <tr>
+                        <td width="4%"><font class="destaque3">Cód Oferta</font></td>
+                        <td width="5%"><font class="destaque3"><a href='frm_busca_vagas.jsp?ord=nivel&NivelEnsino=S&CodCategoria=&CodCurso=&CodOrgao=&CodCidade=&Portador=&TipoOferta=1'>Nível</a></font></td>
+                        <td width="25%"><font class="destaque3"><a href='frm_busca_vagas.jsp?ord=curso&NivelEnsino=S&CodCategoria=&CodCurso=&CodOrgao=&CodCidade=&Portador=&TipoOferta=1'>Curso</a></font></td>
+                        <td width="8%"><font class="destaque3"><a href='frm_busca_vagas.jsp?ord=orgao&NivelEnsino=S&CodCategoria=&CodCurso=&CodOrgao=&CodCidade=&Portador=&TipoOferta=1'>Órgão</a></font></td>
+                        <td width="25%"><font class="destaque3"><a href='frm_busca_vagas.jsp?ord=ut&NivelEnsino=S&CodCategoria=&CodCurso=&CodOrgao=&CodCidade=&Portador=&TipoOferta=1'>UT</a></font></td>
+                        <td width="10%"><font class="destaque3"><a href='frm_busca_vagas.jsp?ord=cidade&NivelEnsino=S&CodCategoria=&CodCurso=&CodOrgao=&CodCidade=&Portador=&TipoOferta=1'>Cidade</a></font></td>
+                        <td width="10%"><font class="destaque3"><a href='frm_busca_vagas.jsp?ord=dataini&NivelEnsino=S&CodCategoria=&CodCurso=&CodOrgao=&CodCidade=&Portador=&TipoOferta=1'>Data início</a></font></td>
+                        <td width="10%"><font class="destaque3"><a href='frm_busca_vagas.jsp?ord=datafim&NivelEnsino=S&CodCategoria=&CodCurso=&CodOrgao=&CodCidade=&Portador=&TipoOferta=1'>Data fim</a></font></td>
+                        <td width="3%"><font class="destaque3"><a href='frm_busca_vagas.jsp?ord=portador&NivelEnsino=S&CodCategoria=&CodCurso=&CodOrgao=&CodCidade=&Portador=&TipoOferta=1'>Com deficiência</a></font></td>
+                      </tr>
+<tr>
+			            <td width="4%"><font class="destaque">172876</font></td>
+			            <td width="5%"><font class="destaque">
+                        Superior
+						   </font>
+                        </td>
+                        <td width="25%" class="tabela"><a class="tabela" href="frm_cons_detalhe_vaga.jsp?codoferta=172876">DIREITO</a></td>
+                        <td width="8%"><font class="destaque">SEJU</font></td>
+                        <td width="25%"><font class="destaque">COORD. EST. DE PROT. E DEF. DOS DIR. DO CONSUMIDOR</font></td>
+                        <td width="10%"><font class="destaque">Curitiba</font></td>
+                        <td width="10%"><font class="destaque">25/09/2026</font></td>
+                        <td width="10%"><font class="destaque">24/10/2026</font></td>
+                        <td width="3%" align="center"><font class="destaque">N</font></td>
+                      </tr>
+<tr>
+			            <td width="4%"><font class="destaque">173309</font></td>
+			            <td width="5%"><font class="destaque">
+                        Superior
+						   </font>
+                        </td>
+                        <td width="25%" class="tabela"><a class="tabela" href="frm_cons_detalhe_vaga.jsp?codoferta=173309">DIREITO</a></td>
+                        <td width="8%"><font class="destaque">SEJU</font></td>
+                        <td width="25%"><font class="destaque">COORD. EST. DE PROT. E DEF. DOS DIR. DO CONSUMIDOR</font></td>
+                        <td width="10%"><font class="destaque">Curitiba</font></td>
+                        <td width="10%"><font class="destaque">25/09/2026</font></td>
+                        <td width="10%"><font class="destaque">24/10/2026</font></td>
+                        <td width="3%" align="center"><font class="destaque">N</font></td>
+                      </tr>
+<tr>
+			            <td width="4%"><font class="destaque">173311</font></td>
+			            <td width="5%"><font class="destaque">
+                        Superior
+						   </font>
+                        </td>
+                        <td width="25%" class="tabela"><a class="tabela" href="frm_cons_detalhe_vaga.jsp?codoferta=173311">DIREITO</a></td>
+                        <td width="8%"><font class="destaque">SEJU</font></td>
+                        <td width="25%"><font class="destaque">COORD. EST. DE PROT. E DEF. DOS DIR. DO CONSUMIDOR</font></td>
+                        <td width="10%"><font class="destaque">Curitiba</font></td>
+                        <td width="10%"><font class="destaque">25/09/2026</font></td>
+                        <td width="10%"><font class="destaque">24/10/2026</font></td>
+                        <td width="3%" align="center"><font class="destaque">N</font></td>
+                      </tr>
+<tr>
+			            <td width="4%"><font class="destaque">179111</font></td>
+			            <td width="5%"><font class="destaque">
+                        Superior
+						   </font>
+                        </td>
+                        <td width="25%" class="tabela"><a class="tabela" href="frm_cons_detalhe_vaga.jsp?codoferta=179111">INFORMÁTICA</a></td>
+                        <td width="8%"><font class="destaque">UNIOESTE-DDH-PRO-REITORIA</font></td>
+                        <td width="25%"><font class="destaque">NUCLEO DE TECNOLOGIA DA INFORMAÇÃO</font></td>
+                        <td width="10%"><font class="destaque">CASCAVEL</font></td>
+                        <td width="10%"><font class="destaque">21/10/2026</font></td>
+                        <td width="10%"><font class="destaque">20/11/2026</font></td>
+                        <td width="3%" align="center"><font class="destaque">N</font></td>
+                      </tr>
+<tr>
+			            <td width="4%"><font class="destaque">179112</font></td>
+			            <td width="5%"><font class="destaque">
+                        Superior
+						   </font>
+                        </td>
+                        <td width="25%" class="tabela"><a class="tabela" href="frm_cons_detalhe_vaga.jsp?codoferta=179112">CIÊNCIAS AMBIENTAIS</a></td>
+                        <td width="8%"><font class="destaque">IAT</font></td>
+                        <td width="25%"><font class="destaque">ESCRITÓRIO REGIONAL DO LITORAL - ERLIT</font></td>
+                        <td width="10%"><font class="destaque">PARANAGUA</font></td>
+                        <td width="10%"><font class="destaque">21/10/2026</font></td>
+                        <td width="10%"><font class="destaque">20/11/2026</font></td>
+                        <td width="3%" align="center"><font class="destaque">N</font></td>
+                      </tr>
+<tr>
+			            <td width="4%"><font class="destaque">179113</font></td>
+			            <td width="5%"><font class="destaque">
+                        Superior
+						   </font>
+                        </td>
+                        <td width="25%" class="tabela"><a class="tabela" href="frm_cons_detalhe_vaga.jsp?codoferta=179113">DIREITO</a></td>
+                        <td width="8%"><font class="destaque">SESP</font></td>
+                        <td width="25%"><font class="destaque">Assessoria Técnica</font></td>
+                        <td width="10%"><font class="destaque">Curitiba</font></td>
+                        <td width="10%"><font class="destaque">21/10/2026</font></td>
+                        <td width="10%"><font class="destaque">20/11/2026</font></td>
+                        <td width="3%" align="center"><font class="destaque">N</font></td>
+                      </tr>
+
+                       
+                      <tr>
+			            <td align="left" colspan="5"><font class="titulo">Total</td>
+			            <td align="right" colspan="4"><font class="titulo">201</td>
+			          </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table> <!-- fim conteúdo -->
+            </form>
+            <p><img src="../images/pixel_cinza.gif" width="100%" height="1"></p>
+            <table width="100%"  border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td class="rodape" align="center"">
+      <font class = "destaque3"><b>Central de Estágios do Paraná</b></font> <br> Palácio das Araucárias - Rua Jacy Loureiro de Campos, S/N <br>
+      SEAP - 3º andar - Bloco A - Centro Cívico/Curitiba/PR<br>CEP: 80530-915
+    </td>
+    <td width="103" align="right"><a href="http://www.celepar.pr.gov.br/"><img src="../images/logo_celepar_novo.jpg" width="102" height="23" border="0"></a></td>
+  </tr>
+</table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+  </td>
+</tr>
+</table>
+
+</body>
+</html>

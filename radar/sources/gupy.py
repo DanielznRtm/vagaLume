@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import logging
 import re
+from datetime import date, timedelta
 from typing import Any
 from urllib.parse import urlencode
 
@@ -47,7 +48,7 @@ STUDENT_TYPES = {"vacancy_type_internship", "vacancy_type_apprentice", "vacancy_
 MAYBE_TYPES = {"vacancy_type_trainee", "vacancy_type_talent_pool"}
 # Other job types, searched by title only (see the module docstring).
 OTHER_TYPES = ["vacancy_type_talent_pool", "vacancy_type_effective", "vacancy_type_temporary"]
-TITLE_SEARCHES = ["estágio", "estagiário", "estagiária"]  # the search ignores accents
+TITLE_SEARCHES = ["estágio", "estagiário", "estagiária", "summer", "férias"]  # the search ignores accents; "Summer Job" = estágio de férias
 
 
 def _location(city: str, state: str) -> str:
@@ -65,6 +66,20 @@ def _location(city: str, state: str) -> str:
 
 _TAGLINE = re.compile(r"^fa[çc]a parte d[oa] (?:nosso |nossa )?(?:time|equipe|família)\s*(?:d[oa]s?\s+)?", re.I)
 _HASHTAG = re.compile(r"^#(?:quero ?ser|seja|vem ?pra|vem ?para|venha ?ser|bora ?ser|faca ?parte|somos)?", re.I)
+# "Programa de Estágio Santa Casa BH", "Vagas Grupo Sabin", "Trabalhe na Mills", "Carreiras Pilar Hospital"...
+_PAGE_PREFIX = re.compile(
+    r"^(?:programas? de (?:est[áa]gio|entrada|pr[áa]cticas|trainee)(?: e trainee)?|oportunidades de est[áa]gio|est[áa]gios? e (?:jovem )?aprendiz"
+    r"|est[áa]gios?|vagas(?: abertas)?|carreiras?|portal de vagas|trabalhe conosco(?: n[ao])?|trabalhe (?:na|no|em)"
+    r"|venha (?:ser|trabalhar (?:conosco )?(?:na|no)?|fazer parte d[ao])|p[áa]gina de carreiras?)(?:\s*[•|]\s*|\s+|$)"
+    # "... em Marketing do Instituto Infnet", "... em Pesquisa Campinas – CNPEM", "... da PUCPR", "... 2027 - Fast"
+    r"(?:em [^–-]+?(?:\s+d[oa]s?|\s*[–-])\s+)?(?:(?:d[aoe]s?|na|no)\s+)?(?:20\d\d\s*[-–]\s*)?", re.I)
+# "Votorantim Cimentos - Jovens Talentos", "GrupoVillela | Gestão de Carreiras", "Energisa Estágio", "Anbima 2026"...
+_PAGE_SUFFIX = re.compile(
+    r"\s*(?:[-|–]\s*(?:vagas\b.*|jovens talentos|gest[ãa]o de carreiras|venha .*|programas? de .*|p[áa]gina de .*|carreiras?|trabalhe .*|talentos)"
+    r"|\s+(?:est[áa]gios?|carreiras|vagas|programa de est[áa]gio)|\s+20\d\d)$", re.I)
+# A whole sentence instead of a name: "Venha construir o futuro com a gente", "Página de Carreira".
+_SENTENCE = re.compile(r"^(?:venha|p[áa]gina de carreira|20\d\d$)|com a gente|conosco|nossos clientes", re.I)
+_SUBDOMAIN_WORDS = re.compile(r"^(?:programa(?:s)?(?:de)?(?:estagio|entrada)|estagios?|vagas|carreiras?)-?|-?(?:vagas|carreiras|estagio)$", re.I)
 
 
 def company_name(name: str, job_url: str) -> str:
@@ -78,16 +93,37 @@ def company_name(name: str, job_url: str) -> str:
     if cleaned.startswith("#"):
         cleaned = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", _HASHTAG.sub("", cleaned)).strip()  # "SejaSBT" -> "SBT"
     cleaned = _TAGLINE.sub("", cleaned).strip(" !.")
-    if cleaned and cleaned.lower() not in ("time", "nosso time", "equipe"):
+    for _ in range(2):  # "Programa de Estágio Anbima 2026"
+        cleaned = _PAGE_SUFFIX.sub("", _PAGE_PREFIX.sub("", cleaned)).strip(" !.-|")
+    if cleaned and not _SENTENCE.search(cleaned) and cleaned.lower() not in ("time", "nosso time", "equipe"):
         if cleaned.islower():  # "#vempraot" -> "OT", "#queroseraurora" -> "Aurora"
             cleaned = cleaned.upper() if len(cleaned) <= 4 else cleaned.title()
         return cleaned
     subdomain = (re.match(r"https?://([\w-]+)\.gupy\.io", job_url) or [None, ""])[1]
+    subdomain = _SUBDOMAIN_WORDS.sub("", subdomain) or subdomain  # "vagas-mrveco" -> "mrveco"
     return subdomain.replace("-", " ").title() if subdomain else name
 
 
-def to_opportunity(job: dict[str, Any]) -> Opportunity | None:
-    """One Gupy job -> Opportunity, or None when it isn't a student role at all."""
+# A company whose Gupy page was switched off still has jobs in the portal's search, with a broken
+# address ("https://terras&15719&inactive.gupy.io/job/..."): the job is closed (issue #24).
+INACTIVE_PAGE = re.compile(r"^https?://[^/]*(?:&|\binactive\b)", re.I)
+
+
+# The portal's search also returns jobs published years ago, nearly all closed (a sample of
+# pre-2025 estágios: 12 of 14 closed or gone). Talent pools ("Banco de talentos") stay open for long.
+MAX_AGE_DAYS = 365
+TALENT_POOL = re.compile(r"banco de (?:talentos|curr[íi]culos)|talent pool", re.I)
+
+
+def to_opportunity(job: dict[str, Any], today: date | None = None) -> Opportunity | None:
+    """One Gupy job -> Opportunity, or None when it isn't a student role at all or is closed."""
+    if INACTIVE_PAGE.search(str(job.get("jobUrl") or "")):
+        return None
+    published = iso_date(job.get("publishedDate"))
+    cutoff = ((today or date.today()) - timedelta(days=MAX_AGE_DAYS)).isoformat()
+    if published and published < cutoff and job.get("type") != "vacancy_type_talent_pool" \
+            and not TALENT_POOL.search(str(job.get("name") or "")):
+        return None
     title = str(job.get("name", "")).strip()
     job_type = str(job.get("type", ""))
     level = student_level(title)
@@ -114,11 +150,11 @@ def to_opportunity(job: dict[str, Any]) -> Opportunity | None:
     )
 
 
-def parse(payload: dict[str, Any]) -> list[Opportunity]:
+def parse(payload: dict[str, Any], today: date | None = None) -> list[Opportunity]:
     """One page of the JSON API."""
     if not isinstance(payload, dict) or not isinstance(payload.get("data"), list):
         raise ValueError("unexpected answer from the Gupy API (no 'data' list)")
-    return [opp for job in payload["data"] if (opp := to_opportunity(job))]
+    return [opp for job in payload["data"] if (opp := to_opportunity(job, today))]
 
 
 def _search(result: SourceResult, seen: set[str], params: dict[str, Any], students_only: bool) -> None:

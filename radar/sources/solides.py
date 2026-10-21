@@ -16,6 +16,7 @@ from typing import Any
 from urllib.parse import urlencode
 
 from ..http import get_json
+from ..labels import student_level
 from ..models import Opportunity
 from ..pay import from_range
 from ..textutil import html_to_text, iso_date
@@ -53,7 +54,9 @@ def parse(data: dict[str, Any]) -> list[Opportunity]:
                 posted_date=iso_date(job.get("createdAt")),
                 pay=from_range(salary.get("initialRange"), salary.get("finalRange"), "BRL", "mo"),
                 description=html_to_text(str(job.get("description") or "")),
-                hints=["student"],  # we only ask for contract type "estágio"
+                # We ask for contract type "estágio", but some companies file regular jobs there ("COZINHEIRO",
+                # "Advogado"): only a title that says so is sure.
+                hints=["student"] if student_level(str(job.get("title", ""))) == "yes" else ["unsure-student"],
             )
         )
     return items

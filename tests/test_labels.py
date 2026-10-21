@@ -259,3 +259,66 @@ def test_word_lists_are_compiled_once_and_match_like_one_search_per_word():
     for title, place in roles:
         apply_rules(Opportunity(title=title + " 2027", org="Y", source="gupy", url=title + "2", location=place))
     assert len(_WORD_RES) == warmed  # no new regex per role
+
+
+@pytest.mark.parametrize("title, place, season", [
+    ("Summer Job | Data & Analytics", "Barueri, SP, Brazil", "Dec–Feb"),  # Equifax: the Brazilian summer
+    ("Programa Summer Undergrad 2027", "São Paulo, SP, Brazil", "Dec–Feb"),
+    ("Summer Internship", "Buenos Aires, Argentina", "Dec–Feb"),
+    ("Summer Analyst", "New York, NY", "May–Aug"),
+    ("Summer Internship (June-August)", "São Paulo, Brazil", "May–Aug"),  # says northern months
+    ("Summer Intern", "São Paulo, Brazil / London, UK", "May–Aug"),  # also in the north
+    ("Estágio de Verão", "Lisboa, Portugal", "May–Aug"),  # Portugal's verão is June to August
+    ("Estágio de Verão", "Recife, PE", "Dec–Feb"),
+])
+def test_summer_in_the_south_is_december_to_february(title, place, season):
+    assert apply_rules(Opportunity(title=title, org="X", source="workday", url=title + place, location=place)).season == season
+
+
+@pytest.mark.parametrize("location, regions", [
+    ("Madrid, MD, Spain", ["Europe"]),  # MD is a Spanish region here, not Maryland
+    ("Vargarda, SE, Sweden", ["Europe"]),  # not Sergipe
+    ("Porto Velho, RO, Brazil", ["Brazil"]),  # not Portugal
+    ("US, New Mexico, Albuquerque", ["US/Canada"]),
+    ("Mexico City, Distrito Federal, Mexico", ["LatAm"]),
+    ("San Salvador, , El Salvador", ["LatAm"]),
+    ("Vienna, VA", ["US/Canada"]),
+    ("Melbourne, FL", ["US/Canada"]),
+    ("US-IA-CEDAR RAPIDS-182 ~ 1100 Cimmie Ave Ne ~ BLDG 182", ["US/Canada"]),
+    ("PL-18-RZESZOW", ["Europe"]),
+    ("Prague, Czechia", ["Europe"]),
+    ("Remote (US)", ["US/Canada", "remote"]),
+    ("London, Montreal, Singapore", ["US/Canada", "Europe", "Asia/ME"]),  # a list of cities
+    ("Costa Rica, San Jose", ["LatAm"]),
+])
+def test_the_country_a_place_names_wins(location, regions):
+    assert classify_regions(location) == regions
+
+
+@pytest.mark.parametrize("title, subs", [
+    ("Banco de Talentos – Estágio Administrativo", []),
+    ("Digital IC Design Engineer Intern", []),
+    ("Campus Quantitative Trader (Intern)", []),
+    ("Site Reliability Engineering Intern", []),
+    ("Solutions Architect Intern", []),
+    ("Estágio Infraestrutura de TI", ["infra"]),
+    ("Estágio em Trade Marketing", ["marketing"]),
+    ("Talent Acquisition Intern", ["rh"]),
+])
+def test_subareas_without_lookalikes(title, subs):
+    from radar.subareas import find_subareas
+
+    assert find_subareas(title) == subs
+
+
+def test_a_title_that_says_estagio_wins_over_an_unsure_source():
+    from radar.labels import level_for
+
+    assert level_for(Opportunity(title="Estágio em Administração", org="X", source="iel", url="u", hints=["unsure-student"])) == "yes"
+    assert level_for(Opportunity(title="COZINHEIRO", org="X", source="solides", url="u", hints=["unsure-student"])) == "unsure"
+
+
+def test_a_tech_heading_doesnt_make_a_finance_role_tech():
+    opp = apply_rules(Opportunity(title="Finance Intern", org="X", source="github_lists", url="u", hints=["area:ML"]))
+    assert opp.area == "other"
+    assert apply_rules(Opportunity(title="Intern", org="X", source="github_lists", url="u2", hints=["area:ML"])).area == "ML"

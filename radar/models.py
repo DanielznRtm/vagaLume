@@ -51,6 +51,12 @@ def same_job_key(url: str) -> str:
     """One key for the addresses of one job: the same Workday job with and without "/en-US/" or in
     upper and lower case, a Greenhouse job with "?gh_jid=", a Microsoft job with "?domain="."""
     url = strip_tracking(url).split("#")[0].rstrip("/")
+    # A Greenhouse job is its number, on any domain ("pinterest.com/...?gh_jid=8138039", ".../jobs/8138039").
+    gh = re.search(r"[?&]gh_jid=(\d+)", url) or re.search(r"greenhouse\.io/[\w-]+/jobs/(\d+)", url)
+    if gh:
+        return f"greenhouse:{gh.group(1)}"
+    url = re.sub(r"(lever\.co/[^?]+?)/apply$|(ashbyhq\.com/[^?]+?)/application$", lambda m: m.group(1) or m.group(2), url.split("?")[0]) \
+        if re.search(r"lever\.co|ashbyhq\.com", url) else url
     if _PATH_IS_THE_JOB.search(url):
         url = url.split("?")[0]
     url = re.sub(r"^https?://(?:www\.)?", "", url)

@@ -207,10 +207,11 @@ def upsert(conn: sqlite3.Connection, opp: Opportunity, today: str) -> bool:
     return False
 
 
-def mark_missing_as_closed(conn: sqlite3.Connection, source: str, seen_ids: set[str]) -> None:
-    """A healthy source that no longer lists a posting -> mark it closed."""
-    rows = conn.execute("SELECT id FROM opportunities WHERE source=? AND is_open=1", (source,)).fetchall()
-    gone = [row["id"] for row in rows if row["id"] not in seen_ids]
+def mark_missing_as_closed(conn: sqlite3.Connection, source: str, seen_ids: set[str], keep_orgs: set[str] = frozenset()) -> None:  # type: ignore[assignment]
+    """A healthy source that no longer lists a posting -> mark it closed. `keep_orgs`: companies
+    whose board failed this run, so their roles' absence means nothing."""
+    rows = conn.execute("SELECT id, org FROM opportunities WHERE source=? AND is_open=1", (source,)).fetchall()
+    gone = [row["id"] for row in rows if row["id"] not in seen_ids and row["org"] not in keep_orgs]
     conn.executemany("UPDATE opportunities SET is_open=0 WHERE id=?", [(i,) for i in gone])
 
 

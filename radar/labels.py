@@ -45,6 +45,7 @@ STRONG_STUDENT_WORDS = [
     r"studentships?", r"industrial placement", r"placement year", r"\d+[- ]months? placement",
     # Sweden/Denmark "Examensarbete", "Praktik"; Germany "Industriepraktikum"; Malaysia "Industrial Trainee".
     r"examensarbete", r"praktik", r"\w+praktikum", r"industrial trainee",
+    r"acad[êe]mic[oa]s? de",  # "Acadêmico de Enfermagem": a nursing student
 ]
 # "Stage" is a French internship, but also part of a rocket ("Stage Integration Engineer"): it counts
 # only as "Stage - ...", "Stage de/en ...", "Stage 2027", "Stage (6 mois)" or next to H/F, F/H.
@@ -242,7 +243,7 @@ BRAZIL = [
 BRAZIL_STATE_CODES = r",\s*(SP|RJ|MG|RS|BA|PE|CE|DF|GO|ES|AM|PB|RN|PI|SE|TO|RO|RR|AP|AC|PR)\b|\bBRA\b"
 LATAM = [
     r"MEX", r"ARG", r"CHL", r"COL", r"PER", r"URY", r"CRI",  # ISO country codes (checked case-sensitively below)
-    r"mexico", r"m[ée]xico", r"guadalajara", r"monterrey", r"argentina", r"buenos aires", r"chile",
+    r"(?<!new )mexico", r"m[ée]xico", r"bolivia", r"puerto rico", r"guadalajara", r"monterrey", r"argentina", r"buenos aires", r"chile",
     r"santiago", r"colombia", r"bogot[áa]", r"medell[íi]n", r"per[uú]", r"(?<!nova )(?<!abreu e )lima(?! duarte)", r"uruguay", r"montevideo",
     # districts Gupy sends without a country (Peru, Chile)
     r"surco", r"chincha", r"lurigancho", r"miraflores", r"callao", r"arequipa", r"las condes", r"providencia",
@@ -282,9 +283,9 @@ EUROPE = [
     r"ireland", r"dublin", r"france", r"paris", r"germany", r"deutschland", r"berlin", r"munich", r"regensburg", r"warstein", r"dresden", r"neubiberg",
     r"m[üu]nchen", r"hamburg", r"frankfurt", r"netherlands", r"amsterdam", r"switzerland", r"zurich",
     r"z[üu]rich", r"geneva", r"lausanne", r"austria", r"vienna", r"klosterneuburg", r"spain", r"madrid",
-    r"barcelona", r"portugal", r"lisbon", r"porto(?! alegre)", r"italy", r"milan", r"rome", r"sweden", r"stockholm",
+    r"barcelona", r"portugal", r"lisbon", r"porto(?! (?:alegre|velho|nacional|feliz|ferreira|seguro|belo|real))", r"italy", r"milan", r"rome", r"sweden", r"stockholm",
     r"denmark", r"copenhagen", r"norway", r"oslo", r"finland", r"helsinki", r"poland", r"warsaw",
-    r"krak[óo]w", r"prague", r"czech", r"belgium", r"brussels", r"ghent", r"luxembourg", r"budapest",
+    r"krak[óo]w", r"prague", r"czech\w*", r"belgium", r"brussels", r"ghent", r"luxembourg", r"budapest",
     r"hungary", r"romania", r"bucharest", r"greece", r"athens", r"estonia", r"tallinn", r"europe", r"emea",
     r"cambridge, uk", r"t[üu]bingen", r"lyon", r"grenoble", r"serbia", r"belgrade", r"ukraine", r"kyiv",
     r"slovakia", r"bratislava", r"croatia", r"zagreb", r"bulgaria", r"sofia", r"lithuania", r"vilnius",
@@ -346,8 +347,85 @@ _LATAM_COUNTRIES = (r"\b(?:m[eé]xico|argentina|chile|colombia|per[uú]|uruguay|
                     r"|costa rica|panam[aá]|guatemala|MEX|CHL|ARG|COL|PER|CRI)\b")
 
 
+# ", VA" or ", ON" at the end of a place: a US state or Canadian province (not "NYC" or "SF" inside a sentence).
+_US_STATE_AT_END = US_STATE_CODES.split(r"|\b(USA")[0]
+
+# A place that ends with its country ("Madrid, MD, Spain", "Porto Velho, RO, Brazil", "Albuquerque,
+# New Mexico, United States") is in that country: its city and "state code" are not read again, so
+# "MD" isn't Maryland, "Porto" isn't Portugal and "New Mexico" isn't Mexico.
+COUNTRY_REGION: dict[str, str] = {
+    **dict.fromkeys(["brazil", "brasil", "bra", "br"], "Brazil"),
+    **dict.fromkeys(["united states", "united states of america", "usa", "us", "u.s.", "canada"], "US/Canada"),
+    **dict.fromkeys(["mexico", "méxico", "argentina", "chile", "colombia", "peru", "perú", "uruguay", "paraguay", "bolivia",
+                     "ecuador", "venezuela", "costa rica", "panama", "panamá", "guatemala", "el salvador", "honduras",
+                     "dominican republic", "república dominicana", "nicaragua", "cuba", "puerto rico"], "LatAm"),
+    **dict.fromkeys(["united kingdom", "uk", "england", "scotland", "wales", "northern ireland", "ireland", "france", "germany",
+                     "deutschland", "spain", "españa", "portugal", "italy", "italia", "netherlands", "the netherlands",
+                     "belgium", "switzerland", "austria", "sweden", "norway", "denmark", "finland", "iceland", "poland",
+                     "czechia", "czech republic", "slovakia", "hungary", "romania", "bulgaria", "greece", "croatia",
+                     "slovenia", "serbia", "estonia", "latvia", "lithuania", "luxembourg", "malta", "cyprus", "monaco",
+                     "ukraine", "bosnia and herzegovina", "north macedonia", "albania", "montenegro", "moldova",
+                     "türkiye", "turkey"], "Europe"),
+    **dict.fromkeys(["china", "india", "japan", "south korea", "korea", "singapore", "hong kong", "taiwan", "malaysia",
+                     "thailand", "vietnam", "indonesia", "philippines", "australia", "new zealand", "israel",
+                     "united arab emirates", "uae", "saudi arabia", "qatar", "kuwait", "bahrain", "oman", "jordan",
+                     "egypt", "morocco", "south africa", "nigeria", "kenya", "ghana", "tunisia", "algeria", "senegal",
+                     "benin", "pakistan", "bangladesh", "sri lanka", "myanmar", "cambodia", "kazakhstan", "armenia",
+                     "georgia (country)", "lebanon"], "Asia/ME"),
+}
+# "US-IA-CEDAR RAPIDS-182", "CA-QC-LONGUEUIL", "PL-18-RZESZOW", "USA - New York - Malta": the country comes first.
+_LEADING_CODE = re.compile(r"^\s*(USA?|CA|MX|BR|BRA|PL|DE|FR|GB|UK|IN|CN|JP|SG|IT|ES|NL|CH|SE|IE|IL)\s*[-–,]")
+_CODE_REGION = {"US": "US/Canada", "USA": "US/Canada", "CA": "US/Canada", "MX": "LatAm", "BR": "Brazil", "BRA": "Brazil",
+                "IN": "Asia/ME", "CN": "Asia/ME", "JP": "Asia/ME", "SG": "Asia/ME", "IL": "Asia/ME"}
+
+
+def _named_country(part: str) -> str:
+    """The region of the country a place names at its end (or starts with as a code); "" if none."""
+    clean = re.sub(r"\((?:remote|hybrid|on-site|remoto|h[íi]brido|presencial)\)", "", part, flags=re.I).strip(" ,.-")
+    segments = [x.strip().lower() for x in clean.split(",")]
+    last = segments[-1]
+    # "London, Montreal, Hong Kong, New York, Singapore" is a list of cities, not a place in Singapore.
+    middle = segments[1:-1]
+    if len(segments) > 3 and not all(len(x) <= 3 or x == last for x in middle):
+        return ""
+    if len(segments) == 3 and last in COUNTRY_REGION and middle[0] and len(middle[0]) > 3:
+        # "London, Montreal, Singapore" (the first is already somewhere else) vs "Ilhéus, Bahia, Brazil".
+        first_regions = [r for r in _regions_by_words(segments[0]) if r != "remote"]
+        if first_regions and COUNTRY_REGION[last] not in first_regions:
+            return ""
+    if last in COUNTRY_REGION:
+        return COUNTRY_REGION[last]
+    first = clean.split(",", 1)[0].strip().lower()  # "Costa Rica, San Jose" (not "Lebanon, PA": a US town)
+    if "," in clean and first in COUNTRY_REGION and len(first) > 3 and not re.fullmatch(r"[A-Z]{2}", clean.rsplit(",", 1)[-1].strip()):
+        return COUNTRY_REGION[first]
+    match = _LEADING_CODE.match(clean)
+    if match:
+        return _CODE_REGION.get(match.group(1).upper(), "Europe")
+    return ""
+
+
 def classify_regions(location: str, remote: bool = False) -> list[str]:
     """Return every region that the location string mentions."""
+    regions: list[str] = []
+    rest: list[str] = []
+    for part in re.split(r"\s/\s|;|\|", location):
+        country = _named_country(part)
+        if country:
+            regions.append(country)
+        elif part.strip():
+            rest.append(part)
+    for part in rest:
+        regions += [r for r in _regions_by_words(part) if r not in regions]
+    if remote or REMOTE_PLACE.search(location) or re.search(r"\banywhere\b|\bworldwide\b|home[- ]based", location, re.I):
+        if re.search(r"(?i:remote)[^/;]*\b(?:US|USA)\b|\b(?:US|USA)\b[^/;]*(?i:remote)", location) and "US/Canada" not in regions:
+            regions.append("US/Canada")  # "Remote (US)", "Remote, US"
+        regions.append("remote")
+    ordered = [r for r in ("Brazil", "LatAm", "US/Canada", "Europe", "Asia/ME", "remote") if r in regions]
+    return ordered or ["unknown"]
+
+
+def _regions_by_words(location: str) -> list[str]:
+    """Regions from city names and state codes, for places that don't name their country."""
     regions: list[str] = []
     checks = [
         ("Brazil", BRAZIL, BRAZIL_STATE_CODES),
@@ -366,9 +444,16 @@ def classify_regions(location: str, remote: bool = False) -> list[str]:
     # "Boise, ID" -> US, but "Berlin, DE" was already recognised as Europe.
     if not regions and re.search(US_AMBIGUOUS_CODES, location):
         regions.append("US/Canada")
-    if remote or REMOTE_PLACE.search(location) or re.search(r"\banywhere\b|\bworldwide\b|home[- ]based", location, re.I):
-        regions.append("remote")
-    return regions or ["unknown"]
+    # "Vienna, VA", "Melbourne, FL", "London, Ontario": a US state (or Canadian province) at the end
+    # says the country; the city's European or Australian namesake doesn't count.
+    us_end = re.search(rf"{_US_STATE_AT_END}\s*(?:\(|$)", location.strip()) or location.count(",") == 1 and re.search(
+        r",\s*(?:ontario|quebec|british columbia|alberta|wisconsin|massachusetts|pennsylvania|illinois|indiana|colorado|"
+        r"virginia|georgia|ohio|michigan|minnesota|texas|california|washington|oregon|arizona|florida|new york|new jersey|"
+        r"north carolina|south carolina|tennessee|kentucky|missouri|maryland|connecticut|utah|alabama|iowa|kansas|"
+        r"nebraska|nevada|new mexico|louisiana|oklahoma|arkansas|mississippi|idaho|montana|delaware|maine)\s*$", location.strip(), re.I)
+    if "US/Canada" in regions and us_end and "Brazil" not in regions:
+        regions = ["US/Canada"]
+    return regions
 
 
 # ---------------------------------------------------------------------------
@@ -469,9 +554,10 @@ def level_for(opp: Opportunity) -> str:
     """Student level, taking the source's hints into account."""
     if "student" in opp.hints or "new-grad" in opp.hints:
         return "yes"  # the source itself says it is a student role (or a curated list)
+    level = student_level(opp.title)
     if "unsure-student" in opp.hints:
-        return "unsure"
-    return student_level(opp.title)
+        return "yes" if level == "yes" else "unsure"  # "Estágio em Administração" says so itself
+    return level
 
 
 def apply_rules(opp: Opportunity) -> Opportunity:
@@ -490,13 +576,18 @@ def apply_rules(opp: Opportunity) -> Opportunity:
     opp.area = str(preset.get("area") or classify_area(opp.title, opp.description, opp.fields))
     # Sources can suggest an area ("area:quant") used when the rules find nothing.
     suggested = [hint.split(":", 1)[1] for hint in opp.hints if hint.startswith("area:")]
-    if opp.area == "other" and suggested:
+    # ...but not on a role for a non-tech field ("Finance Intern" under a list's "Data Science & ML" heading).
+    if opp.area == "other" and suggested and (not opp.fields or set(opp.fields) & TECH_FIELDS):
         opp.area = suggested[0]
     # A role that names no field but has a tech area ("Applied Scientist Intern" is ML) is for
     # the fields of that area: otherwise it would show for every student, law and nursing too.
     if not opp.fields:
         opp.fields = list(AREA_FIELDS.get(opp.area, []))
     opp.season = str(preset.get("season") or classify_season(opp.title, opp.description, opp.hints))
+    if not preset.get("season") and southern_summer(opp):
+        opp.season = "Dec–Feb"  # "Summer Job" in São Paulo is the Brazilian summer, December to February
+    elif not preset.get("season") and northern_verao(opp):
+        opp.season = "May–Aug"  # "Estágio de Verão" in Portugal or Mexico is the northern summer
     opp.warnings = find_warnings(opp, level, opp.regions)
     for extra in preset.get("warnings") or []:  # type: ignore[union-attr]
         if extra not in opp.warnings:
@@ -515,6 +606,29 @@ def apply_rules(opp: Opportunity) -> Opportunity:
     opp.states = brazil_states(opp.location) if "Brazil" in opp.regions else []
     opp.labeled_by = "rules"
     return opp
+
+
+# The southern summer: a "summer" role in Brazil or the Southern Cone runs December to February,
+# unless it names northern-summer months ("Summer 2027 (June–August)").
+_SOUTHERN_PLACE = re.compile(r"\b(?:argentina|buenos aires|chile|santiago de chile|uruguay|montevideo|paraguay|asunci[óo]n)\b", re.I)
+_NORTHERN_MONTHS = re.compile(r"\b(?:may|june|july|august|maio|junho|julho|agosto|mayo|junio|julio)\b", re.I)
+
+
+def southern_summer(opp: Opportunity) -> bool:
+    if opp.season != "May–Aug" or not re.search(r"\bsummer\b|\bver[ãa]o\b|\bverano\b", opp.title, re.I):
+        return False
+    southern = "Brazil" in opp.regions or bool(_SOUTHERN_PLACE.search(opp.location))
+    northern = any(r in opp.regions for r in ("US/Canada", "Europe", "Asia/ME"))
+    return southern and not northern and not _NORTHERN_MONTHS.search(opp.title)
+
+
+def northern_verao(opp: Opportunity) -> bool:
+    """ "Verão"/"verano" read as December–February, but the place is in the north (Portugal, Spain, Mexico)."""
+    if opp.season != "Dec–Feb" or not re.search(r"\bver[ãa]o\b|\bverano\b", opp.title, re.I):
+        return False
+    if "Brazil" in opp.regions or _SOUTHERN_PLACE.search(opp.location):
+        return False
+    return any(r in opp.regions for r in ("Europe", "US/Canada", "Asia/ME")) or bool(re.search(r"m[ée]xico", opp.location, re.I))
 
 
 def is_student_candidate(title: str) -> bool:

@@ -1,0 +1,111 @@
+{
+ "links": {
+  "first": "https://www.arbeitnow.com/api/job-board-api?page=1",
+  "last": null,
+  "prev": null,
+  "next": "https://www.arbeitnow.com/api/job-board-api?page=2"
+ },
+ "meta": {
+  "current_page": 1,
+  "current_page_url": "https://www.arbeitnow.com/api/job-board-api?page=1",
+  "from": 1,
+  "path": "https://www.arbeitnow.com/api/job-board-api",
+  "per_page": 300,
+  "to": 300,
+  "terms": "This is a free public API for jobs, please do not abuse. I would appreciate linking back to the site. By using the API, you agree to the terms of service present on Arbeitnow.com",
+  "info": "Jobs are updated every hour and order by the `created_at` timestamp. Use `?page=` to paginate. Read more information here: https://www.arbeitnow.com/blog/job-board-api"
+ },
+ "data": [
+  {
+   "slug": "werkstudent-customer-success-support-berlin-240190",
+   "company_name": "FunnelCockpit",
+   "title": "Werkstudent Customer Success & Support (m/w/d)",
+   "description": "<p>Wir sind FunnelCockpit – ein innovatives Software-Unternehmen. Unsere Mission: das beste All-in-One-Marketing-Tool für kleine und mittelständische Unternehmen zu bauen. Und wir sind auf einem sehr guten Weg dorthin.</p><p>Damit wir weiter wachsen ",
+   "remote": true,
+   "url": "https://www.arbeitnow.com/jobs/companies/funnelcockpit/werkstudent-customer-success-support-berlin-240190",
+   "tags": [
+    "Remote",
+    "Customer Service"
+   ],
+   "job_types": [
+    "Werkstudent",
+    "working student",
+    "hilfstätigkeit / student"
+   ],
+   "location": "Berlin",
+   "created_at": 1792593061
+  },
+  {
+   "slug": "werkstudent-social-media-content-creator-berlin-283882",
+   "company_name": "femsure GmbH",
+   "title": "Werkstudent Social Media & Content Creator (m/w/d)",
+   "description": "<p><strong>Berlin / Remote | 15 bis 20 Stunden pro Woche</strong></p><h3>We make finance female.</h3><p>Versicherungen und Finanzen? Klingt erstmal nicht besonders sexy. Wir finden: Das muss sich ändern.</p><p><strong>femsure ist ein junges InsurTech",
+   "remote": true,
+   "url": "https://www.arbeitnow.com/jobs/companies/femsure-gmbh/werkstudent-social-media-content-creator-berlin-283882",
+   "tags": [
+    "Remote",
+    "Social Media Manager"
+   ],
+   "job_types": [
+    "Werkstudent",
+    "working student",
+    "hilfstätigkeit / student"
+   ],
+   "location": "Berlin",
+   "created_at": 1792591280
+  },
+  {
+   "slug": "sales-manager-new-business-inkl-provision-berlin-100117",
+   "company_name": "Konfetti GmbH",
+   "title": "Sales Manager - New Business (m/f/x) inkl. Provision",
+   "description": "<p><strong>konfetti</strong> ist die Buchungsplattform und Software für lokale Workshops. Seit der Gründung im April 2021 haben wir unser Produkt stetig weiterentwickelt und arbeiten nun mit <strong>mehr als</strong> <strong>2.500 Anbietern</strong> ",
+   "remote": false,
+   "url": "https://www.arbeitnow.com/jobs/companies/konfetti-gmbh/sales-manager-new-business-inkl-provision-berlin-100117",
+   "tags": [
+    "Management",
+    "Team Leader"
+   ],
+   "job_types": [
+    "Befristeter arbeitsvertrag",
+    "teamleitung"
+   ],
+   "location": "Berlin",
+   "created_at": 1792602053
+  },
+  {
+   "slug": "account-manager-partner-growth-inkl-provision-berlin-11889",
+   "company_name": "Konfetti GmbH",
+   "title": "Account Manager - Partner Growth (m/f/x) inkl. Provision",
+   "description": "<p><strong>konfetti</strong> ist die Buchungsplattform und Software für lokale Workshops. Seit der Gründung im April 2021 haben wir unser Produkt stetig weiterentwickelt und arbeiten nun mit <strong>mehr als</strong> <strong>2.500 Anbietern</strong> ",
+   "remote": false,
+   "url": "https://www.arbeitnow.com/jobs/companies/konfetti-gmbh/account-manager-partner-growth-inkl-provision-berlin-11889",
+   "tags": [
+    "Business Development"
+   ],
+   "job_types": [
+    "Befristeter arbeitsvertrag",
+    "berufserfahren"
+   ],
+   "location": "Berlin",
+   "created_at": 1792602052
+  },
+  {
+   "slug": "creative-designer-berlin-23343",
+   "company_name": "Neolymp",
+   "title": "Creative Designer (m/w/d)",
+   "description": "<p>Dich begeistern Creatives, die nicht nur gut aussehen, sondern skalieren? Du willst von grafischer Seite unmittelbar daran mitwirken, dass ein Onlineshop wächst – und in den Zahlen sehen, was dein Hook, dein Static, dein Banner bewegt? Dann bist d",
+   "remote": true,
+   "url": "https://www.arbeitnow.com/jobs/companies/neolymp/creative-designer-berlin-23343",
+   "tags": [
+    "Remote",
+    "Graphic Arts and Communication Design"
+   ],
+   "job_types": [
+    "Unbefristeter arbeitsvertrag",
+    "berufserfahren"
+   ],
+   "location": "Berlin",
+   "created_at": 1792600251
+  }
+ ]
+}

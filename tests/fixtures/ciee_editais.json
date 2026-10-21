@@ -1,0 +1,884 @@
+{
+"vitrine": {
+"pageable": {
+"sort": {
+"unsorted": true,
+"sorted": false,
+"empty": true
+},
+"offset": 0,
+"pageNumber": 0,
+"pageSize": 100,
+"unpaged": false,
+"paged": true
+},
+"totalPages": 31,
+"totalElements": 3100,
+"last": false,
+"sort": {
+"unsorted": true,
+"sorted": false,
+"empty": true
+},
+"size": 100,
+"number": 0,
+"first": true,
+"numberOfElements": 100,
+"empty": false,
+"content": [
+{
+"id": 13788,
+"orgao": {
+"id": 5929,
+"nome": "Jovem Aprendiz CIEE - Pré-Inscrição",
+"convocacaoAutomatica": false
+},
+"identificacao": "Áreas: Alimentação, Magarefe, Comércio e Varejo",
+"ano": 2026,
+"ativo": true,
+"status": "ABERTO",
+"tipoEdital": "AMBOS",
+"locaisProva": []
+},
+{
+"id": 17411,
+"orgao": {
+"id": 7459,
+"nome": "TRIBUNAL REGIONAL ELEITORAL DO ESTADO DE MATO GROSSO DO SUL | TRE-MS",
+"convocacaoAutomatica": false
+},
+"identificacao": "EDITAL 02/2026 (NÍVEL SUPERIOR)",
+"ano": 2026,
+"ativo": true,
+"status": "ABERTO",
+"tipoEdital": "AMBOS",
+"locaisProva": []
+},
+{
+"id": 13721,
+"orgao": {
+"id": 7174,
+"nome": "FINANCIADORA DE ESTUDOS E PROJETOS - FINEP",
+"convocacaoAutomatica": false
+},
+"identificacao": "Programa de Estágio ",
+"ano": 2026,
+"ativo": true,
+"status": "ABERTO",
+"tipoEdital": "AMBOS",
+"locaisProva": []
+},
+{
+"id": 13766,
+"orgao": {
+"id": 122,
+"nome": "Tribunal de Justiça do Estado de São Paulo - TJSP",
+"convocacaoAutomatica": false
+},
+"identificacao": "2026 - Ensino Médio Regular",
+"ano": 2026,
+"ativo": true,
+"status": "ABERTO",
+"tipoEdital": "AMBOS",
+"locaisProva": []
+},
+{
+"id": 17443,
+"orgao": {
+"id": 3788,
+"nome": "Companhia Paulista de Trens Metropolitanos - CPTM - SP",
+"convocacaoAutomatica": false
+},
+"identificacao": "Edital 01/2026",
+"ano": 2026,
+"ativo": true,
+"status": "EM_BREVE",
+"tipoEdital": "AMBOS",
+"locaisProva": []
+},
+{
+"id": 17303,
+"orgao": {
+"id": 3627,
+"nome": "Fundação Cultural Cassiano Ricardo - FCCR - SJC - SP",
+"convocacaoAutomatica": false
+},
+"identificacao": "Edital nº 001-FCCR-GRH-2026 - SETEMBRO",
+"ano": 2026,
+"ativo": true,
+"status": "FINALIZADO",
+"tipoEdital": "AMBOS",
+"locaisProva": []
+},
+{
+"id": 17397,
+"orgao": {
+"id": 6635,
+"nome": "Câmara Municipal de Campinas - SP",
+"convocacaoAutomatica": false
+},
+"identificacao": "EDITAL 01/2026 ",
+"ano": 2026,
+"ativo": false,
+"status": "ABERTO",
+"tipoEdital": "AMBOS",
+"locaisProva": []
+}
+]
+},
+"details": {
+"17411": {
+"id": 17411,
+"regraGoverno": false,
+"tipoProva": "ONLINE",
+"identificacao": "EDITAL 02/2026 (NÍVEL SUPERIOR)",
+"ano": 2026,
+"tipoEdital": "AMBOS",
+"orgao": {
+"id": 7459,
+"nome": "TRIBUNAL REGIONAL ELEITORAL DO ESTADO DE MATO GROSSO DO SUL | TRE-MS",
+"convocacaoAutomatica": false
+},
+"ativo": true,
+"status": "ABERTO",
+"abrangencia": "MUNICIPAL",
+"emailResponsaveis": [],
+"idsContratosKairos": [],
+"requisitos": {
+"descricaoRequisito": "<div><b>&nbsp; &nbsp; &nbsp; &nbsp;São requisitos para inscrição:</b></div><div><br></div><div><ul><li>Estar matriculado e cursando os cursos previstos no <b><i>ANEXO I — EXTRATO DO QUADRO DE VAGAS E CRONOGRAMA (OUTUBRO).</i></b></li></ul></div><div><b>&nbsp; &nbsp; &nbsp; São requisitos para contratação:</b></div><div><br></div><div><ul><li>Ser brasileiro(a) nato(a) ou naturalizado(a), ou estrangeiro(a) com autorização de residência válida no País;</li><li>Na data de início do estágio, o estudante deve ter idade mínima de 16 (dezesseis) anos completos, conforme previsto no §5º do art. 7º da Resolução nº 1 do CNE/CEB, de 21 de janeiro de 2004 (Conselho Nacional de Educação);</li><li>Não ter sido exonerado(a) a bem do serviço público;</li><li>Estar em dia com as obrigações eleitorais, quando maior de 18 anos e das obrigações militares, quando do sexo masculino maior de 18 anos;</li><li>Es",
+"idadeMinima": 16,
+"idadeMinimaCompletaAte": "2027-12-10",
+"exigeIdadeMinima": true,
+"ufResidencia": null,
+"cidades": [],
+"exigeResidencia": false
+},
+"fases": [
+{
+"id": 23903,
+"idCronograma": null,
+"nomeFase": "Fase",
+"descricaoFase": "As inscrições serão recebidas somente via internet, no período de 14/10/2026 até às 12:00 horas do dia 29/10/2026 (Horário de Brasília), incluindo sábados, domingos e feriados;",
+"dataInicio": null,
+"dataFim": null
+},
+{
+"id": 23904,
+"idCronograma": null,
+"nomeFase": "Fase",
+"descricaoFase": "As provas online serão recebidas somente via internet, no período de 14/10/2026 até às 12:00 horas do dia 29/10/2026 (Horário de Brasília), incluindo sábados, domingos e feriados.",
+"dataInicio": null,
+"dataFim": null
+}
+],
+"cronogramas": [
+{
+"id": 59251,
+"tipoFase": "PROVA",
+"dataInicio": "2026-10-14T00:00:00",
+"dataFim": "2026-10-29T12:00:00",
+"visibilidade": false
+},
+{
+"id": 59250,
+"tipoFase": "INSCRICAO",
+"dataInicio": "2026-10-14T00:00:00",
+"dataFim": "2026-10-29T12:00:00",
+"visibilidade": false
+},
+{
+"id": 59252,
+"tipoFase": "PUBLICACAO_CLASSIFICACAO_OFICIAL",
+"dataInicio": "2026-12-11T08:51:00",
+"dataFim": "2026-12-11T23:59:00",
+"visibilidade": false
+}
+],
+"documentos": [
+{
+"id": 29240727,
+"nomeDocumento": "TRIBUNAL REGIONAL ELEITORAL DO ESTADO DE MATO GROSSO DO SUL _ TRE-MS EDITAL 02_2026.pdf",
+"tipoDocumento": "DOCUMENTO_EDITAL"
+}
+],
+"jornadas": [],
+"bolsasAuxilio": [],
+"editalCursos": [
+{
+"id": 259064,
+"curso": {
+"id": 4129,
+"descricao": "  Engenharia Civil",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "TERCEIRO_SEMESTRE",
+"periodoMaximo": "NONO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+},
+{
+"id": 259065,
+"curso": {
+"id": 2175,
+"descricao": "  Psicologia ",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "TERCEIRO_SEMESTRE",
+"periodoMaximo": "NONO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+},
+{
+"id": 259059,
+"curso": {
+"id": 81,
+"descricao": "Administração",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "TERCEIRO_SEMESTRE",
+"periodoMaximo": "SETIMO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+},
+{
+"id": 259060,
+"curso": {
+"id": 31,
+"descricao": "Ciências Contábeis",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "TERCEIRO_SEMESTRE",
+"periodoMaximo": "SETIMO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+},
+{
+"id": 259061,
+"curso": {
+"id": 146,
+"descricao": "Comunicação Social - Jornalismo",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "TERCEIRO_SEMESTRE",
+"periodoMaximo": "SETIMO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+},
+{
+"id": 259062,
+"curso": {
+"id": 37,
+"descricao": "Direito",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "TERCEIRO_SEMESTRE",
+"periodoMaximo": "NONO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+}
+],
+"editalAvisos": [],
+"editalNiveis": [],
+"editalResultados": [],
+"editalSecoesCustomizadas": [],
+"vinculoLocaisCursos": [
+{
+"id": 238313,
+"listCursos": [
+{
+"id": 259059,
+"curso": {
+"id": 81,
+"descricao": "Administração",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "TERCEIRO_SEMESTRE",
+"periodoMaximo": "SETIMO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+},
+{
+"id": 259060,
+"curso": {
+"id": 31,
+"descricao": "Ciências Contábeis",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "TERCEIRO_SEMESTRE",
+"periodoMaximo": "SETIMO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+},
+{
+"id": 259061,
+"curso": {
+"id": 146,
+"descricao": "Comunicação Social - Jornalismo",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "TERCEIRO_SEMESTRE",
+"periodoMaximo": "SETIMO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+}
+],
+"listLocais": [
+{
+"id": 25961248,
+"local": null,
+"uf": "MS",
+"cidade": "CAMPO GRANDE"
+}
+],
+"listNiveis": []
+}
+],
+"dataValidadeConvocacao": "2027-12-11",
+"niveisSegurancaProvaResponse": null,
+"notaCorte": 0,
+"tipoProcesso": "PROVA_ONLINE",
+"localProva": null,
+"notaCorteHistoricoEscolar": 0.0,
+"idsCidades": [
+5002704
+],
+"ufs": []
+},
+"13721": {
+"id": 13721,
+"regraGoverno": null,
+"tipoProva": null,
+"identificacao": "Programa de Estágio ",
+"ano": 2026,
+"tipoEdital": "AMBOS",
+"orgao": {
+"id": 7174,
+"nome": "FINANCIADORA DE ESTUDOS E PROJETOS - FINEP",
+"convocacaoAutomatica": false
+},
+"ativo": true,
+"status": "ABERTO",
+"abrangencia": "ESTADUAL",
+"emailResponsaveis": [],
+"idsContratosKairos": [],
+"requisitos": {
+"descricaoRequisito": "<div><b>Público-Alvo:&nbsp;</b></div><div>&nbsp; &nbsp; • O programa destina-se, exclusivamente, para estudantes regularmente matriculados (as) em instituições de ensino superior.</div><div><br></div><div><span data-teams=\"true\"><b>Inclusão e Acessibilidade:</b></span></div><div><ul><li>A FINEP incentiva a participação de pessoas com deficiência. <strong style=\"background-color: transparent; color: rgb(0, 0, 0); font-family: &quot;Segoe UI&quot;;\">Todas as vagas deste processo seletivo são destinadas a pessoas com deficiência (PCD)</strong></li></ul></div><div><b>Requisitos mínimos:&nbsp;&nbsp;</b></div><div>&nbsp; &nbsp; • Para estágio de nível superior, quando da inscrição e formalização do Termo de Compromisso de Estágio, estar com matrícula e frequência regular em curso do ensino superior – graduação (Bacharelado, Licenciatura ou Tecnólogo) cujas instituições de ensino sejam oficialm",
+"idadeMinima": 16,
+"idadeMinimaCompletaAte": "2026-12-30",
+"exigeIdadeMinima": true,
+"ufResidencia": null,
+"cidades": [],
+"exigeResidencia": false
+},
+"fases": [
+{
+"id": 16967,
+"idCronograma": null,
+"nomeFase": "Fase",
+"descricaoFase": "Inscrições pela internet.",
+"dataInicio": null,
+"dataFim": null
+},
+{
+"id": 16968,
+"idCronograma": null,
+"nomeFase": "Fase",
+"descricaoFase": "Entrevistas.",
+"dataInicio": null,
+"dataFim": null
+},
+{
+"id": 16969,
+"idCronograma": null,
+"nomeFase": "Fase",
+"descricaoFase": "Apresentação de documentos- Formalização do Termo de Compromisso de Estágio.",
+"dataInicio": null,
+"dataFim": null
+}
+],
+"cronogramas": [
+{
+"id": 56261,
+"tipoFase": "INSCRICAO",
+"dataInicio": "2025-10-29T10:00:00",
+"dataFim": "2027-01-06T12:00:00",
+"visibilidade": false
+}
+],
+"documentos": [],
+"jornadas": [],
+"bolsasAuxilio": [],
+"editalCursos": [
+{
+"id": 197965,
+"curso": {
+"id": 4131,
+"descricao": "   Engenharia da Computação",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "SEGUNDO_SEMESTRE",
+"periodoMaximo": "OITAVO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+},
+{
+"id": 197970,
+"curso": {
+"id": 2176,
+"descricao": "   Publicidade e Propaganda",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "SEGUNDO_SEMESTRE",
+"periodoMaximo": "SETIMO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+},
+{
+"id": 197971,
+"curso": {
+"id": 2003,
+"descricao": "  Sistemas de Informação",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "SEGUNDO_SEMESTRE",
+"periodoMaximo": "SETIMO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+},
+{
+"id": 197967,
+"curso": {
+"id": 2508,
+"descricao": " Engenharia Química",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "SEGUNDO_SEMESTRE",
+"periodoMaximo": "OITAVO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+},
+{
+"id": 197968,
+"curso": {
+"id": 3091,
+"descricao": " Gestão Pública",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "SEGUNDO_SEMESTRE",
+"periodoMaximo": "SETIMO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+},
+{
+"id": 197969,
+"curso": {
+"id": 3246,
+"descricao": " Jornalismo",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "SEGUNDO_SEMESTRE",
+"periodoMaximo": "SETIMO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+}
+],
+"editalAvisos": [],
+"editalNiveis": [],
+"editalResultados": [],
+"editalSecoesCustomizadas": [],
+"vinculoLocaisCursos": [
+{
+"id": 237351,
+"listCursos": [
+{
+"id": 197956,
+"curso": {
+"id": 1,
+"descricao": "Ciência da Computação",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "SEGUNDO_SEMESTRE",
+"periodoMaximo": "SETIMO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+},
+{
+"id": 197959,
+"curso": {
+"id": 31,
+"descricao": "Ciências Contábeis",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "SEGUNDO_SEMESTRE",
+"periodoMaximo": "SETIMO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+},
+{
+"id": 197955,
+"curso": {
+"id": 324,
+"descricao": "Arquivologia",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "SEGUNDO_SEMESTRE",
+"periodoMaximo": "SETIMO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+}
+],
+"listLocais": [
+{
+"id": 25958476,
+"local": "Lago Sul",
+"uf": "DF",
+"cidade": "BRASÍLIA"
+},
+{
+"id": 25958474,
+"local": "Flamengo",
+"uf": "RJ",
+"cidade": "RIO DE JANEIRO"
+},
+{
+"id": 25958475,
+"local": "Itaim Bibi",
+"uf": "SP",
+"cidade": "SÃO PAULO"
+}
+],
+"listNiveis": []
+}
+],
+"dataValidadeConvocacao": "2027-01-06",
+"niveisSegurancaProvaResponse": null,
+"notaCorte": 0,
+"tipoProcesso": "PROVA_ONLINE",
+"localProva": null,
+"notaCorteHistoricoEscolar": 0.0,
+"idsCidades": [],
+"ufs": [
+"DF",
+"RJ",
+"SP"
+]
+},
+"13766": {
+"id": 13766,
+"regraGoverno": false,
+"tipoProva": "ONLINE",
+"identificacao": "2026 - Ensino Médio Regular",
+"ano": 2026,
+"tipoEdital": "AMBOS",
+"orgao": {
+"id": 122,
+"nome": "Tribunal de Justiça do Estado de São Paulo - TJSP",
+"convocacaoAutomatica": false
+},
+"ativo": true,
+"status": "ABERTO",
+"abrangencia": "ESTADUAL",
+"emailResponsaveis": [],
+"idsContratosKairos": [],
+"requisitos": {
+"descricaoRequisito": "<div><ul><li>Estar regularmente matriculado no ano vigente;</li><li>Ser brasileiro(a) nato(a), naturalizado(a) ou estrangeiro(a) com visto permanente no país;</li><li>Ter idade mínima de 16 (dezesseis) anos, no ato da inscrição;</li><li>Não ter sido exonerado(a) a bem do serviço público;</li><li>Estar em dia com as obrigações eleitorais, quando maior de 18 anos e das obrigações militares, quando do sexo masculino maior de 18 anos;</li><li>Não ter feito estágio (em mesmo nível de escolaridade deste Comunicado), por período superior a dezoito meses (corridos ou intercalados) no Tribunal de Justiça do Estado de São Paulo, exceto pessoas com deficiência (Art. 11 da Lei 11.788/2008). Poderá, excepcionalmente, ser firmado Termo de Compromisso de Estágio com vigência de 1 (um) semestre letivo.</li><li>Ser estudante do 1º ou 2º ano do ensino médio regular no ato da contratação e estejam a pelo m",
+"idadeMinima": 16,
+"idadeMinimaCompletaAte": "2026-11-30",
+"exigeIdadeMinima": true,
+"ufResidencia": null,
+"cidades": [],
+"exigeResidencia": false
+},
+"fases": [
+{
+"id": 17076,
+"idCronograma": null,
+"nomeFase": "Fase",
+"descricaoFase": "Inscrição e prova online objetiva no site do CIEE.",
+"dataInicio": null,
+"dataFim": null
+}
+],
+"cronogramas": [
+{
+"id": 58638,
+"tipoFase": "INSCRICAO",
+"dataInicio": "2026-01-01T00:00:00",
+"dataFim": "2026-10-31T23:59:00",
+"visibilidade": false
+},
+{
+"id": 58639,
+"tipoFase": "PROVA",
+"dataInicio": "2026-01-01T00:00:00",
+"dataFim": "2026-10-31T23:59:00",
+"visibilidade": false
+}
+],
+"documentos": [
+{
+"id": 29027586,
+"nomeDocumento": "Cursos Gratuitos do Google que só o CIEE oferece para você!.pdf",
+"tipoDocumento": "DOCUMENTO_EDITAL"
+}
+],
+"jornadas": [],
+"bolsasAuxilio": [],
+"editalCursos": [
+{
+"id": 201071,
+"curso": {
+"id": 141,
+"descricao": "Ensino Médio Regular ",
+"nivel": "EM",
+"ativo": true
+},
+"periodoMinimo": "PRIMEIRO_ANO",
+"periodoMaximo": "SEGUNDO_ANO",
+"tipoPeriodo": "ANUAL"
+}
+],
+"editalAvisos": [],
+"editalNiveis": [],
+"editalResultados": [],
+"editalSecoesCustomizadas": [],
+"vinculoLocaisCursos": [
+{
+"id": 218751,
+"listCursos": [
+{
+"id": 201071,
+"curso": {
+"id": 141,
+"descricao": "Ensino Médio Regular ",
+"nivel": "EM",
+"ativo": true
+},
+"periodoMinimo": "PRIMEIRO_ANO",
+"periodoMaximo": "SEGUNDO_ANO",
+"tipoPeriodo": "ANUAL"
+}
+],
+"listLocais": [
+{
+"id": 901,
+"local": null,
+"uf": "SP",
+"cidade": "ADAMANTINA"
+},
+{
+"id": 902,
+"local": null,
+"uf": "SP",
+"cidade": "AGUAI"
+},
+{
+"id": 903,
+"local": null,
+"uf": "SP",
+"cidade": "AGUAS DE LINDOIA"
+},
+{
+"id": 904,
+"local": null,
+"uf": "SP",
+"cidade": "AGUDOS"
+},
+{
+"id": 905,
+"local": null,
+"uf": "SP",
+"cidade": "ALTINOPOLIS"
+},
+{
+"id": 906,
+"local": null,
+"uf": "SP",
+"cidade": "AMERICANA"
+},
+{
+"id": 907,
+"local": null,
+"uf": "SP",
+"cidade": "AMERICO BRASILIENSE"
+},
+{
+"id": 908,
+"local": null,
+"uf": "SP",
+"cidade": "AMPARO"
+}
+],
+"listNiveis": []
+}
+],
+"dataValidadeConvocacao": "2027-01-01",
+"niveisSegurancaProvaResponse": null,
+"notaCorte": 0,
+"tipoProcesso": "PROVA_ONLINE",
+"localProva": null,
+"notaCorteHistoricoEscolar": 0.0,
+"idsCidades": [],
+"ufs": [
+"SP"
+]
+},
+"17443": {
+"id": 17443,
+"regraGoverno": null,
+"tipoProva": null,
+"identificacao": "Edital 01/2026",
+"ano": 2026,
+"tipoEdital": "AMBOS",
+"orgao": {
+"id": 3788,
+"nome": "Companhia Paulista de Trens Metropolitanos - CPTM - SP",
+"convocacaoAutomatica": false
+},
+"ativo": true,
+"status": "EM_BREVE",
+"abrangencia": "MUNICIPAL",
+"emailResponsaveis": [],
+"idsContratosKairos": [],
+"requisitos": {
+"descricaoRequisito": null,
+"idadeMinima": null,
+"idadeMinimaCompletaAte": null,
+"exigeIdadeMinima": false,
+"ufResidencia": null,
+"cidades": [],
+"exigeResidencia": false
+},
+"fases": [
+{
+"id": 23945,
+"idCronograma": null,
+"nomeFase": "Fase",
+"descricaoFase": "Inscrições pela internet;",
+"dataInicio": null,
+"dataFim": null
+},
+{
+"id": 23946,
+"idCronograma": null,
+"nomeFase": "Fase",
+"descricaoFase": "Prova on-line.",
+"dataInicio": null,
+"dataFim": null
+}
+],
+"cronogramas": [
+{
+"id": 59431,
+"tipoFase": "INSCRICAO",
+"dataInicio": "2026-10-27T00:00:00",
+"dataFim": "2026-11-17T12:00:00",
+"visibilidade": false
+},
+{
+"id": 59432,
+"tipoFase": "PROVA",
+"dataInicio": "2026-10-27T00:00:00",
+"dataFim": "2026-11-17T12:00:00",
+"visibilidade": false
+}
+],
+"documentos": [
+{
+"id": 29293345,
+"nomeDocumento": "Cursos Gratuitos do Google que só o CIEE oferece para você!.pdf",
+"tipoDocumento": "DOCUMENTO_EDITAL"
+}
+],
+"jornadas": [],
+"bolsasAuxilio": [],
+"editalCursos": [
+{
+"id": 260171,
+"curso": {
+"id": 81,
+"descricao": "Administração",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "TERCEIRO_SEMESTRE",
+"periodoMaximo": "SETIMO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+},
+{
+"id": 260148,
+"curso": {
+"id": 81,
+"descricao": "Administração",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "TERCEIRO_SEMESTRE",
+"periodoMaximo": "SETIMO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+},
+{
+"id": 260172,
+"curso": {
+"id": 30,
+"descricao": "Arquitetura e Urbanismo",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "TERCEIRO_SEMESTRE",
+"periodoMaximo": "NONO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+},
+{
+"id": 260149,
+"curso": {
+"id": 30,
+"descricao": "Arquitetura e Urbanismo",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "TERCEIRO_SEMESTRE",
+"periodoMaximo": "NONO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+},
+{
+"id": 260174,
+"curso": {
+"id": 1,
+"descricao": "Ciência da Computação",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "TERCEIRO_SEMESTRE",
+"periodoMaximo": "SETIMO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+},
+{
+"id": 260151,
+"curso": {
+"id": 1,
+"descricao": "Ciência da Computação",
+"nivel": "SU",
+"ativo": true
+},
+"periodoMinimo": "TERCEIRO_SEMESTRE",
+"periodoMaximo": "SETIMO_SEMESTRE",
+"tipoPeriodo": "SEMESTRAL"
+}
+],
+"editalAvisos": [],
+"editalNiveis": [],
+"editalResultados": [],
+"editalSecoesCustomizadas": [],
+"vinculoLocaisCursos": [],
+"dataValidadeConvocacao": "2027-12-14",
+"niveisSegurancaProvaResponse": null,
+"notaCorte": 0,
+"tipoProcesso": "PROVA_ONLINE",
+"localProva": null,
+"notaCorteHistoricoEscolar": 0.0,
+"idsCidades": [],
+"ufs": []
+}
+}
+}

@@ -111,7 +111,9 @@ SKILLS: list[tuple[str, str]] = [
     ("Litigation", r"contencioso|litigation|processual|peti[çc][õo]es|audi[êe]ncias"),
     ("Contracts", r"contratos|contract (?:drafting|review|law)|elabora[çc][ãa]o de contratos"),
     ("Corporate law", r"direito societ|corporate law|societário|societario|\bM&A\b"),
-    ("Compliance", r"\bcompliance\b"),
+    # Not "in compliance with applicable laws" (equal-opportunity text): the field itself.
+    ("Compliance", r"(?:analista|área|area|programa|program|equipe|time|team|gest[ãa]o|risk|risco|regulatory)\s+(?:de\s+)?compliance"
+                   r"|compliance\s+(?:analyst|program|team|risk|regulat\w*|officer|e\s+riscos)|\bKYC\b|\bAML\b|lavagem de dinheiro"),
     ("Data protection (LGPD/GDPR)", r"\blgpd\b|\bgdpr\b|prote[çc][ãa]o de dados|data protection|privacy law"),
     ("Legal research", r"pesquisa jur[íi]dica|jurisprud[êe]ncia|legal research"),
     # Health
@@ -130,16 +132,23 @@ SKILLS: list[tuple[str, str]] = [
     ("Financial modeling", r"modelagem financeira|financial model"),
     ("SAP", r"(?-i:\bSAP\b)"),
     ("CRM", r"(?-i:\bCRM\b)|salesforce|hubspot"),
-    ("Sales", r"\bvendas\b|\bsales\b|prospec[çc][ãa]o|negocia[çc][ãa]o"),
-    ("Supply chain", r"supply chain|log[íi]stica|compras|procurement|suprimentos|\bestoque\b|inventory"),
+    # Not "our sales team" in a company blurb: selling itself.
+    ("Sales", r"t[ée]cnicas de vendas|\bvendas\b(?! da empresa)|sales (?:experience|skills|techniques|pipeline|process|targets)|inside sales"
+              r"|\bB2B sales|prospec[çc][ãa]o de clientes|negocia[çc][ãa]o com (?:clientes|fornecedores)"),
+    ("Supply chain", r"supply chain|log[íi]stica|\bcompras\b|procurement|suprimentos|gest[ãa]o de estoques?|controle de estoque|inventory management"),
     ("Project management", r"gest[ãa]o de projetos|gerenciamento de projetos|project management|\bPMBOK\b|\bscrum\b|\bkanban\b"),
     ("Lean / Six Sigma", r"\blean\b|six sigma|seis sigma|melhoria cont[íi]nua|\bkaizen\b"),
-    ("Recruiting (HR)", r"recrutamento|recruit|sele[çc][ãa]o de pessoas|\bR&S\b|departamento pessoal|folha de pagamento|payroll"),
+    # Not "your recruiter will contact you" or "Recruiting Partner": recruiting as the work.
+    ("Recruiting (HR)", r"recrutamento e sele[çc][ãa]o|\bR&S\b|sele[çc][ãa]o de pessoas|departamento pessoal|folha de pagamento|\bpayroll\b"
+                        r"|talent acquisition|full[- ]cycle recruiting|sourcing (?:of )?candidates|triagem de curr[íi]culos"
+                        r"|(?:área|estágio|estagi[áa]ri[oa]|assistente|analista) (?:de |em )?(?:recrutamento|recruiting)|recruiting intern"),
     ("Customer service", r"atendimento ao cliente|customer service|customer success|sucesso do cliente"),
     # Communication and design
     ("Digital marketing", r"marketing digital|digital marketing|google ads|meta ads|tr[áa]fego pago|performance marketing"),
     ("SEO", r"(?-i:\bSEO\b)"),
-    ("Social media", r"redes sociais|social media|instagram|tiktok|linkedin content"),
+    # Not "follow us on Instagram": producing for social media.
+    ("Social media", r"gest[ãa]o de (?:redes|m[íi]dias) sociais|conte[úu]do para (?:as )?redes sociais|social media (?:management|marketing|strategy|content|analytics)"
+                     r"|(?:criar|criação de|produzir|produção de|planejamento de) (?:posts|conte[úu]do)|community management|linkedin content"),
     ("Copywriting", r"copywrit|reda[çc][ãa]o publicit|produ[çc][ãa]o de conte[úu]do|content writing"),
     ("Adobe Photoshop / Illustrator", r"photoshop|illustrator|indesign|adobe creative"),
     ("Figma", r"\bfigma\b"),

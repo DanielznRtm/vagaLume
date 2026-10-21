@@ -51,7 +51,7 @@ STUDENT_TYPE = re.compile(r"intern|estagi|apprenti|aprendiz|trainee|student|co-?
 # The job-type filter's name differs between sites.
 TYPE_FACET = re.compile(r"subtype|worker_?type|employee_?type|contract_?type|job_?type|time_?type_?student", re.I)
 # Title searches for global sites without a job-type filter.
-GLOBAL_SEARCHES = ["intern", "student", "stage", "praktikum", "thesis", "trainee"]
+GLOBAL_SEARCHES = ["intern", "student", "stage", "praktikum", "thesis", "trainee", "summer"]
 
 
 def base_url(site: dict[str, Any]) -> str:
@@ -151,6 +151,28 @@ def parse(data: dict[str, Any], site: dict[str, Any], from_student_facet: bool, 
     return items
 
 
+# Brazilian companies file their "Summer Job" (estágio de férias, December to February) under the
+# team's job family, not under the internship job type (Equifax: "Data and Analytics"). So in Brazil we
+# also search these words with no job-type filter; only student-looking titles are kept.
+BRAZIL_SEARCHES = ["summer", "férias"]  # few requests: some sites (Accenture) answer 429 to more
+
+
+def _brazil_searches(url: str, applied: dict[str, list[str]], site: dict[str, Any], seen: set[str],
+                     country: str = "") -> tuple[list[Opportunity], int]:
+    items: list[Opportunity] = []
+    made = 0
+    for search in BRAZIL_SEARCHES:
+        found, pages = _pages(url, applied, search, site, False, country) if country else _brazil_pages(url, applied, search, site)
+        made += pages
+        items += [o for o in found if o.url not in seen and not seen.add(o.url)]
+    return items, made
+
+
+def _brazil_pages(url: str, applied: dict[str, list[str]], search: str, site: dict[str, Any]) -> tuple[list[Opportunity], int]:
+    data = post_json(url, {"appliedFacets": applied, "limit": PAGE_SIZE, "offset": 0, "searchText": search})
+    return parse(data, site, False), 1
+
+
 def fetch_site(site: dict[str, Any]) -> tuple[list[Opportunity], int]:
     """All Brazilian student roles of one Workday site, and how many requests it took."""
     url = api_url(site)
@@ -166,6 +188,11 @@ def fetch_site(site: dict[str, Any]) -> tuple[list[Opportunity], int]:
         total = total or int(data.get("total") or 0)  # Workday sends the total on the first page only
         if (page + 1) * PAGE_SIZE >= total or not data.get("jobPostings"):
             break
+    if student_facet:  # summer jobs filed outside the internship job type
+        brazil_only = {k: v for k, v in applied.items() if not TYPE_FACET.search(k)}
+        more, made = _brazil_searches(url, brazil_only, site, {o.url for o in items})
+        items += more
+        requests_made += made
     return items, requests_made
 
 
@@ -239,6 +266,13 @@ def _fetch_site_global(site: dict[str, Any]) -> tuple[list[Opportunity], int]:
             found, pages = _pages(url, {**facets, parameter: [country_id]}, "", site, True, country)
             items += found
             made += pages
+        # Brazil's summer jobs may sit outside the student job type (see BRAZIL_SEARCHES).
+        _, every_country = _countries(first)
+        brazil = [cid for cid, name in every_country if re.search(r"bra[sz]il", name, re.I)]
+        if brazil:
+            more, pages = _brazil_searches(url, {parameter: brazil}, site, {o.url for o in items}, "Brazil")
+            items += more
+            made += pages
         return items, made
     items, made, seen = [], 1, set()
     for search in GLOBAL_SEARCHES:
@@ -267,6 +301,7 @@ def fetch(config: dict[str, Any]) -> SourceResult:
                 result.checked += 1
                 log.warning("Workday %s failed: %s", site.get("tenant"), outcome)
                 result.errors.append(f"{site.get('name') or site.get('tenant')}: {outcome}")
+                result.failed_orgs.add(str(site.get("name") or site["tenant"]))
             else:
                 items, requests_made = outcome
                 result.items.extend(items)

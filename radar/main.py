@@ -21,9 +21,10 @@ from . import db, details, digest, labels, llm, notify, report, site, telegram_b
 from .config import ROOT, load_config
 from .models import Opportunity
 from .sources import (
-    SourceResult, abler, academia, amazon, ashby, ciadetalentos, ciee, company_sites, eightfold, eureca, fapesp,
-    github_lists, google, greenhouse, gupy, iel, inhire, lever, meta, microsoft, nextjs_sites, nvidia, oracle_hcm,
-    programs, rss_jobs, shopee, smartrecruiters, solides, successfactors, superestagios, totvs_rh, workday,
+    SourceResult, abler, academia, amazon, ashby, ciadetalentos, ciee, ciee_editais, company_sites, eightfold, eureca,
+    fapesp, github_lists, google, greenhouse, gupy, iel, inhire, lever, meta, microsoft, mudes, nextjs_sites, nvidia,
+    oracle_hcm, parana, programs, quickin, recrutei, remote_boards, rss_jobs, shopee, smartrecruiters, solides,
+    successfactors, superestagios, totvs_rh, usp_estagios, workday,
 )
 
 log = logging.getLogger("radar")
@@ -69,6 +70,18 @@ SOURCES: dict[str, Callable[[dict[str, Any], sqlite3.Connection, str], SourceRes
     "shopee": lambda cfg, conn, today: shopee.fetch(cfg),
     "academia": lambda cfg, conn, today: academia.fetch(cfg),
     "successfactors": lambda cfg, conn, today: successfactors.fetch(cfg),
+    "ciee_editais": lambda cfg, conn, today: ciee_editais.fetch(cfg),
+    "mudes": lambda cfg, conn, today: mudes.fetch(cfg),
+    "recrutei": lambda cfg, conn, today: recrutei.fetch(cfg),
+    "quickin": lambda cfg, conn, today: quickin.fetch(cfg),
+    "parana": lambda cfg, conn, today: parana.fetch(cfg),
+    "usp_estagios": lambda cfg, conn, today: usp_estagios.fetch(cfg),
+    # --- Remote job boards: one entry per board, so each one is credited and closes its own roles ---
+    "himalayas": lambda cfg, conn, today: remote_boards.fetch(cfg, ["himalayas"]),
+    "remotive": lambda cfg, conn, today: remote_boards.fetch(cfg, ["remotive"]),
+    "jobicy": lambda cfg, conn, today: remote_boards.fetch(cfg, ["jobicy"]),
+    "remoteok": lambda cfg, conn, today: remote_boards.fetch(cfg, ["remoteok"]),
+    "workingnomads": lambda cfg, conn, today: remote_boards.fetch(cfg, ["workingnomads"]),
 }
 
 
@@ -79,6 +92,7 @@ def run_source(name: str, config: dict[str, Any], conn: sqlite3.Connection, toda
     try:
         result = SOURCES[name](config, conn, today)
         health.items, health.checked, health.errors = len(result.items), result.checked, result.errors
+        health.failed_orgs = set(result.failed_orgs)
         if result.errors:
             # Everything failed -> "failed"; some parts failed -> "partial".
             health.status = "failed" if not result.items else "partial"
@@ -147,13 +161,17 @@ def run(
         done = llm.refine_labels(fresh)
         labeled_by = f"keyword rules + Claude ({done} new items)"
 
-    # 3. Store. A source that worked completely also tells us which of its
-    #    old postings disappeared (= closed). Failed/partial sources don't.
+    # 3. Store. A source that worked also tells us which of its old postings disappeared (= closed).
+    #    A partial source whose failures were whole companies' boards (one Workday site answered 429)
+    #    still tells us for every other company; a source that failed in another way doesn't.
     for opp in all_items:
         db.upsert(conn, opp, today)
     for h in health:
+        seen = {o.id for o in collected[h.name] if o.is_open}
         if h.status == "ok":
-            db.mark_missing_as_closed(conn, h.name, {o.id for o in collected[h.name] if o.is_open})
+            db.mark_missing_as_closed(conn, h.name, seen)
+        elif h.status == "partial" and h.failed_orgs and len(h.failed_orgs) == len(h.errors):
+            db.mark_missing_as_closed(conn, h.name, seen, keep_orgs=h.failed_orgs)
     db.close_stale(conn, today)
     apply_status_file(conn, config.get("status") or {})
     conn.commit()

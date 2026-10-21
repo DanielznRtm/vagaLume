@@ -1,0 +1,100 @@
+{
+"account": {
+"_id": "612fca5d1c4e5c00139fc54e",
+"name": "Level Cinco - Estágios e Efetivos",
+"slug": "levelcinco",
+"career_url": "https://jobs.quickin.io/levelcinco"
+},
+"jobs": {
+"total": 5,
+"limit": 30,
+"page": 1,
+"pages": 1,
+"docs": [
+{
+"_id": "6ab2afcba2ae7c00135c88c4",
+"publicate": "published",
+"title": "Estágio - Gestão de Frota - Porto Alegre/RS",
+"description": "<ul>\n<li>Monitoramento de frota e ve&iacute;culos;</li>\n<li>Controle de abastecimento.</li>\n</ul>\n<p>Hor&aacute;rio de trabalho: Segunda a Sexta - 6h por dia (a combinar).<br />Bolsa auxilio: R$1.400,00&nbsp;</p>",
+"requirements": "<ul>\n<li>Residir na Zona Norte de Porto Alegre, Cachoeirinha ou Gravatai;</li>\n<li>Ensino M&eacute;dio em andamento;</li>\n<li>Pacote Office.</li>\n</ul>",
+"city": "PORTO ALEGRE",
+"region": "RS",
+"country": "BR",
+"position_category": "logistic_and_transportation",
+"workplace_type": "on-site",
+"code": "NQS1380",
+"career_url": "https://jobs.quickin.io/levelcinco/jobs/6ab2afcba2ae7c00135c88c4",
+"created_at": "2026-09-22T16:41:47.906Z"
+},
+{
+"_id": "6ab2ad9daf7d7200136cc70f",
+"publicate": "published",
+"title": "Estágio - Auxiliar de Saúde Bucal - Porto Alegre/RS",
+"description": "<p>Venha se juntar &agrave; nossa equipe!</p>\n<p>Estamos em busca de um(a) Auxiliar de Sa&uacute;de Bucal (ASB) dedicado(a) para integrar nossa equipe e ajudar a oferecer um atendimento de qualidade aos nossos pacientes.</p>\n<p>Responsabilidades:</p>\n<ul>\n<li>Esteriliza&ccedil;&atilde;o de instrumentais;</li>\n<li>Montagem de salas de atendimento;</li>\n<li>Recep&ccedil;&atilde;o de pacientes;</li>\n<li>Controle de expurgo;</li>\n<li>Assepsia das salas cl&iacute;nicas;</li>\n<li>Aux&iacute;lio direto aos profissionais de sa&uacute;de.</li>\n</ul>\n<p>Hor&aacute;rio de Trabalho:<br />Segunda a sexta das 13:30 &agrave;s 19:30.<br /><br /></p>\n<p>Bolsa auxilio: R$1.000,00</p>",
+"requirements": "<ul>\n<li>Ensino m&eacute;dio completo;</li>\n<li>Cursando ASB E TSB;</li>\n</ul>",
+"city": "Porto Alegre",
+"region": "Rio Grande do Sul",
+"country": "BR",
+"position_category": "healtcare",
+"workplace_type": "on-site",
+"code": "DWU6151",
+"career_url": "https://jobs.quickin.io/levelcinco/jobs/6ab2ad9daf7d7200136cc70f",
+"created_at": "2026-09-22T16:32:29.078Z"
+},
+{
+"_id": "6aa1c03e8972130013a0c708",
+"publicate": "published",
+"title": "Estágio -Auxiliar de Educação Infantil - Cachoeirinha / RS",
+"description": "<p>Acompanhar as crian&ccedil;as na hora do lanche;<br />Acompanhar professor titular em sala de aula;<br />Auxiliar professor nas atividades pedag&oacute;gicas e de higieniza&ccedil;&atilde;o das crian&ccedil;as.</p>\n<p><strong>Hor&aacute;rio de trabalho: </strong>13h &agrave;s 19h segunda a sexta.</p>",
+"requirements": "<p>Cursando pedagogia;<br />Para moradores de Cachoeirinha ou Gravatai.</p>",
+"city": "Cachoeirinha",
+"region": "Rio Grande do Sul",
+"country": "BR",
+"position_category": "education",
+"workplace_type": "on-site",
+"code": "CEC4271",
+"career_url": "https://jobs.quickin.io/levelcinco/jobs/6aa1c03e8972130013a0c708",
+"created_at": "2026-09-09T20:23:26.515Z"
+},
+{
+"_id": "6a9ffc3071d713001373eb76",
+"publicate": "published",
+"title": "Estágio - Auxiliar Comercial / Cachoeirinha - RS",
+"description": "<p>Empresa, localizada em Cachoeirinha/RS, est&aacute; com uma nova oportunidade para integrar sua equipe!<br /><br />✨ <span style=\"text-decoration: underline;\"><strong>Atividades:</strong></span><br /><br />Prepara&ccedil;&atilde;o e montagem de cestas de caf&eacute; da manh&atilde;;<br />Controle de estoque, lista de compras e papelaria;<br />Recebimento, separa&ccedil;&atilde;o, embalagem e libera&ccedil;&atilde;o de pedidos de delivery;<br />Produ&ccedil;&atilde;o de conte&uacute;dos (fotos e v&iacute;deos) para redes sociais.<br /><br /><br />🕒 <strong>Hor&aacute;rio: </strong>08h &agrave;s 13h - Segunda &agrave; s&aacute;bado&nbsp; (15 minutos de intervalo).</p>",
+"requirements": "<p>🔹Residir em Cachoeirinha ou Gravata&iacute;&nbsp;<br />🔹Cursando Ensino M&eacute;dio<br />🔹Proatividade, agilidade e aten&ccedil;&atilde;o aos detalhes;<br />🔹Vontade de aprender;<br />🔹Conhecimento em Canva, CapCut e ferramentas do Instagram, ser&aacute; considerado um difer&ecirc;ncial.<br /><br /></p>",
+"city": "CACHOEIRINHA",
+"region": "RS",
+"country": "BR",
+"position_category": "sales",
+"workplace_type": "on-site",
+"code": "ODU5053",
+"career_url": "https://jobs.quickin.io/levelcinco/jobs/6a9ffc3071d713001373eb76",
+"benefits": "<p>💰 Bolsa-aux&iacute;lio: R$ 900,00<br />🎁 Vale-transporte compat&iacute;vel&nbsp;<br />🎁 Lanche no local (caf&eacute;, p&atilde;es, etc.).</p>",
+"currency": "BRL",
+"remuneration": 900,
+"remuneration_period": "month",
+"contract_id": {
+"_id": "612fca5d1c4e5c00139fc56c",
+"name": "Estágio"
+},
+"created_at": "2026-09-08T12:14:40.692Z"
+},
+{
+"_id": "6ac7d9a9606d7900136927ca",
+"publicate": "published",
+"title": "CLT - Gerente Fiscal - Porto Alegre/RS",
+"description": "<ul>\n<li><span style=\"font-size: 14px;\">Respons&aacute;vel pela gest&atilde;o de pessoas e da opera&ccedil;&atilde;o fiscal como um todo, incluindo cronograma, indicadores e suporte t&eacute;cnico; </span></li>\n<li><span style=\"font-size: 14px;\">Exerce a autoridade final nas decis&otilde;es operacionais e nos casos de maior complexidade do setor; </span></li>\n<li><span style=\"font-size: 14px;\">Reporta-se &agrave; Ger&ecirc;ncia Tribut&aacute;ria e lidera a Coordena&ccedil;&atilde;o Fiscal e a equipe de analistas, assistentes e estagi&aacute;rios.</span></li>\n</ul>\n<p><strong>Principais atividades:</strong></p>\n<ul>\n<li>Gest&atilde;o de pessoas: conduzir a gest&atilde;o da equipe fiscal, com ",
+"requirements": "<ul>\n<li>Experi&ecirc;ncia consolidada em lideran&ccedil;a de equipe fiscal em escrit&oacute;rio de contabilidade;</li>\n<li>S&oacute;lido conhecimento t&eacute;cnico em tributos e obriga&ccedil;&otilde;es acess&oacute;rias nos regimes Simples Nacional, Lucro Presumido e Lucro Real;</li>\n<li>Viv&ecirc;ncia com gest&atilde;o de indicadores, prazos e atendimento a clientes;</li>\n<li>Forma&ccedil;&atilde;o em Ci&ecirc;ncias Cont&aacute;beis ou &aacute;rea correlata;</li>\n<li>Disponibilidade para atua&ccedil;&atilde;o em Porto Alegre.</li>\n</ul>",
+"city": "PORTO ALEGRE",
+"region": "RS",
+"country": "BR",
+"position_category": "accouting_auditing",
+"workplace_type": "on-site",
+"code": "DTT4958",
+"career_url": "https://jobs.quickin.io/levelcinco/jobs/6ac7d9a9606d7900136927ca",
+"benefits": "<ul>\n<li>Vale transporte/Auxilio Combust&iacute;vel;</li>\n<li>Vale alimenta&ccedil;&atilde;o/Vale Refei&ccedil;&atilde;o: R$50,00 por dia;</li>\n<li>Plano de sa&uacute;de: DoctorClin (com coparticipa&ccedil;&atilde;o);</li>\n<li>Plano odontol&oacute;gico: Uniodonto;</li>\n<li>Conv&ecirc;nio farm&aacute;cia;</li>\n<li>Gympass;</li>\n<li>Day off.&nbsp;</li>\n</ul>",
+"created_at": "2026-10-08T17:58:01.130Z"
+}
+]
+}
+}

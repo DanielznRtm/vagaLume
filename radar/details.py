@@ -17,6 +17,7 @@ first run reads a few thousand pages, later runs only the new roles.
 
 from __future__ import annotations
 
+import json
 import logging
 import re
 import sqlite3
@@ -39,14 +40,15 @@ log = logging.getLogger(__name__)
 
 # Sources whose list gives no description (or no pay) and how many of their pages to read per run.
 # About 2,750 pages (~7 minutes) per run: the first runs clear the backlog over 2-3 days, then only new roles.
-BUDGET = {"github_lists": 1000, "workday": 700, "smartrecruiters": 300, "iel": 500, "microsoft": 150, "nvidia": 100}
+BUDGET = {"github_lists": 1000, "workday": 700, "smartrecruiters": 300, "iel": 500, "microsoft": 150, "nvidia": 100,
+          "gupy": 400}  # Gupy: only to learn which jobs were closed (the list already has the text)
 # Sites whose job pages only show the pay in a real browser (radar/browser.py), about 7 s a page:
 # read one after the other, a few per run. Meta: "$7,313/month to $12,667/month + benefits".
 BROWSER_BUDGET = {"meta": 20}
 REREAD_DAYS = 30
 # The GitHub lists keep a role for days after the company takes it down: their pages are read again
 # every week, so a removed role (the page answers 404) leaves the site soon.
-REREAD_DAYS_BY_SOURCE = {"github_lists": 7}
+REREAD_DAYS_BY_SOURCE = {"github_lists": 7, "gupy": 14}
 # A role whose page is gone is closed, unless that many pages of one source are "gone" in one run
 # (then the site is more likely blocking us than closing them all).
 GONE_LIMIT = 0.3
@@ -163,13 +165,49 @@ READERS: list[tuple[re.Pattern[str], Callable[[str], tuple[str, str]]]] = [
 ]
 
 
-def reader_for(url: str) -> Callable[[str], tuple[str, str]] | None:
-    return next((read for pattern, read in READERS if pattern.search(url)), None)
+def _gupy(url: str) -> tuple[str, str]:
+    """<company>.gupy.io/job/<id>: Gupy's portal search keeps jobs closed long ago; the job page's data
+    says "status": "published" or "closed" (a removed job answers 404). Nothing new to read otherwise."""
+    page = get_text(url)
+    match = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', page, re.S)
+    if not match:
+        return "", ""
+    job = ((json.loads(match.group(1)).get("props") or {}).get("pageProps") or {}).get("job") or {}
+    if not job or str(job.get("status") or "published") != "published":
+        raise JobGone(url)
+    return " ", ""  # read: the job is still open
+
+
+READERS.append((re.compile(r"\.gupy\.io/job/"), _gupy))
+
+
+# A company's own job page says the job is over (for links with no reader of their own, from the GitHub lists).
+CLOSED_PAGE = re.compile(
+    r"vaga (?:encerrada|finalizada|expirada|indispon[íi]vel)|n[ãa]o est[áa] mais dispon[íi]vel|processo seletivo (?:encerrado|finalizado)"
+    r"|no longer (?:available|accepting applications|open)|(?:this )?(?:job|position|posting) (?:is |has been )?(?:closed|filled|expired)"
+    r"|(?:job|page) not found|p[áa]gina n[ãa]o encontrada", re.I)
+# Hosts that turn bots away (403 "Access Denied"): their answer says nothing about the job.
+NO_FALLBACK = re.compile(r"tesla\.com|linkedin\.com|indeed\.|glassdoor\.", re.I)
+
+
+def _page_or_gone(url: str) -> tuple[str, str]:
+    """Any other job page: a 404/410 (raised by get_text) or "position filled" closes the role; else its text."""
+    text = html_to_text(get_text(url))[:20000]
+    if CLOSED_PAGE.search(text[:4000]):
+        raise JobGone(url)
+    return text, ""
+
+
+def reader_for(url: str, source: str = "") -> Callable[[str], tuple[str, str]] | None:
+    found = next((read for pattern, read in READERS if pattern.search(url)), None)
+    if found is None and source == "github_lists" and not NO_FALLBACK.search(url):
+        return _page_or_gone
+    return found
 
 
 def read(opp: Opportunity) -> bool:
     """Read one role's page into it. True when something was read."""
-    reader = reader_for(opp.url)
+    reader = reader_for(opp.url, opp.source)
     if reader is None:
         return False
     text, pay = reader(opp.url)
@@ -200,7 +238,7 @@ def enrich(items: list[Opportunity], conn: sqlite3.Connection, today: str) -> di
     queue: list[Opportunity] = []
     for source, budget in BUDGET.items():
         before = reread_before(source)
-        due = [o for o in items if o.source == source and reader_for(o.url)
+        due = [o for o in items if o.source == source and reader_for(o.url, o.source)
                and (not checked.get(o.id) or checked[o.id] < before)]
         due.sort(key=lambda o: o.id in checked)  # roles we have never seen first
         queue += due[:budget]

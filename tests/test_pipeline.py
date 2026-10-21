@@ -214,3 +214,19 @@ def test_the_site_shows_one_row_per_job_and_merges_places():
     df = [i for i in items if i["org"] == "SEEC/DF"]
     assert len(df) == 1 and df[0]["location"].count(" / ") == 2 and len(df[0]["alts"]) == 2 and len(df[0]["also"]) == 2
     assert len([i for i in items if i["org"] == "Empresa confidencial"]) == 2
+
+
+def test_a_partial_source_still_closes_the_roles_of_the_boards_that_answered():
+    from radar import db
+    from radar.labels import apply_rules
+    from radar.models import Opportunity
+
+    conn = db.connect(":memory:")
+    a = Opportunity(title="Intern A", org="Acme", source="workday", url="https://acme/1")
+    b = Opportunity(title="Intern B", org="Beta", source="workday", url="https://beta/1")
+    for opp in (a, b):
+        db.upsert(conn, apply_rules(opp), "2026-10-20")
+    # Next day Beta's board fails (429) and Acme's no longer lists its role.
+    db.mark_missing_as_closed(conn, "workday", set(), keep_orgs={"Beta"})
+    open_orgs = {o.org for o in db.load_all(conn) if o.is_open}
+    assert open_orgs == {"Beta"}

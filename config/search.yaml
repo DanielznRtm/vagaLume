@@ -67,3 +67,7 @@ ciee_levels: [SU]
 # Super Estágios: school levels to keep (the start of its "nivel_ensino"):
 # Superior, Técnico, Médio, Pós-Graduação... An empty list keeps everything.
 superestagios_levels: [Superior]
+
+# Remote job boards (radar/sources/remote_boards.py): internships open to people in Brazil.
+# Also available: weworkremotely (terms page could not be checked), arbeitnow (German Werkstudent jobs only).
+remote_boards: [himalayas, remotive, jobicy, remoteok, workingnomads]

@@ -21,6 +21,7 @@ class SourceHealth:
     checked: int = 0
     seconds: float = 0.0
     errors: list[str] = field(default_factory=list)
+    failed_orgs: set[str] = field(default_factory=set)  # companies whose board failed (see SourceResult)
 
 
 @dataclass

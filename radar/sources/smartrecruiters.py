@@ -75,4 +75,5 @@ def fetch(config: dict[str, Any]) -> SourceResult:
         except Exception as error:  # noqa: BLE001
             log.warning("SmartRecruiters %s failed: %s", company.get("id"), error)
             result.errors.append(f"{company.get('name') or company.get('id')}: {error}")
+            result.failed_orgs.add(str(company.get("name") or company.get("id")))
     return result
