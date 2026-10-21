@@ -25,6 +25,14 @@ def test_gupy_reads_the_json_api():
     assert first.regions == ["Brazil"]
 
 
+def test_gupy_skips_jobs_of_switched_off_pages():
+    """Issue #24: "https://terras&15719&inactive.gupy.io/job/..." answers 404; the job is closed."""
+    job = {"name": "Pessoa desenvolvedora nível Estagiário", "type": "vacancy_type_internship", "careerPageName": "Terras",
+           "jobUrl": "https://terras&15719&inactive.gupy.io/job/eyJqb2JJZCI6MTUyNDA1NX0=", "city": "Belém", "state": "Pará"}
+    assert gupy.to_opportunity(job) is None
+    assert gupy.to_opportunity(job | {"jobUrl": "https://terras.gupy.io/job/eyJqb2JJZCI6MTUyNDA1NX0="}) is not None
+
+
 def test_gupy_trainee_without_place_or_dates():
     trainee = gupy.parse(fixture_json("gupy_api.json"))[-1]
     assert trainee.hints == ["unsure-student"]  # trainee: maybe for recent graduates

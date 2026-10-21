@@ -86,8 +86,15 @@ def company_name(name: str, job_url: str) -> str:
     return subdomain.replace("-", " ").title() if subdomain else name
 
 
+# A company whose Gupy page was switched off still has jobs in the portal's search, with a broken
+# address ("https://terras&15719&inactive.gupy.io/job/..."): the job is closed (issue #24).
+INACTIVE_PAGE = re.compile(r"^https?://[^/]*(?:&|\binactive\b)", re.I)
+
+
 def to_opportunity(job: dict[str, Any]) -> Opportunity | None:
-    """One Gupy job -> Opportunity, or None when it isn't a student role at all."""
+    """One Gupy job -> Opportunity, or None when it isn't a student role at all or is closed."""
+    if INACTIVE_PAGE.search(str(job.get("jobUrl") or "")):
+        return None
     title = str(job.get("name", "")).strip()
     job_type = str(job.get("type", ""))
     level = student_level(title)
