@@ -215,6 +215,15 @@ def test_the_site_gets_the_application_months(tmp_path):
         ("Faça parte do nosso time!", "https://grupoabc.gupy.io/job/1", "Grupoabc"),
         ("Confidencial", "https://vagasoculta.gupy.io/job/1", "Empresa confidencial"),
         ("Itaú Unibanco", "https://vemproitau.gupy.io/job/1", "Itaú Unibanco"),
+        ("Programa de Estágio Santa Casa BH", "https://programadeestagiosantacasabh.gupy.io/job/1", "Santa Casa BH"),
+        ("Votorantim Cimentos - Jovens Talentos", "https://votorantimcimentostalentos.gupy.io/job/1", "Votorantim Cimentos"),
+        ("GrupoVillela | Gestão de Carreiras", "https://villelabrasilbank.gupy.io/job/1", "GrupoVillela"),
+        ("Programa de Estágio em Marketing do Instituto Infnet", "https://estagio-mkt-infnet.gupy.io/job/1", "Instituto Infnet"),
+        ("Programa de Estágio Anbima 2026", "https://estagioanbima.gupy.io/job/1", "Anbima"),
+        ("Trabalhe Conosco Unimed Goiânia", "https://unimedgoiania.gupy.io/job/1", "Unimed Goiânia"),
+        ("Venha construir o futuro com a gente", "https://vagas-mrveco.gupy.io/job/1", "Mrveco"),
+        ("Programa de Estágio 2026", "https://estagiounimed.gupy.io/job/1", "Unimed"),
+        ("3Corações", "https://3coracoes.gupy.io/job/1", "3Corações"),
     ],
 )
 def test_gupy_company_names(name, url, company):

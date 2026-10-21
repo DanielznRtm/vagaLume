@@ -15,6 +15,7 @@ area ("Estágio em Informática"); the activities become the description.
 from __future__ import annotations
 
 import logging
+import re
 from typing import Any
 from urllib.parse import urlencode
 
@@ -32,6 +33,14 @@ PAGE_SIZE = 1000
 MAX_PAGES = 10
 LEVEL_NAMES = {"SU": "", "TE": " (técnico)", "EM": " (ensino médio)"}
 PERIODS = {"mensal": "mo", "hora": "hr", "semanal": "wk"}
+# A one-person company (MEI) is registered as "61.260.635 DANIEL ..." or "ANA ... 56591799168": the
+# number is a CNPJ or a CPF, a personal tax ID that the site must not show.
+TAX_ID = re.compile(r"^\d{2}\.\d{3}\.\d{3}(?:/\d{4}-\d{2})?\s+|\s+\d{3}\.?\d{3}\.?\d{3}-?\d{2}$|\s*\b\d{11,14}\b\s*")
+
+
+def _org(job: dict[str, Any]) -> str:
+    name = TAX_ID.sub(" ", str(job.get("nomeEmpresa") or "")).strip()
+    return name or "Empresa não informada"  # sometimes just " "
 
 
 def _pay(job: dict[str, Any]) -> str:
@@ -58,7 +67,7 @@ def parse(data: dict[str, Any]) -> list[Opportunity]:
         items.append(
             Opportunity(
                 title=(f"Estágio em {area}" if area else "Estágio") + level,
-                org=str(job.get("nomeEmpresa") or "").strip() or "Empresa não informada",  # sometimes just " "
+                org=_org(job),
                 source=NAME,
                 url=JOB_URL.format(code=job["codigoVaga"]),
                 location=f"{city}, Brazil" if city else "Brazil",

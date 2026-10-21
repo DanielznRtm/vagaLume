@@ -69,13 +69,20 @@ def post_json(url: str, payload: dict[str, Any], **kwargs: Any) -> Any:
 
 def post_form(url: str, form: dict[str, Any], **kwargs: Any) -> str:
     """POST an HTML-form body and return the response text."""
-    response = _request("POST", url, data=form, **kwargs)
-    response.encoding = response.encoding or "utf-8"
-    return response.text
+    return _decoded(_request("POST", url, data=form, **kwargs))
 
 
 def get_text(url: str, **kwargs: Any) -> str:
     """GET a URL and return the body as text (HTML, Markdown...)."""
-    response = _request("GET", url, **kwargs)
-    response.encoding = response.encoding or "utf-8"
-    return response.text
+    return _decoded(_request("GET", url, **kwargs))
+
+
+def _decoded(response: requests.Response) -> str:
+    """The body as text. A page that names no charset is read as UTF-8, and as Windows-1252 when
+    it is not valid UTF-8 (older Brazilian sites: "Maceió" read as UTF-8 shows as "Macei\ufffd")."""
+    if response.encoding and "charset" in response.headers.get("content-type", "").lower():
+        return response.text
+    try:
+        return response.content.decode("utf-8")
+    except UnicodeDecodeError:
+        return response.content.decode("cp1252", errors="replace")

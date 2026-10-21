@@ -66,6 +66,20 @@ def _location(city: str, state: str) -> str:
 
 _TAGLINE = re.compile(r"^fa[çc]a parte d[oa] (?:nosso |nossa )?(?:time|equipe|família)\s*(?:d[oa]s?\s+)?", re.I)
 _HASHTAG = re.compile(r"^#(?:quero ?ser|seja|vem ?pra|vem ?para|venha ?ser|bora ?ser|faca ?parte|somos)?", re.I)
+# "Programa de Estágio Santa Casa BH", "Vagas Grupo Sabin", "Trabalhe na Mills", "Carreiras Pilar Hospital"...
+_PAGE_PREFIX = re.compile(
+    r"^(?:programas? de (?:est[áa]gio|entrada|pr[áa]cticas|trainee)(?: e trainee)?|oportunidades de est[áa]gio|est[áa]gios? e (?:jovem )?aprendiz"
+    r"|est[áa]gios?|vagas(?: abertas)?|carreiras?|portal de vagas|trabalhe conosco(?: n[ao])?|trabalhe (?:na|no|em)"
+    r"|venha (?:ser|trabalhar (?:conosco )?(?:na|no)?|fazer parte d[ao])|p[áa]gina de carreiras?)(?:\s*[•|]\s*|\s+|$)"
+    # "... em Marketing do Instituto Infnet", "... em Pesquisa Campinas – CNPEM", "... da PUCPR", "... 2027 - Fast"
+    r"(?:em [^–-]+?(?:\s+d[oa]s?|\s*[–-])\s+)?(?:(?:d[aoe]s?|na|no)\s+)?(?:20\d\d\s*[-–]\s*)?", re.I)
+# "Votorantim Cimentos - Jovens Talentos", "GrupoVillela | Gestão de Carreiras", "Energisa Estágio", "Anbima 2026"...
+_PAGE_SUFFIX = re.compile(
+    r"\s*(?:[-|–]\s*(?:vagas\b.*|jovens talentos|gest[ãa]o de carreiras|venha .*|programas? de .*|p[áa]gina de .*|carreiras?|trabalhe .*|talentos)"
+    r"|\s+(?:est[áa]gios?|carreiras|vagas|programa de est[áa]gio)|\s+20\d\d)$", re.I)
+# A whole sentence instead of a name: "Venha construir o futuro com a gente", "Página de Carreira".
+_SENTENCE = re.compile(r"^(?:venha|p[áa]gina de carreira|20\d\d$)|com a gente|conosco|nossos clientes", re.I)
+_SUBDOMAIN_WORDS = re.compile(r"^(?:programa(?:s)?(?:de)?(?:estagio|entrada)|estagios?|vagas|carreiras?)-?|-?(?:vagas|carreiras|estagio)$", re.I)
 
 
 def company_name(name: str, job_url: str) -> str:
@@ -79,11 +93,14 @@ def company_name(name: str, job_url: str) -> str:
     if cleaned.startswith("#"):
         cleaned = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", _HASHTAG.sub("", cleaned)).strip()  # "SejaSBT" -> "SBT"
     cleaned = _TAGLINE.sub("", cleaned).strip(" !.")
-    if cleaned and cleaned.lower() not in ("time", "nosso time", "equipe"):
+    for _ in range(2):  # "Programa de Estágio Anbima 2026"
+        cleaned = _PAGE_SUFFIX.sub("", _PAGE_PREFIX.sub("", cleaned)).strip(" !.-|")
+    if cleaned and not _SENTENCE.search(cleaned) and cleaned.lower() not in ("time", "nosso time", "equipe"):
         if cleaned.islower():  # "#vempraot" -> "OT", "#queroseraurora" -> "Aurora"
             cleaned = cleaned.upper() if len(cleaned) <= 4 else cleaned.title()
         return cleaned
     subdomain = (re.match(r"https?://([\w-]+)\.gupy\.io", job_url) or [None, ""])[1]
+    subdomain = _SUBDOMAIN_WORDS.sub("", subdomain) or subdomain  # "vagas-mrveco" -> "mrveco"
     return subdomain.replace("-", " ").title() if subdomain else name
 
 
