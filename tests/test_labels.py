@@ -291,3 +291,32 @@ def test_summer_in_the_south_is_december_to_february(title, place, season):
 ])
 def test_the_country_a_place_names_wins(location, regions):
     assert classify_regions(location) == regions
+
+
+@pytest.mark.parametrize("title, subs", [
+    ("Banco de Talentos – Estágio Administrativo", []),
+    ("Digital IC Design Engineer Intern", []),
+    ("Campus Quantitative Trader (Intern)", []),
+    ("Site Reliability Engineering Intern", []),
+    ("Solutions Architect Intern", []),
+    ("Estágio Infraestrutura de TI", ["infra"]),
+    ("Estágio em Trade Marketing", ["marketing"]),
+    ("Talent Acquisition Intern", ["rh"]),
+])
+def test_subareas_without_lookalikes(title, subs):
+    from radar.subareas import find_subareas
+
+    assert find_subareas(title) == subs
+
+
+def test_a_title_that_says_estagio_wins_over_an_unsure_source():
+    from radar.labels import level_for
+
+    assert level_for(Opportunity(title="Estágio em Administração", org="X", source="iel", url="u", hints=["unsure-student"])) == "yes"
+    assert level_for(Opportunity(title="COZINHEIRO", org="X", source="solides", url="u", hints=["unsure-student"])) == "unsure"
+
+
+def test_a_tech_heading_doesnt_make_a_finance_role_tech():
+    opp = apply_rules(Opportunity(title="Finance Intern", org="X", source="github_lists", url="u", hints=["area:ML"]))
+    assert opp.area == "other"
+    assert apply_rules(Opportunity(title="Intern", org="X", source="github_lists", url="u2", hints=["area:ML"])).area == "ML"

@@ -42,7 +42,7 @@ SUBAREAS: dict[str, tuple[str, str]] = {
     # Business
     "financas": ("negocios", r"financ|economi|tesouraria|treasury|investiment|investment|credito|\bcredit\b|banking|bancari|\bfp&a\b|valuation|controladoria"),
     "contabil": ("negocios", r"contab|accounting|auditori|\baudit|\bcustos\b|fiscal(?! de (?:obra|campo|loja))|\btax\b"),
-    "rh": ("negocios", r"recursos humanos|\brh\b|\bhr\b|human resources|departamento pessoal|\bdp\b|\btalent|\bpeople\b|recrutamento|recruit"),
+    "rh": ("negocios", r"recursos humanos|\brh\b|\bhr\b|human resources|departamento pessoal|\bdp\b|talent acquisition|\bpeople\b|recrutamento|recruit"),
     "comercial": ("negocios", r"comercial|vendas|\bsales\b|inside sales|key account|account (?:manager|executive)|business development|pre-?vendas"),
     "logistica": ("negocios", r"logistic|supply chain|suprimentos|compras|procurement|purchas|\bpcp\b|planejamento de (?:producao|demanda)|estoque|inventory"),
     "consultoria": ("negocios", r"consult|\bestrategia\b|strategy|business analyst|analista de negocios"),
@@ -51,7 +51,7 @@ SUBAREAS: dict[str, tuple[str, str]] = {
     # Engineering
     "mecanica": ("engenharia", r"mecanic|mechanical|usinagem|\bcad\b|projetos mecanicos"),
     "eletrica": ("engenharia", r"eletric|electrical|eletronic|electronic|automac|automation|eletrotecn|\bpower systems|energia|energy"),
-    "civil": ("engenharia", r"engenharia civil|civil engineer|(?<!direito )(?<!processo )\bcivil\b(?! litigation)|\bobras\b|construc|construction|edificac|estrutur"),
+    "civil": ("engenharia", r"engenharia civil|civil engineer|(?<!direito )(?<!processo )\bcivil\b(?! litigation)|\bobras\b|construc|construction|edificac|(?<!infra)estrutur"),
     "producao": ("engenharia", r"engenharia de producao|producao|manufatur|manufactur|processos|process engineer|lean|melhoria continua"),
     "quimica_eng": ("engenharia", r"engenharia quimica|chemical engineer|processos quimicos"),
     "qualidade": ("engenharia", r"qualidade|quality"),
@@ -64,10 +64,10 @@ SUBAREAS: dict[str, tuple[str, str]] = {
     "seguranca_info": ("computacao", r"cyber|ciberseg|seguranca da informacao|information security|infosec|security engineer|pentest"),
     "ux": ("computacao", r"\bux\b|\bui\b|user experience|experiencia do usuario|product design"),
     # Communication and marketing
-    "marketing": ("comunicacao", r"marketing|growth|\bcrm\b|trade(?! (?:republic|desk|support))|branding|\bmarca\b"),
-    "design": ("comunicacao", r"design(?:er)?\b|grafico|graphic|motion|ilustra|artes"),
+    "marketing": ("comunicacao", r"marketing|growth|\bcrm\b|\btrade\b(?! (?:republic|desk|support))|branding|\bmarca\b"),
+    "design": ("comunicacao", r"design(?:er)?\b|grafico|graphic|motion|ilustra|\bartes\b"),
     "jornalismo": ("comunicacao", r"jornalis|journalis|redac|reporter|conteudo|content|copywrit|editorial"),
-    "publicidade": ("comunicacao", r"publicidade|propaganda|advertis|midia|media|social media|redes sociais"),
+    "publicidade": ("comunicacao", r"publicidade|propaganda|advertis|\bmidias?\b|\bmedia\b|social media|redes sociais"),
     "audiovisual": ("comunicacao", r"audiovisual|video|fotograf|photograph|cinema|producao de conteudo"),
     "rp": ("comunicacao", r"relacoes publicas|public relations|comunicacao (?:interna|corporativa|institucional)|assessoria de imprensa"),
     # Biology and agriculture
@@ -93,6 +93,14 @@ SUBAREAS: dict[str, tuple[str, str]] = {
     "quimica": ("exatas", r"\bquimica\b|\bchemistry\b|\bchemist\b"),
 }
 _COMPILED = {key: re.compile(pattern) for key, (_, pattern) in SUBAREAS.items()}
+# Words that make a match something else: "IC Design Engineer" is chip design, "Site Reliability" is
+# software, "Test Automation" is QA, "Solutions Architect" is cloud.
+_NOT = {
+    "design": re.compile(r"engineer|engenh|\bic\b|asic|circuit|chip|silicon|verification|mechanical|mecanic|hardware|\bpcb\b|\brf\b|analog|layout"),
+    "manutencao": re.compile(r"site reliability|software reliability"),
+    "eletrica": re.compile(r"test automation|automacao de testes|qa automation|automation (?:test|qa)|marketing automation"),
+    "arquitetura": re.compile(r"solutions? architect|cloud architect|arquitet[oa] de solucoes|data architect"),
+}
 SECTIONS = {key: section for key, (section, _) in SUBAREAS.items()}
 
 
@@ -103,4 +111,4 @@ def _plain(text: str) -> str:
 def find_subareas(title: str) -> list[str]:
     """Sub-area keys named in a title, in the order of SUBAREAS; [] when none."""
     text = _plain(title)
-    return [key for key, pattern in _COMPILED.items() if pattern.search(text)][:4]
+    return [key for key, pattern in _COMPILED.items() if pattern.search(text) and not (key in _NOT and _NOT[key].search(text))][:4]

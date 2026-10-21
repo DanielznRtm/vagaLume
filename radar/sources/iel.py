@@ -10,11 +10,13 @@ The list keeps old postings, so we stop at MAX_AGE_DAYS.
 from __future__ import annotations
 
 import logging
+import re
 from datetime import date, timedelta
 from typing import Any
 from urllib.parse import urlencode
 
 from ..http import get_json
+from ..labels import student_level
 from ..models import Opportunity
 from ..textutil import iso_date
 from . import SourceResult
@@ -40,7 +42,10 @@ def parse(data: dict[str, Any]) -> list[Opportunity]:
             continue
         if title.isupper():  # "ESTÁGIO EM ADMINISTRAÇÃO" -> "Estágio em administração"
             title = title.capitalize()
-        area = str(job.get("area") or "")
+        area = str(job.get("area") or "").lower()
+        # IEL also lists regular jobs ("Efetiva", "Celetista": "Pedreiro", "Analista Financeiro Sênior").
+        if re.search(r"efetiv|celetista|clt", area) and student_level(title) != "yes":
+            continue
         place = ", ".join(p for p in (job.get("city"), job.get("uF")) if p)
         workplace = WORKPLACE.get(str(job.get("modality") or "").lower(), "")
         items.append(
@@ -54,7 +59,7 @@ def parse(data: dict[str, Any]) -> list[Opportunity]:
                 posted_date=iso_date(job.get("date")),
                 description=str(job.get("description") or ""),
                 # Estágio and Aprendiz are student roles; "Bolsista" grants may also be for graduates.
-                hints=["student"] if area.lower() in {"estágio", "estagio", "aprendiz"} else ["unsure-student"],
+                hints=["student"] if area.startswith("est") or "aprendiz" in area else ["unsure-student"],
             )
         )
     return items

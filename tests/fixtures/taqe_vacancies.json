@@ -1,0 +1,437 @@
+{
+"list": {
+"pagination": {
+"skip": 0,
+"limit": 100,
+"total": 6
+},
+"data": [
+{
+"_id": "6ad76606b539322b5e5b2cd8",
+"office": "SERVIER - ESTÁGIO - MARKETING, COMUNICAÇÃO SOCIAL, PUBLICIDADE E PROPAGANDA OU ÁREAS CORRELATAS",
+"isEducationCourse": false,
+"benefits": [
+{
+"type": "bus",
+"title": "Auxílio transporte"
+},
+{
+"type": "food",
+"title": "Auxílio refeição R$ 60,00/dia"
+},
+{
+"type": "none",
+"title": "Bolsa natalina"
+},
+{
+"type": "health",
+"title": "Seguro de Vida"
+},
+{
+"type": "none",
+"title": "Assistência médica"
+},
+{
+"type": "none",
+"title": "Parceria Totalpass"
+},
+{
+"type": "none",
+"title": "Parceria SESC"
+}
+],
+"hiringRegimes": [
+"Estágio"
+],
+"company": {
+"_id": "640b92e05e7271fb80009455",
+"key": "ciee-rj",
+"fantasyName": "Ciee One Rio de Janeiro"
+},
+"visibilityCompany": true,
+"wageType": "exact",
+"wage": 1700,
+"visibilityWage": true,
+"key": "servier-estagio-administracao-ou-direito-v1",
+"showUnit": true,
+"unit": [
+{
+"_id": "68b0567ecfef1f3142fde684",
+"address": {
+"city": "Rio de Janeiro",
+"state": "Rio de Janeiro"
+}
+}
+],
+"nomenclature": {
+"article": "a",
+"name": "vaga"
+}
+},
+{
+"_id": "6ad2776bba396c644aade60a",
+"office": "INOVE - ESTÁGIO ENSINO MÉDIO - ADMINISTRAÇÃO",
+"isEducationCourse": false,
+"benefits": [
+{
+"type": "none",
+"title": "Totalpass"
+},
+{
+"type": "health",
+"title": "Seguro de Vida"
+},
+{
+"type": "none",
+"title": "Convênio com o SESC"
+}
+],
+"hiringRegimes": [
+"Estágio"
+],
+"company": {
+"_id": "640b92e05e7271fb80009455",
+"key": "ciee-rj",
+"fantasyName": "Ciee One Rio de Janeiro"
+},
+"visibilityCompany": true,
+"wageType": "exact",
+"wage": 900,
+"visibilityWage": true,
+"key": "inove-estagio-ensino-medio-administracao",
+"showUnit": true,
+"unit": [
+{
+"_id": "69b061eab1654f01b81e886f",
+"address": {
+"city": "Rio de Janeiro",
+"state": "Rio de Janeiro"
+}
+}
+],
+"nomenclature": {
+"article": "a",
+"name": "vaga"
+}
+},
+{
+"_id": "6ad1276ac5cefe976b3046c0",
+"office": "Estágio em Ensino Médio - Sorocaba/59908",
+"isEducationCourse": false,
+"benefits": [
+{
+"type": "bus",
+"title": "Vale Transporte"
+},
+{
+"type": "health",
+"title": "Seguro de Vida"
+}
+],
+"hiringRegimes": [
+"Estágio"
+],
+"company": {
+"_id": "67f957033cb78c1ac1c35767",
+"key": "rede-cidada-estagio",
+"fantasyName": "Rede Cidada: Estágio"
+},
+"visibilityCompany": true,
+"wageType": "exact",
+"wage": 1000,
+"visibilityWage": true,
+"key": "estagio-em-ensino-medio-59908",
+"showUnit": true,
+"unit": [
+{
+"_id": "6ad1275d79325d09bb8ddda2",
+"address": {
+"city": "Sorocaba",
+"state": "São Paulo"
+}
+}
+],
+"nomenclature": {
+"article": "a",
+"name": "vaga"
+}
+},
+{
+"_id": "69d66f7e5276301b0394b5ad",
+"office": "Banco de Talentos – Estágio (Diversos Cursos)",
+"isEducationCourse": false,
+"benefits": [
+{
+"type": "bus",
+"title": "Vale Transporte"
+}
+],
+"hiringRegimes": [
+"Estágio"
+],
+"company": {
+"_id": "640b92e05e7271fb80009455",
+"key": "ciee-rj",
+"fantasyName": "Empresa Confidencial"
+},
+"visibilityCompany": false,
+"wageType": "range",
+"wageRange": {
+"min": 800,
+"max": 1500
+},
+"visibilityWage": true,
+"key": "banco-de-talentos-estagio-diversos-cursos",
+"showUnit": true,
+"unit": [
+{
+"_id": "678a62e86a212620f1e28193",
+"address": {
+"city": "Rio de Janeiro",
+"state": "Rio de Janeiro"
+}
+}
+],
+"nomenclature": {
+"article": "a",
+"name": "vaga"
+}
+},
+{
+"_id": "6ad65988b539322b5e56811e",
+"office": " FGV - JOVEM APRENDIZ ADMINISTRATIVO ",
+"isEducationCourse": false,
+"benefits": [
+{
+"type": "bus",
+"title": "Vale Transporte"
+},
+{
+"type": "credit-card",
+"title": "Tíquete Refeição"
+},
+{
+"type": "health",
+"title": "Seguro de Vida"
+},
+{
+"type": "none",
+"title": "Totalpass"
+},
+{
+"type": "none",
+"title": "Parceria SESC"
+}
+],
+"hiringRegimes": [
+"Jovem Aprendiz"
+],
+"company": {
+"_id": "640b92e05e7271fb80009455",
+"key": "ciee-rj",
+"fantasyName": "Ciee One Rio de Janeiro"
+},
+"visibilityCompany": true,
+"wageType": "exact",
+"wage": 761.55,
+"visibilityWage": true,
+"key": "fgv-jovem-aprendiz-administrativo-v3",
+"showUnit": true,
+"unit": [
+{
+"_id": "6a7f0b91b15ac21b9f765f7c",
+"address": {
+"city": "Rio de Janeiro",
+"state": "Rio de Janeiro"
+}
+}
+],
+"nomenclature": {
+"article": "a",
+"name": "vaga"
+}
+},
+{
+"_id": "6a956859b9fc34131f807231",
+"office": "Projeto Ford <Enter> Auto - SP",
+"isEducationCourse": true,
+"benefits": [
+{
+"type": "none",
+"title": "Além da capacitação técnica em programação e áreas correlatas, os(as) alunos(as) participarão de oficinas de treinamento socioemocional baseado na metodologia socioemocional aplicada pela Rede Cidadã, bem como receberão os benefícios abaixo discriminados, de acordo com as respectivas responsabilidades de cada instituição parceira:"
+},
+{
+"type": "health",
+"title": "Auxílio para participação nas atividades socioemocionais, compreendendo vale-transporte no valor de R$ 12,00 (por meio de bilhete único corporativo) e lanche fornecido nas datas de formação"
+},
+{
+"type": "none",
+"title": "Encaminhamento para participação em processo seletivos para vagas abertas na área de serviços automotivos"
+},
+{
+"type": "none",
+"title": "Ajuda de custo no valor de R$ 500,00 por mês, creditada em conta corrente do(a) aluno(a)"
+},
+{
+"type": "none",
+"title": "Acompanhamento pedagógico durante todo o curso;"
+},
+{
+"type": "none",
+"title": "Mentoria conduzida por profissionais atuantes no setor automotivo;"
+}
+],
+"hiringRegimes": [],
+"company": {
+"_id": "686fcd9e0c6dbf9bc4ca2932",
+"key": "rede-cidada-projetos",
+"fantasyName": "Rede Cidadã: Projetos"
+},
+"visibilityCompany": true,
+"visibilityWage": true,
+"key": "projeto-ford-enter-auto-sp",
+"showUnit": true,
+"unit": [
+{
+"_id": "69b07fa2d1007b30c1cefd3b",
+"address": {
+"city": "São Paulo",
+"state": "São Paulo"
+}
+}
+],
+"nomenclature": {
+"article": "o",
+"name": "curso"
+}
+}
+]
+},
+"detail": {
+"_id": "6ad76606b539322b5e5b2cd8",
+"office": "SERVIER - ESTÁGIO - MARKETING, COMUNICAÇÃO SOCIAL, PUBLICIDADE E PROPAGANDA OU ÁREAS CORRELATAS",
+"description": "<p>Já pensou em estagiar em uma das maiores multinacionais do segmento farmacêutico? Essa é a sua chance! 🚀🚀🚀</p><p><br></p><p>O CIEE RIO em parceria com a SERVIER, buscam Estudantes de <strong>Marketing, Comunicação Social, Publicidade e Propaganda ou áreas correlatas cursando a partir do 4° período para Estágio com atuação na área de Marketing (Oncologia).</strong></p><p>O estágio será no modelo presencial das 8h30 às 15h30 e acontecerá em Jacarepaguá/RJ.</p><p><br></p><p>Bolsa-auxílio: <strong>R$1.700,00</strong></p><p>A empresa também oferece<strong> Plano de Saúde.&nbsp;Plano Odontológico, Seguro de Vida, Bolsa Natalina, Auxílio Refeição R$60,00 por dia, Auxílio transporte, Seguro de vida e Parceria com o SESC.</strong></p><p>&nbsp;</p><p>Não perca essa oportunidade e envie sua candidatura! E é claro, fique atento(a) ao seu email&nbsp;</p><p>para não perder nenhuma comunicação e boa sorte!&nbsp;</p>",
+"isEducationCourse": false,
+"type": "public_vacancy",
+"private": false,
+"permanentVacancy": false,
+"benefits": [
+{
+"type": "bus",
+"title": "Auxílio transporte"
+},
+{
+"type": "food",
+"title": "Auxílio refeição R$ 60,00/dia"
+},
+{
+"type": "none",
+"title": "Bolsa natalina"
+},
+{
+"type": "health",
+"title": "Seguro de Vida"
+},
+{
+"type": "none",
+"title": "Assistência médica"
+},
+{
+"type": "none",
+"title": "Parceria Totalpass"
+},
+{
+"type": "none",
+"title": "Parceria SESC"
+}
+],
+"hiringRegimes": [
+"Estágio"
+],
+"company": {
+"_id": "640b92e05e7271fb80009455",
+"key": "ciee-rj",
+"fantasyName": "Ciee One Rio de Janeiro"
+},
+"visibilityCompany": true,
+"activities": [
+"Suporte as equipes de marketing de produto;",
+"Contato com agência de comunicação;",
+"Suporte no desenvolvimento de conteúdo para apresentações;",
+"Suporte no controle de indicadores;",
+"Acompanhamento dos projetos junto com a equipe."
+],
+"requirements": [
+"Cursando ensino superior em Marketing, Comunicação Social, Publicidade e Propagando ou áreas correlatas (a partir do 4º período para bacharel e 2º período para tecnólogo);",
+"Pacote office intermediário;",
+"Inglês intermediário;",
+"Conhecimento no Pacote Adobe, Canva e Photoshop serão considerados diferencial;",
+"Disponibilidade para estagiar 6h diárias em Jacarepaguá."
+],
+"workingType": "workbench",
+"workingDays": [
+{
+"key": "monday",
+"value": "Segunda-feira",
+"startTime": "08:30",
+"endTime": "15:30",
+"selected": true
+},
+{
+"key": "tuesday",
+"value": "Terça-feira",
+"startTime": "08:30",
+"endTime": "15:30",
+"selected": true
+},
+{
+"key": "wednesday",
+"value": "Quarta-feira",
+"startTime": "08:30",
+"endTime": "15:30",
+"selected": true
+},
+{
+"key": "thursday",
+"value": "Quinta-feira",
+"startTime": "08:30",
+"endTime": "15:30",
+"selected": true
+},
+{
+"key": "friday",
+"value": "Sexta-feira",
+"startTime": "08:30",
+"endTime": "15:30",
+"selected": true
+}
+],
+"wageType": "exact",
+"wage": 1700,
+"visibilityWage": true,
+"wageCommission": false,
+"key": "servier-estagio-administracao-ou-direito-v1",
+"showUnit": true,
+"unit": [
+{
+"address": {
+"street": "Estrada dos Bandeirantes",
+"number": "4211",
+"complement": "de 2631 a 4935 - lado ímpar",
+"district": "Jacarepaguá",
+"city": "Rio de Janeiro",
+"state": "Rio de Janeiro",
+"zipCode": "22775-113",
+"country": "Brasil"
+}
+}
+],
+"active": true,
+"createdAt": "2026-10-20T13:00:54.715Z",
+"nomenclature": {
+"article": "a",
+"name": "vaga"
+},
+"workload": "Segunda-feira a Sexta-feira, das 08:30 às 15:30."
+}
+}

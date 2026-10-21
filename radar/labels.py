@@ -45,6 +45,7 @@ STRONG_STUDENT_WORDS = [
     r"studentships?", r"industrial placement", r"placement year", r"\d+[- ]months? placement",
     # Sweden/Denmark "Examensarbete", "Praktik"; Germany "Industriepraktikum"; Malaysia "Industrial Trainee".
     r"examensarbete", r"praktik", r"\w+praktikum", r"industrial trainee",
+    r"acad[êe]mic[oa]s? de",  # "Acadêmico de Enfermagem": a nursing student
 ]
 # "Stage" is a French internship, but also part of a rocket ("Stage Integration Engineer"): it counts
 # only as "Stage - ...", "Stage de/en ...", "Stage 2027", "Stage (6 mois)" or next to H/F, F/H.
@@ -553,9 +554,10 @@ def level_for(opp: Opportunity) -> str:
     """Student level, taking the source's hints into account."""
     if "student" in opp.hints or "new-grad" in opp.hints:
         return "yes"  # the source itself says it is a student role (or a curated list)
+    level = student_level(opp.title)
     if "unsure-student" in opp.hints:
-        return "unsure"
-    return student_level(opp.title)
+        return "yes" if level == "yes" else "unsure"  # "Estágio em Administração" says so itself
+    return level
 
 
 def apply_rules(opp: Opportunity) -> Opportunity:
@@ -574,7 +576,8 @@ def apply_rules(opp: Opportunity) -> Opportunity:
     opp.area = str(preset.get("area") or classify_area(opp.title, opp.description, opp.fields))
     # Sources can suggest an area ("area:quant") used when the rules find nothing.
     suggested = [hint.split(":", 1)[1] for hint in opp.hints if hint.startswith("area:")]
-    if opp.area == "other" and suggested:
+    # ...but not on a role for a non-tech field ("Finance Intern" under a list's "Data Science & ML" heading).
+    if opp.area == "other" and suggested and (not opp.fields or set(opp.fields) & TECH_FIELDS):
         opp.area = suggested[0]
     # A role that names no field but has a tech area ("Applied Scientist Intern" is ML) is for
     # the fields of that area: otherwise it would show for every student, law and nursing too.
