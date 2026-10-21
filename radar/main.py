@@ -21,7 +21,7 @@ from . import db, details, digest, labels, llm, notify, report, site, telegram_b
 from .config import ROOT, load_config
 from .models import Opportunity
 from .sources import (
-    SourceResult, abler, academia, amazon, ashby, ciadetalentos, ciee, company_sites, eightfold, eureca, fapesp,
+    SourceResult, abler, academia, amazon, ashby, ciadeestagios, ciadetalentos, ciee, company_sites, eightfold, eureca, fapesp,
     github_lists, google, greenhouse, gupy, iel, inhire, lever, meta, microsoft, nextjs_sites, nvidia, oracle_hcm,
     programs, rss_jobs, shopee, smartrecruiters, solides, successfactors, superestagios, totvs_rh, workday,
 )
@@ -53,6 +53,7 @@ SOURCES: dict[str, Callable[[dict[str, Any], sqlite3.Connection, str], SourceRes
     "superestagios": lambda cfg, conn, today: superestagios.fetch(cfg),
     "iel": lambda cfg, conn, today: iel.fetch(cfg),
     "ciadetalentos": lambda cfg, conn, today: ciadetalentos.fetch(cfg),
+    "ciadeestagios": lambda cfg, conn, today: ciadeestagios.fetch(cfg),
     "fapesp": lambda cfg, conn, today: fapesp.fetch(cfg),
     "smartrecruiters": lambda cfg, conn, today: smartrecruiters.fetch(cfg),
     "workday": lambda cfg, conn, today: workday.fetch(cfg),
