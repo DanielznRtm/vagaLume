@@ -163,6 +163,12 @@ def test_fetch_one_board_failing_does_not_stop_the_others(monkeypatch):
     assert result.errors == ["himalayas: 429 Too Many Requests"]
 
 
+def test_one_board_entry_respects_the_config_section(monkeypatch):
+    monkeypatch.setattr(rb, "get_json", lambda url, **kwargs: fixture_json("remote_remoteok.json"))
+    assert rb.fetch({"search": {"remote_boards": ["himalayas"]}}, ["remoteok"]).checked == 0  # switched off
+    assert len(rb.fetch({}, ["remoteok"]).items) == 1  # no section: the defaults, remoteok among them
+
+
 def test_default_boards():
     assert rb.configured_boards({}) == rb.DEFAULT_BOARDS
     assert "weworkremotely" not in rb.DEFAULT_BOARDS and "arbeitnow" not in rb.DEFAULT_BOARDS

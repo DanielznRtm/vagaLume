@@ -39,7 +39,6 @@ JOB_URL = "https://jobs.quickin.io/{slug}/jobs/{id}"
 MAX_PAGES = 10
 STUDENT_CONTRACT = re.compile(r"est[áa]gi|trainee", re.I)
 APPRENTICE = re.compile(r"aprendiz", re.I)
-SCHOOL = SCHOOL_TITLE
 WORK_MODELS = {"on-site": "on-site", "hybrid": "hybrid", "remote": "remote"}
 PERIODS = {"month": "mo", "hour": "hr", "year": "yr", "week": "wk"}
 
@@ -65,7 +64,7 @@ def _location(job: dict[str, Any]) -> str:
 def to_opportunity(job: dict[str, Any], board: dict[str, Any]) -> Opportunity | None:
     title = " ".join(str(job.get("title") or "").split())
     contract = str((job.get("contract_id") or {}).get("name") or "")
-    if APPRENTICE.search(f"{title} {contract}") or SCHOOL.search(title):
+    if APPRENTICE.search(f"{title} {contract}") or SCHOOL_TITLE.search(title):
         return None
     level = student_level(title)
     if STUDENT_CONTRACT.search(contract) or level == "yes":

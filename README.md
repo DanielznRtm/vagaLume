@@ -41,8 +41,8 @@ no GitHub, a Gupy e o site de cada escola de verão, toda semana. Um *vagalume*
 
 | | |
 |---|---|
-| 🌎 **No Brasil inteiro e mundo afora** | No Brasil: todos os estágios da Gupy, do CIEE, da Super Estágios, da Sólides e do IEL, os programas da Cia de Talentos, bolsas da FAPESP e os estágios de multinacionais (Santander, P&G, Citi, Bosch, Syngenta…), **mais de 11.000 vagas**, a maioria com o valor da bolsa. No exterior: **mais de 5.000 vagas** nos EUA e Canadá, na Europa, na Ásia e remotas, de big techs, laboratórios de IA, empresas de trading e programas de pesquisa. |
-| 🔭 **34 fontes, uma lista** | Também páginas Greenhouse, Lever, Ashby, SmartRecruiters e Workday de mais de 400 empresas, SAP, IBM, Goldman Sachs, KPMG, Deloitte, as listas da SimplifyJobs, Google, Amazon, Microsoft, NVIDIA, Meta, D. E. Shaw, DRW e 42 páginas de programas de pesquisa e verão. Cerca de **30.000 vagas abertas** num dia normal. |
+| 🌎 **No Brasil inteiro e mundo afora** | No Brasil: todos os estágios da Gupy, do CIEE (vagas e editais públicos), da Super Estágios, da Sólides, do IEL, da Fundação Mudes, da Recrutei e da Central de Estágios do Paraná, os programas da Cia de Talentos, bolsas da FAPESP e os estágios de multinacionais (Santander, P&G, Citi, Bosch, Syngenta…), **mais de 11.000 vagas**, a maioria com o valor da bolsa. No exterior: **mais de 5.000 vagas** nos EUA e Canadá, na Europa, na Ásia e remotas (também de quadros remotos como Himalayas e Remote OK), de big techs, laboratórios de IA, empresas de trading e programas de pesquisa. |
+| 🔭 **45 fontes, uma lista** | Também páginas Greenhouse, Lever, Ashby, SmartRecruiters e Workday de mais de 400 empresas, SAP, IBM, Goldman Sachs, KPMG, Deloitte, as listas da SimplifyJobs, Google, Amazon, Microsoft, NVIDIA, Meta, D. E. Shaw, DRW e 95 páginas de programas de pesquisa e verão. Cerca de **30.000 vagas abertas** num dia normal. |
 | 🎯 **Só o que é da sua área, na ordem certa** | Diga em quais áreas você procura vagas (não só o seu curso), se está na graduação, no mestrado ou no doutorado, onde estuda e onde toparia trabalhar (pode marcar mais de uma). Vagas de outras áreas, de outros níveis (doutorado para quem está na graduação, e vice-versa) e de fora dos lugares que você escolheu ficam ocultas, e cada vaga ganha um ponto (boa opção, confira antes, pouco provável) com o motivo, como *"exige autorização de trabalho nos EUA"* ou *"voltada a doutorandos"*. |
 | 📄 **Compare com o seu currículo** | Cole um prompt pronto e o seu currículo na IA que você já usa (ChatGPT, Gemini, Claude…), traga a resposta de volta, e cada vaga mostra o quanto combina. |
 | 💸 **Remuneração, quando informada** | `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`: lida das plataformas de vagas e das descrições, em inglês e em português. |
@@ -58,8 +58,8 @@ no GitHub, a Gupy e o site de cada escola de verão, toda semana. Um *vagalume*
 **Laboratórios de IA:** Anthropic, OpenAI, xAI, Cohere, Thinking Machines, Perplexity, Cursor, ElevenLabs, Physical Intelligence, Isomorphic Labs<br>
 **Big techs:** Google, Microsoft, Meta, Amazon, NVIDIA, Stripe, Databricks, SpaceX, Cloudflare, Figma<br>
 **Trading:** Jane Street, Hudson River Trading, Jump, Optiver, IMC, Two Sigma, D. E. Shaw, DRW, SIG, Five Rings<br>
-**Brasil:** todos os estágios da Gupy, CIEE, Super Estágios, Sólides e IEL; Nubank, Stone, QuintoAndar, BTG Pactual, XP, Banco Inter, C6, EBANX, VTEX, CI&T, Santander, Itaú, Embraer, Bosch, Syngenta, Ambev (AB InBev)<br>
-**Pesquisa no Brasil:** FAPESP Oportunidades, CNPEM Bolsas de Verão, programas de verão do ICMC, IME-USP e LNCC, ICTP-SAIFR<br>
+**Brasil:** todos os estágios da Gupy, CIEE, Super Estágios, Sólides, IEL, Fundação Mudes, Recrutei e Central de Estágios do Paraná; editais de estágio do CIEE em tribunais, BNDES e Fiocruz; Equifax; Nubank, Stone, QuintoAndar, BTG Pactual, XP, Banco Inter, C6, EBANX, VTEX, CI&T, Santander, Itaú, Embraer, Bosch, Syngenta, Ambev (AB InBev)<br>
+**Pesquisa no Brasil:** FAPESP Oportunidades, CNPEM Bolsas de Verão, programas de verão do ICMC, IME-USP, LNCC, FGV EMAp, Unicamp, UnB e UFCG, ICTP-SAIFR<br>
 **Programas de pesquisa e escolas:** ISTA ISTernship, ETH SSRF, Summer@EPFL, OIST, KAUST VSRP, Mitacs Globalink, Google Student Researcher, Anthropic Fellows, MATS, EEML, OxML, MLSS, Khipu, LatinX in AI, Programa de Verão do IMPA
 
 </details>
@@ -99,7 +99,7 @@ seu currículo.
 
 ## Como funciona
 
-<p align="center"><img src=".github/assets/how-it-works-v2-pt.png" alt="Como funciona: todo dia, numa GitHub Action, 34 fontes passam pelos rótulos (área, época, região, remuneração, habilidades, alertas) e vão para o banco de dados em texto (data/*.jsonl); dele saem o site no GitHub Pages, que também lê o seu currículo resumido pela sua IA, e o resumo diário opcional por Telegram ou e-mail" width="620"></p>
+<p align="center"><img src=".github/assets/how-it-works-v2-pt.png" alt="Como funciona: todo dia, numa GitHub Action, 45 fontes passam pelos rótulos (área, época, região, remuneração, habilidades, alertas) e vão para o banco de dados em texto (data/*.jsonl); dele saem o site no GitHub Pages, que também lê o seu currículo resumido pela sua IA, e o resumo diário opcional por Telegram ou e-mail" width="620"></p>
 
 Uma vez por dia, uma GitHub Action roda o bot em Python, lê
 cada fonte com educação (ele se identifica e espera entre os pedidos), rotula

@@ -52,6 +52,7 @@ from ..models import Opportunity
 from ..pay import from_range
 from ..textutil import html_to_text, iso_date
 from . import SourceResult
+from .gupy import company_name
 
 NAME = "remote_boards"
 DEFAULT_BOARDS = ["himalayas", "remotive", "jobicy", "remoteok", "workingnomads"]
@@ -108,7 +109,7 @@ def _role(board: str, title: str, org: str, url: str, where: str, posted: str = 
           description: str = "", hints: list[str] | None = None, deadline: str = "") -> Opportunity:
     opp = Opportunity(
         title=title,
-        org=org or "?",
+        org=company_name(org, "") if org.startswith("#") else (org or "?"),  # "#VEMPRAIT4US", a Gupy page's name
         source=board,
         url=url,
         location=f"{where} (remote)",
@@ -347,10 +348,13 @@ def configured_boards(config: dict[str, Any]) -> list[str]:
 
 
 def fetch(config: dict[str, Any], boards: list[str] | None = None) -> SourceResult:
-    """Read the configured boards (or only `boards`, e.g. ["himalayas"] for one SOURCES entry)."""
+    """Read the configured boards, or only `boards` (e.g. ["himalayas"] for one SOURCES entry).
+    A board named in `boards` but missing from a `remote_boards` config section is skipped, so the
+    config section switches boards on and off either way."""
     result = SourceResult()
     seen: set[str] = set()
-    for board in boards or configured_boards(config):
+    wanted = configured_boards(config)
+    for board in [b for b in boards if b in wanted] if boards else wanted:
         if board not in BOARDS:
             result.errors.append(f"unknown remote board {board!r}; choose from {', '.join(BOARDS)}")
             continue

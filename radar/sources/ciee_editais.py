@@ -77,6 +77,8 @@ def _courses(detail: dict[str, Any]) -> list[dict[str, Any]]:
 def _course_text(course: dict[str, Any]) -> str:
     name = title_pt(" ".join(str((course.get("curso") or {}).get("descricao") or "").split()))
     low, high = _semester(course.get("periodoMinimo")), _semester(course.get("periodoMaximo"))
+    if low and high and low.split()[1:] == high.split()[1:]:
+        return f"{name} ({low.split()[0]} ao {high})"  # "Direito (3º ao 9º semestre)"
     return f"{name} ({low} ao {high})" if low and high else name
 
 

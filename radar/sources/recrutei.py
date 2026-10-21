@@ -37,7 +37,6 @@ LIST_URL = "https://empregos.recrutei.com.br/vagas-de-estagio?page={page}"
 DETAIL_URL = "https://api.recrutei.com.br/api/v1/vacancies/public/{id}"
 ARTICLE = re.compile(r'<article class="d2-card d2-jobrow">(.*?)</article>', re.S)
 APPRENTICE = re.compile(r"aprendiz|jovem auxiliar", re.I)
-SCHOOL = SCHOOL_TITLE
 MAX_PAGES = 30
 MAX_DETAILS = 200
 UNITS = {"hora": 1 / 24, "horas": 1 / 24, "dia": 1, "dias": 1, "semana": 7, "semanas": 7, "mês": 30, "mes": 30,
@@ -78,7 +77,8 @@ def parse_list(page: str, today: date) -> list[dict[str, Any]]:
     articles = ARTICLE.findall(page or "")
     if not articles and "d2-jobrow" not in (page or "") and "vagas-de-estagio" not in (page or ""):
         raise ValueError("unexpected page from Recrutei (no job cards)")
-    rows = []
+    rows: list[dict[str, Any]] = []
+    seen: set[str] = set()
     for card in articles:
         link = re.search(r'class="d2-jobrow__title">\s*<a href="([^"]+)"[^>]*>(.*?)</a>', card, re.S)
         if not link:
@@ -86,12 +86,16 @@ def parse_list(page: str, today: date) -> list[dict[str, Any]]:
         title = _text(link[2])
         badges = [_text(b) for b in re.findall(r'd2-badge--default">(.*?)</span>', card, re.S)]
         is_estagio = any(re.search(r"est[áa]gio", b, re.I) for b in badges)
-        if APPRENTICE.search(title) or SCHOOL.search(title) or not (is_estagio or student_level(title) == "yes" or re.search(r"\btrainee\b", title, re.I)):
+        student = is_estagio or student_level(title) == "yes" or re.search(r"\btrainee\b", title, re.I)
+        if APPRENTICE.search(title) or SCHOOL_TITLE.search(title) or not student:
             continue
         company, _, place = _field(r'd2-jobrow__meta">(.*?)</p>', card).partition(" · ")
         if place and not re.search(r",\s*[A-Z]{2}$", place) and "brasil" not in place.lower():
             continue  # "CDE, ALTO PARANA, Paraguai"
         url = html.unescape(link[1]).split("?")[0]
+        if url in seen:
+            continue
+        seen.add(url)
         rows.append({
             "id": (re.search(r"/(\d+)-", url) or [None, ""])[1],
             "url": url,
@@ -164,11 +168,13 @@ def fetch(config: dict[str, Any]) -> SourceResult:
     result = SourceResult()
     today = date.today()
     read = 0
+    seen: set[str] = set()  # a vacancy can move to the next page while we read
     for number in range(1, MAX_PAGES + 1):
         result.checked += 1
         try:
             page = get_text(LIST_URL.format(page=number))
-            rows = parse_list(page, today)
+            rows = [row for row in parse_list(page, today) if row["url"] not in seen]
+            seen.update(row["url"] for row in rows)
         except Exception as error:  # noqa: BLE001
             result.errors.append(f"page {number}: {error}")
             break

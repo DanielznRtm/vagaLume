@@ -673,3 +673,142 @@ programs:
     applications: "Sep–Oct"
     regions: [Brazil]
     notes: "técnico and graduação in 12 states (each state's posting is also listed); results in December, starts in February; the URL has the year in it"
+
+  # --- Brazil: summer programs (Dec–Feb), checked 2026-10-21 ----------------------------
+  - name: FGV EMAp Programa de Verão
+    org: FGV EMAp (Rio de Janeiro)
+    url: https://cma.fgv.br/programa-de-verao
+    render: true
+    applications: "Oct–Dec"
+    area: research
+    season: Dec–Feb
+    regions: [Brazil]
+    notes: "2027: Jan 11–Feb 27, in person; short courses in applied maths, optimization, data science and ML; external applications Oct 19–Dec 4, 2026; bolsa-auxílio call until Nov 1 (also for students abroad); some courses are paid"
+
+  - name: Escola de Verão IFGW (Física, Unicamp)
+    org: IFGW-Unicamp (Campinas)
+    url: https://sites.ifi.unicamp.br/veraoifgw/
+    applications: "Oct–Nov"
+    area: research
+    season: Dec–Feb
+    regions: [Brazil]
+    notes: "2027: Feb 15–19, in person; for physics, maths, chemistry and engineering undergrads: minicourses, talks, lab visits; applications until Nov 19, 2026, travel aid requests until Nov 12"
+
+  - name: IMECC-Unicamp Programa de Verão
+    org: IMECC-Unicamp (Campinas)
+    url: https://www.ime.unicamp.br/pos-graduacao/verao
+    area: research
+    season: Dec–Feb
+    regions: [Brazil]
+    notes: "courses, minicourses, seminars and workshops in maths, applied maths and statistics during the summer break; open to undergrads and grad students from other universities"
+
+  - name: Escola de Verão MAT/UnB
+    org: Departamento de Matemática, UnB (Brasília)
+    url: https://mat.unb.br/index.php/escola-de-verao
+    area: research
+    season: Dec–Feb
+    regions: [Brazil]
+    notes: "yearly since the 1970s (LIII edition: Jan 6–Feb 14, 2025); talks, minicourses and graduate courses, with the Workshop de Verão"
+
+  - name: Programa de Verão PPGMat-UFCG
+    org: UFCG (Campina Grande)
+    url: https://mat.ufcg.edu.br/verao2026/
+    applications: "Nov"
+    area: research
+    season: Dec–Feb
+    regions: [Brazil]
+    notes: "every Jan–Feb since 2003: courses from undergrad (Análise Real) to PhD level, Workshop de Verão; 2026 applications opened Nov 10, 2025; the URL has the year in it"
+
+  - name: IC-Unicamp Summer Internship
+    org: Instituto de Computação, Unicamp
+    url: https://ic.unicamp.br/extensao/summer-internship/
+    applications: "Oct"
+    area: SWE
+    season: Dec–Feb
+    regions: [Brazil]
+    notes: "only for IC-Unicamp undergrads and grad students: partner companies (2026: BTG Pactual, ProFUSION, VulcaNet, GoBots...) offer Dec–Feb internships; student applications Oct 6–20, 2026"
+
+  # --- Brazil: banks and consultancies -----------------------------------------
+  - name: Bain internships & programs (Brasil / South America)
+    org: Bain & Company
+    url: https://www.bain.com/pt-br/careers/work-with-us/internships-programs/
+    season: Dec–Feb
+    regions: [Brazil, LatAm]
+    notes: "lists Bain's programs by region; South America: Associate Consultant Internship (in Brazil the summer internship runs Jan–Mar, usually for final-year undergrads) and 'Build at Bain: Agentic AI in Practice' (South America only)"
+
+  # Behind an Incapsula bot wall (checked 2026-10-21):
+  # - name: Santander Brasil Programa de Estágio
+  #   org: Santander Brasil
+  #   url: https://www.santander.com/en/careers/where-you-want-to-create-an-impact/santander-future-talent/estagio-program-at-santander-brasil
+  #   render: true
+  #   applications: "Jan, Jul"
+  #   season: year-round
+  #   regions: [Brazil]
+  #   notes: "6 months to 2 years in São Paulo, from the 2nd semester on; applications open in January and July (2026), roles also come from the Workday source"
+
+  # --- Latin America: southern-summer schools -------------------------------------
+  - name: CMM Universidad de Chile, summer schools
+    org: Centro de Modelamiento Matemático, U. de Chile
+    url: https://archivo.cmm.uchile.cl/?page_id=1881
+    area: research
+    season: Dec–Feb
+    regions: [LatAm]
+    warnings: ["PhD-level?"]
+    notes: "January schools in Chile: Escuela de Verano en Matemáticas Discretas (Jan 5–9, 2026, Viña del Mar), IPPhys inverse-problems school, Escuela de Verano en Probabilidades (Jan 11–15, 2027, MSc/PhD); newest first"
+
+  - name: ICTP-SAIFR 2027 activities
+    org: ICTP-SAIFR / IFT-UNESP (São Paulo)
+    url: https://www.ictp-saifr.org/2027-embed-activities/
+    area: research
+    season: year-round
+    regions: [Brazil, LatAm]
+    warnings: ["PhD-level?"]
+    notes: "the 2027 calendar (e.g. Theoretical Ecology and the Physics of Life school, Jan 18–29, 2027; ML in physics); the URL has the year in it"
+
+  # --- Brazil: public-sector estágio programs ----------------------------------
+  - name: TCU Seleção de estagiários (desenvolvimento web, Oracle APEX)
+    org: Tribunal de Contas da União (Brasília)
+    url: https://contas.tcu.gov.br/ords/f?p=701667:101
+    area: SWE
+    season: year-round
+    regions: [Brazil, remote]
+    notes: "graduandos em TI; bolsa R$ 1.500, 20 h/semana, remoto ou presencial no DF; the page says 'Prazo esgotado' until a new round opens (last one Dec–Feb)"
+
+  - name: Câmara dos Deputados Estágio universitário (vagas disponíveis)
+    org: Câmara dos Deputados (Brasília)
+    url: https://www2.camara.leg.br/a-camara/programas-institucionais/experiencias-presenciais/estagio-universitario/vagas-de-estagio-disponiveis
+    applications: "Mar, Jul"
+    season: year-round
+    regions: [Brazil]
+    notes: "bolsa R$ 1.500 for 4 h/day; several selection rounds a year; the university needs an agreement with the Câmara"
+
+  - name: Senado Federal Programa de Estágio
+    org: Senado Federal (Brasília)
+    url: https://www12.senado.leg.br/institucional/estagio
+    season: year-round
+    regions: [Brazil]
+    notes: "no fixed deadline: graduandos join the Senado's candidate bank and are called by e-mail; the university needs an agreement with the Senado"
+
+  - name: STJ Estágio (processos seletivos)
+    org: Superior Tribunal de Justiça (Brasília)
+    url: https://www.stj.jus.br/sites/portalp/Institucional/Estagio
+    season: year-round
+    regions: [Brazil]
+    notes: "selection through CIEE; this page lists every selection process by year"
+
+  - name: MPF Processo seletivo de estágio (nacional)
+    org: Ministério Público Federal
+    url: https://selecaoestagio.mpf.mp.br/
+    render: true  # built by JavaScript
+    applications: "Mar, Jul–Aug"
+    season: year-round
+    regions: [Brazil]
+    notes: "two national rounds a year with an online test, vagas in most states; bolsa R$ 1.320 (graduação) / R$ 2.640 (pós)"
+
+  - name: Embrapa Estágios
+    org: Embrapa
+    url: https://www.embrapa.br/estagios
+    area: research
+    season: year-round
+    regions: [Brazil]
+    notes: "estágio and bolsa calls of Embrapa's research units across the country (agronomia, biologia, veterinária, computação...)"

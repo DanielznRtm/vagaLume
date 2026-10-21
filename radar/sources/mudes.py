@@ -33,7 +33,8 @@ NAME = "mudes"
 LIST_URL = "https://mudes.org.br/resultado-vagas/"
 JOB_URL = "https://mudes.org.br/descricao-vaga?codigoOferta={code}"
 CARD = re.compile(r'<div class="vagas_destaque">(.*?)</div>', re.S)
-SCHOOL_COURSE = re.compile(r"t[ée]cnic[oa]|\bt[ée]c\.|ensino m[ée]dio|n[íi]vel m[ée]dio|ensino fundamental|forma[çc][ãa]o de docentes", re.I)
+SCHOOL_COURSE = re.compile(
+    r"t[ée]cnic[oa]|\bt[ée]c\.|ensino m[ée]dio|n[íi]vel m[ée]dio|ensino fundamental|forma[çc][ãa]o de docentes", re.I)
 WORK_MODELS = {"presencial": "on-site", "remoto": "remote", "híbrido": "hybrid", "hibrido": "hybrid"}
 MAX_DETAILS = 100
 

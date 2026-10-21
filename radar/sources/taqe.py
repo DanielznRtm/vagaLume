@@ -40,7 +40,6 @@ JOB_URL = "https://vagas.taqe.com.br/{company}/{key}"
 PAGE_SIZE = 100
 MAX_PAGES = 10
 MAX_DETAILS = 200
-SCHOOL = SCHOOL_TITLE
 APPRENTICE = re.compile(r"aprendiz", re.I)
 CONFIDENTIAL = "company-confidential"  # what the board shows instead of a hidden company
 WORK_MODELS = {"workbench": "on-site", "presential": "on-site", "homeoffice": "remote", "remote": "remote", "hybrid": "hybrid"}
@@ -49,7 +48,7 @@ WORK_MODELS = {"workbench": "on-site", "presential": "on-site", "homeoffice": "r
 def is_student(vacancy: dict[str, Any]) -> bool:
     title = str(vacancy.get("office") or "")
     regimes = " ".join(vacancy.get("hiringRegimes") or [])
-    if APPRENTICE.search(f"{title} {regimes}") or SCHOOL.search(title):
+    if APPRENTICE.search(f"{title} {regimes}") or SCHOOL_TITLE.search(title):
         return False
     return bool(re.search(r"est[áa]gi", regimes, re.I)) or student_level(title) == "yes"
 

@@ -47,7 +47,7 @@ today's numbers):
 | Ashby boards (62 companies, incl. Doctolib, Back Market, Enpal) | `ashby.py` | public JSON API | 98 |
 | GitHub lists (SimplifyJobs Summer 2027, Off-Season, New Grad; vanshb03 Summer 2027; Tech Internships Europe; Canadian Tech Internships 2027) | `github_lists.py` | parses README tables (HTML and Markdown) | 3,898 + ~740 Europe/Canada (Oct 15) |
 | Gupy (estágio, estágio de férias and trainee in Brazil) | `gupy.py` | the portal's JSON search API, filtered by job type, 100 per page; also "estágio"/"estagiário" titles that companies file as talent pools or regular jobs (Itaú's estágio program is one) | 3,226 (Oct 15) |
-| Program pages (80 pages, 28 of them Brazilian) | `programs.py` | page-change watcher | 80 |
+| Program pages (95 pages, 42 of them Brazilian) | `programs.py` | page-change watcher | 95 |
 | Google Careers | `google.py` | reads the job data embedded in the results page | 90 |
 | Amazon Jobs | `amazon.py` | JSON endpoint behind amazon.jobs search | 431 |
 | NVIDIA (Workday) | `nvidia.py` | Workday JSON endpoint, "Intern" filter | 40 |
@@ -75,8 +75,15 @@ today's numbers):
 | Eightfold sites (Infineon worldwide; Mercado Livre, Morgan Stanley in Brazil) | `eightfold.py` | the public `/api/pcsx/search` of each site | ~230 (Oct 16) |
 | Shopee (Brazil, Singapore) | `shopee.py` | the public API of its careers site, internship type | 165 (Oct 16) |
 | SuccessFactors sites, every country (SAP, Volvo Group, Volvo Cars) | `successfactors.py` | one RSS request per site with every job; places parsed from the titles | 319 (Oct 16) |
+| **Brazil:** CIEE editais (public-sector estágio selections: courts, BNDES, FINEP, Fiocruz, SEFAZ-SP, Prefeitura de São Paulo…) | `ciee_editais.py` | the public API behind pp.ciee.org.br; one item per edital, with its deadline | 42 (Oct 21) |
+| **Brazil:** Central de Estágios do Paraná (state government estágios) | `parana.py` | the public vacancy search and each vacancy's page | 204 (Oct 21) |
+| **Brazil:** Fundação Mudes (Rio de Janeiro and Espírito Santo) | `mudes.py` | the public vacancy list and each vacancy's page | 72 (Oct 21) |
+| **Brazil:** Recrutei (estágios of the companies on the platform) | `recrutei.py` | the public estágio board, with each role's details from the platform's API | 130 (Oct 21) |
+| **Brazil:** Quickin boards (145 companies and recruiters) | `quickin.py` | the public API of each board | 389 (Oct 21) |
+| **Brazil:** USP estágio murals (FFLCH) | `usp_estagios.py` | the mural's public list and each role's page | 19 (Oct 21) |
+| Remote job boards (Himalayas, Remotive, Jobicy, Remote OK, Working Nomads): internships open to people in Brazil | `remote_boards.py` | each board's public API; only roles open worldwide, to Latin America or to Brazil, credited and linked to the board | 80 + 1 (Oct 21) |
 
-Total: about **30,000 open roles** a day from 34 sources, most of them in Brazil, Europe and the US.
+Total: about **30,000 open roles** a day from 45 sources, most of them in Brazil, Europe and the US.
 
 **Scraping without a public API.** Most sites that have no official API still
 load their jobs from somewhere: a JSON endpoint that the search page calls
@@ -163,11 +170,13 @@ gets around a block.
 | Companhia de Estágios | the vacancy board needs a login; its open programs page is watched in `programs.yaml` |
 | estagiarios.com | Cloudflare block |
 | Coodesh | its API's robots.txt disallows all bots |
+| Remotar, Trampos.co | their terms forbid copying by robots or crawlers |
+| 99jobs | its terms forbid copying or duplicating content |
+| Empregos.com.br, BNE | they answer bots with "Acesso Bloqueado" (HTTP 403) |
+| Pandapé (InfoJobs) | its terms forbid reproducing content and using robots |
+| GeekHunter | robots.txt disallows the job pages |
+| Universia | Incapsula block |
 | LinkedIn | never |
-
-Possible later, with care (allowed by robots.txt, few pages a day):
-Empregos.com.br, 99jobs, BNE, Remotar, and the public-sector selection
-notices CIEE publishes (`api-pp.ciee.org.br/api/editais/vitrine`).
 
 ---
 
