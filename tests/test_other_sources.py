@@ -229,3 +229,20 @@ def test_the_site_gets_the_application_months(tmp_path):
 def test_gupy_company_names(name, url, company):
     """Career pages named with a hashtag or a tagline (stress test, 2026-10-16)."""
     assert gupy.company_name(name, url) == company
+
+
+def test_a_program_page_that_fails_gets_one_more_try(monkeypatch):
+    """DESY, MPIA and KAIST timed out once on 2026-10-21 and loaded fine minutes later."""
+    answers = {"https://a": [OSError("timed out"), "x" * 400], "https://b": [OSError("timed out"), OSError("timed out")]}
+    monkeypatch.setattr(programs, "RETRY_PAUSE_SECONDS", 0)
+    monkeypatch.setattr(programs, "page_text", lambda program: _next(answers[program["url"]]))
+    result = programs.fetch({"programs": [{"name": "A", "url": "https://a"}, {"name": "B", "url": "https://b"}]})
+    assert [o.title for o in result.items] == ["A"]
+    assert len(result.errors) == 1 and result.errors[0].startswith("B:")
+
+
+def _next(answers):
+    answer = answers.pop(0)
+    if isinstance(answer, Exception):
+        raise answer
+    return answer

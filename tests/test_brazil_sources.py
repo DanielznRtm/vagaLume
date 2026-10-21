@@ -229,3 +229,23 @@ def test_workday_global_goes_country_by_country(monkeypatch):
     assert len(items) == 26 and requests_made == len(calls) == 2 + 2 + 1
     assert items[0].location == "Toulouse Area, France" and items[-1].location == "Munich, Germany"
     assert all(c["appliedFacets"].get("Worker_Type") == ["stu"] for c in calls[1:])
+
+
+def test_workday_tries_again_the_sites_that_answered_429(monkeypatch):
+    """Accenture answers "429 Too Many Requests" on and off, even to a first request (2026-10-21)."""
+    calls = []
+
+    def fake_fetch_site(site):
+        calls.append(site["tenant"])
+        if site["tenant"] == "accenture" and calls.count("accenture") == 1:
+            raise RuntimeError("429 Client Error: Too Many Requests")
+        if site["tenant"] == "broken":
+            raise RuntimeError("404 Client Error: Not Found")
+        return [], 1
+
+    monkeypatch.setattr(workday, "RATE_LIMIT_PAUSE_SECONDS", 0)
+    monkeypatch.setattr(workday, "fetch_site", fake_fetch_site)
+    sites = [{"tenant": t, "wd": 5, "site": "x"} for t in ("accenture", "broken", "equifax")]
+    result = workday.fetch({"companies": {"workday_brazil": sites}})
+    assert calls.count("accenture") == 2 and calls.count("broken") == 1  # only a 429 is tried again
+    assert result.errors == ["broken: 404 Client Error: Not Found"]

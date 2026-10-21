@@ -19,6 +19,7 @@ import hashlib
 import logging
 import re
 import sqlite3
+import time
 from datetime import date
 from typing import Any
 
@@ -158,20 +159,39 @@ def build_opportunity(program: dict[str, Any], text: str, changed: bool, last_ch
     )
 
 
+# A university server that times out or answers 503 is often back a few minutes later
+# (DESY, MPIA and KAIST on 2026-10-21): pages that failed get one more try at the end.
+RETRY_PAUSE_SECONDS = 60
+
+
+def _check(program: dict[str, Any], conn: sqlite3.Connection | None, today: str) -> Opportunity:
+    text = page_text(program)
+    if len(text) < MIN_TEXT_CHARS:
+        raise ValueError("page has almost no text (blocked, or built by JavaScript: try render: true)")
+    changed, last_changed = (False, today)
+    if conn is not None:
+        changed, last_changed = page_hash_changed(conn, program["url"], content_hash(text), today)
+    return build_opportunity(program, text, changed, last_changed)
+
+
 def fetch(config: dict[str, Any], conn: sqlite3.Connection | None = None, today: str | None = None) -> SourceResult:
     """Check every page. Needs the database connection to compare hashes."""
     result = SourceResult()
     today = today or date.today().isoformat()
+    failed: list[dict[str, Any]] = []
     for program in config.get("programs", []) or []:
         result.checked += 1
         try:
-            text = page_text(program)
-            if len(text) < MIN_TEXT_CHARS:
-                raise ValueError("page has almost no text (blocked, or built by JavaScript: try render: true)")
-            changed, last_changed = (False, today)
-            if conn is not None:
-                changed, last_changed = page_hash_changed(conn, program["url"], content_hash(text), today)
-            result.items.append(build_opportunity(program, text, changed, last_changed))
+            result.items.append(_check(program, conn, today))
+        except Exception as error:  # noqa: BLE001
+            log.info("Program page %s failed, trying again later: %s", program.get("name"), error)
+            failed.append(program)
+    if failed:
+        time.sleep(RETRY_PAUSE_SECONDS)
+    for program in failed:
+        result.checked += 1
+        try:
+            result.items.append(_check(program, conn, today))
         except Exception as error:  # noqa: BLE001
             log.warning("Program page %s failed: %s", program.get("name"), error)
             result.errors.append(f"{program.get('name')}: {error}")
