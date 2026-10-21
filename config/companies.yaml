@@ -331,6 +331,7 @@ workday_brazil:
   - {tenant: gehc, wd: 5, site: GEHC_ExternalSite, name: GE HealthCare}
   - {tenant: jj, wd: 5, site: JJ, name: Johnson & Johnson}
   - {tenant: toyota, wd: 503, site: TLAC, name: Toyota do Brasil}
+  - {tenant: equifax, wd: 5, site: External, name: Equifax}                  # Summer Job (estágio de férias) and estágios in Barueri
 
 # --- More Brazilian estágio boards (checked 2026-10-15) ----------------------
 # Abler boards: https://{subdomain}.abler.com.br (radar/sources/abler.py).

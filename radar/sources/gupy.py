@@ -47,7 +47,7 @@ STUDENT_TYPES = {"vacancy_type_internship", "vacancy_type_apprentice", "vacancy_
 MAYBE_TYPES = {"vacancy_type_trainee", "vacancy_type_talent_pool"}
 # Other job types, searched by title only (see the module docstring).
 OTHER_TYPES = ["vacancy_type_talent_pool", "vacancy_type_effective", "vacancy_type_temporary"]
-TITLE_SEARCHES = ["estágio", "estagiário", "estagiária"]  # the search ignores accents
+TITLE_SEARCHES = ["estágio", "estagiário", "estagiária", "summer", "férias"]  # the search ignores accents; "Summer Job" = estágio de férias
 
 
 def _location(city: str, state: str) -> str:

@@ -497,6 +497,8 @@ def apply_rules(opp: Opportunity) -> Opportunity:
     if not opp.fields:
         opp.fields = list(AREA_FIELDS.get(opp.area, []))
     opp.season = str(preset.get("season") or classify_season(opp.title, opp.description, opp.hints))
+    if not preset.get("season") and southern_summer(opp):
+        opp.season = "Dec–Feb"  # "Summer Job" in São Paulo is the Brazilian summer, December to February
     opp.warnings = find_warnings(opp, level, opp.regions)
     for extra in preset.get("warnings") or []:  # type: ignore[union-attr]
         if extra not in opp.warnings:
@@ -515,6 +517,20 @@ def apply_rules(opp: Opportunity) -> Opportunity:
     opp.states = brazil_states(opp.location) if "Brazil" in opp.regions else []
     opp.labeled_by = "rules"
     return opp
+
+
+# The southern summer: a "summer" role in Brazil or the Southern Cone runs December to February,
+# unless it names northern-summer months ("Summer 2027 (June–August)").
+_SOUTHERN_PLACE = re.compile(r"\b(?:argentina|buenos aires|chile|santiago de chile|uruguay|montevideo|paraguay|asunci[óo]n)\b", re.I)
+_NORTHERN_MONTHS = re.compile(r"\b(?:may|june|july|august|maio|junho|julho|agosto|mayo|junio|julio)\b", re.I)
+
+
+def southern_summer(opp: Opportunity) -> bool:
+    if opp.season != "May–Aug" or not re.search(r"\bsummer\b|\bver[ãa]o\b|\bverano\b", opp.title, re.I):
+        return False
+    southern = "Brazil" in opp.regions or bool(_SOUTHERN_PLACE.search(opp.location))
+    northern = any(r in opp.regions for r in ("US/Canada", "Europe", "Asia/ME"))
+    return southern and not northern and not _NORTHERN_MONTHS.search(opp.title)
 
 
 def is_student_candidate(title: str) -> bool:

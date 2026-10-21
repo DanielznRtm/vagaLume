@@ -259,3 +259,15 @@ def test_word_lists_are_compiled_once_and_match_like_one_search_per_word():
     for title, place in roles:
         apply_rules(Opportunity(title=title + " 2027", org="Y", source="gupy", url=title + "2", location=place))
     assert len(_WORD_RES) == warmed  # no new regex per role
+
+
+@pytest.mark.parametrize("title, place, season", [
+    ("Summer Job | Data & Analytics", "Barueri, SP, Brazil", "Dec–Feb"),  # Equifax: the Brazilian summer
+    ("Programa Summer Undergrad 2027", "São Paulo, SP, Brazil", "Dec–Feb"),
+    ("Summer Internship", "Buenos Aires, Argentina", "Dec–Feb"),
+    ("Summer Analyst", "New York, NY", "May–Aug"),
+    ("Summer Internship (June-August)", "São Paulo, Brazil", "May–Aug"),  # says northern months
+    ("Summer Intern", "São Paulo, Brazil / London, UK", "May–Aug"),  # also in the north
+])
+def test_summer_in_the_south_is_december_to_february(title, place, season):
+    assert apply_rules(Opportunity(title=title, org="X", source="workday", url=title + place, location=place)).season == season
