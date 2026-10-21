@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import logging
 import re
+import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date
 from typing import Any, Iterator
@@ -44,6 +45,7 @@ log = logging.getLogger(__name__)
 NAME = "workday"
 BRAZIL_ID = "1a29bb1357b240ab99a2fa755cc87c0e"  # Workday's id for Brazil, the same on every site
 PAGE_SIZE = 20  # Workday refuses bigger pages
+RATE_LIMIT_PAUSE_SECONDS = 60  # before trying again the sites that answered 429
 MAX_PAGES = 15
 MAX_PAGES_GLOBAL = 40  # Airbus has ~600 student jobs
 STUDENT_TYPE = re.compile(r"intern|estagi|apprenti|aprendiz|trainee|student|co-?op|praktik|stagi|\bstage\b|alternan"
@@ -296,14 +298,22 @@ def fetch(config: dict[str, Any]) -> SourceResult:
             return site, error
 
     with ThreadPoolExecutor(max_workers=8) as pool:
-        for site, outcome in pool.map(run, sites):  # map keeps the config order
-            if isinstance(outcome, Exception):
-                result.checked += 1
-                log.warning("Workday %s failed: %s", site.get("tenant"), outcome)
-                result.errors.append(f"{site.get('name') or site.get('tenant')}: {outcome}")
-                result.failed_orgs.add(str(site.get("name") or site["tenant"]))
-            else:
-                items, requests_made = outcome
-                result.items.extend(items)
-                result.checked += requests_made
+        outcomes = list(pool.map(run, sites))  # map keeps the config order
+    # Some sites (Accenture, Salesforce) answer "429 Too Many Requests" on and off, even to a first
+    # request: once the others are done, try those again, one at a time.
+    slow = [i for i, (_, outcome) in enumerate(outcomes) if isinstance(outcome, Exception) and "429" in str(outcome)]
+    if slow:
+        time.sleep(RATE_LIMIT_PAUSE_SECONDS)
+    for i in slow:
+        outcomes[i] = run(sites[i])
+    for site, outcome in outcomes:
+        if isinstance(outcome, Exception):
+            result.checked += 1
+            log.warning("Workday %s failed: %s", site.get("tenant"), outcome)
+            result.errors.append(f"{site.get('name') or site.get('tenant')}: {outcome}")
+            result.failed_orgs.add(str(site.get("name") or site["tenant"]))
+        else:
+            items, requests_made = outcome
+            result.items.extend(items)
+            result.checked += requests_made
     return result

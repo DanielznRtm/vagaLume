@@ -94,7 +94,6 @@ greenhouse:
   - {slug: virtu, name: Virtu Financial}
   - {slug: fiveringsllc, name: Five Rings}
   - {slug: akunacapital, name: Akuna Capital}
-  - {slug: oldmissioncapital, name: Old Mission}
   - {slug: flowtraders, name: Flow Traders}
   - {slug: squarepointcapital, name: Squarepoint Capital}
   - {slug: chicagotrading, name: Chicago Trading Company}
@@ -256,6 +255,7 @@ ashby:
   - {slug: sentry, name: Sentry}
   - {slug: uipath, name: UiPath}
   # --- Trading ---
+  - {slug: old-mission-capital, name: Old Mission}  # moved from Greenhouse (2026-10)
   - {slug: voleon, name: Voleon}
   - {slug: keyrock, name: Keyrock}
   # --- Brazil ---
