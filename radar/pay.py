@@ -72,7 +72,8 @@ PERKS = re.compile(
     r"lunch|dinner|breakfast|meals?\b|snack|food|coffee|wellness|well-being|learning|education|tuition|internet|"
     r"phone|mobile plan|gym|fitness|commut|transport|equipment|home office|coworking|books?\b|conference|childcare|"
     r"relocat|housing|travel|per diem|gift|vale|refei[çc][ãa]o|alimenta[çc][ãa]o|plano de sa[úu]de|odonto|seguro|"
-    r"gympass|totalpass|wellhub|day off|parental|pension|401|insurance|dental|vision|medical|(?-i:\bV[ART]\b)",
+    r"gympass|totalpass|wellhub|day off|parental|pension|401|insurance|dental|vision|medical|(?-i:\bV[ART]\b)|"
+    r"voucher|anivers[áa]rio|reembolso|cadeira|ergon[ôo]mic",
     re.I,
 )
 # Headings that open a benefits list: amounts below them need a clear pay word.
@@ -109,7 +110,7 @@ PERIODS = [
     ("wk", re.compile(r"\bweek|weekly|semana", re.I)),
     ("mo", re.compile(r"month|monthly|/\s?mo\b|m[êe]s|mensal", re.I)),
     # A bare "year" or "ano" is too often something else ("final-year students", "Primeiro Ano").
-    ("yr", re.compile(r"annual|annually|yearly|(?:per|a|an|each|/)\s?year\b|/\s?yr\b|(?:por|ao|/)\s?ano\b|anual", re.I)),
+    ("yr", re.compile(r"annual|annually|yearly|(?:per|a|an|each|/)\s?year\b|/\s?yr\b|(?:por|ao|/)\s?ano\b|anual|per annum|\bp\.a\.", re.I)),
 ]
 
 
@@ -147,11 +148,13 @@ def parse_number(text: str) -> float | None:
 
 # "30 horas semanais", "40 hours per week" describe working hours, not the pay period.
 _WORK_HOURS = re.compile(r"\d+\s*(?:h|hrs?|horas?|hours?)\s*(?:semanais|por semana|/\s?semana|per week|/\s?week|a week|weekly)", re.I)
+# How long the job lasts ("Fixed-term, 12.5 months", "6 meses", "your first months") is not the pay period.
+_DURATION = re.compile(r"\d+(?:[.,]\d+)?\s*(?:(?:-|to|a)\s*\d+\s*)?(?:months|meses)\b|\bfirst (?:few )?months\b", re.I)
 
 
 def _period(context: str, value: float, currency: str, guess: bool = True, brl_monthly: bool = True) -> str:
     """hr | wk | mo | yr from the words around the amount; "" if unsure and guess=False."""
-    context = _WORK_HOURS.sub(" ", context)
+    context = _DURATION.sub(" ", _WORK_HOURS.sub(" ", context))
     for name, pattern in PERIODS:
         if pattern.search(context):
             return name
@@ -269,6 +272,8 @@ def _amounts(text: str) -> list[Amount]:
                 continue
             if period == "yr" and high < 200 and currency in ("$", "CA$", "€", "£"):
                 period = "hr"  # "USD $22.00 - USD $29.25 /Yr." (General Dynamics): an hourly rate with the wrong label
+            if period == "mo" and low >= 15000 and currency in ("$", "CA$", "€", "£", "CHF "):
+                period = "yr"  # "A competitive starting salary of £19,185": no intern earns that a month
             amount = Amount(currency, low, high, period)
             if _believable(amount):
                 found.append(amount)
@@ -319,4 +324,7 @@ def from_range(low: float | None, high: float | None, currency: str, period: str
     symbol = CURRENCIES.get((currency or "USD").upper(), (currency or "") + " ")
     if not period:
         period = _period("", float(low), symbol)  # type: ignore[arg-type]
-    return format_amount(Amount(symbol, float(low), float(high), period))  # type: ignore[arg-type]
+    if symbol == "R$" and period == "mo" and float(high) < 60:
+        period = "hr"  # a bolsa of "R$ 10,00" is per hour (Super Estágios, Sólides give no period)
+    amount = Amount(symbol, float(low), float(high), period)  # type: ignore[arg-type]
+    return format_amount(amount) if _believable(amount) else ""

@@ -268,6 +268,8 @@ def test_word_lists_are_compiled_once_and_match_like_one_search_per_word():
     ("Summer Analyst", "New York, NY", "May–Aug"),
     ("Summer Internship (June-August)", "São Paulo, Brazil", "May–Aug"),  # says northern months
     ("Summer Intern", "São Paulo, Brazil / London, UK", "May–Aug"),  # also in the north
+    ("Estágio de Verão", "Lisboa, Portugal", "May–Aug"),  # Portugal's verão is June to August
+    ("Estágio de Verão", "Recife, PE", "Dec–Feb"),
 ])
 def test_summer_in_the_south_is_december_to_february(title, place, season):
     assert apply_rules(Opportunity(title=title, org="X", source="workday", url=title + place, location=place)).season == season

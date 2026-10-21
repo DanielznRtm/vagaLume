@@ -586,6 +586,8 @@ def apply_rules(opp: Opportunity) -> Opportunity:
     opp.season = str(preset.get("season") or classify_season(opp.title, opp.description, opp.hints))
     if not preset.get("season") and southern_summer(opp):
         opp.season = "Dec–Feb"  # "Summer Job" in São Paulo is the Brazilian summer, December to February
+    elif not preset.get("season") and northern_verao(opp):
+        opp.season = "May–Aug"  # "Estágio de Verão" in Portugal or Mexico is the northern summer
     opp.warnings = find_warnings(opp, level, opp.regions)
     for extra in preset.get("warnings") or []:  # type: ignore[union-attr]
         if extra not in opp.warnings:
@@ -618,6 +620,15 @@ def southern_summer(opp: Opportunity) -> bool:
     southern = "Brazil" in opp.regions or bool(_SOUTHERN_PLACE.search(opp.location))
     northern = any(r in opp.regions for r in ("US/Canada", "Europe", "Asia/ME"))
     return southern and not northern and not _NORTHERN_MONTHS.search(opp.title)
+
+
+def northern_verao(opp: Opportunity) -> bool:
+    """ "Verão"/"verano" read as December–February, but the place is in the north (Portugal, Spain, Mexico)."""
+    if opp.season != "Dec–Feb" or not re.search(r"\bver[ãa]o\b|\bverano\b", opp.title, re.I):
+        return False
+    if "Brazil" in opp.regions or _SOUTHERN_PLACE.search(opp.location):
+        return False
+    return any(r in opp.regions for r in ("Europe", "US/Canada", "Asia/ME")) or bool(re.search(r"m[ée]xico", opp.location, re.I))
 
 
 def is_student_candidate(title: str) -> bool:
