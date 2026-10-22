@@ -18,7 +18,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any, Callable
 
-from . import db, details, digest, labels, llm, notify, report, site, telegram_bot
+from . import counts, db, details, digest, labels, llm, notify, report, site, telegram_bot
 from .config import ROOT, load_config
 from .models import Opportunity
 from .sources import (
@@ -201,6 +201,9 @@ def run(
     digest_settings = config.get("digest") or {}
     site.write_data(everything, health, today, labeled_by, site_dir, digest.subscribe_links(digest_settings), config.get("programs"))
     digest.write_feeds(everything, today, digest_settings, site_dir)
+    if Path(site_dir).resolve() == SITE_DIR.resolve():  # the real run (tests write their site elsewhere)
+        # "45 fontes", "cerca de 31.000 vagas" in the README and the guide
+        counts.update(ROOT, counts.counts(config, len(SOURCES), [o for o in everything if o.is_open]))
     db.save_text(conn, text_dir)  # the committed copy of the database (see db.save_text)
     conn.close()
     if send:
