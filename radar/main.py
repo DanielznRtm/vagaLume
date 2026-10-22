@@ -202,7 +202,8 @@ def run(
     site.write_data(everything, health, today, labeled_by, site_dir, digest.subscribe_links(digest_settings), config.get("programs"))
     digest.write_feeds(everything, today, digest_settings, site_dir)
     if Path(site_dir).resolve() == SITE_DIR.resolve():  # the real run (tests write their site elsewhere)
-        counts.update(ROOT, counts.counts(config, len(SOURCES)))  # "45 fontes" in the README and the guide
+        # "45 fontes", "cerca de 31.000 vagas" in the README and the guide
+        counts.update(ROOT, counts.counts(config, len(SOURCES), [o for o in everything if o.is_open]))
     db.save_text(conn, text_dir)  # the committed copy of the database (see db.save_text)
     conn.close()
     if send:
