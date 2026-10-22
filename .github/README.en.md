@@ -42,8 +42,8 @@ little light that finds the openings for you.
 
 | | |
 |---|---|
-| 🌎 **All of Brazil, and the world** | In Brazil: every estágio on Gupy, CIEE, Super Estágios, Sólides and IEL, the Cia de Talentos programs, FAPESP research grants and the internships of multinationals (Santander, P&G, Citi, Bosch, Syngenta…), **over 11,000 roles**, most with the stipend shown. Abroad: **over 5,000 roles** in the US and Canada, Europe, Asia and remote, from big tech, AI labs, trading firms and research programs. |
-| 🔭 **34 sources, one list** | Plus Greenhouse, Lever, Ashby, SmartRecruiters and Workday boards of 400+ companies, SAP, IBM, Goldman Sachs, KPMG, Deloitte, the SimplifyJobs lists, Google, Amazon, Microsoft, NVIDIA, Meta, D. E. Shaw, DRW and 42 research and summer-program pages. About **30,000 open roles** on a normal day. |
+| 🌎 **All of Brazil, and the world** | In Brazil: every estágio on Gupy, CIEE (roles and public-sector calls), Super Estágios, Sólides, IEL, Fundação Mudes, Recrutei and the Paraná state Central de Estágios, the Cia de Talentos programs, FAPESP research grants and the internships of multinationals (Santander, P&G, Citi, Bosch, Syngenta…), **over 11,000 roles**, most with the stipend shown. Abroad: **over 5,000 roles** in the US and Canada, Europe, Asia and remote (also from remote boards such as Himalayas and Remote OK), from big tech, AI labs, trading firms and research programs. |
+| 🔭 **45<!--n:sources--> sources, one list** | Plus Greenhouse, Lever, Ashby, SmartRecruiters and Workday boards of 352<!--n:boards--> companies, SAP, IBM, Goldman Sachs, KPMG, Deloitte, the SimplifyJobs lists, Google, Amazon, Microsoft, NVIDIA, Meta, D. E. Shaw, DRW and 93<!--n:programs--> research and summer-program pages. About **30,000 open roles** on a normal day. |
 | 🎯 **Your areas, in the right order** | Tell it which areas you're looking for (not only your course: an engineering student can pick Business too), whether you're doing a Bachelor's, Master's or PhD, where you study and where you'd work (pick as many as apply: *Engineering* and *Computing*, *my state* and *Europe*). Roles for other fields, other levels (PhD-only for an undergrad, and the other way round) and other places are hidden (one click shows them; remote roles always show), and every role gets a dot (good fit, check something, long shot) with the reason, like *"needs US work authorization"* or *"aimed at PhD students"*. |
 | 📄 **Match your résumé** | Paste a ready-made prompt and your résumé into the AI chat you already use (ChatGPT, Gemini, Claude…), paste its answer back, and every role shows how well it matches: *"you have 6 of the 10 skills it mentions"*. No AI runs inside vagaLume and your résumé never leaves your hands. |
 | 💸 **Pay, when it's stated** | `$54–60/hr`, `R$1,357/mo`, `€1,800/mo`: read from job boards and descriptions in English and Portuguese. |
@@ -59,8 +59,8 @@ little light that finds the openings for you.
 **AI labs:** Anthropic, OpenAI, xAI, Cohere, Thinking Machines, Perplexity, Cursor, ElevenLabs, Physical Intelligence, Isomorphic Labs<br>
 **Big tech:** Google, Microsoft, Meta, Amazon, NVIDIA, Stripe, Databricks, SpaceX, Cloudflare, Figma<br>
 **Trading:** Jane Street, Hudson River Trading, Jump, Optiver, IMC, Two Sigma, D. E. Shaw, DRW, SIG, Five Rings<br>
-**Brazil:** every estágio on Gupy, CIEE, Super Estágios, Sólides and IEL; Nubank, Stone, QuintoAndar, BTG Pactual, XP, Banco Inter, C6, EBANX, VTEX, CI&T, Santander, Itaú, Embraer, Bosch, Syngenta, Ambev (AB InBev)<br>
-**Research in Brazil:** FAPESP Oportunidades, CNPEM summer fellowships, ICMC, IME-USP and LNCC summer programs, ICTP-SAIFR<br>
+**Brazil:** every estágio on Gupy, CIEE, Super Estágios, Sólides, IEL, Fundação Mudes, Recrutei and Central de Estágios do Paraná; CIEE estágio calls at courts, BNDES and Fiocruz; Equifax; Nubank, Stone, QuintoAndar, BTG Pactual, XP, Banco Inter, C6, EBANX, VTEX, CI&T, Santander, Itaú, Embraer, Bosch, Syngenta, Ambev (AB InBev)<br>
+**Research in Brazil:** FAPESP Oportunidades, CNPEM summer fellowships, ICMC, IME-USP, LNCC, FGV EMAp, Unicamp, UnB and UFCG summer programs, ICTP-SAIFR<br>
 **Research programs and schools:** ISTA ISTernship, ETH SSRF, Summer@EPFL, OIST, KAUST VSRP, Mitacs Globalink, Google Student Researcher, Anthropic Fellows, MATS, EEML, OxML, MLSS, Khipu, LatinX in AI, IMPA Summer Program
 
 </details>
@@ -83,7 +83,7 @@ know.
 
 ## How it works
 
-<p align="center"><img src="assets/how-it-works-v2.png" alt="How it works: every day, in a GitHub Action, 34 sources go through the labels (area, season, region, pay, skills, warnings) into the text database (data/*.jsonl); from there come the website on GitHub Pages, which also reads your résumé summarized by your own AI chat, and the optional daily digest by Telegram or email" width="620"></p>
+<p align="center"><img src="assets/how-it-works-v2.png" alt="How it works: every day, in a GitHub Action, the job sources go through the labels (area, season, region, pay, skills, warnings) into the text database (data/*.jsonl); from there come the website on GitHub Pages, which also reads your résumé summarized by your own AI chat, and the optional daily digest by Telegram or email" width="620"></p>
 
 Once a day, a GitHub Action runs the Python bot, reads
 every source politely (it identifies itself and waits between requests), labels
