@@ -1,8 +1,8 @@
 """Find new companies to read, every day, without anyone adding them by hand.
 
 Many companies, Brazilian startups among them, post their jobs on Ashby, Greenhouse or Lever, which
-vagaLume already reads: it only needs to know the company's board (Enter, an AI startup in São
-Paulo, is jobs.ashbyhq.com/enter-ai). Nobody publishes the list of boards, but Common Crawl, a free
+vagaLume already reads: it only needs to know the company's board (jobs.ashbyhq.com/<company>).
+Nobody publishes the list of boards, but Common Crawl, a free
 public archive of the web, has seen most of them: its index lists every jobs.ashbyhq.com/<company>
 page it crawled. Each day:
 
@@ -41,7 +41,7 @@ from .labels import classify_regions, is_student_candidate
 log = logging.getLogger(__name__)
 
 CC_DATA = "https://data.commoncrawl.org/"
-CRAWLS = 6  # about half a year: one crawl misses a board that another one saw (Enter: 3 of the last 6)
+CRAWLS = 6  # about half a year: one crawl misses boards that another one saw
 CHECKS_PER_RUN = 1500
 RECHECK_DAYS = 30
 RECHECK_BRAZIL_DAYS = 7
@@ -69,7 +69,7 @@ def _places_lever(job: dict[str, Any]) -> str:
 
 
 def _title_name(url: str) -> str:
-    """ "<title>Enter Jobs</title>" -> "Enter" (Ashby and Lever boards say the company only there)."""
+    """ "<title>Acme Jobs</title>" -> "Acme" (Ashby and Lever boards say the company only there)."""
     match = re.search(r"<title>([^<]+)</title>", get_text(url))
     return re.sub(r"\s+(?:Jobs|Careers)$", "", match[1].strip()) if match else ""
 
@@ -104,7 +104,7 @@ def latest_crawls(count: int = CRAWLS) -> list[str]:
 
 
 def slug_from_key(key: str, prefix: str) -> str:
-    """ "com,ashbyhq,jobs)/enter-ai/7b44..." -> "enter-ai"; Greenhouse's embed links name the board in "for="."""
+    """ "com,ashbyhq,jobs)/acme-ai/7b44..." -> "acme-ai"; Greenhouse's embed links name the board in "for="."""
     path = key[len(prefix):]
     slug = path.split("/")[0].split("?")[0].lower()
     if slug == "embed":

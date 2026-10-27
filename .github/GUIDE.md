@@ -44,7 +44,7 @@ today's numbers):
 |---|---|---|---|
 | Greenhouse boards (127 companies, incl. Hudson River Trading, AB InBev, Mirakl, Trade Republic, Isar Aerospace) | `greenhouse.py` | public JSON API | 810 |
 | Lever boards (29 companies; `eu: true` for boards in Lever's EU region) | `lever.py` | public JSON API | 107 |
-| Ashby boards (64 companies, incl. Enter, Doctolib, Back Market, Enpal) | `ashby.py` | public JSON API | 98 |
+| Ashby boards (63 companies, incl. Doctolib, Back Market, Enpal) | `ashby.py` | public JSON API | 98 |
 | GitHub lists (SimplifyJobs Summer 2027, Off-Season, New Grad; vanshb03 Summer 2027; Tech Internships Europe; Canadian Tech Internships 2027) | `github_lists.py` | parses README tables (HTML and Markdown) | 3,898 + ~740 Europe/Canada (Oct 15) |
 | Gupy (estágio, estágio de férias and trainee in Brazil) | `gupy.py` | the portal's JSON search API, filtered by job type, 100 per page; also "estágio"/"estagiário" titles that companies file as talent pools or regular jobs (Itaú's estágio program is one) | 3,226 (Oct 15) |
 | Program pages (93<!--n:programs--> pages, 40<!--n:programs_brazil--> of them Brazilian) | `programs.py` | page-change watcher | 93<!--n:programs--> |
