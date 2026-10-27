@@ -89,7 +89,7 @@ Total: about **31,000<!--n:open--> open roles** a day from 45<!--n:sources--> so
 among them, post their jobs on Ashby, Greenhouse or Lever, which vagaLume reads; it only needs to
 know the company's board. Before each run, vagaLume reads the list of boards that
 [Common Crawl](https://commoncrawl.org/) (a free, public archive of the web) saw in its last six
-crawls, about 13,000 of them, asks the new ones and the ones not asked for a while what jobs they
+crawls, about 12,000 of them, asks the new ones and the ones not asked for a while what jobs they
 have, and keeps the boards with a job in Brazil in `config/discovered.yaml`. Their student roles
 then show up like any other company's. A board with no job in Brazil any more, or gone, leaves the
 list. To keep a company for good, add it to `config/companies.yaml`; to leave one out, add its slug
