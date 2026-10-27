@@ -58,7 +58,7 @@ no GitHub, a Gupy e o site de cada escola de verão, toda semana. Um *vagalume*
 **Laboratórios de IA:** Anthropic, OpenAI, xAI, Cohere, Thinking Machines, Perplexity, Cursor, ElevenLabs, Physical Intelligence, Isomorphic Labs<br>
 **Big techs:** Google, Microsoft, Meta, Amazon, NVIDIA, Stripe, Databricks, SpaceX, Cloudflare, Figma<br>
 **Trading:** Jane Street, Hudson River Trading, Jump, Optiver, IMC, Two Sigma, D. E. Shaw, DRW, SIG, Five Rings<br>
-**Brasil:** todos os estágios da Gupy, CIEE, Super Estágios, Sólides, IEL, Fundação Mudes, Recrutei e Central de Estágios do Paraná; editais de estágio do CIEE em tribunais, BNDES e Fiocruz; Equifax; Nubank, Stone, QuintoAndar, BTG Pactual, XP, Banco Inter, C6, EBANX, VTEX, CI&T, Santander, Itaú, Embraer, Bosch, Syngenta, Ambev (AB InBev)<br>
+**Brasil:** todos os estágios da Gupy, CIEE, Super Estágios, Sólides, IEL, Fundação Mudes, Recrutei e Central de Estágios do Paraná; editais de estágio do CIEE em tribunais, BNDES e Fiocruz; Equifax; Nubank, Enter, Stone, QuintoAndar, BTG Pactual, XP, Banco Inter, C6, EBANX, VTEX, CI&T, Santander, Itaú, Embraer, Bosch, Syngenta, Ambev (AB InBev)<br>
 **Pesquisa no Brasil:** FAPESP Oportunidades, CNPEM Bolsas de Verão, programas de verão do ICMC, IME-USP, LNCC, FGV EMAp, Unicamp, UnB e UFCG, ICTP-SAIFR<br>
 **Programas de pesquisa e escolas:** ISTA ISTernship, ETH SSRF, Summer@EPFL, OIST, KAUST VSRP, Mitacs Globalink, Google Student Researcher, Anthropic Fellows, MATS, EEML, OxML, MLSS, Khipu, LatinX in AI, Programa de Verão do IMPA
 

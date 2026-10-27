@@ -59,7 +59,7 @@ little light that finds the openings for you.
 **AI labs:** Anthropic, OpenAI, xAI, Cohere, Thinking Machines, Perplexity, Cursor, ElevenLabs, Physical Intelligence, Isomorphic Labs<br>
 **Big tech:** Google, Microsoft, Meta, Amazon, NVIDIA, Stripe, Databricks, SpaceX, Cloudflare, Figma<br>
 **Trading:** Jane Street, Hudson River Trading, Jump, Optiver, IMC, Two Sigma, D. E. Shaw, DRW, SIG, Five Rings<br>
-**Brazil:** every estágio on Gupy, CIEE, Super Estágios, Sólides, IEL, Fundação Mudes, Recrutei and Central de Estágios do Paraná; CIEE estágio calls at courts, BNDES and Fiocruz; Equifax; Nubank, Stone, QuintoAndar, BTG Pactual, XP, Banco Inter, C6, EBANX, VTEX, CI&T, Santander, Itaú, Embraer, Bosch, Syngenta, Ambev (AB InBev)<br>
+**Brazil:** every estágio on Gupy, CIEE, Super Estágios, Sólides, IEL, Fundação Mudes, Recrutei and Central de Estágios do Paraná; CIEE estágio calls at courts, BNDES and Fiocruz; Equifax; Nubank, Enter, Stone, QuintoAndar, BTG Pactual, XP, Banco Inter, C6, EBANX, VTEX, CI&T, Santander, Itaú, Embraer, Bosch, Syngenta, Ambev (AB InBev)<br>
 **Research in Brazil:** FAPESP Oportunidades, CNPEM summer fellowships, ICMC, IME-USP, LNCC, FGV EMAp, Unicamp, UnB and UFCG summer programs, ICTP-SAIFR<br>
 **Research programs and schools:** ISTA ISTernship, ETH SSRF, Summer@EPFL, OIST, KAUST VSRP, Mitacs Globalink, Google Student Researcher, Anthropic Fellows, MATS, EEML, OxML, MLSS, Khipu, LatinX in AI, IMPA Summer Program
 
