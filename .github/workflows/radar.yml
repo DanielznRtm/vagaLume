@@ -15,7 +15,7 @@ concurrency:
 jobs:
   radar:
     runs-on: ubuntu-latest
-    timeout-minutes: 90      # about 35 minutes, the sources running side by side; room for slow days
+    timeout-minutes: 90      # about 35 minutes, the sources running side by side, and the discovery; room for slow days
     steps:
       - uses: actions/checkout@v4
 
@@ -29,6 +29,14 @@ jobs:
         run: |
           pip install .
           python -m playwright install --with-deps chromium  # headless browser for Meta
+
+      - name: Find new companies with jobs in Brazil
+        # Ashby, Greenhouse and Lever boards seen by Common Crawl (radar/discover.py); the ones with jobs
+        # in Brazil go to config/discovered.yaml and are read by the run below. A failure here only
+        # means today's list is yesterday's.
+        continue-on-error: true
+        timeout-minutes: 25
+        run: python -m radar discover
 
       - name: Run the radar
         env:
@@ -69,7 +77,7 @@ jobs:
           # The database is kept as text (data/*.jsonl); the binary radar.db is a
           # local working copy. The first run after the switch removes it from git.
           git rm --cached --quiet --ignore-unmatch data/radar.db
-          git add data/opportunities.jsonl data/page_hashes.jsonl docs/data.json docs/stats.json docs/feed.xml docs/feed-brasil.xml .github/assets/stars-*.svg README.md .github/README.en.md .github/GUIDE.md
+          git add data/opportunities.jsonl data/page_hashes.jsonl docs/data.json docs/stats.json docs/feed.xml docs/feed-brasil.xml .github/assets/stars-*.svg README.md .github/README.en.md .github/GUIDE.md config/discovered.yaml data/discovery.jsonl
           if git diff --cached --quiet; then
             echo "Nothing changed."
             exit 0
