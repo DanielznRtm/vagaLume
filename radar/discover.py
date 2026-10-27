@@ -158,15 +158,21 @@ def index_slugs(crawl: str, prefix: str) -> set[str]:
     return slugs
 
 
-def candidates(crawls: list[str]) -> dict[str, set[str]]:
+def candidates(crawls: list[str], workers: int = 8) -> dict[str, set[str]]:
+    """Every board of every platform seen in these crawls (each crawl and prefix read side by side)."""
+    jobs = [(crawl, name, prefix) for crawl in crawls for name, platform in PLATFORMS.items() for prefix in platform.prefixes]
+
+    def read(job: tuple[str, str, str]) -> set[str]:
+        try:
+            return index_slugs(job[0], job[2])
+        except Exception as error:  # noqa: BLE001 - one crawl's index must not stop the others
+            log.warning("Common Crawl %s %s: %s", job[0], job[2], error)
+            return set()
+
     found: dict[str, set[str]] = {name: set() for name in PLATFORMS}
-    for crawl in crawls:
-        for name, platform in PLATFORMS.items():
-            for prefix in platform.prefixes:
-                try:
-                    found[name] |= index_slugs(crawl, prefix)
-                except Exception as error:  # noqa: BLE001 - one crawl's index must not stop the others
-                    log.warning("Common Crawl %s %s: %s", crawl, prefix, error)
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        for (_, name, _), slugs in zip(jobs, pool.map(read, jobs)):
+            found[name] |= slugs
     return found
 
 
