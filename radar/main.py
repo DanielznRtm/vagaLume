@@ -4,6 +4,7 @@
     python -m radar --only gupy     run only some sources (comma-separated)
     python -m radar status ID applied
     python -m radar check-config    verify every company slug and program URL
+    python -m radar discover        find companies with jobs in Brazil on Ashby, Greenhouse, Lever
 """
 
 from __future__ import annotations
@@ -243,7 +244,7 @@ def check_config() -> int:
 def main(argv: list[str] | None = None) -> int:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s", datefmt="%H:%M:%S")
     parser = argparse.ArgumentParser(prog="python -m radar", description="Collect student opportunities.")
-    parser.add_argument("command", nargs="?", default="run", choices=["run", "status", "check-config"])
+    parser.add_argument("command", nargs="?", default="run", choices=["run", "status", "check-config", "discover"])
     parser.add_argument("args", nargs="*", help="for status: <id> <new|seen|applied|ignored>")
     parser.add_argument("--only", help="comma-separated source names, e.g. gupy,programs")
     parser.add_argument("--no-notify", action="store_true", help="don't send Telegram/email")
@@ -260,6 +261,11 @@ def main(argv: list[str] | None = None) -> int:
         return 0 if found else 1
     if options.command == "check-config":
         return 1 if check_config() else 0
+    if options.command == "discover":
+        from . import discover
+
+        discover.run()
+        return 0
 
     only = [name.strip() for name in options.only.split(",")] if options.only else None
     if only:

@@ -67,6 +67,12 @@ def post_json(url: str, payload: dict[str, Any], **kwargs: Any) -> Any:
     return _request("POST", url, json=payload, **kwargs).json()
 
 
+def get_range(url: str, start: int, end: int, **kwargs: Any) -> bytes:
+    """Bytes start..end (inclusive) of a big file, e.g. a slice of Common Crawl's index."""
+    headers = {**kwargs.pop("headers", {}), "Range": f"bytes={start}-{end}"}
+    return _request("GET", url, headers=headers, **kwargs).content
+
+
 def post_form(url: str, form: dict[str, Any], **kwargs: Any) -> str:
     """POST an HTML-form body and return the response text."""
     return _decoded(_request("POST", url, data=form, **kwargs))

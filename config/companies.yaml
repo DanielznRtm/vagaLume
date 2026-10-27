@@ -260,7 +260,6 @@ ashby:
   - {slug: keyrock, name: Keyrock}
   # --- Brazil ---
   - {slug: nubank, name: Nubank}
-  - {slug: enter-ai, name: Enter}  # AI startup in São Paulo: Programa de Estágio 2027 and Summer Program (checked 2026-10-27)
 
   # --- Abroad (checked 2026-10-15; student roles today) ---
   - {slug: doctolib, name: Doctolib}                          # 37: France, Germany, Italy, Netherlands
